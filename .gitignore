@@ -1,0 +1,16 @@
+*.aux
+*.lof
+*.lot
+*main.pdf
+*.gz
+*.log
+*.toc
+*.bbl
+*.blg
+*.out
+*.brf
+
+
+OUTPUT/trabajo.pdf
+
+útiles/*
