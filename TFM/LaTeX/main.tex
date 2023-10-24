@@ -35,6 +35,7 @@
 \usepackage{graphicx} % graficos
 \usepackage{comment}
 \usepackage{fontspec}
+\usepackage{xcolor}
 
 \setmainfont[Path=/usr/share/fonts/TTF/, % Cambiar por la ruta donde se encuentren las fuentes
     BoldItalicFont=calibriz.ttf,
@@ -69,9 +70,11 @@
     \end{minipage}}
 \makeatother
 
+\definecolor{azul_unir}{RGB}{0, 152, 205}
+
 % Configuración para el título de primer nivel (secciones)
 \titleformat{\section}
-  {\fontsize{18pt}{21.6pt}\selectfont\color{blue}\bfseries} % tamaño 18pt, interlineado 1.5, azul y negrita
+  {\fontsize{18pt}{21.6pt}\selectfont\color{azul_unir}\bfseries} % tamaño 18pt, interlineado 1.5, azul y negrita
   {\thesection}{1em}{} % Formato del número de sección
   [\vspace{6pt}] % espacio después
 \titlespacing*{\section}
@@ -79,7 +82,7 @@
 
 % Configuración para el título de segundo nivel (subsecciones)
 \titleformat{\subsection}
-  {\fontsize{14pt}{21pt}\selectfont\color{blue}\bfseries}
+  {\fontsize{14pt}{21pt}\selectfont\color{azul_unir}\bfseries}
   {\thesubsection}{1em}{}
   [\vspace{6pt}]
 \titlespacing*{\subsection}
@@ -87,7 +90,7 @@
 
 % Configuración para el título de tercer nivel (subsubsecciones)
 \titleformat{\subsubsection}
-  {\fontsize{12pt}{18pt}\selectfont\color{blue}\bfseries}
+  {\fontsize{12pt}{18pt}\selectfont\color{azul_unir}\bfseries}
   {\thesubsubsection}{1em}{}
   [\vspace{6pt}]
 \titlespacing*{\subsubsection}
