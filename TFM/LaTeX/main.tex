@@ -1,3 +1,5 @@
+%!TEX program = lualatex
+
 % Preámbulo
 
 % Documentclass y configuración de página
@@ -5,15 +7,19 @@
 \usepackage[left=3cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry} % Configuración de márgenes
 
 % Codificación e idioma
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
+%\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
 \usepackage[spanish]{babel}
 \renewcommand{\shorthandsspanish}{} 
 \addto{\captionsspanish}{\def\chaptername{}} % quita la palabra capítulo de los encabezados.
 
 % Fuentes y espaciado
-\usepackage[sfdefault]{carlito}
-\renewcommand*\rmdefault{carlito}
+%\usepackage[sfdefault]{carlito}
+%\renewcommand*\rmdefault{carlito}
+
+
+
+
 \usepackage{setspace}
 \usepackage{parskip} % Espacio entre párrafos
 \setlength{\parskip}{6pt plus 1pt minus 1pt}
@@ -27,6 +33,17 @@
 \usepackage{titlesec}
 \usepackage{xcolor}
 \usepackage{graphicx} % graficos
+\usepackage{comment}
+\usepackage{fontspec}
+
+\setmainfont[Path=/usr/share/fonts/TTF/, % Cambiar por la ruta donde se encuentren las fuentes
+    BoldItalicFont=calibriz.ttf,
+    BoldFont      =calibrib.ttf,
+    ItalicFont    =calibrii.ttf,
+    FontFace={l}{n}{Font=calibril.ttf},      % Light
+    FontFace={l}{it}{Font=calibrili.ttf}    % Light Italic
+    ]{calibri.ttf}
+
 
 % Configuraciones
 \setcounter{secnumdepth}{3} % indica a Latex contabilizar el nivel de jerarquía de texto hasta el cuarto nivel.
