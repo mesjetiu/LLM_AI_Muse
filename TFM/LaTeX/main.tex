@@ -24,10 +24,12 @@
 \usepackage{import}
 \usepackage[apaciteclassic]{apacite}
 \usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{xcolor}
 
 % Configuraciones
-\setcounter{secnumdepth}{4} % indica a Latex contabilizar el nivel de jerarquía de texto hasta el cuarto nivel.
-\setcounter{tocdepth}{4}    % indica al comando de generación de tabla de contenido que incluya el cuarto nivel.
+\setcounter{secnumdepth}{3} % indica a Latex contabilizar el nivel de jerarquía de texto hasta el cuarto nivel.
+\setcounter{tocdepth}{3}    % indica al comando de generación de tabla de contenido que incluya el cuarto nivel.
 
 % Configuraciones de encabezados y pies de página
 \pagestyle{fancy}
@@ -46,6 +48,30 @@
     \@makefnmark\ #1
     \end{minipage}}
 \makeatother
+
+% Configuración para el título de primer nivel (secciones)
+\titleformat{\section}
+  {\fontsize{18pt}{21.6pt}\selectfont\color{blue}\bfseries} % tamaño 18pt, interlineado 1.5, azul y negrita
+  {\thesection}{1em}{} % Formato del número de sección
+  [\vspace{6pt}] % espacio después
+\titlespacing*{\section}
+  {0pt}{6pt plus 1pt minus 1pt}{0pt} % espacio anterior y después de la sección
+
+% Configuración para el título de segundo nivel (subsecciones)
+\titleformat{\subsection}
+  {\fontsize{14pt}{21pt}\selectfont\color{blue}\bfseries}
+  {\thesubsection}{1em}{}
+  [\vspace{6pt}]
+\titlespacing*{\subsection}
+  {0pt}{6pt plus 1pt minus 1pt}{0pt}
+
+% Configuración para el título de tercer nivel (subsubsecciones)
+\titleformat{\subsubsection}
+  {\fontsize{12pt}{18pt}\selectfont\color{blue}\bfseries}
+  {\thesubsubsection}{1em}{}
+  [\vspace{6pt}]
+\titlespacing*{\subsubsection}
+  {0pt}{6pt plus 1pt minus 1pt}{0pt}
 
 % Contenido del documento
 \begin{document}
