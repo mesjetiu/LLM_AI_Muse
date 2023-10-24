@@ -1,55 +1,63 @@
+% Preámbulo
+
+% Documentclass y configuración de página
 \documentclass[a4paper,openany,oneside,12pt]{report}
 \usepackage[left=3cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry} % Configuración de márgenes
 
-
+% Codificación e idioma
+\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\renewcommand{\shorthandsspanish}{} 
+\addto{\captionsspanish}{\def\chaptername{}} % quita la palabra capítulo de los encabezados.
+
+% Fuentes y espaciado
 \usepackage[sfdefault]{carlito}
-\renewcommand*\rmdefault{carlito} % Establecer carlito como fuente por defecto
+\renewcommand*\rmdefault{carlito}
 \usepackage{setspace}
-\usepackage{parskip} % para el espacio entre párrafos
-\usepackage[spanish]{babel} % espanol
-\usepackage[utf8]{inputenc} % acentos sin codigo
+\usepackage{parskip} % Espacio entre párrafos
+\setlength{\parskip}{6pt plus 1pt minus 1pt}
+\setlength{\parindent}{0pt}
+\onehalfspacing
+
+% Otros paquetes
 \usepackage{import}
 \usepackage[apaciteclassic]{apacite}
 \usepackage{fancyhdr}
 
-
-
 % Configuraciones
+\setcounter{secnumdepth}{4} % indica a Latex contabilizar el nivel de jerarquía de texto hasta el cuarto nivel.
+\setcounter{tocdepth}{4}    % indica al comando de generación de tabla de contenido que incluya el cuarto nivel.
 
-\setlength{\parskip}{6pt plus 1pt minus 1pt} % Espacio entre párrafos
-\setlength{\parindent}{0pt} % Sin sangría
-\onehalfspacing % Interlineado 1.5
-\renewcommand{\shorthandsspanish}{}
-\addto{\captionsspanish}{\def\chaptername{}} % quita la palabra capítulo de los encabezados.
-% indica a Latex contabilizar el nivel de jerarquía de texto hasta el cuarto nivel;
-\setcounter{secnumdepth}{4}
-% indica al comando de generación de tabla de contenido que incluya el cuarto nivel:
-\setcounter{tocdepth}{4}
-\pagestyle{fancy} % Define el estilo personalizado
+% Configuraciones de encabezados y pies de página
+\pagestyle{fancy}
 \fancyhf{} % Limpia el encabezado y el pie de página
+\fancyhead[L]{Carlos Arturo Guerra Parra}
+\fancyhead[R]{Título del TFE}
+\fancyfoot[C]{\thepage}
 
-% Configuración del encabezado
-\fancyhead[L]{Carlos Arturo Guerra Parra} % Alineado a la izquierda en el encabezado
-\fancyhead[R]{Título del TFE} % Alineado a la derecha en el encabezado
+% Configuración de las notas al pie
+\makeatletter
+\renewcommand\@makefntext[1]{%
+    \setlength{\parindent}{0pt}%
+    \begin{minipage}{\columnwidth}%
+    \singlespacing
+    \fontsize{10pt}{12pt}\selectfont
+    \@makefnmark\ #1
+    \end{minipage}}
+\makeatother
 
-% Configuración del pie de página
-\fancyfoot[C]{\thepage} % Número de página centrado en el pie de página
-
+% Contenido del documento
 \begin{document}
+
 \bibliographystyle{apacite}
 En un lugar de la Mancha 
 
 \import{./capitulos/}{justificacion.tex}
 
-%\include{capitulos/justificacion.tex}
-
+% \include{capitulos/justificacion.tex}
 % Lista de la bibliografía que será mostrada aunque no esté citada.
-%	\nocite{Csound_book}
-	
-%	\bibliography{bibtex/biblio} % database is "biblio.bib" located in a "bibtex" subfolder 
-
-
-
+% \nocite{Csound_book}
+% \bibliography{bibtex/biblio}
 
 \end{document}
