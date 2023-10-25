@@ -70,6 +70,12 @@
 % ------------------- Comandos y Entornos Personalizados -------------------
 \newcommand{\titulo}{Mi título de TFM}
 \newcommand{\autor}{Carlos Arturo Guerra Parra}
+% Configuración para el formato de los títulos de capítulos
+\titleformat{\chapter}[block] % Se utiliza "block" para tener título y número en la misma línea
+{\fontsize{24pt}{28pt}\selectfont\bfseries}
+{\thechapter.\ }
+{1em} % Espacio entre el número del capítulo y el título
+{}
 
 % ------------------- Contenido del Documento -------------------
 \begin{document}
