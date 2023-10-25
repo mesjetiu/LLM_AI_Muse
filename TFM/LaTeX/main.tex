@@ -1,15 +1,8 @@
 %!TEX program = lualatex
-
-
-% Preámbulo
-
-% Documentclass y configuración de página
 \documentclass[draft,a4paper,openany,oneside,12pt]{report}
 \usepackage[left=3cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry} % Configuración de márgenes
 
-% Codificación e idioma
-%\usepackage[utf8]{inputenc}
-%\usepackage[T1]{fontenc}
+% ------------------- Paquetes: Codificación e Idioma -------------------
 \usepackage[spanish]{babel}
 \renewcommand{\shorthandsspanish}{} 
 \addto{\captionsspanish}{\def\chaptername{}} % quita la palabra capítulo de los encabezados.
@@ -17,41 +10,24 @@
   \renewcommand{\listtablename}{Índice de tablas}
 }
 
-% Comandos globales
-\newcommand{\titulo}{Mi título de TFM}
-\newcommand{\autor}{Carlos Arturo Guerra Parra}
-
-% Fuentes y espaciado
-%\usepackage[sfdefault]{carlito}
-%\renewcommand*\rmdefault{carlito}
-
+% ------------------- Paquetes: Fuentes y Estilos -------------------
+\usepackage{fontspec}
+\usepackage{fontsize} % para cambiar el tamaño de la fuente
 \usepackage{setspace}
 \usepackage{parskip} % Espacio entre párrafos
-\setlength{\parskip}{6pt plus 1pt minus 1pt}
-\setlength{\parindent}{0pt}
-\onehalfspacing
+\usepackage{xcolor}
+\usepackage{colortbl} % para colorear tablas
 
+% ------------------- Paquetes: Utilidades y Otros -------------------
 \usepackage[hidelinks]{hyperref}
-\hypersetup{colorlinks=true,
-linkcolor=blue,
-urlcolor=blue,
-linkcolor=blue,
-citecolor=red}
-
-% Otros paquetes
 \usepackage{import}
 \usepackage[apaciteclassic]{apacite}
 \usepackage{fancyhdr}
 \usepackage{titlesec}
-\usepackage{xcolor}
 \usepackage{graphicx} % graficos
 \usepackage{comment}
-\usepackage{fontspec}
-\usepackage{xcolor}
-\usepackage{fontsize} % para cambiar el tamaño de la fuente
-\usepackage{colortbl} % para colorear tablas
 
-
+% ------------------- Configuraciones de Fuente -------------------
 \setmainfont[Path=/usr/share/fonts/TTF/, % Cambiar por la ruta donde se encuentren las fuentes
     BoldItalicFont=calibriz.ttf,
     BoldFont      =calibrib.ttf,
@@ -61,20 +37,20 @@ citecolor=red}
     ]{calibri.ttf}
 \newcommand{\textlight}[1]{{\fontspec{calibril.ttf} #1}}
 \newcommand{\textlightit}[1]{{\fontspec{calibrili.ttf} #1}}
-    
 
-% Configuraciones
-\setcounter{secnumdepth}{3} % indica a Latex contabilizar el nivel de jerarquía de texto hasta el cuarto nivel.
-\setcounter{tocdepth}{3}    % indica al comando de generación de tabla de contenido que incluya el cuarto nivel.
-
-% Configuraciones de encabezados y pies de página
+% ------------------- Configuraciones de Página y Estilo -------------------
+\setlength{\parskip}{6pt plus 1pt minus 1pt}
+\setlength{\parindent}{0pt}
+\onehalfspacing
+\hypersetup{colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=red}
+\definecolor{azul_unir}{RGB}{0, 152, 205}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
 \pagestyle{fancy}
-\fancyhf{} % Limpia el encabezado y el pie de página
+\fancyhf{}
 \fancyhead[L]{\autor}
 \fancyhead[R]{\titulo}
 \fancyfoot[C]{\thepage}
-
-% Configuración de las notas al pie
 \makeatletter
 \renewcommand\@makefntext[1]{%
     \setlength{\parindent}{0pt}%
@@ -84,45 +60,25 @@ citecolor=red}
     \@makefnmark\ #1
     \end{minipage}}
 \makeatother
+\titleformat{\section}{\fontsize{18pt}{21.6pt}\selectfont\color{azul_unir}\bfseries}{\thesection}{1em}{}[\vspace{6pt}]
+\titlespacing*{\section}{0pt}{6pt plus 1pt minus 1pt}{0pt}
+\titleformat{\subsection}{\fontsize{14pt}{21pt}\selectfont\color{azul_unir}\bfseries}{\thesubsection}{1em}{}[\vspace{6pt}]
+\titlespacing*{\subsection}{0pt}{6pt plus 1pt minus 1pt}{0pt}
+\titleformat{\subsubsection}{\fontsize{12pt}{18pt}\selectfont\color{azul_unir}\bfseries}{\thesubsubsubsection}{1em}{}[\vspace{6pt}]
+\titlespacing*{\subsubsection}{0pt}{6pt plus 1pt minus 1pt}{0pt}
 
-\definecolor{azul_unir}{RGB}{0, 152, 205}
+% ------------------- Comandos y Entornos Personalizados -------------------
+\newcommand{\titulo}{Mi título de TFM}
+\newcommand{\autor}{Carlos Arturo Guerra Parra}
 
-% Configuración para el título de primer nivel (secciones)
-\titleformat{\section}
-  {\fontsize{18pt}{21.6pt}\selectfont\color{azul_unir}\bfseries} % tamaño 18pt, interlineado 1.5, azul y negrita
-  {\thesection}{1em}{} % Formato del número de sección
-  [\vspace{6pt}] % espacio después
-\titlespacing*{\section}
-  {0pt}{6pt plus 1pt minus 1pt}{0pt} % espacio anterior y después de la sección
-
-% Configuración para el título de segundo nivel (subsecciones)
-\titleformat{\subsection}
-  {\fontsize{14pt}{21pt}\selectfont\color{azul_unir}\bfseries}
-  {\thesubsection}{1em}{}
-  [\vspace{6pt}]
-\titlespacing*{\subsection}
-  {0pt}{6pt plus 1pt minus 1pt}{0pt}
-
-% Configuración para el título de tercer nivel (subsubsecciones)
-\titleformat{\subsubsection}
-  {\fontsize{12pt}{18pt}\selectfont\color{azul_unir}\bfseries}
-  {\thesubsubsection}{1em}{}
-  [\vspace{6pt}]
-\titlespacing*{\subsubsection}
-  {0pt}{6pt plus 1pt minus 1pt}{0pt}
-
-% Contenido del documento
+% ------------------- Contenido del Documento -------------------
 \begin{document}
 
   \bibliographystyle{apacite}
-
   \import{./portada/}{portada.tex}
-
   \tableofcontents
-	\listoffigures % indice de figuras
-	\listoftables % indice de tablas
-
-
+  \listoffigures % indice de figuras
+  \listoftables % indice de tablas
   \import{./capitulos/}{introduccion.tex}
   \import{./capitulos/}{marco_teorico.tex}
   \import{./capitulos/}{metodologia.tex}
@@ -131,6 +87,5 @@ citecolor=red}
   \import{./capitulos/}{limitaciones_prospectiva.tex}
   \import{./capitulos/}{bibliografia.tex}
   \import{./anexos/}{anexos.tex}
-
 
 \end{document}
