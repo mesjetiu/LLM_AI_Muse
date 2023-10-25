@@ -12,6 +12,9 @@
 \usepackage[spanish]{babel}
 \renewcommand{\shorthandsspanish}{} 
 \addto{\captionsspanish}{\def\chaptername{}} % quita la palabra capítulo de los encabezados.
+\addto\captionsspanish{
+  \renewcommand{\listtablename}{Índice de tablas}
+}
 
 % Fuentes y espaciado
 %\usepackage[sfdefault]{carlito}
@@ -102,6 +105,12 @@
   \bibliographystyle{apacite}
 
   \import{./portada/}{portada.tex}
+
+  \tableofcontents
+	\listoffigures % indice de figuras
+	\listoftables % indice de tablas
+
+
   \import{./capitulos/}{introduccion.tex}
   \import{./capitulos/}{marco_teorico.tex}
   \import{./capitulos/}{metodologia.tex}
