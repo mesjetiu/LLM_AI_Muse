@@ -1,5 +1,5 @@
 %!TEX program = lualatex
-\documentclass[draft,a4paper,openany,oneside,12pt]{report}
+\documentclass[a4paper,openany,oneside,12pt]{report}
 \usepackage[left=3cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry} % Configuración de márgenes
 
 % ------------------- Paquetes: Codificación e Idioma -------------------
@@ -76,11 +76,13 @@
 {\thechapter.\ }
 {1em} % Espacio entre el número del capítulo y el título
 {}
+\AtBeginDocument{\renewcommand{\bibname}{Referencias bibliográficas}}
+
 
 % ------------------- Contenido del Documento -------------------
 \begin{document}
 
-  \bibliographystyle{apacite}
+  %\bibliographystyle{apacite}
   \import{./portada/}{portada.tex}
   \tableofcontents
   \listoffigures % indice de figuras
