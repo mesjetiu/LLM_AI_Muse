@@ -20,14 +20,18 @@
 %\usepackage[sfdefault]{carlito}
 %\renewcommand*\rmdefault{carlito}
 
-
-
-
 \usepackage{setspace}
 \usepackage{parskip} % Espacio entre párrafos
 \setlength{\parskip}{6pt plus 1pt minus 1pt}
 \setlength{\parindent}{0pt}
 \onehalfspacing
+
+\usepackage[hidelinks]{hyperref}
+\hypersetup{colorlinks=true,
+linkcolor=blue,
+urlcolor=blue,
+linkcolor=blue,
+citecolor=red}
 
 % Otros paquetes
 \usepackage{import}
@@ -39,6 +43,8 @@
 \usepackage{comment}
 \usepackage{fontspec}
 \usepackage{xcolor}
+\usepackage{fontsize} % para cambiar el tamaño de la fuente
+
 
 \setmainfont[Path=/usr/share/fonts/TTF/, % Cambiar por la ruta donde se encuentren las fuentes
     BoldItalicFont=calibriz.ttf,
