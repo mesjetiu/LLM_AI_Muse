@@ -1,9 +1,10 @@
 %!TEX program = lualatex
 
+
 % Preámbulo
 
 % Documentclass y configuración de página
-\documentclass[a4paper,openany,oneside,12pt]{report}
+\documentclass[draft,a4paper,openany,oneside,12pt]{report}
 \usepackage[left=3cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry} % Configuración de márgenes
 
 % Codificación e idioma
@@ -15,6 +16,10 @@
 \addto\captionsspanish{
   \renewcommand{\listtablename}{Índice de tablas}
 }
+
+% Comandos globales
+\newcommand{\titulo}{Mi título de TFM}
+\newcommand{\autor}{Carlos Arturo Guerra Parra}
 
 % Fuentes y espaciado
 %\usepackage[sfdefault]{carlito}
@@ -65,8 +70,8 @@ citecolor=red}
 % Configuraciones de encabezados y pies de página
 \pagestyle{fancy}
 \fancyhf{} % Limpia el encabezado y el pie de página
-\fancyhead[L]{Carlos Arturo Guerra Parra}
-\fancyhead[R]{Título del TFE}
+\fancyhead[L]{\autor}
+\fancyhead[R]{\titulo}
 \fancyfoot[C]{\thepage}
 
 % Configuración de las notas al pie
