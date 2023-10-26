@@ -1,95 +1,93 @@
 %!TEX program = lualatex
 \documentclass[a4paper,openany,oneside,12pt]{report}
-\usepackage[left=3cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry} % Configuración de márgenes
+\usepackage[left=3cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry}
 
 % ------------------- Paquetes: Codificación e Idioma -------------------
 \usepackage[spanish]{babel}
 \renewcommand{\shorthandsspanish}{} 
-\addto{\captionsspanish}{\def\chaptername{}} % quita la palabra capítulo de los encabezados.
+\addto{\captionsspanish}{\def\chaptername{}}
 \addto\captionsspanish{
   \renewcommand{\listtablename}{Índice de tablas}
 }
 
 % ------------------- Paquetes: Fuentes y Estilos -------------------
 \usepackage{fontspec}
-\usepackage{fontsize} % para cambiar el tamaño de la fuente
+\usepackage{fontsize}
 \usepackage{setspace}
-\usepackage{parskip} % Espacio entre párrafos
+\usepackage{parskip}
 \usepackage{xcolor}
-\usepackage{colortbl} % para colorear tablas
-
-% ------------------- Paquetes: Utilidades y Otros -------------------
+\usepackage{colortbl}
 \usepackage[hidelinks]{hyperref}
 \usepackage{import}
 \usepackage[apaciteclassic]{apacite}
 \usepackage{fancyhdr}
 \usepackage{titlesec}
-\usepackage{graphicx} % graficos
-\usepackage{comment}
+\usepackage{graphicx}
 
 % ------------------- Configuraciones de Fuente -------------------
-\setmainfont[Path=/usr/share/fonts/TTF/, % Cambiar por la ruta donde se encuentren las fuentes
+\setmainfont[Path=/usr/share/fonts/TTF/,
     BoldItalicFont=calibriz.ttf,
     BoldFont      =calibrib.ttf,
     ItalicFont    =calibrii.ttf,
-    FontFace={l}{n}{Font=calibril.ttf},      % Light
-    FontFace={l}{it}{Font=calibrili.ttf}    % Light Italic
+    FontFace={l}{n}{Font=calibril.ttf},
+    FontFace={l}{it}{Font=calibrili.ttf}
     ]{calibri.ttf}
 \newcommand{\textlight}[1]{{\fontspec{calibril.ttf} #1}}
 \newcommand{\textlightit}[1]{{\fontspec{calibrili.ttf} #1}}
 
 % ------------------- Configuraciones de Página y Estilo -------------------
+\definecolor{azul_unir}{RGB}{0, 152, 205}
 \setlength{\parskip}{6pt plus 1pt minus 1pt}
 \setlength{\parindent}{0pt}
 \onehalfspacing
-\hypersetup{colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=red}
-\definecolor{azul_unir}{RGB}{0, 152, 205}
-\setcounter{secnumdepth}{3}
-\setcounter{tocdepth}{3}
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\autor}
-\fancyhead[R]{\titulo}
+\fancyhead[R]{\textlight{\small \autor \\ \titulo}}
 \fancyfoot[C]{\thepage}
-\makeatletter
-\renewcommand\@makefntext[1]{%
-    \setlength{\parindent}{0pt}%
-    \begin{minipage}{\columnwidth}%
-    \singlespacing
-    \fontsize{10pt}{12pt}\selectfont
-    \@makefnmark\ #1
-    \end{minipage}}
-\makeatother
-\titleformat{\section}{\fontsize{18pt}{21.6pt}\selectfont\color{azul_unir}\bfseries}{\thesection}{1em}{}[\vspace{6pt}]
-\titlespacing*{\section}{0pt}{6pt plus 1pt minus 1pt}{0pt}
-\titleformat{\subsection}{\fontsize{14pt}{21pt}\selectfont\color{azul_unir}\bfseries}{\thesubsection}{1em}{}[\vspace{6pt}]
-\titlespacing*{\subsection}{0pt}{6pt plus 1pt minus 1pt}{0pt}
-\titleformat{\subsubsection}{\fontsize{12pt}{18pt}\selectfont\color{azul_unir}\bfseries}{\thesubsubsubsection}{1em}{}[\vspace{6pt}]
-\titlespacing*{\subsubsection}{0pt}{6pt plus 1pt minus 1pt}{0pt}
+
+% Formateo de títulos
+
+% Título de primer nivel (Título 1)
+\titleformat{\chapter}[block]
+{\fontsize{18pt}{21.6pt}\selectfont\color{azul_unir}\textlight}
+{\thechapter.\ }
+{1em}
+{}
+\titlespacing*{\chapter}{0pt}{6pt plus 1pt minus 1pt}{6pt plus 1pt minus 1pt}
+
+% Título de segundo nivel (Título 2)
+\titleformat{\section}
+{\fontsize{14pt}{21pt}\selectfont\color{azul_unir}\textlight}
+{\thesection}
+{1em}
+{}[\vspace{6pt}]
+\titlespacing*{\section}{0pt}{6pt plus 1pt minus 1pt}{6pt plus 1pt minus 1pt}
+
+% Título de tercer nivel (Título 3)
+\titleformat{\subsection}
+{\fontsize{12pt}{18pt}\selectfont\color{azul_unir}\textlight}
+{\thesubsection}
+{1em}
+{}[\vspace{6pt}]
+\titlespacing*{\subsection}{0pt}{6pt plus 1pt minus 1pt}{6pt plus 1pt minus 1pt}
+
 
 % ------------------- Comandos y Entornos Personalizados -------------------
-\newcommand{\titulo}{Mi título de TFM}
+\newcommand{\titulo}{Síntesis sonora en SuperCollider con modelos de lenguaje}
 \newcommand{\autor}{Carlos Arturo Guerra Parra}
-% Configuración para el formato de los títulos de capítulos
-\titleformat{\chapter}[block] % Se utiliza "block" para tener título y número en la misma línea
-{\fontsize{24pt}{28pt}\selectfont\bfseries}
-{\thechapter.\ }
-{1em} % Espacio entre el número del capítulo y el título
-{}
 \AtBeginDocument{\renewcommand{\bibname}{Referencias bibliográficas}}
-
 
 % ------------------- Contenido del Documento -------------------
 \begin{document}
 
-  %\bibliographystyle{apacite}
   \import{./portada/}{portada.tex}
   \tableofcontents
-  \listoffigures % indice de figuras
-  \listoftables % indice de tablas
+  \listoffigures 
+  \listoftables 
   \import{./capitulos/}{introduccion.tex}
   \import{./capitulos/}{marco_teorico.tex}
   \import{./capitulos/}{metodologia.tex}
+  \import{./capitulos/}{cuerpo.tex}
   \import{./capitulos/}{resultados.tex}
   \import{./capitulos/}{conclusiones.tex}
   \import{./capitulos/}{limitaciones_prospectiva.tex}
