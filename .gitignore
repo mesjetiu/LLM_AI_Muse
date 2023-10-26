@@ -12,8 +12,12 @@
 *~lock*
 *.fdb_latexmk
 *.fls
-
+*.idx
+*.ilg
+*.ind
+*busy*
 
 OUTPUT/*
 
 útiles/*
+TFM/LaTeX/capitulos/bibliografia.tex
