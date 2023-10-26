@@ -1,8 +1,11 @@
 %!TEX program = lualatex
+
+% ----------- Configuración del documento y márgenes -----------
 \documentclass[a4paper,openany,oneside,12pt]{report}
 \usepackage[left=3cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry}
 \setcounter{secnumdepth}{4}
 
+% ----------- Configuración de idioma y títulos en español -----------
 \usepackage[spanish]{babel}
 \renewcommand{\shorthandsspanish}{} 
 \addto{\captionsspanish}{\def\chaptername{}}
@@ -10,6 +13,7 @@
   \renewcommand{\listtablename}{Índice de tablas}
 }
 
+% ----------- Paquetes para estilos y tipografía -----------
 \usepackage{fontspec}
 \usepackage{fontsize}
 \usepackage{setspace}
@@ -24,6 +28,7 @@
 \usepackage{graphicx}
 \usepackage{etoolbox} 
 
+% ----------- Configuración de fuentes -----------
 \setmainfont[Path=/usr/share/fonts/TTF/,
     BoldItalicFont=calibriz.ttf,
     BoldFont      =calibrib.ttf,
@@ -34,10 +39,13 @@
 \newcommand{\textlight}[1]{{\fontspec{calibril.ttf} #1}}
 \newcommand{\textlightit}[1]{{\fontspec{calibrili.ttf} #1}}
 
+% ----------- Configuración de colores y estilos -----------
 \definecolor{azul_unir}{RGB}{0, 152, 205}
 \setlength{\parskip}{6pt plus 1pt minus 1pt}
 \setlength{\parindent}{0pt}
 \onehalfspacing
+
+% ----------- Configuración de cabeceras y pies de página -----------
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[R]{\textlight{\small \autor \\ \titulo}}
@@ -54,6 +62,7 @@
 
 \patchcmd{\chapter}{\thispagestyle{plain}}{\pagestyle{fancy}\thispagestyle{fancy}}{}{}
 
+% ----------- Formateo de títulos y subsecciones -----------
 \setstretch{1.5}
 
 \titleformat{\chapter}[block]
@@ -84,10 +93,12 @@
 {}
 \titlespacing*{\subsubsection}{0pt}{0pt}{0pt}
 
+% ----------- Comandos personalizados -----------
 \newcommand{\titulo}{Síntesis sonora en SuperCollider con modelos de lenguaje}
 \newcommand{\autor}{Carlos Arturo Guerra Parra}
 \AtBeginDocument{\renewcommand{\bibname}{Referencias bibliográficas}}
 
+% ----------- Contenido del documento -----------
 \begin{document}
 
   \import{./portada/}{portada.tex}
