@@ -24,6 +24,7 @@
 \usepackage{fancyhdr}
 \usepackage{titlesec}
 \usepackage{graphicx}
+\usepackage{etoolbox} % Añadido para el ajuste del comando \chapter
 
 % ------------------- Configuraciones de Fuente -------------------
 \setmainfont[Path=/usr/share/fonts/TTF/,
@@ -47,8 +48,17 @@
 \fancyfoot[C]{\thepage}
 \bibliographystyle{apacite}
 
-% Formateo de títulos
+\fancypagestyle{plain}{
+  \fancyhf{} 
+  \fancyhead[R]{\textlight{\small \autor \\ \titulo}}
+  \fancyfoot[C]{\thepage}
+  \renewcommand{\headrulewidth}{0.4pt} 
+  \renewcommand{\footrulewidth}{0pt}  
+}
 
+\patchcmd{\chapter}{\thispagestyle{plain}}{\pagestyle{fancy}\thispagestyle{fancy}}{}{}
+
+% Formateo de títulos
 \setstretch{1.5}
 
 % Título de primer nivel (Título 1)
@@ -82,7 +92,6 @@
 {1em}
 {}
 \titlespacing*{\subsubsection}{0pt}{0pt}{0pt}
-
 
 % ------------------- Comandos y Entornos Personalizados -------------------
 \newcommand{\titulo}{Síntesis sonora en SuperCollider con modelos de lenguaje}
