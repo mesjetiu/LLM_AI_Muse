@@ -26,7 +26,8 @@
 \usepackage{fancyhdr}
 \usepackage{titlesec}
 \usepackage{graphicx}
-\usepackage{etoolbox} 
+\usepackage{etoolbox}
+\usepackage{tocloft}
 
 % ----------- Configuración de fuentes -----------
 \setmainfont[Path=/usr/share/fonts/TTF/,
@@ -91,6 +92,11 @@
 {1em}
 {}
 \titlespacing*{\subsubsection}{0pt}{0pt}{0pt}
+
+% ----------- Formateo de índice -----------
+\renewcommand{\cftchapfont}{\normalfont}        % para quitar la negrita al texto
+\renewcommand{\cftchappagefont}{\normalfont}   % para quitar la negrita al número de página
+
 
 % ----------- Comandos personalizados -----------
 \newcommand{\titulo}{Síntesis sonora en SuperCollider con modelos de lenguaje}
