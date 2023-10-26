@@ -1,9 +1,8 @@
 %!TEX program = lualatex
 \documentclass[a4paper,openany,oneside,12pt]{report}
 \usepackage[left=3cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry}
-\setcounter{secnumdepth}{4} % Para que LaTeX numere hasta el cuarto nivel
+\setcounter{secnumdepth}{4}
 
-% ------------------- Paquetes: Codificación e Idioma -------------------
 \usepackage[spanish]{babel}
 \renewcommand{\shorthandsspanish}{} 
 \addto{\captionsspanish}{\def\chaptername{}}
@@ -11,7 +10,6 @@
   \renewcommand{\listtablename}{Índice de tablas}
 }
 
-% ------------------- Paquetes: Fuentes y Estilos -------------------
 \usepackage{fontspec}
 \usepackage{fontsize}
 \usepackage{setspace}
@@ -24,9 +22,8 @@
 \usepackage{fancyhdr}
 \usepackage{titlesec}
 \usepackage{graphicx}
-\usepackage{etoolbox} % Añadido para el ajuste del comando \chapter
+\usepackage{etoolbox} 
 
-% ------------------- Configuraciones de Fuente -------------------
 \setmainfont[Path=/usr/share/fonts/TTF/,
     BoldItalicFont=calibriz.ttf,
     BoldFont      =calibrib.ttf,
@@ -37,7 +34,6 @@
 \newcommand{\textlight}[1]{{\fontspec{calibril.ttf} #1}}
 \newcommand{\textlightit}[1]{{\fontspec{calibrili.ttf} #1}}
 
-% ------------------- Configuraciones de Página y Estilo -------------------
 \definecolor{azul_unir}{RGB}{0, 152, 205}
 \setlength{\parskip}{6pt plus 1pt minus 1pt}
 \setlength{\parindent}{0pt}
@@ -45,23 +41,21 @@
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[R]{\textlight{\small \autor \\ \titulo}}
-\fancyfoot[C]{\thepage}
+\fancyfoot[R]{\thepage}
 \bibliographystyle{apacite}
 
 \fancypagestyle{plain}{
   \fancyhf{} 
   \fancyhead[R]{\textlight{\small \autor \\ \titulo}}
-  \fancyfoot[C]{\thepage}
+  \fancyfoot[R]{\thepage}
   \renewcommand{\headrulewidth}{0.4pt} 
   \renewcommand{\footrulewidth}{0pt}  
 }
 
 \patchcmd{\chapter}{\thispagestyle{plain}}{\pagestyle{fancy}\thispagestyle{fancy}}{}{}
 
-% Formateo de títulos
 \setstretch{1.5}
 
-% Título de primer nivel (Título 1)
 \titleformat{\chapter}[block]
 {\fontsize{18pt}{25pt}\selectfont\color{azul_unir}\textlight}
 {\thechapter.\ }
@@ -69,7 +63,6 @@
 {}
 \titlespacing*{\chapter}{0pt}{0pt}{6pt}
 
-% Título de segundo nivel (Título 2)
 \titleformat{\section}
 {\fontsize{14pt}{21pt}\selectfont\color{azul_unir}\textlight}
 {\thesection}
@@ -77,7 +70,6 @@
 {}
 \titlespacing*{\section}{0pt}{6pt}{0pt}
 
-% Título de tercer nivel (Título 3)
 \titleformat{\subsection}
 {\fontsize{12pt}{12pt}\selectfont\bfseries}
 {\thesubsection}
@@ -85,7 +77,6 @@
 {}
 \titlespacing*{\subsection}{0pt}{0pt}{0pt}
 
-% Título de cuarto nivel (Título 4)
 \titleformat{\subsubsection}
 {\fontsize{12pt}{12pt}\selectfont\normalfont}
 {\thesubsubsection}
@@ -93,12 +84,10 @@
 {}
 \titlespacing*{\subsubsection}{0pt}{0pt}{0pt}
 
-% ------------------- Comandos y Entornos Personalizados -------------------
 \newcommand{\titulo}{Síntesis sonora en SuperCollider con modelos de lenguaje}
 \newcommand{\autor}{Carlos Arturo Guerra Parra}
 \AtBeginDocument{\renewcommand{\bibname}{Referencias bibliográficas}}
 
-% ------------------- Contenido del Documento -------------------
 \begin{document}
 
   \import{./portada/}{portada.tex}
