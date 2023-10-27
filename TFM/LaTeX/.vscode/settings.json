@@ -1,4 +1,5 @@
 {
     "editor.wordWrap": "on",
-    "latex-workshop.latex.build.forceRecipeUsage": false
+    "latex-workshop.latex.build.forceRecipeUsage": false,
+    "latex-workshop.latex.external.build.command": "./compile.sh"
 }
