@@ -32,8 +32,8 @@
 \usepackage{tocloft}
 \usepackage{comment}
 \usepackage{makeidx}
-\makeindex
-
+\usepackage{caption}
+\usepackage{relsize}
 
 % ----------- Configuración de fuentes -----------
 \setmainfont[Path=/usr/share/fonts/TTF/,
@@ -104,11 +104,26 @@
 \renewcommand{\cftchapfont}{\normalfont}        % para quitar la negrita al texto
 \renewcommand{\cftchappagefont}{\normalfont}   % para quitar la negrita al número de página
 
-
 % ----------- Comandos personalizados -----------
 \newcommand{\titulo}{Síntesis sonora en SuperCollider con modelos de lenguaje}
 \newcommand{\autor}{Carlos Arturo Guerra Parra}
 \AtBeginDocument{\renewcommand{\bibname}{Referencias bibliográficas}}
+
+\captionsetup[figure]{
+  font=it,
+  labelfont=bf,
+  labelsep=space,
+  justification=justified,
+  singlelinecheck=false
+}
+
+\newcommand{\source}[1]{\caption*{\begin{center}\smaller[1] Fuente: #1\end{center}}}
+
+
+% ----------- Viudas y huérfanas -----------
+\clubpenalty=20000	% para que no haya líneas viudas en el texto.
+\widowpenalty=20000 % para que no haya huérfanas
+% indica a Latex contabilizar el nivel de gerarquía de texto hasta el cuarto nivel;
 
 % ----------- Contenido del documento -----------
 \begin{document}
@@ -137,7 +152,5 @@
   \addcontentsline{toc}{chapter}{Índice de términos}
   \printindex % Índice de términos. Compilar con makeindex main
   \import{./anexos/}{anexos.tex}
-
-
 
 \end{document}
