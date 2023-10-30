@@ -1,5 +1,10 @@
 {
     "editor.wordWrap": "on",
     "latex-workshop.latex.build.forceRecipeUsage": false,
-    "latex-workshop.latex.external.build.command": ""
+    "latex-workshop.latex.external.build.command": "",
+    "latex-workshop.message.badbox.show": false,
+    "latex-workshop.message.warning.show": false,
+    "latex-workshop.message.latexlog.exclude": [
+        " [\"Font shape .* in size .* not available\", \"size .* substituted\"]"
+    ]
 }
