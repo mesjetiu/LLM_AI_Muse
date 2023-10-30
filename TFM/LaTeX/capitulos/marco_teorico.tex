@@ -30,23 +30,33 @@ El \textit{Machine Learning}, o \textit{aprendizaje automático}\footnote{En cua
 
 Como ejemplo de esto último, muchos de los grandes avances en inteligencia artificial vinieron dados por sistemas que no utilizaban \textit{Machine Learning}. El \textit{Deep Blue} de IBM, que en 1997 derrotó al campeón mundial de ajedrez Garry Kasparov, no utilizaba \textit{Machine Learning} \cite{campbellDeepBlue2002}. El \textit{Deep Blue} era un sistema de inteligencia artificial que utilizaba una base de datos de jugadas de ajedrez, y un algoritmo de búsqueda de árbol de juego, para determinar la mejor jugada posible en cada momento. Ejemplos de otros campos que juego son los \emph{sistemas expertos}, que utilizan reglas de inferencia, programadas por humanos conocedores de la materia, para determinar la mejor acción posible en cada momento. Los sistemas expertos son utilizados con éxito en campos como la medicina, la ingeniería o la gestión empresarial.
 
+Pero, ¿en qué consiste el aprendizaje de un sistema de \textit{Machine Learning} y qué se espera de su entrenamiento? El \textit{Machile Learning} intenta buscar una función matemática que pueda explicar un conjunto de datos utilizados para su entreamiento, de modo que después pueda predecir con suficiente fiabilidad y precisión datos no conocidos en la fase de entreamiento. Esta última fase predictiva se denomina fase de \textit{inferencia}. De algún modo, se espera que esa función encontrada en el proceso de entramiento sea una buena aproximación de la función que explica los datos, de modo que el sistema sea capaz de generalizar, análogamente a cómo lo hace el cerebro humano.
 
+Denominamos \textit{modelo} al sistema ya entrenado y con capacidad predictiva. El modelo es el resultado del proceso de entrenamiento, y es el que se utiliza en la fase de inferencia. El modelo puede ser utilizado para predecir datos no conocidos, o para clasificarlos en categorías. En el primer caso, hablamos de \textit{regresión}, y en el segundo de \textit{clasificación}. En el caso de la regresión, el modelo produce un valor numérico, y en el de la clasificación, una categoría. En el caso de la clasificación, el modelo puede ser binario, es decir, que solo puede clasificar en dos categorías, o multiclase, que puede clasificar en más de dos categorías. En el caso de la regresión, el modelo puede ser unidimensional, es decir, que solo produce un valor numérico, o multidimensional, que produce más de un valor numérico.
+
+% Continuar con tipos de Machine Learning, y explicar el aprendizaje supervisado, no supervisado y por refuerzo, citar a torres, y explicar el aprendizaje profundo como un subconjunto del aprendizaje automático.
+
+Los sistemas de \textit{Machine Learning} aprenden de los datos a través de un proceso de \textit{entrenamiento}. En función de la forma en que se le presentan dichos datos y la manera que tiene el sistema de comprobar si su salida es correcta o no, podemos distinguir tres tipos de aprendizaje automático: \textit{aprendizaje supervisado}, \textit{aprendizaje no supervisado} y \textit{aprendizaje por refuerzo} \citep[p. ~38]{torresivinalsPythonDeepLearning2020}. Estamos hablando de \textit{aprendizaje supervisado} cuando los datos que el sistema aprende vienen etiquetados con la respuesta que se espera de él en el momento de la inferencia. A modo de ejemplo, Al sistema se le puede presentar para su entreamiento una colección de imágenes de animales etiquetadas como \textit{gato} y \textit{perro}. Tras el proceso de entreamiento se espera del sistema que en la fase de inferencia, dada una imagen no etiquetada sea capaz de producir una salida que indique si la imagen contiene un gato o un perro. En el \textit{aprendizaje no supervisado} no se etiquetan los datos de entrenamiento, y el sistema debe ser capaz de encontrar patrones en los datos y agruparlos en categorías. En el ejemplo anterior, el sistema no sabría si las imágenes que se le presentan son de gatos o de perros, y debería ser capaz de agruparlas en dos categorías. Por último, en el \textit{aprendizaje por refuerzo} el sistema no recibe datos etiquetados, sino que debe aprender a partir de la interacción con el entorno. Continuando con el mismo ejemplo, el sistema no recibiría imágenes etiquetadas, sino que debería aprender a partir de la interacción con el entorno, y recibiría una recompensa positiva si acierta y una negativa si falla. El sistema debería aprender a partir de estas recompensas a clasificar las imágenes.
 
 
 \section{Deep Learning}
 
 qué es el Deep Learning, y por qué ha evolucionado tanto en los últimos años, factores: poder computacional, cantidad de datos disponibles, democratización de la computación, mejoras en las arquitecturas y modelos de Deep Learning.
 
+A partir de ahí se explican detalles desde las redes neuronales hasta Transformer, que es el estado del arte actual de deep learning, incluyendo los modelos de lenguaje que nos atañen.
+
 
 \subsection{Tipos de redes neuronales}
+\subsection{Arquitecturas de redes neuronales}
 \subsection{Datos y entrenamiento de modelos de \textit{Deep Learning}}
 \subsection{La arquitectura Transformer}
 
 \section{Modelos de lenguaje}
+
+Nos centramos en los modelos de lenguaje, para entender su funcionamiento. Importantísimo para comprender el papel de estos en la generación de código.
 
 \subsection{Procesamiento del Lenguaje Natural}
 \subsection{Grandes modelos de lenguaje}
 \subsection{Modelos prentrenados}
 \subsection{Ajuste fino de los modelos}
 
-\section{Modelos de lenguaje y generación de código}
