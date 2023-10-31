@@ -11,8 +11,8 @@ BIBTEX_PATH="./bibtex/biblio.bib"
 # Usa curl para descargar el archivo BibTeX de la URL proporcionada
 curl -L $ZOTERO_URL -o $BIBTEX_PATH
 
-lualatex main.tex
-makeindex main
-bibtex main
-lualatex main.tex
-lualatex main.tex
+# lualatex main.tex
+# makeindex main
+# bibtex main
+# lualatex main.tex
+# lualatex main.tex
