@@ -2,7 +2,7 @@
 
 \section{Inteligencia artificial, aprendizaje automático y aprendizaje profundo}
 
-Delimitemos en primer lugar el significado de las diferentes disciplinas que la ingeniería utiliza a la hora de estudiar y desarrollar sistemas de inteligencia artificial. Es frecuente encontrar que términos como \textit{inteligencia artificial} (\textit{Artificial Inteligence}), \textit{aprendizaje automático} (\textit{Machine Learning}) y \textit{aprendizaje profundo} (\textit{Deep Learning}) se utilizan de manera indistinta. Sin embargo, cada uno de ellos tiene un significado específico y es importante distinguirlos para comprender el estado actual de la investigación en el área. Sin embargo, estos conceptos se entienden de forma jerárquica \citep{torresivinalsPythonDeepLearning2020}, donde la inteligencia artificial es el concepto más amplio, que incluye al \textit{aprendizaje automático} y este a su vez al \textit{aprendizaje profundo} (ver Figura \ref{fig:ai_types}).
+Delimitemos en primer lugar el significado de las diferentes disciplinas utilizadas a la hora de estudiar y desarrollar sistemas de inteligencia artificial. Es frecuente encontrar que términos como \textit{inteligencia artificial} (\textit{Artificial Inteligence}), \textit{aprendizaje automático} (\textit{Machine Learning}) y \textit{aprendizaje profundo} (\textit{Deep Learning}) se utilizan de manera indistinta. Sin embargo, cada uno de ellos tiene un significado específico y es importante distinguirlos para comprender el estado actual de la investigación en el área. Sin embargo, estos conceptos se entienden de forma jerárquica \citep{torresivinalsPythonDeepLearning2020}, donde la inteligencia artificial es el concepto más amplio, que incluye al \textit{aprendizaje automático} y este a su vez al \textit{aprendizaje profundo} (ver Figura \ref{fig:ai_types}).
 
 
 \begin{figure}[]
@@ -49,7 +49,18 @@ A partir de ahí se explican detalles desde las redes neuronales hasta Transform
 \subsection{Tipos de redes neuronales}
 \subsection{Arquitecturas de redes neuronales}
 \subsection{Datos y entrenamiento de modelos de \textit{Deep Learning}}
+
 \subsection{La arquitectura Transformer}
+
+En la Figura \ref{fig:transformer_architecture} se puede ver un esquema de la arquitectura \textit{Transformer}.
+
+\begin{figure}[]
+    \caption[Aquitectura de Transformer]{Aquitectura de Transformer}
+    \centering
+    \includegraphics[width=0.4\textwidth]{./figuras/Transformer_architecture.png}
+    \source{\cite{vaswaniAttentionAllYou2017}}
+    \label{fig:transformer_architecture}
+\end{figure}
 
 \section{Modelos de lenguaje}
 
@@ -71,19 +82,29 @@ Los \textit{modelos de lenguaje} no están asociados a una única arquitectura d
 
 \subsection{Grandes modelos de lenguaje}
 
-La arquitectura \textit{Transformer} se basa en el concepto de \textit{atención} \citep{vaswaniAttentionAllYou2017} y ha permitido el desarrollo de modelos de lenguaje de gran tamaño, que han alcanzado niveles de precisión y generalización nunca vistos hasta el momento. En la Figura \ref{fig:transformer_architecture} se puede ver un esquema de la arquitectura \textit{Transformer}.
+Un \textit{gran modelo de lenguaje} (LLM) es un modelo de lenguaje con un número de parámetros del orden del billón. El primer gran modelo de lenguaje fue \textit{GPT-2}, desarrollado y entrenado por OpenAI en 2019 \citep{radfordLanguageModelsAre2019a}. \textit{GPT-2} fue entrenado con 40 GB de texto de Internet, y alcanzó un tamaño de 1.5 billones de parámetros. \textit{GPT-2} fue entrenado con el objetivo de predecir la siguiente palabra de una secuencia de texto dada, sorprendiendo a la comunidad científica por la calidad de los textos generados, sin precedentes en la historia del \textit{Deep Learning}. A pesar de ello, OpenAI decidió publicar un modelo reducido, por miedo a los posibles usos irresponsables de esta nueva tecnología. El modelo puesto al público constaba de 117 millones de parámetros, el que utilizó para generar los textos de prueba que se pueden ver en la Figura \ref{fig:gpt2_text_generation}. 
 
 \begin{figure}[]
-    \caption[Aquitectura de Transformer]{Aquitectura de Transformer}
+    \caption{Generación de textos por \textit{GPT-2}}
     \centering
-    \includegraphics[width=0.4\textwidth]{./figuras/Transformer_architecture.png}
-    \source{\cite{vaswaniAttentionAllYou2017}}
-    \label{fig:transformer_architecture}
+    \includegraphics[width=0.9\textwidth]{./figuras/GPT2_text_generation.png}
+    \source{\cite{RunTextGeneration2022}}
+    \label{fig:gpt2_text_generation}
+\end{figure}
+
+Los \textit{grandes modelos de lenguaje} se basan en la arquitectura \textit{Transformer} \citep{vaswaniAttentionAllYou2017}, la cual ha permitido una eficiencia computacional y una escalabilidad de los modelos sin ningún precedente. Desde su aparición en 2017 la escalada por el tamaño de los modelos ha sido exponencial. En la Figura \ref{fig:llm_sizes} se puede comparar el tamaño de diversos LLM a lo largo del tiempo.
+
+\begin{figure}[]
+    \caption{Gráfico comparativo de tamaños de LLM}
+    \centering
+    \includegraphics[width=0.9\textwidth]{./figuras/LLMs_sizes.png}
+    \source{\cite{ChallengesAssociatedBuilding}}
+    \label{fig:llm_sizes}
 \end{figure}
 
 \subsection{Modelos prentrenados}
 \subsection{Ajuste fino de los modelos}
 \subsection{Habilidades emergentes de los modelos de lenguaje}
 \subsection{Prompting engineering}
-Exponer aquí esta disciplina nueva, y un esquema general de todas las aproximaciones a ello. \citep{LLMPromptingGuide2023}
+Exponer aquí esta disciplina nueva, y un esquema general de todas las aproximaciones a ello. \citep{LLMPromptingGuide}
 

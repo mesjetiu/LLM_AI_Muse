@@ -1,0 +1,7 @@
+{
+    "editor.wordWrap": "on",
+    "latex-workshop.message.latexlog.exclude": [
+        "[\\\"Font shape .* in size .* not available\\\", \\\"size .* substituted\\\"]"
+    ],
+    "latex-workshop.latex.build.forceRecipeUsage": false
+}
