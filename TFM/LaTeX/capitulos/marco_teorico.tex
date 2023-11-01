@@ -4,7 +4,7 @@
 
 Comencemos por definir las diferentes disciplinas que intervienen en el estudio y desarrollo de sistemas de inteligencia artificial. A menudo se encuentran términos como \textit{inteligencia artificial} (\textit{Artificial Intelligence}), \textit{aprendizaje automático} (\textit{Machine Learning}) y \textit{aprendizaje profundo} (\textit{Deep Learning}) usados de forma intercambiable. Sin embargo, cada uno tiene un significado específico, y es crucial diferenciarlos para comprender el estado actual de la investigación en el área. Estos conceptos se organizan jerárquicamente \citep{torresivinalsPythonDeepLearning2020}, donde la inteligencia artificial es el término más general, que abarca el \textit{aprendizaje automático}, y este último incluye al \textit{aprendizaje profundo} (ver Figura \ref{fig:ai_ml_dl}).
 
-\begin{figure}[]
+\begin{figure}[h]
     \caption{Relación AI, ML y DL}
     \centering
     \includegraphics[width=0.8\textwidth]{./figuras/AI_ML_DL.png}
@@ -58,7 +58,7 @@ A partir de ahí se explican detalles desde las redes neuronales hasta Transform
 
 En la Figura \ref{fig:transformer_architecture} se puede ver un esquema de la arquitectura \textit{Transformer}.
 
-\begin{figure}[]
+\begin{figure}[h]
     \caption[Aquitectura de Transformer]{Aquitectura de Transformer}
     \centering
     \includegraphics[width=0.4\textwidth]{./figuras/Transformer_architecture.png}
@@ -72,7 +72,7 @@ Un \textit{modelo de lenguaje} es un modelo estadístico que asigna una probabil
 
 Desde una perspectiva técnica, un \textit{modelo de lenguaje} devuelve como salida la distribución de probabilidad del siguiente \textit{token}, dada una secuencia de \textit{tokens} como entrada \citep{GenerationLLMs}. Un \textit{token} es la unidad mínima de información que el modelo procesa y, generalmente, equivale a una palabra\footnote{Aunque un token suele ser una palabra, también puede ser un signo de puntuación, número o cualquier otra unidad mínima de información.}. La Figura \ref{fig:llm_generation} ilustra un \textit{modelo de lenguaje} que recibe una secuencia de palabras y devuelve la distribución de probabilidad del siguiente \textit{token} después de haber sido entrenado con textos en inglés.
 
-\begin{figure}[]
+\begin{figure}[h]
     \caption[Inferencia de \textit{token} de un LLM]{Inferencia de \textit{token} de un LLM}
     \centering
     \includegraphics[width=0.9\textwidth]{./figuras/LLM_predice_token.png}
@@ -86,7 +86,7 @@ Los \textit{modelos de lenguaje} no se asocian exclusivamente a una arquitectura
 
 Un \textit{gran modelo de lenguaje} (LLM) posee un número de parámetros del orden del billón. El primer LLM fue \textit{GPT-2}, creado y entrenado por OpenAI en 2019 \citep{radfordLanguageModelsAre2019a}. \textit{GPT-2} se entrenó con 40 GB de texto de Internet y alcanzó 1.5 billones de parámetros. Su capacidad para predecir la siguiente palabra en una secuencia sorprendió a la comunidad científica debido a la calidad de los textos generados. Sin embargo, OpenAI publicó una versión reducida de 117 millones de parámetros debido a preocupaciones sobre su eventual uso irresponsable. La Figura \ref{fig:gpt2_text_generation} muestra ejemplos de textos generados por este modelo.
 
-\begin{figure}[]
+\begin{figure}[h]
     \caption{Generación de textos por \textit{GPT-2}}
     \centering
     \includegraphics[width=0.9\textwidth]{./figuras/GPT2_text_generation.png}
@@ -96,7 +96,7 @@ Un \textit{gran modelo de lenguaje} (LLM) posee un número de parámetros del or
 
 Los \textit{grandes modelos de lenguaje} emplean la arquitectura \textit{Transformer}, introducida por \citeauthor{vaswaniAttentionAllYou2017} en 2017, que ha proporcionado una eficiencia computacional sin parangón.
 
-\begin{figure}[]
+\begin{figure}[h]
     \caption{Gráfico comparativo de tamaños de LLM}
     \centering
     \includegraphics[width=0.9\textwidth]{./figuras/LLMs_sizes.png}
