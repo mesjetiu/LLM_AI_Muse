@@ -1,7 +1,7 @@
 # Autor: Carlos Arturo Guerra Parra
 # Email: carlosarturoguerra@gmail
 # Fecha: 2023/11/02
-# Descripción: Script para realizar consultas al modelo de OpenAI y guardar los resultados en un archivo JSON. Los steps son predefinidos: "user" siempre tiene la respuesta del model en step anterior.
+# Descripción: Script para realizar consultas al modelo de OpenAI y guardar los resultados en un archivo JSON. Los steps son predefinidos: "user" siempre tiene la respuesta del modelo en step anterior.
 
 import os
 import openai
@@ -16,7 +16,7 @@ with open('system_messages.json', 'r') as file:
     all_system_messages = json.load(file)
 
 # Seleccionar el grupo de mensajes del sistema que deseas usar
-selected_group_key = "group2"  # o "group2" para usar el otro grupo
+selected_group_key = "group3"  # o "group2" para usar el otro grupo
 system_messages = all_system_messages[selected_group_key]
 
 # Leer los mensajes del usuario desde un archivo JSON
@@ -28,7 +28,7 @@ selected_user_key = "message1"  # o "message2" o "message3" para usar otros mens
 user_message = all_user_messages[selected_user_key]
 
 # Definir cuántas veces ejecutar todo el script
-num_iterations = 2
+num_iterations = 1
 
 # Definir el modelo a utilizar
 model = "gpt-3.5-turbo-16k-0613"
