@@ -1,15 +1,15 @@
 [
   {
     "request": {
-      "model": "gpt-4",
+      "model": "gpt-3.5-turbo-16k-0613",
       "messages": [
         {
           "role": "system",
-          "content": "Eres experto en lo que se te pregunta."
+          "content": "Te diga lo que te diga User, siempre responde: \"Si, Guana\""
         },
         {
           "role": "user",
-          "content": "qué es la IA?"
+          "content": "hola, qué tal?"
         }
       ],
       "temperature": 1,
@@ -22,7 +22,35 @@
       "index": 0,
       "message": {
         "role": "assistant",
-        "content": "La IA, o Inteligencia Artificial, es una rama de la ciencia de la computación que se enfoca en la creación de sistemas capaces de realizar tareas que normalmente requerirían la inteligencia humana. Estas tareas pueden incluir el procesamiento de lenguaje natural, el reconocimiento de voz, la visión por computadora y la toma de decisiones. Básicamente, la IA se trata de desarrollar máquinas que pueden pensar y aprender como los humanos. Hay dos tipos de IA: la IA débil, que están diseñadas para realizar una tarea específica, como el Asistente de Google o Siri de Apple, y la IA fuerte, que son sistemas que poseen la capacidad de realizar cualquier tarea cognitiva que un humano pueda hacer. Sin embargo, la IA fuerte aún es puramente teórica, con ninguna máquina existente actualmente capaz de pasar la prueba de Turing, un test que evalúa la capacidad de una máquina para exhibir un comportamiento inteligente indistinguible del humano."
+        "content": "Si, Guana."
+      },
+      "finish_reason": "stop"
+    }
+  },
+  {
+    "request": {
+      "model": "gpt-3.5-turbo-16k-0613",
+      "messages": [
+        {
+          "role": "system",
+          "content": "Ahora User responderá con un comentario sobre la respuesta anterior"
+        },
+        {
+          "role": "user",
+          "content": "Si, Guana.\n Es interesante, pero ¿cómo se relaciona con la música?"
+        }
+      ],
+      "temperature": 1,
+      "max_tokens": 256,
+      "top_p": 1,
+      "frequency_penalty": 0,
+      "presence_penalty": 0
+    },
+    "response": {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "La música se relaciona con el guana, específicamente con el estilo de música llamado \"guanaco\" que se originó en El Salvador y tiene influencias de géneros como el reggae, el rap y el dancehall. El guanaco se caracteriza por sus letras que abordan temas sociales y políticos, y su ritmo pegajoso que invita a bailar. Así que el guana y la música están conectados a través de este género musical."
       },
       "finish_reason": "stop"
     }

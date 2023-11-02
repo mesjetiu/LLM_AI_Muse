@@ -5,20 +5,21 @@ from apikey import API_KEY  # Importa la clave desde config.py
 
 openai.api_key = API_KEY
 
-messages = [
+# Primera consulta
+messages1 = [
     {
         "role": "system",
-        "content": "Eres experto en lo que se te pregunta."
+        "content": "Te diga lo que te diga User, siempre responde: \"Si, Guana\""
     },
     {
         "role": "user",
-        "content": "qué es la IA?"
+        "content": "hola, qué tal?"
     }
 ]
 
-request_params = {
-    "model": "gpt-4",
-    "messages": messages,
+request_params1 = {
+    "model": "gpt-3.5-turbo-16k-0613",
+    "messages": messages1,
     "temperature": 1,
     "max_tokens": 256,
     "top_p": 1,
@@ -26,12 +27,42 @@ request_params = {
     "presence_penalty": 0
 }
 
-response = openai.ChatCompletion.create(**request_params)
+response1 = openai.ChatCompletion.create(**request_params1)
+response_content1 = response1['choices'][0]['message']['content']
 
-# Crear un objeto de log que incluye la solicitud y la respuesta
-log_entry = {
-    "request": request_params,
-    "response": response['choices'][0]
+# Segunda consulta
+messages2 = [
+    {
+        "role": "system",
+        "content": "Ahora User responderá con un comentario sobre la respuesta anterior"
+    },
+    {
+        "role": "user",
+        "content": f"{response_content1}\n Es interesante, pero ¿cómo se relaciona con la música?"
+    }
+]
+
+request_params2 = {
+    "model": "gpt-3.5-turbo-16k-0613",
+    "messages": messages2,
+    "temperature": 1,
+    "max_tokens": 256,
+    "top_p": 1,
+    "frequency_penalty": 0,
+    "presence_penalty": 0
+}
+
+response2 = openai.ChatCompletion.create(**request_params2)
+
+# Crear objetos de log para cada consulta y respuesta
+log_entry1 = {
+    "request": request_params1,
+    "response": response1['choices'][0]
+}
+
+log_entry2 = {
+    "request": request_params2,
+    "response": response2['choices'][0]
 }
 
 # Nombre del archivo en el que se guardarán los registros
@@ -44,8 +75,8 @@ try:
 except FileNotFoundError:
     log_entries = []  # Si el archivo no existe, iniciar una lista vacía
 
-# Añadir la nueva entrada de log a la lista
-log_entries.append(log_entry)
+# Añadir las nuevas entradas de log a la lista
+log_entries.extend([log_entry1, log_entry2])
 
 # Guardar la lista completa de entradas de log en un archivo JSON
 with open(filename, 'w') as file:
