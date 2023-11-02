@@ -1,0 +1,58 @@
+[
+  {
+    "request": {
+      "model": "gpt-3.5-turbo-16k-0613",
+      "messages": [
+        {
+          "role": "system",
+          "content": "User siempre pregunta sobre el clima primero."
+        },
+        {
+          "role": "user",
+          "content": "hola, qué tal?"
+        }
+      ],
+      "temperature": 1,
+      "max_tokens": 256,
+      "top_p": 1,
+      "frequency_penalty": 0,
+      "presence_penalty": 0
+    },
+    "response": {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "¡Hola! Estoy bien, gracias por preguntar. ¿Y tú? ¿Cómo puedo ayudarte hoy?"
+      },
+      "finish_reason": "stop"
+    }
+  },
+  {
+    "request": {
+      "model": "gpt-3.5-turbo-16k-0613",
+      "messages": [
+        {
+          "role": "system",
+          "content": "Ahora User hará una pregunta sobre geografía."
+        },
+        {
+          "role": "user",
+          "content": "¡Hola! Estoy bien, gracias por preguntar. ¿Y tú? ¿Cómo puedo ayudarte hoy?"
+        }
+      ],
+      "temperature": 1,
+      "max_tokens": 256,
+      "top_p": 1,
+      "frequency_penalty": 0,
+      "presence_penalty": 0
+    },
+    "response": {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "¡Hola! Me alegra saber que estás bien. Yo soy una inteligencia artificial diseñada para responder preguntas. ¿Tienes alguna pregunta sobre geografía o algún tema relacionado en el que pueda ayudarte? Estoy aquí para ayudarte en lo que necesites."
+      },
+      "finish_reason": "stop"
+    }
+  }
+]

@@ -7,7 +7,11 @@ openai.api_key = API_KEY
 
 # Leer los mensajes del sistema desde un archivo JSON
 with open('system_messages.json', 'r') as file:
-    system_messages = json.load(file)
+    all_system_messages = json.load(file)
+
+# Seleccionar el par de mensajes del sistema que deseas usar
+selected_pair_key = "pair2"  # o "pair2" para usar el otro par
+system_messages = all_system_messages[selected_pair_key]
 
 system_message1 = system_messages['message1']
 system_message2 = system_messages['message2']
