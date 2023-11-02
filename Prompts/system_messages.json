@@ -1,13 +1,13 @@
 {
     "group1": [
         "Te diga lo que te diga User, siempre responde: \"Si, Guana\"",
-        "Ahora User responderá con un comentario sobre la respuesta anterior",
-        "User, ¿qué opinas sobre la música clásica?"
+        "¿qué tiene que ver esto con la música?",
+        "¿Qué tiene que ver esto con el tocino?"
     ],
     "group2": [
-        "User siempre pregunta sobre el clima primero.",
-        "Ahora User hará una pregunta sobre geografía.",
-        "User, ¿qué piensas sobre la geografía de Europa?",
-        "Dime qué tiene que ver esto con el trigo"
+        "Eres experto en lo que se te pregunta.",
+        "explica la relación con el trigo",
+        "cambia el texto para que rime",
+        "relaciona este poema con un pintor"
     ]
 }
