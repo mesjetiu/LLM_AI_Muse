@@ -22,7 +22,7 @@
       "index": 0,
       "message": {
         "role": "assistant",
-        "content": "¡Hola! Estoy bien, gracias por preguntar. ¿Y tú? ¿Cómo puedo ayudarte hoy?"
+        "content": "Hola, estoy bien, ¿y tú? ¿Cómo puedo ayudarte hoy?"
       },
       "finish_reason": "stop"
     }
@@ -37,7 +37,7 @@
         },
         {
           "role": "user",
-          "content": "¡Hola! Estoy bien, gracias por preguntar. ¿Y tú? ¿Cómo puedo ayudarte hoy?"
+          "content": "Hola, estoy bien, ¿y tú? ¿Cómo puedo ayudarte hoy?"
         }
       ],
       "temperature": 1,
@@ -50,7 +50,63 @@
       "index": 0,
       "message": {
         "role": "assistant",
-        "content": "¡Hola! Me alegra saber que estás bien. Yo soy una inteligencia artificial diseñada para responder preguntas. ¿Tienes alguna pregunta sobre geografía o algún tema relacionado en el que pueda ayudarte? Estoy aquí para ayudarte en lo que necesites."
+        "content": "¡Hola! Me alegro de que estés bien. Hoy necesito tu ayuda con una pregunta de geografía. ¿Estás listo(a) para responder?"
+      },
+      "finish_reason": "stop"
+    }
+  },
+  {
+    "request": {
+      "model": "gpt-3.5-turbo-16k-0613",
+      "messages": [
+        {
+          "role": "system",
+          "content": "User, ¿qué piensas sobre la geografía de Europa?"
+        },
+        {
+          "role": "user",
+          "content": "¡Hola! Me alegro de que estés bien. Hoy necesito tu ayuda con una pregunta de geografía. ¿Estás listo(a) para responder?"
+        }
+      ],
+      "temperature": 1,
+      "max_tokens": 256,
+      "top_p": 1,
+      "frequency_penalty": 0,
+      "presence_penalty": 0
+    },
+    "response": {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "¡Claro que sí! Estoy lista para ayudarte con tu pregunta de geografía sobre Europa. ¿En qué puedo ayudarte?"
+      },
+      "finish_reason": "stop"
+    }
+  },
+  {
+    "request": {
+      "model": "gpt-3.5-turbo-16k-0613",
+      "messages": [
+        {
+          "role": "system",
+          "content": "Dime qué tiene que ver esto con el trigo"
+        },
+        {
+          "role": "user",
+          "content": "¡Claro que sí! Estoy lista para ayudarte con tu pregunta de geografía sobre Europa. ¿En qué puedo ayudarte?"
+        }
+      ],
+      "temperature": 1,
+      "max_tokens": 256,
+      "top_p": 1,
+      "frequency_penalty": 0,
+      "presence_penalty": 0
+    },
+    "response": {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Gracias por tu disposición a ayudar, pero en realidad mi respuesta anterior fue un error. No hay relación entre la pregunta original sobre Europa y el tema del trigo. Lamentablemente, no tengo información sobre el trigo en Europa en este momento. Si tienes alguna otra pregunta, estaré encantado de intentar ayudarte."
       },
       "finish_reason": "stop"
     }

@@ -1,10 +1,13 @@
 {
-    "pair1": {
-        "message1": "Te diga lo que te diga User, siempre responde: \"Si, Guana\"",
-        "message2": "Ahora User responderá con un comentario sobre la respuesta anterior"
-    },
-    "pair2": {
-        "message1": "User siempre pregunta sobre el clima primero.",
-        "message2": "Ahora User hará una pregunta sobre geografía."
-    }
+    "group1": [
+        "Te diga lo que te diga User, siempre responde: \"Si, Guana\"",
+        "Ahora User responderá con un comentario sobre la respuesta anterior",
+        "User, ¿qué opinas sobre la música clásica?"
+    ],
+    "group2": [
+        "User siempre pregunta sobre el clima primero.",
+        "Ahora User hará una pregunta sobre geografía.",
+        "User, ¿qué piensas sobre la geografía de Europa?",
+        "Dime qué tiene que ver esto con el trigo"
+    ]
 }
