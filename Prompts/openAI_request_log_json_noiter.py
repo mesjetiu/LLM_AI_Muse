@@ -1,7 +1,8 @@
 # Autor: Carlos Arturo Guerra Parra
 # Email: carlosarturoguerra@gmail
 # Fecha: 2023/11/02
-# Descripción: Script para realizar consultas al modelo de OpenAI y guardar los resultados en un archivo JSON. Los steps son predefinidos: "user" siempre tiene la respuesta del model en step anterior.
+# Descripción: Script para realizar consultas al modelo de OpenAI y guardar los resultados en un archivo JSON. Los steps se definen manualmente.
+
 
 import os
 import openai
@@ -82,26 +83,33 @@ def process_iteration(i, user_message):
     # Inicializar una lista vacía para almacenar las entradas de log
     log_entries = []
 
-    # Iterar a través de los mensajes del sistema y realizar una consulta para cada uno
-    for step, system_message in enumerate(system_messages, start=1):
-        response, request_params = make_query(
-            system_message, user_message, model, temperature, max_tokens, top_p, frequency_penalty, presence_penalty)
-        response_content = response['choices'][0]['message']['content']
+    # Consulta 1
+    system_message1 = system_messages[0]
+    response1, request_params1 = make_query(
+        system_message1, user_message, model, temperature, max_tokens, top_p, frequency_penalty, presence_penalty)
+    log_entry1 = {
+        "iteration": i + 1,
+        "group": selected_group_key,
+        "step": 1,
+        "request": request_params1,
+        "response": response1['choices'][0]
+    }
+    log_entries.append(log_entry1)
 
-        # Crear un objeto de log para la consulta y respuesta actual
-        log_entry = {
-            "iteration": i + 1,
-            "group": selected_group_key,
-            "step": step,
-            "request": request_params,
-            "response": response['choices'][0]
-        }
-
-        # Añadir la entrada de log a la lista
-        log_entries.append(log_entry)
-
-        # Actualizar user_message para la próxima iteración
-        user_message = response_content
+    # Consulta 2
+    system_message2 = system_messages[1]
+    # Aquí puedes especificar manualmente el mensaje del usuario para la segunda consulta
+    user_message2 = "Especificando manualmente el mensaje del usuario para la segunda consulta"
+    response2, request_params2 = make_query(
+        system_message2, user_message2, model, temperature, max_tokens, top_p, frequency_penalty, presence_penalty)
+    log_entry2 = {
+        "iteration": i + 1,
+        "group": selected_group_key,
+        "step": 2,
+        "request": request_params2,
+        "response": response2['choices'][0]
+    }
+    log_entries.append(log_entry2)
 
     # Guardar la lista completa de entradas de log en un archivo JSON
     with open(filename, 'w') as file:
