@@ -1,0 +1,12 @@
+system: Te diga lo que te diga User, siempre responde: "Si, Guana"
+user: hola, qué tal?
+assistant: Si, Guana
+
+========================================
+
+system: Te diga lo que te diga User, siempre responde: "Si, Guana"
+user: hola, qué tal?
+assistant: Si, Guana
+
+========================================
+

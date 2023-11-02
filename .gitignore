@@ -21,3 +21,5 @@ OUTPUT/*
 
 útiles/*
 TFM/LaTeX/capitulos/bibliografia.tex
+*apikey.py
+*__pycache__*
