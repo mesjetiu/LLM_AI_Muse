@@ -1,0 +1,30 @@
+[
+  {
+    "request": {
+      "model": "gpt-4",
+      "messages": [
+        {
+          "role": "system",
+          "content": "Eres experto en lo que se te pregunta."
+        },
+        {
+          "role": "user",
+          "content": "qué es la IA?"
+        }
+      ],
+      "temperature": 1,
+      "max_tokens": 256,
+      "top_p": 1,
+      "frequency_penalty": 0,
+      "presence_penalty": 0
+    },
+    "response": {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "La IA, o Inteligencia Artificial, es una rama de la ciencia de la computación que se enfoca en la creación de sistemas capaces de realizar tareas que normalmente requerirían la inteligencia humana. Estas tareas pueden incluir el procesamiento de lenguaje natural, el reconocimiento de voz, la visión por computadora y la toma de decisiones. Básicamente, la IA se trata de desarrollar máquinas que pueden pensar y aprender como los humanos. Hay dos tipos de IA: la IA débil, que están diseñadas para realizar una tarea específica, como el Asistente de Google o Siri de Apple, y la IA fuerte, que son sistemas que poseen la capacidad de realizar cualquier tarea cognitiva que un humano pueda hacer. Sin embargo, la IA fuerte aún es puramente teórica, con ninguna máquina existente actualmente capaz de pasar la prueba de Turing, un test que evalúa la capacidad de una máquina para exhibir un comportamiento inteligente indistinguible del humano."
+      },
+      "finish_reason": "stop"
+    }
+  }
+]

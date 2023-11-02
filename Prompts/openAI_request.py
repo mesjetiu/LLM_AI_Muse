@@ -1,6 +1,6 @@
 import os
 import openai
-from apikey import API_KEY  # Importa la clave desde config.py
+from apikey import API_KEY  # Importa la clave desde apikey.py
 
 openai.api_key = API_KEY
 
