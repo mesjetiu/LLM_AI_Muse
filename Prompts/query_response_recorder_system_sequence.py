@@ -51,7 +51,6 @@ user_message = all_user_messages[selected_user_key]
 
 
 # Función para realizar una consulta al modelo
-
 def make_query(system_message, user_message, model, temperature, max_tokens, top_p, frequency_penalty, presence_penalty):
     print(f"Enviando consulta: {system_message} / {user_message}")
     messages = [
@@ -84,21 +83,22 @@ def make_query(system_message, user_message, model, temperature, max_tokens, top
 def process_iteration(i, user_message):
     print(f"Iteración {i + 1} de {num_iterations}")
 
-    # Inicializar una lista vacía para almacenar las entradas de log
-    log_entries = []
+    # Inicializar un diccionario para almacenar las entradas de log de esta iteración
+    iteration_log = {
+        "iteration": i + 1,
+        "steps": []
+    }
 
     # Consulta 1
     system_message1 = system_messages[0]
     response1, request_params1 = make_query(
         system_message1, user_message, model, temperature, max_tokens, top_p, frequency_penalty, presence_penalty)
     log_entry1 = {
-        "iteration": i + 1,
         "group": selected_group_key,
         "step": 1,
         "request": request_params1,
         "response": response1['choices'][0]
     }
-    log_entries.append(log_entry1)
 
     # Consulta 2
     system_message2 = system_messages[1]
@@ -107,13 +107,15 @@ def process_iteration(i, user_message):
     response2, request_params2 = make_query(
         system_message2, user_message2, model, temperature, max_tokens, top_p, frequency_penalty, presence_penalty)
     log_entry2 = {
-        "iteration": i + 1,
         "group": selected_group_key,
         "step": 2,
         "request": request_params2,
         "response": response2['choices'][0]
     }
-    log_entries.append(log_entry2)
+
+    # Añadir las entradas de log a la lista de steps en iteration_log
+    iteration_log["steps"].append(log_entry1)
+    iteration_log["steps"].append(log_entry2)
 
     # Leer el contenido existente del archivo de log
     try:
@@ -122,8 +124,8 @@ def process_iteration(i, user_message):
     except FileNotFoundError:
         existing_log_entries = []
 
-    # Añadir las nuevas entradas de log al contenido existente
-    existing_log_entries.extend(log_entries)
+    # Añadir iteration_log al contenido existente
+    existing_log_entries.append(iteration_log)
 
     # Guardar todo de nuevo en el archivo de log
     with open(log_filename, 'w') as file:
