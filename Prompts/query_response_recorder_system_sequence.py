@@ -3,7 +3,6 @@
 # Fecha: 2023/11/02
 # Descripción: Script para realizar consultas al modelo de OpenAI y guardar los resultados en un archivo JSON. Los steps se definen manualmente.
 
-
 import os
 import openai
 import json
@@ -11,22 +10,6 @@ import datetime
 from apikey import API_KEY  # Importa la clave desde apikey.py
 
 openai.api_key = API_KEY
-
-# Leer los mensajes del sistema desde un archivo JSON
-with open('system_messages.json', 'r') as file:
-    all_system_messages = json.load(file)
-
-# Seleccionar el grupo de mensajes del sistema que deseas usar
-selected_group_key = "group2"  # o "group2" para usar el otro grupo
-system_messages = all_system_messages[selected_group_key]
-
-# Leer los mensajes del usuario desde un archivo JSON
-with open('user_messages.json', 'r') as file:
-    all_user_messages = json.load(file)
-
-# Seleccionar el mensaje del usuario que deseas usar
-selected_user_key = "message1"  # o "message2" o "message3" para usar otros mensajes
-user_message = all_user_messages[selected_user_key]
 
 # Definir cuántas veces ejecutar todo el script
 num_iterations = 2
@@ -41,8 +24,33 @@ top_p = 1
 frequency_penalty = 0
 presence_penalty = 0
 
-# Función para realizar una consulta al modelo
+# Seleccionar el grupo de mensajes del sistema que deseas usar
+selected_group_key = "group2"  # o "group2" para usar el otro grupo
 
+# Seleccionar el mensaje del usuario que deseas usar
+selected_user_key = "message1"  # o "message2" o "message3" para usar otros mensajes
+
+# Define un nombre fijo para el archivo de log
+log_filename = "query_log.json"
+
+# ---------------------------------------------
+
+# Leer los mensajes del sistema desde un archivo JSON
+with open('system_messages.json', 'r') as file:
+    all_system_messages = json.load(file)
+
+# Obtener el grupo de mensajes del seleccionados por el usuario
+system_messages = all_system_messages[selected_group_key]
+
+# Leer los mensajes del usuario desde un archivo JSON
+with open('user_messages.json', 'r') as file:
+    all_user_messages = json.load(file)
+
+# Obtener el mensaje del usuario seleccionado por el usuario
+user_message = all_user_messages[selected_user_key]
+
+
+# Función para realizar una consulta al modelo
 
 def make_query(system_message, user_message, model, temperature, max_tokens, top_p, frequency_penalty, presence_penalty):
     print(f"Enviando consulta: {system_message} / {user_message}")
@@ -76,10 +84,6 @@ def make_query(system_message, user_message, model, temperature, max_tokens, top
 def process_iteration(i, user_message):
     print(f"Iteración {i + 1} de {num_iterations}")
 
-    # Obtener la fecha y hora actual para incluirlas en el nombre del archivo de log
-    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"chat_log_{current_datetime}_iter{i + 1}.json"
-
     # Inicializar una lista vacía para almacenar las entradas de log
     log_entries = []
 
@@ -111,10 +115,20 @@ def process_iteration(i, user_message):
     }
     log_entries.append(log_entry2)
 
-    # Guardar la lista completa de entradas de log en un archivo JSON
-    with open(filename, 'w') as file:
-        print(f"Guardando log en {filename}")
-        json.dump(log_entries, file, indent=2, ensure_ascii=False)
+    # Leer el contenido existente del archivo de log
+    try:
+        with open(log_filename, 'r') as file:
+            existing_log_entries = json.load(file)
+    except FileNotFoundError:
+        existing_log_entries = []
+
+    # Añadir las nuevas entradas de log al contenido existente
+    existing_log_entries.extend(log_entries)
+
+    # Guardar todo de nuevo en el archivo de log
+    with open(log_filename, 'w') as file:
+        print(f"Guardando log en {log_filename}")
+        json.dump(existing_log_entries, file, indent=2, ensure_ascii=False)
 
     print(f"Iteración {i + 1} completada\n{'-'*50}")
 

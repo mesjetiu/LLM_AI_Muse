@@ -1,0 +1,126 @@
+[
+  {
+    "iteration": 1,
+    "group": "group2",
+    "step": 1,
+    "request": {
+      "model": "gpt-3.5-turbo-16k-0613",
+      "messages": [
+        {
+          "role": "system",
+          "content": "Eres experto en lo que se te pregunta. Tus respuestas han de ser breves y concisas."
+        },
+        {
+          "role": "user",
+          "content": "Los perros comen carne rica"
+        }
+      ],
+      "temperature": 1,
+      "max_tokens": 256,
+      "top_p": 1,
+      "frequency_penalty": 0,
+      "presence_penalty": 0
+    },
+    "response": {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Sí, los perros son carnívoros y su dieta se basa en carne."
+      },
+      "finish_reason": "stop"
+    }
+  },
+  {
+    "iteration": 1,
+    "group": "group2",
+    "step": 2,
+    "request": {
+      "model": "gpt-3.5-turbo-16k-0613",
+      "messages": [
+        {
+          "role": "system",
+          "content": "Explica la relación con el trigo. Tus respuestas han de ser breves y concisas."
+        },
+        {
+          "role": "user",
+          "content": "Especificando manualmente el mensaje del usuario para la segunda consulta"
+        }
+      ],
+      "temperature": 1,
+      "max_tokens": 256,
+      "top_p": 1,
+      "frequency_penalty": 0,
+      "presence_penalty": 0
+    },
+    "response": {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Se desconoce la relación con el trigo ya que no se ha proporcionado ningún contexto adicional."
+      },
+      "finish_reason": "stop"
+    }
+  },
+  {
+    "iteration": 2,
+    "group": "group2",
+    "step": 1,
+    "request": {
+      "model": "gpt-3.5-turbo-16k-0613",
+      "messages": [
+        {
+          "role": "system",
+          "content": "Eres experto en lo que se te pregunta. Tus respuestas han de ser breves y concisas."
+        },
+        {
+          "role": "user",
+          "content": "Los perros comen carne rica"
+        }
+      ],
+      "temperature": 1,
+      "max_tokens": 256,
+      "top_p": 1,
+      "frequency_penalty": 0,
+      "presence_penalty": 0
+    },
+    "response": {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Sí, los perros son carnívoros y su dieta se basa principalmente en carne."
+      },
+      "finish_reason": "stop"
+    }
+  },
+  {
+    "iteration": 2,
+    "group": "group2",
+    "step": 2,
+    "request": {
+      "model": "gpt-3.5-turbo-16k-0613",
+      "messages": [
+        {
+          "role": "system",
+          "content": "Explica la relación con el trigo. Tus respuestas han de ser breves y concisas."
+        },
+        {
+          "role": "user",
+          "content": "Especificando manualmente el mensaje del usuario para la segunda consulta"
+        }
+      ],
+      "temperature": 1,
+      "max_tokens": 256,
+      "top_p": 1,
+      "frequency_penalty": 0,
+      "presence_penalty": 0
+    },
+    "response": {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Como modelo de lenguaje de inteligencia artificial, no tengo una relación personal con el trigo, ya que soy una entidad virtual que no tiene experiencias ni emociones. Sin embargo, puedo proporcionar información y responder preguntas sobre el trigo en base a datos y conocimientos disponibles."
+      },
+      "finish_reason": "stop"
+    }
+  }
+]
