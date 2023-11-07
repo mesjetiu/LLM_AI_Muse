@@ -116,6 +116,24 @@
   file = {/home/carlos/Zotero/storage/A78XI6JS/challenges-associated-building-products-using-large-language-das.html}
 }
 
+@misc{chamandFinetuneYourClassifier2022,
+  title = {Fine-Tune Your {{Classifier}}: {{Finding Correlations With Temperature}}},
+  shorttitle = {Fine-Tune Your {{Classifier}}},
+  author = {Chamand, Benjamin and {Risser-Maroix}, Olivier and Kurtz, Camille and Joly, Philippe and Lom{\'e}nie, Nicolas},
+  year = {2022},
+  month = oct,
+  number = {arXiv:2210.09715},
+  eprint = {2210.09715},
+  primaryclass = {cs},
+  publisher = {{arXiv}},
+  doi = {10.48550/arXiv.2210.09715},
+  urldate = {2023-11-07},
+  abstract = {Temperature is a widely used hyperparameter in various tasks involving neural networks, such as classification or metric learning, whose choice can have a direct impact on the model performance. Most of existing works select its value using hyperparameter optimization methods requiring several runs to find the optimal value. We propose to analyze the impact of temperature on classification tasks by describing a dataset as a set of statistics computed on representations on which we can build a heuristic giving us a default value of temperature. We study the correlation between these extracted statistics and the observed optimal temperatures. This preliminary study on more than a hundred combinations of different datasets and features extractors highlights promising results towards the construction of a general heuristic for temperature.},
+  archiveprefix = {arxiv},
+  keywords = {Computer Science - Computer Vision and Pattern Recognition,Computer Science - Machine Learning},
+  file = {/home/carlos/Zotero/storage/EVJ4JQ22/Chamand et al. - 2022 - Fine-tune your Classifier Finding Correlations Wi.pdf;/home/carlos/Zotero/storage/7ZL2LZHW/2210.html}
+}
+
 @misc{chenTeachingLargeLanguage2023,
   title = {Teaching {{Large Language Models}} to {{Self-Debug}}},
   author = {Chen, Xinyun and Lin, Maxwell and Sch{\"a}rli, Nathanael and Zhou, Denny},
@@ -276,6 +294,23 @@
   file = {/home/carlos/Zotero/storage/LU4PW86U/historia-de-la-inteligencia-artificial-el-machine-learning-y-el-deep-learning.html}
 }
 
+@misc{holtzmanCuriousCaseNeural2020,
+  title = {The {{Curious Case}} of {{Neural Text Degeneration}}},
+  author = {Holtzman, Ari and Buys, Jan and Du, Li and Forbes, Maxwell and Choi, Yejin},
+  year = {2020},
+  month = feb,
+  number = {arXiv:1904.09751},
+  eprint = {1904.09751},
+  primaryclass = {cs},
+  publisher = {{arXiv}},
+  doi = {10.48550/arXiv.1904.09751},
+  urldate = {2023-11-07},
+  abstract = {Despite considerable advancements with deep neural language models, the enigma of neural text degeneration persists when these models are tested as text generators. The counter-intuitive empirical observation is that even though the use of likelihood as training objective leads to high quality models for a broad range of language understanding tasks, using likelihood as a decoding objective leads to text that is bland and strangely repetitive. In this paper, we reveal surprising distributional differences between human text and machine text. In addition, we find that decoding strategies alone can dramatically effect the quality of machine text, even when generated from exactly the same neural language model. Our findings motivate Nucleus Sampling, a simple but effective method to draw the best out of neural generation. By sampling text from the dynamic nucleus of the probability distribution, which allows for diversity while effectively truncating the less reliable tail of the distribution, the resulting text better demonstrates the quality of human text, yielding enhanced diversity without sacrificing fluency and coherence.},
+  archiveprefix = {arxiv},
+  keywords = {Computer Science - Computation and Language},
+  file = {/home/carlos/Zotero/storage/J4H86DF3/Holtzman et al. - 2020 - The Curious Case of Neural Text Degeneration.pdf;/home/carlos/Zotero/storage/6Z9WQDE7/1904.html}
+}
+
 @misc{jzh2074,
   title = {{{AI}} Types. {{Tipos}} Inteligencia {{Artificial}}.Svg},
   author = {{Jzh2074}},
@@ -425,6 +460,17 @@
   file = {/home/carlos/Zotero/storage/6QXLYRRD/index.html}
 }
 
+@book{rothmanTransformersNaturalLanguage2021,
+  title = {Transformers for {{Natural Language Processing}}: {{Build}} Innovative Deep Neural Network Architectures for {{NLP}} with {{Python}}, {{PyTorch}}, {{TensorFlow}}, {{BERT}}, {{RoBERTa}}, and More},
+  shorttitle = {Transformers for {{Natural Language Processing}}},
+  author = {Rothman, Denis},
+  year = {2021},
+  publisher = {{Packt Publishing}},
+  address = {{Birmingham}},
+  isbn = {978-1-80056-579-1},
+  langid = {english}
+}
+
 @misc{RunTextGeneration2022,
   title = {Run Text Generation with {{Bloom}} and {{GPT}} Models on {{Amazon SageMaker JumpStart}} | {{AWS Machine Learning Blog}}},
   year = {2022},
@@ -569,6 +615,40 @@
   number = {10},
   pages = {1924},
   publisher = {{Multidisciplinary Digital Publishing Institute}}
+}
+
+@misc{wangCostEffectiveHyperparameterOptimization2023,
+  title = {Cost-{{Effective Hyperparameter Optimization}} for {{Large Language Model Generation Inference}}},
+  author = {Wang, Chi and Liu, Susan Xueqing and Awadallah, Ahmed H.},
+  year = {2023},
+  month = aug,
+  number = {arXiv:2303.04673},
+  eprint = {2303.04673},
+  primaryclass = {cs},
+  publisher = {{arXiv}},
+  urldate = {2023-11-07},
+  abstract = {Large Language Models (LLMs) have sparked significant interest in their generative capabilities, leading to the development of various commercial applications. The high cost of using the models drives application builders to maximize the value of generation under a limited inference budget. This paper presents a study of optimizing inference hyperparameters such as the number of responses, temperature and max tokens, which significantly affects the utility/cost of text generation. We design a framework named EcoOptiGen which leverages economical hyperparameter optimization and cost-based pruning. Experiments with the GPT-3.5/GPT-4 models on a variety of tasks verify its effectiveness. EcoOptiGen is implemented in the `autogen' package of the FLAML library: https: //aka.ms/autogen.},
+  archiveprefix = {arxiv},
+  langid = {english},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language,Computer Science - Machine Learning},
+  file = {/home/carlos/Zotero/storage/25YJQ69L/Wang et al. - 2023 - Cost-Effective Hyperparameter Optimization for Lar.pdf}
+}
+
+@article{wangHyperparameterOptimizationAlgorithm2022,
+  title = {A {{Hyperparameter Optimization Algorithm}} for the {{LSTM Temperature Prediction Model}} in {{Data Center}}},
+  author = {Wang, Simin and Ma, Chunmiao and Xu, Yixuan and Wang, Jinyu and Wu, Weiguo},
+  year = {2022},
+  month = dec,
+  journal = {Scientific Programming},
+  volume = {2022},
+  pages = {e6519909},
+  publisher = {{Hindawi}},
+  issn = {1058-9244},
+  doi = {10.1155/2022/6519909},
+  urldate = {2023-11-07},
+  abstract = {As the main tool to realize data mining and efficient knowledge acquisition in the era of big data, machine learning is widely used in data center energy-saving research. The temperature prediction model based on machine learning predicts the state of the data center according to the upcoming tasks. It can adjust the refrigeration equipment in advance to avoid temperature regulation lag and set the air conditioning temperature according to the actual demand to avoid excessive refrigeration. Task scheduling and migration algorithm based on temperature prediction can effectively avoid hot spots. However, the choice of hyperparameter of machine learning model has a great impact on its performance. In this study, a hyperparameter optimization algorithm based on MLP is proposed. On the basis of trying certain hyperparameters, the MLP model is used to predict the value of all hyperparameters' space, and then, a certain number of high-quality hyperparameters are selected to train the model repeatedly. In each iteration, the amount of training data decreases gradually, while the accuracy of the model improves rapidly, and finally, the appropriate hyperparameter are obtained. We use the idea of mutation in the genetic algorithm to improve the probability of high-quality solutions and the loss function weighting method to select the solution with the best stability. Experiments are carried out on two representative machine learning models, LSTM and Random Forest, and compared with the standard Gaussian Bayes and Random Search method. The results show that the method proposed in this study can obtain high-precision and high-stability hyperparameter through one run and can greatly improve the operation efficiency. This algorithm is not only effective for LSTM but also suitable for other machine learning models.},
+  langid = {english},
+  file = {/home/carlos/Zotero/storage/CSFU4NGN/Wang et al. - 2022 - A Hyperparameter Optimization Algorithm for the LS.pdf}
 }
 
 @misc{weiChainofThoughtPromptingElicits2023,
