@@ -108,12 +108,17 @@ Los \textit{grandes modelos de lenguaje} emplean la arquitectura \textit{Transfo
 \subsection{Ajuste fino de los modelos}
 Bibliografía: \cite{chamandFinetuneYourClassifier2022}
 
+\subsection{Hiperparámetros fijos del modelo}
+Aquí hablaré de los hiperparámetros que definen la arquitectura del modelo que no se pueden modificar, como el número de capas, el número de cabezas de atención, etc., y que son fijos en el modelo. Especial atención se pondrá en el número de parámetros del modelo, que es el que determina el tamaño del modelo y su capacidad de generar textos, así como en la ventana de contexto, que es el número de tokens que el modelo tiene en cuenta para generar el siguiente token.
+
+Precisamente el número de parámetros y la ventana de contexto son los hiperparámetros más importantes y críticos en términos computacionales y de efectividad. Cuanto más grande sea el modelo, más parámetros tendrá y más capacidad de generar textos tendrá. Sin embargo, también será más lento en la inferencia. Por otro lado, cuanto mayor sea la ventana de contexto, más tokens tendrá en cuenta el modelo para generar el siguiente token, y más coherentes serán los textos generados. Sin embargo, también será más lento en la inferencia.
+
 \subsection{Hiperparámetros controlables por el usuario}
 Hablar de la temperatura, top\_p, top\_k, ventana de contexto, número de tokens, etc. 
 
 Se habla de la temperatura y su impacto en la generación de textos en \cite{holtzmanCuriousCaseNeural2020} y \cite{chamandFinetuneYourClassifier2022}
 
-\cite{holtzmanCuriousCaseNeural2020} habla de la importancia de top\_p, en lo que denomina \textit{top-k nucleus sampling}. Aunque es antiguo el paper, echar un ojo porque aclara bastante los conceptos.
+\cite{holtzmanCuriousCaseNeural2020} habla de la importancia de top\_p, en lo que denomina \textit{top\_k nucleus sampling}. Aunque es antiguo el paper, echar un ojo porque aclara bastante los conceptos.
 
 Seguimos las explicaciones de \cite{rothmanTransformersNaturalLanguage2021}
 
