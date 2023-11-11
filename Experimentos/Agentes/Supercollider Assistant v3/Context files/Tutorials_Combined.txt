@@ -1,0 +1,2389 @@
+title:: Server Tutorial
+summary:: A short tutorial covering many concepts
+categories:: Tutorials, Server
+
+To follow this tutorial you should read
+
+link::Reference/Server-Architecture::
+
+and
+
+link::Reference/Server-Command-Reference::.
+
+SuperCollider consists of three separate components:
+The sound synthesiser (audio server), the  programming language (and language interpreter) and the code editor (integrated development environment, or shortly, IDE).
+
+The server can run either inside the language application ("internal server"), as a separate program on the same machine ("local server"), or run on a different computer across a network connection. The language application sends command messages to the server using a subset of the Open Sound Control protocol.
+
+section::Booting a Server
+
+In order to run sound we need to start a server running. The easiest way to start a server is to click on "Boot Server" in the pull-up menu you get by clicking on the server stats field on the bottom of the IDE's editor window. Or by clicking on the "Start Server" button in the respective server window. This you get with s.makeWindow (for instance for the default server) for any server object you created (see below). Sometimes though it is useful to start a server programmatically. To do this we need to get or create a server object and tell it to "boot". Two servers, internal and local, are predefined.
+
+The internal server runs in the same process as the SuperCollider application. It is internal to the program itself.
+
+code::
+// set the interpreter variable i to the internal server object.
+i = Server.internal;
+::
+
+strong::VERY IMPORTANT:: : This line must be executed for the variable 'i' to be set. The mechanics are different depending on your platform. The macOS standard is to place the cursor anywhere on this line and press the "Enter" key on the numeric keypad. Pressing the main return key does not execute code! This allows you to write code fragments of multiple lines. To execute a multi-line block of code, select the block and press "Enter." For convenience, a code block can be enclosed in parentheses, and the entire block selected by double-clicking just inside either parenthesis. For instructions in other editors (e.g. on Linux or Windows), consult the documentation specific to that platform. See also the helpfile link::Reference/KeyboardShortcuts:: for key commands in other editors. If you don't have an enter key, then you can use Ctrl-Return, Ctrl-C, Fn-Return (on some Macs), or Shift-Return.
+
+The local server runs on the same machine as the SuperCollider application, but is a separate program, 'scsynth' (or 'supernova').
+Note:: By default the interpreter variable code::s:: is set to the local server at startup. For further information see the link::Classes/Server:: helpfile.
+::
+
+code::
+// set the interpreter variable s to the local server object.
+s = Server.local;	// s is set to Server.default at startup of SuperCollider
+::
+
+To boot the server you send it the boot message.
+
+code::
+s.boot;
+::
+
+To quit the server send it the quit message.
+
+code::
+s.quit;
+::
+
+We can also create a server to run. To create a server object we need to provide the IP address or the server and a port number. Port numbers are somewhat arbitrary but they should not conflict with common protocols like telnet, ftp http, etc. The IP address 127.0.0.1 is defined to mean the local host. This is the IP address to use for running a server on your own machine.
+
+code::
+// create another server object that will run on the local host using port #58009
+m = Server(\myServer, NetAddr("127.0.0.1", 58009));
+
+m.boot; //start the server
+
+m.quit; // quit the server
+::
+
+It is not possible to boot a server on a remote machine, but if you have one running already or you know of one running, you can send messages to it. You create the server object using the IP address of the machine running the server and the port it is using.
+
+code::
+// create a server object for talking to the server running on a
+// remote machine having IP address 192.168.0.47 using port #57110
+r = Server(\myServer, NetAddr("192.168.0.47", 57110));
+::
+
+section::Making Sound
+
+(note: This tutorial uses raw OSC commands as described in link::Reference/Server-Command-Reference::, rather than the classes link::Classes/Synth:: and link::Classes/Group::. See those helpfiles also for some simpler ways of working with Synths. This tutorial explains the basic underlying design of Synths and SynthDefs).
+
+Now lets make some audio.
+
+Boot the server:
+
+code::
+s.boot;
+::
+
+Create a link::Classes/SynthDef::. A SynthDef is a description of a processing module that you want to run on the server. It can read audio from the server's audio buses, read control from the control buses and write control or audio back to buses. Here we will create a sine oscillator and send it to audio bus zero.
+
+code::
+(
+SynthDef("sine", { arg freq=800;
+	var osc;
+	osc = SinOsc.ar(freq, 0, 0.1); // 800 Hz sine oscillator
+	Out.ar(0, osc); // send output to audio bus zero.
+}).writeDefFile; // write the def to disk in the default directory synthdefs/
+)
+::
+
+Send the SynthDef to the server.
+
+code::
+s.sendSynthDef("sine");
+::
+
+Start the sound. The code::/s_new:: command creates a new Synth which is an instance of the "sine" SynthDef. Each synth running on the server needs to have a unique ID. The simplest and safest way to do this is to get an ID from the server's NodeIDAllocator. This will automatically allow IDs to be reused, and will prevent conflicts both with your own nodes, and with nodes created automatically for purposes such as visual scoping and recording. Each synth needs to be installed in a Group. We install it in group one which is the default group. There is a group zero, called the RootNode, which contains the default group, but it is generally best not to use it as doing so can result in order of execution issues with automatically created nodes such as those mentioned above. (For more detail see the link::Reference/default_group::, link::Classes/RootNode::, and link::Guides/Order-of-execution:: helpfiles.)
+
+code::
+s.sendMsg("/s_new", "sine", x = s.nextNodeID, 1, 1);
+::
+
+Stop the sound.
+
+code::
+s.sendMsg("/n_free", x);
+::
+
+Stop the server.
+
+code::
+s.quit;
+::
+
+
+SynthDef has three methods which send the def automatically, load which writes it to disk, and send which sends it without writing it to disk. The latter can be useful to avoid clutter on your drive, but is limited to SynthDefs up to a certain complexity.
+
+Most generally useful and recommended is to use the method strong::add::, which sends or writes to disk only if it can't send, and it sends to all servers listed in the SynthDefLib (A server can be added by SynthDescLib.global.addServer(server)).
+
+code::
+(
+SynthDef("sine", { arg freq=800;
+	var osc;
+	osc = SinOsc.ar(freq, 0, 0.1); // 800 Hz sine oscillator
+	Out.ar(0, osc); // send output to audio bus zero.
+}).add;
+)
+
+
+(
+SynthDef("sine", { arg freq=800;
+	var osc;
+	osc = SinOsc.ar(freq, 0, 0.1); // 800 Hz sine oscillator
+	Out.ar(0, osc); // send output to audio bus zero.
+}).load(s); // write to disk and send
+)
+
+(
+SynthDef("sine", { arg freq=800;
+	var osc;
+	osc = SinOsc.ar(freq, 0, 0.1); // 800 Hz sine oscillator
+	Out.ar(0, osc); // send output to audio bus zero.
+}).send(s); // send without writing
+)
+::
+
+section::Using Arguments
+
+It is useful to be able to specify parameters of a synth when it is created. Here a frequency argument is added to the sine SynthDef so that we can create it
+
+code::
+s.boot;
+
+(
+SynthDef("sine", { arg freq;
+	var osc;
+	osc = SinOsc.ar(freq, 0, 0.1); // 800 Hz sine oscillator
+	Out.ar(0, osc); // send output to audio bus zero.
+}).add;
+)
+::
+
+Play a 900 Hz sine wave.
+
+code::
+s.sendMsg("/s_new", "sine", x = s.nextNodeID, 1, 1, "freq", 900);
+
+s.sendMsg("/n_free", x);
+::
+
+Play a 1000 Hz sine wave.
+
+code::
+s.sendMsg("/s_new", "sine", y = s.nextNodeID, 1, 1, "freq", 1000);
+
+s.sendMsg("/n_free", y);
+::
+
+Playing three voices at once
+
+code::
+(
+s.sendMsg("/s_new", "sine", x = s.nextNodeID, 1, 1, "freq", 800);
+s.sendMsg("/s_new", "sine", y = s.nextNodeID, 1, 1, "freq", 1001);
+s.sendMsg("/s_new", "sine", z = s.nextNodeID, 1, 1, "freq", 1202);
+)
+
+(
+s.sendMsg("/n_free", x);
+s.sendMsg("/n_free", y);
+s.sendMsg("/n_free", z);
+)
+::
+
+Playing three voices at once using bundles. Bundles allow you to send multiple messages with a time stamp. The messages in the bundle will be scheduled to be performed together. The time argument to sendBundle is an offset into the future from the current thread's logical time.
+
+code::
+(
+s.sendBundle(0.2,
+	["/s_new", "sine", x = s.nextNodeID, 1, 1, "freq", 800],
+	["/s_new", "sine", y = s.nextNodeID, 1, 1, "freq", 1001],
+	["/s_new", "sine", z = s.nextNodeID, 1, 1, "freq", 1202]);
+s.sendBundle(1.2, ["/n_free", x],["/n_free", y],["/n_free", z]);
+)
+::
+
+section::Controlling a Synth
+
+You can send messages to update the values of a Synth's arguments.
+
+Play a 900 Hz sine wave.
+
+code::
+s.sendMsg("/s_new", "sine", x = s.nextNodeID, 1, 1, "freq", 900);
+::
+
+Change the frequency using the /n_set command. You send the node ID, the parameter name and the value.
+
+code::
+s.sendMsg("/n_set", x, "freq", 800);
+
+s.sendMsg("/n_set", x, "freq", 700);
+
+s.sendMsg("/n_free", x);
+::
+
+section::Adding an Effect Dynamically
+
+You can dynamically add and remove an effect to process another synth. In order to do this, the effect has to be added after the node to be processed.
+
+code::
+(
+// define a noise pulse
+SynthDef("tish", { arg freq = 1200, rate = 2;
+	var osc, trg;
+	trg = Decay2.ar(Impulse.ar(rate,0,0.3), 0.01, 0.3);
+	osc = {WhiteNoise.ar(trg)}.dup;
+	Out.ar(0, osc); // send output to audio bus zero.
+}).add;
+)
+
+(
+// define an echo effect
+SynthDef("echo", { arg delay = 0.2, decay = 4;
+	var in;
+	in = In.ar(0,2);
+	// use ReplaceOut to overwrite the previous contents of the bus.
+	ReplaceOut.ar(0, CombN.ar(in, 0.5, delay, decay, 1, in));
+}).add;
+)
+
+// start the pulse
+s.sendMsg("/s_new", "tish", x = s.nextNodeID, 1, 1, \freq, 200, \rate, 1.2);
+
+// add an effect
+s.sendMsg("/s_new", "echo", y = s.nextNodeID, 1, 1);
+
+// stop the effect
+s.sendMsg("/n_free", y);
+
+// add an effect (time has come today.. hey!)
+s.sendMsg("/s_new", "echo", z = s.nextNodeID, 1, 1, \delay, 0.1, \decay, 4);
+
+// stop the effect
+s.sendMsg("/n_free", z);
+
+// stop the pulse
+s.sendMsg("/n_free", x);
+::
+
+This works because we added the effect after the other node. Sometimes you will need to use groups or code::/n_after:: to insure that an effect gets added after what it is supposed to process.
+
+section::Mapping an Argument to a Control Bus
+
+code::
+(
+// define a control
+SynthDef("line", { arg i_bus=10, i_start=1000, i_end=500, i_time=1;
+	ReplaceOut.kr(i_bus, Line.kr(i_start, i_end, i_time, doneAction: Done.freeSelf));
+}).add
+)
+::
+
+Play a 900 Hz sine wave.
+
+code::
+s.sendMsg("/s_new", "sine", x = s.nextNodeID, 1, 1, "freq", 900);
+::
+
+Put a frequency value on the control bus.
+
+code::
+s.sendMsg("/c_set", 10, x);
+::
+
+Map the node's freq argument to read from control bus #10.
+
+code::
+s.sendMsg("/n_map", x, \freq, 10);
+::
+
+Change the value on the control bus.
+
+code::
+s.sendMsg("/c_set", 10, 1200);
+::
+
+Start a control process that writes to bus #10.
+The link::Classes/EnvGen:: doneAction will free this node automatically when it finishes.
+
+code::
+s.sendMsg("/s_new", "line", s.nextNodeID, 0, 1);
+::
+
+Free the node.
+
+code::
+s.sendMsg("/n_free", x);
+::
+
+section::Sequencing with Routines
+
+code::
+(
+var space, offset, timer, saw, envsaw, sampler, delay;
+
+SynthDef("saw", { arg out=100, pan=0, trig=0.0, freq=500, amp=1, cutoff=10000, rezz=1;
+	freq = Lag.kr(freq,0.1);
+	Out.ar(out,Pan2.ar(RLPF.ar(Saw.ar([freq,freq*2],amp),cutoff,rezz),
+		pan));
+}).add;
+
+SynthDef("envsaw",{ arg out=100, pan=0, sustain=0.5, freq=500, amp=1, cutoff=10000, rezz=1;
+	var env;
+	env = EnvGen.kr(Env.perc(0.01, sustain, 0.2), doneAction: Done.none, gate:amp);
+	Out.ar(out,Pan2.ar(RLPF.ar(Saw.ar(Lag.kr(freq,0.1),env),cutoff,rezz)*amp,
+		pan));
+}).add;
+
+SynthDef("delay", { arg out=0, delay = 0.4, decay = 14;
+	var in;
+	in = In.ar(out,2);
+	Out.ar(out, CombN.ar(in, 0.5, delay, decay, 1, in));
+}).add;
+
+SynthDef("sampler",{ arg sample, trig=1,rate=1.0,out=0,bufnum=0,pan=0,amp=1, sustain=0.25;
+	var env;
+	env = EnvGen.kr(Env.perc(0.001, sustain, 0.001), doneAction: Done.freeSelf);
+	Out.ar(out,
+		Pan2.ar(
+		PlayBuf.ar(1,bufnum,rate,InTrig.kr(trig),0,0)*amp,
+			pan);
+	)
+}).add;
+
+Tempo.bpm = 120;
+timer = BeatSched.new;
+offset = Tempo.tempo.reciprocal;
+
+space = Buffer.read(s, Platform.resourceDir +/+ "sounds/a11wlk01.wav");
+
+saw = Synth("saw");
+delay = Synth.after(saw,"delay", [\decay, 20]);
+
+timer.sched(0,{
+	var r;
+	r = Routine({ var wait, freq, cutoff,rezz;
+		wait = Pseq([2],inf).asStream;
+		freq = Pseq([30,40,42,40],inf).asStream;
+		cutoff = Pfunc({500.rand2+1000}).asStream;
+		rezz = 0.5;
+		inf.do({
+			saw.set("freq", freq.next.midicps, "cutoff", cutoff.next, "rezz", rezz, "amp", 0.1, "out", 0);
+			(wait.next*offset).wait
+		});
+	});
+	timer.sched(0, r);
+});
+
+timer.sched(0,{
+	var r;
+	r=Routine({ var wait, rate;
+		wait = Pseq([0.25],inf).asStream;
+		rate = Pfunc({0.5.rand}).asStream;
+		inf.do({
+			Synth.before(delay, "sampler", [\bufnum, space, \trig, 1, \amp,0.1, \rate, rate.next, \sustain, 		wait.next]);
+			(wait.next*offset).wait});});
+		timer.sched(0,r);
+});
+
+)
+::
+
+section::Sequencing with Patterns
+
+code::
+(
+//sappy emo electronica example...
+Tempo.bpm = 120;
+SynthDef("patternefx_Ex", { arg out, in;
+	var audio, efx;
+	audio = In.ar([20,21],2);
+	efx=CombN.ar(audio, 0.5, [0.24,0.4], 2, 1);
+	Out.ar([0,1], audio+efx);
+	}).add;
+
+Synth.new("patternefx_Ex");
+
+SynthDef("pattern_Ex", { arg out, freq = 1000, gate = 1, pan = 0, cut = 4000, rez = 0.8, amp = 1;
+	Out.ar(out,
+		Pan2.ar(
+			RLPF.ar(
+				Pulse.ar(freq,0.05),
+			cut, rez),
+		pan) * EnvGen.kr(Env.linen(0.01, 1, 0.3), gate, amp, doneAction: Done.freeSelf);
+	)
+	}).add;
+
+SynthDef("bass_Ex", { arg out, freq = 1000, gate = 1, pan = 0, cut = 4000, rez = 0.8, amp = 1;
+	Out.ar(out,
+		Pan2.ar(
+			RLPF.ar(
+				SinOsc.ar(freq,0.05),
+			cut, rez),
+		pan) * EnvGen.kr(Env.linen(0.01, 1, 0.3), gate, amp, doneAction: Done.freeSelf);
+	)
+	}).add;
+
+SynthDescLib.global.read;
+
+
+Pseq([
+
+Ptpar([
+0,Pbind(\instrument,\pattern_Ex, \out, 20, \dur,Pseq([2],16), \root,[-24,-17], \degree,Pseq([0,3,5,7,9,11,5,1],2), 	\pan,1,\cut,Pxrand([1000,500,2000,300],16), \rez,Pfunc({0.7.rand +0.3}), \amp,0.12),
+
+0.5,Pbind(\instrument,\pattern_Ex, \out, 20, \dur,Pseq([Pseq([2],15),1.5],1), \root,-12, \degree,Pseq([0,3,5,7,9,11,5,1],2), \pan,-1,\cut,2000, \rez,0.6, \amp,0.1);
+]),
+
+Ptpar([
+0,Pbind(\instrument,\pattern_Ex, \out, 20, \dur,2, \root,[-24,-17], \degree,Pseq([0,3,5,7,9,11,5,1],inf), 	\pan,1,\cut,Pxrand([1000,500,2000,300],inf), \rez,Pfunc({0.7.rand +0.3}), \amp,0.12),
+
+0,Pbind(\instrument,\bass_Ex, \dur,1, \root,-24, \degree,Pseq([0],inf), \pan,0, \cut,128, \rez,0.1, \amp,0.3),
+
+0.5,Pbind(\instrument,\pattern_Ex, \out, 20, \dur,2, \root,-12, \degree,Pseq([0,3,5,7,9,11,5,1],inf), \pan,-1,\cut,2000, \rez,0.6, \amp,0.1);
+]);
+
+
+]).play;
+
+)
+::
+
+
+title:: Understanding Streams, Patterns and Events - Part 1
+summary:: Streams & Routines
+related:: Tutorials/Streams-Patterns-Events2, Tutorials/Streams-Patterns-Events3, Tutorials/Streams-Patterns-Events4, Tutorials/Streams-Patterns-Events5, Tutorials/Streams-Patterns-Events6, Tutorials/Streams-Patterns-Events7
+categories:: Tutorials>Streams-Patterns-Events
+
+The SuperCollider Pattern library provides a means of specifying dynamic structural transformations of musical processes. It provides similar capabilities as one finds in Nyquist, Elody, Siren, Kyma, HMSL, DMix, and Patchwork.
+
+By using coroutines and streams rather than eager functional methods it is able to work in a lazy event by event method instead of the all-at-once method of Elody and Siren. It provides the kind of dynamic live control found in HMSL but with the more general event models of the others. In Nyquist and Siren certain transformation like Stretch and Transpose are specially coded into the framework. In SuperCollider Patterns, any parameter may have transformations applied to it. The only one treated specially is time, so that parallel streams can be merged.
+
+In order to understand the framework, a number of concepts must be covered. These concepts are embodied in the classes for Streams, Patterns, and Events. You should learn these concepts in the order presented. The framework is built up in layers. If you skip ahead to get to the cool stuff first, you will have missed some important points.
+
+section::Streams
+
+A stream represents a lazy sequence of values. The next value in the sequence is obtained by sending the message next to the stream object. The sequence can be restarted from the beginning by sending the message reset to the stream object. A stream can be of finite or infinite length. When a finite length stream has reached the end, it returns nil.
+
+A stream can be any object that responds to the next and reset messages. Any object that responds to these messages can act as a stream. It happens that the class link::Classes/Object:: defines next and reset for all objects. In Object, both next and reset are defined to return code::this::. Thus any object is by default a stream that represents an infinite sequence of itself.
+
+code::
+7.next.postln;	// 7 responds to next by returning itself
+::
+
+section::Stream and its subclasses
+
+In addition to the default streams implemented by link::Classes/Object::, there is a class link::Classes/Stream:: that provides more functionality such as math operations on streams and filtering of streams.
+
+A generally useful subclass of Stream is the class link::Classes/FuncStream:: which allows the user to provide functions to execute in response to next and reset. Here is a FuncStream that represents an infinite random sequence:
+
+code::
+(
+var a;
+a = FuncStream.new({ #[1, 2, 3, 4].choose });
+5.do({ a.next.postln; });	// print 5 values from the stream
+)
+::
+
+Another useful subclass of Stream is link::Classes/Routine:: which is a special kind of function that can act like a Stream. Routines are functions that can return a value from the middle and then be resumed from that point when called again. The yield message returns a value from the Routine. The next time the Routine is called it begins by returning from the yield and continues from that point. See the link::Classes/Routine:: help file.
+
+Here is a Routine that represents a finite sequence of values:
+
+code::
+(
+var a;
+a = Routine.new({
+		3.do({ arg i; i.yield; })
+	});
+4.do({ a.next.postln; });	// print 4 values from stream
+)
+::
+
+and another:
+
+code::
+(
+var a;
+a = Routine.new({
+		3.do({ arg i;
+			(i+1).do({ arg j; j.yield; })
+		})
+	});
+8.do({ a.next.postln; });	// print 8 values from stream
+)
+::
+
+section::Math operations on Streams
+
+Stream is a subclass of link::Classes/AbstractFunction:: which means that one can do math operations on streams to produce other streams.
+
+Applying a unary operator to a stream:
+
+code::
+(
+var a, b;
+// a is a stream that counts from 0 to 9
+a = Routine.new({
+		10.do({ arg i; i.yield; })
+	});
+b = a.squared;	// stream b is a square of the stream a
+12.do({ b.next.postln; });
+)
+::
+
+Using a binary operator on a stream:
+
+code::
+(
+var a, b;
+// a is a stream that counts from 0 to 9
+a = Routine.new({
+		10.do({ arg i; i.yield; })
+	});
+b = a + 100;	// add a constant value to stream a
+12.do({ b.next.postln; });
+)
+::
+
+Using a binary operator on two streams:
+
+code::
+(
+var a, b, c;
+// a is a stream that counts from 0 to 9
+a = Routine.new({
+		10.do({ arg i; i.yield; })
+	});
+// b is a stream that counts from 100 to 280 by 20
+b = Routine.new({
+		forBy (100,280,20, { arg i; i.yield })
+	});
+c = a + b;	// add streams a and b
+12.do({ c.next.postln; });
+)
+::
+
+section::Filtering operations on streams
+
+Streams respond to the messages code::collect::, code::select::, and code::reject:: by returning a new link::Classes/Stream::.
+
+The code::collect:: message returns a stream that is modified by a function in the same way as the collect message sent to a link::Classes/Collection:: returns a modified Collection.
+
+code::
+(
+var a, b;
+// a is a stream that counts from 0 to 9
+a = Routine.new({
+		10.do({ arg i; i.yield; })
+	});
+// b is a stream that adds 100 to even values
+b = a.collect({ arg item; if (item.even, { item + 100 },{ item }); });
+6.do({ b.next.postln; });
+)
+::
+
+The code::select:: message creates a stream that passes only items that return true from a user supplied function.
+
+code::
+(
+var a, b;
+// a is a stream that counts from 0 to 9
+a = Routine.new({
+		10.do({ arg i; i.yield; })
+	});
+// b is a stream that only returns the odd values from stream a
+b = a.select({ arg item; item.odd; });
+6.do({ b.next.postln; });
+)
+::
+
+The code::reject:: message creates a stream that passes only items that return false from a user supplied function.
+
+code::
+(
+var a, b;
+// a is a stream that counts from 0 to 9
+a = Routine.new({
+		10.do({ arg i; i.yield; })
+	});
+// b is a stream that only returns the non-odd values from stream a
+b = a.reject({ arg item; item.odd; });
+6.do({ b.next.postln; });
+)
+::
+
+section::Making Music with Streams
+
+Here is a sound example to show how you might use Streams to generate musical material.
+
+code::
+(
+	s = Server.local;
+	SynthDef(\help_SPE1, { arg i_out=0, freq;
+		var out;
+		out = RLPF.ar(
+			LFSaw.ar( freq, mul: EnvGen.kr( Env.perc, levelScale: 0.3, doneAction: Done.freeSelf )),
+			LFNoise1.kr(1, 36, 110).midicps,
+			0.1
+		);
+		// out = [out, DelayN.ar(out, 0.04, 0.04) ];
+		4.do({ out = AllpassN.ar(out, 0.05, [0.05.rand, 0.05.rand], 4) });
+		Out.ar( i_out, out );
+	}).send(s);
+)
+(
+// streams as a sequence of pitches
+	var stream, dur;
+	dur = 1/8;
+	stream = Routine.new({
+		loop({
+			if (0.5.coin, {
+				// run of fifths:
+				24.yield;
+				31.yield;
+				36.yield;
+				43.yield;
+				48.yield;
+				55.yield;
+			});
+			rrand(2,5).do({
+				// varying arpeggio
+				60.yield;
+				#[63,65].choose.yield;
+				67.yield;
+				#[70,72,74].choose.yield;
+			});
+			// random high melody
+			rrand(3,9).do({ #[74,75,77,79,81].choose.yield });
+		});
+	});
+	Routine({
+		loop({
+			Synth(\help_SPE1, [ \freq, stream.next.midicps ] );
+			dur.wait; // synonym for yield, used by .play to schedule next occurrence
+		})
+	}).play
+)
+::
+
+section::Optional:
+More about Streams can be learned from the book A Little Smalltalk by Timothy Budd. He calls them Generators and shows how they can be used to solve problems like the "eight queens" problem etc.
+
+
+To go to the next file:
+link::Tutorials/Streams-Patterns-Events2::
+
+
+title:: Understanding Streams, Patterns and Events - Part 2
+summary:: Patterns Introduction
+related:: Tutorials/Streams-Patterns-Events1, Tutorials/Streams-Patterns-Events3, Tutorials/Streams-Patterns-Events4, Tutorials/Streams-Patterns-Events5, Tutorials/Streams-Patterns-Events6, Tutorials/Streams-Patterns-Events7
+categories:: Tutorials>Streams-Patterns-Events
+
+section::Patterns
+
+Often one wants to be able to create multiple streams from a single stream specification. Patterns are just a way to make multiple Streams from a single specification, like a cookie cutter. A pattern can be any object that responds to the code::asStream:: message by creating a link::Classes/Stream::. Once again there is a default implementation in class link::Classes/Object:: of asStream that simply returns the receiver as its own stream. Thus any object is by default a pattern that returns itself as a stream when sent the asStream message.
+
+code::
+(
+a = 7.asStream;
+a.postln;
+a.next.postln;
+)
+::
+
+section::Pattern and its subclasses
+
+There is a class named link::Classes/Pattern:: that provides more functionality for the concept of a pattern.
+
+A link::Classes/Pfunc:: is a Pattern that returns a link::Classes/FuncStream::. The same function arguments are supplied as are supplied to FuncStream.
+
+code::
+(
+var a, b;
+a = Pfunc.new({ #[1, 2, 3, 4].choose });
+b = a.asStream;			// make a stream from the pattern
+5.do({ b.next.postln; });	// print 5 values from the stream
+)
+::
+
+A link::Classes/Prout:: is a Pattern that returns a link::Classes/Routine::. The same function argument is supplied as is supplied to Routine.
+
+code::
+(
+var a, b, c;
+a = Prout.new({
+		3.do({ arg i; 3.rand.yield; })
+	});
+// make two streams from the pattern
+b = a.asStream;
+c = a.asStream;
+4.do({ b.next.postln; });	// print 4 values from first stream
+4.do({ c.next.postln; });	// print 4 values from second stream
+)
+::
+
+A link::Classes/Pseries:: is a Pattern that generates an arithmetic series.
+
+code::
+(
+var a, b;
+a = Pseries.new(10, 3, 8);	// stream starts at 10, steps by 3 and has length 8
+b = a.asStream;
+9.do({ b.next.postln; });	// print 9 values from stream
+)
+::
+
+link::Classes/Pgeom:: is a Pattern that generates a geometric series.
+
+code::
+(
+var a, b;
+a = Pgeom.new(10, 3, 8);	// stream starts at 10, steps by factor of 3 and has length 8
+b = a.asStream;
+9.do({ b.next.postln; });	// print 9 values from stream
+)
+::
+
+section::Math operations on Patterns
+
+Patterns also respond to math operators by returning patterns that respond to code::asStream:: with appropriately modified streams.
+
+Applying a unary operator to a pattern
+
+code::
+(
+var a, b, c;
+a = Pseries.new(0,1,10);	// a is a pattern whose stream counts from 0 to 9
+b = a.squared;			// pattern b is a square of the pattern a
+c = b.asStream;
+12.do({ c.next.postln; });
+)
+::
+
+Using a binary operator on a pattern
+
+code::
+(
+var a, b, c;
+a = Pseries.new(0,1,10);	// a is a pattern whose stream counts from 0 to 9
+b = a + 100;			// add a constant value to pattern a
+c = b.asStream;
+12.do({ c.next.postln; });
+)
+::
+
+section::Filtering operations on patterns
+
+Patterns also respond to the messages code::collect::, code::select::, and code::reject:: by returning a new link::Classes/Pattern::.
+
+The code::collect:: message returns a Pattern whose link::Classes/Stream:: is modified by a function in the same way as the collect message sent to a Collection returns a modified Collection.
+
+code::
+(
+var a, b, c;
+// a is a pattern whose stream counts from 0 to 9
+a = Pseries.new(0,1,10);
+// b is a pattern whose stream adds 100 to even values
+b = a.collect({ arg item; if (item.even, { item + 100 },{ item }); });
+c = b.asStream;
+6.do({ c.next.postln; });
+)
+::
+
+The code::select:: message creates a pattern whose stream passes only items that return true from a user supplied function.
+
+code::
+(
+var a, b, c;
+// a is a pattern whose stream counts from 0 to 9
+a = Pseries.new(0,1,10);
+// b is a pattern whose stream only returns the odd values
+b = a.select({ arg item; item.odd; });
+c = b.asStream;
+6.do({ c.next.postln; });
+)
+::
+
+The code::reject:: message creates a pattern whose stream passes only items that return false from a user supplied function.
+
+code::
+(
+var a, b, c;
+// a is a pattern whose stream counts from 0 to 9
+a = Pseries.new(0,1,10);
+// b is a pattern whose stream that only returns the non-odd values
+b = a.reject({ arg item; item.odd; });
+c = b.asStream;
+6.do({ c.next.postln; });
+)
+::
+
+section::Making Music with Patterns
+
+Here is a variation of the example given in part 1 that uses a link::Classes/Pattern:: to create two instances of the random melody stream.
+
+code::
+(
+	s = Server.local;
+	SynthDef(\help_SPE2, { arg i_out=0, sustain=1, freq;
+		var out;
+		out = RLPF.ar(
+			LFSaw.ar( freq ),
+			LFNoise1.kr(1, 36, 110).midicps,
+			0.1
+		) * EnvGen.kr( Env.perc, levelScale: 0.3,
+			timeScale: sustain, doneAction: Done.freeSelf );
+		//out = [out, DelayN.ar(out, 0.04, 0.04) ];
+		4.do({ out = AllpassN.ar(out, 0.05, [0.05.rand, 0.05.rand], 4) });
+		Out.ar( i_out, out );
+	}).send(s);
+)
+(
+// streams as a sequence of pitches
+	var pattern, streams, dur, durDiff;
+	dur = 1/7;
+	durDiff = 3;
+	pattern = Prout.new({
+		loop({
+			if (0.5.coin, {
+				#[ 24,31,36,43,48,55 ].do({ arg fifth; fifth.yield });
+			});
+			rrand(2,5).do({
+				// varying arpeggio
+				60.yield;
+				#[63,65].choose.yield;
+				67.yield;
+				#[70,72,74].choose.yield;
+			});
+			// random high melody
+			rrand(3,9).do({ #[74,75,77,79,81].choose.yield });
+		});
+	});
+	streams = [
+		(pattern - Pfunc.new({ #[12, 7, 7, 0].choose })).midicps.asStream,
+		pattern.midicps.asStream
+	];
+	Routine({
+		loop({
+			Synth( \help_SPE2, [ \freq, streams.at(0).next, \sustain, dur * durDiff ] );
+			durDiff.do({
+				Synth( \help_SPE2, [ \freq, streams.at(1).next, \sustain, dur ] );
+				dur.wait;
+			});
+		})
+	}).play
+)
+::
+
+To go to the next file:
+link::Tutorials/Streams-Patterns-Events3::
+
+
+title:: Understanding Streams, Patterns and Events - Part 3
+summary:: ListPatterns
+related:: Tutorials/Streams-Patterns-Events1, Tutorials/Streams-Patterns-Events2, Tutorials/Streams-Patterns-Events4, Tutorials/Streams-Patterns-Events5, Tutorials/Streams-Patterns-Events6, Tutorials/Streams-Patterns-Events7
+categories:: Tutorials>Streams-Patterns-Events
+
+section::ListPatterns
+
+ListPatterns are link::Classes/Pattern::s that iterate over arrays of objects in some fashion. All ListPatterns have in common the instance variables list and repeats. The list variable is some link::Classes/Array:: to be iterated over. The repeats variable is some measure of the number of times to do something, whose meaning varies from subclass to subclass. The default value for repeats is 1.
+
+A link::Classes/Pseq:: is a Pattern that cycles over a list of values. The repeats variable gives the number of times to repeat the entire list.
+
+code::
+//////////////////////////////////////////////////////////////
+// Note: This SynthDef used throughout this document
+(
+SynthDef(\help_SPE3_SimpleSine, { |out, freq=440, sustain=1.0|
+	var osc;
+	osc = SinOsc.ar( [freq, freq+0.05.rand], 0.5pi )
+	* EnvGen.ar(
+		Env.perc, doneAction: Done.freeSelf, levelScale: 0.3, timeScale: sustain
+	);
+	Out.ar(out, osc);
+}).add;
+)
+//////////////////////////////////////////////////////////////
+
+(
+var a, b;
+a = Pseq.new(#[1, 2, 3], 2);	// repeat twice
+b = a.asStream;
+7.do({ b.next.postln; });
+)
+::
+
+Pseq also has an offset argument which gives a starting offset into the list.
+
+code::
+(
+var a, b;
+a = Pseq.new(#[1, 2, 3, 4], 3, 2);	// repeat 3, offset 2
+b = a.asStream;
+13.do({ b.next.postln; });
+)
+::
+
+You can pass a function for the repeats variable that gets evaluated when the stream is created.
+
+code::
+(
+var a, b;
+a = Pseq.new(#[1, 2], { rrand(1, 3) });	// repeat 1,2, or 3 times
+b = a.asStream;
+7.do({ b.next.postln; });
+)
+::
+
+If you specify the value code::inf:: for the repeats variable, then it will repeat indefinitely.
+
+code::
+(
+var a, b;
+a = Pseq.new(#[1, 2, 3], inf);	// infinite repeat
+b = a.asStream;
+10.do({ b.next.postln; });
+)
+::
+
+Pseq used as a sequence of pitches:
+
+Remember that math operations like code::midicps:: can be used on streams.
+
+The alternative code::Pseq(...).midicps.asStream:: is also possible because both pattern and stream inherit from link::Classes/AbstractFunction:: for which midicps is a method. ( midicps converts a midi value to cycles per second or Hz )
+
+code::
+(
+var a, d;
+a = Pseq(#[60, 61, 63, 65, 67, 63], inf ).asStream.midicps;
+d = 0.3;
+Task({
+	12.do({
+		Synth(\help_SPE3_SimpleSine, [ \freq, a.next, \sustain, d ]);
+		d.wait;
+	});
+}).play
+)
+::
+
+link::Classes/Pser:: is like Pseq, however the repeats variable gives the number of items returned instead of the number of complete cycles.
+
+code::
+(
+var a, b;
+a = Pser.new(#[1, 2, 3], 5);	// return 5 items
+b = a.asStream;
+6.do({ b.next.postln; });
+)
+::
+
+link::Classes/Prand:: returns one item from the list at random for each repeat.
+
+code::
+(
+var a, b;
+a = Prand.new(#[1, 2, 3, 4, 5], 6);	// return 6 items
+b = a.asStream;
+7.do({ b.next.postln; });
+)
+::
+
+Prand used as a sequence of pitches:
+
+code::
+(
+var a, d;
+a = Prand(#[60, 61, 63, 65], inf).midicps.asStream;
+d = 0.3;
+Task({
+	12.do({
+		Synth(\help_SPE3_SimpleSine,[\freq, a.next]);
+		d.wait;
+	});
+}).play;
+)
+::
+
+link::Classes/Pxrand::, like Prand, returns one item from the list at random for each repeat, but Pxrand never repeats the same element twice in a row.
+
+code::
+(
+var a, b;
+a = Pxrand.new(#[1, 2, 3], 10);	// return 10 items
+b = a.asStream;
+11.do({ b.next.postln; });
+)
+::
+
+Pxrand used as a sequence of pitches:
+
+code::
+(
+var a;
+a = Pxrand(#[60, 61, 63, 65], inf).midicps.asStream;
+Task({
+	12.do({
+		Synth(\help_SPE3_SimpleSine, [\freq, a.next]);
+		0.8.wait;
+	});
+}).play;
+)
+::
+
+link::Classes/Pshuf:: iterates over the list in scrambled order. The entire scrambled list is repeated in the same order the number of times given by the repeats variable.
+
+code::
+(
+var a, b;
+a = Pshuf.new(#[1, 2, 3, 4], 3);
+b = a.asStream;
+13.do({ b.next.postln; });
+)
+::
+
+Pshuf used as a sequence of pitches:
+
+code::
+(
+var a, b;
+a = Pshuf(#[60, 61, 65, 67], inf).midicps.asStream;
+Task({
+	12.do({
+		Synth(\help_SPE3_SimpleSine, [\freq, a.next]);
+		0.5.wait;
+	});
+}).play;
+)
+::
+
+section::Nesting Patterns
+
+If a link::Classes/Pattern:: encounters another Pattern in its list, it embeds that pattern in its output. That is, it creates a stream on that pattern and iterates that pattern until it ends before moving on.
+
+For example here is one pattern nested in another.
+
+code::
+(
+var a, b;
+a = Pseq.new([1, Pseq.new([100,200], 2), 3], 3);
+b = a.asStream;
+19.do({ b.next.postln; });
+)
+::
+
+Pseqs nested in a Prand:
+
+code::
+(
+var a, b;
+a = Prand.new([
+		Pseq.new([1, 2], 2),
+		Pseq.new([3, 4], 2),
+		Pseq.new([5, 6], 2)
+	], 3);
+b = a.asStream;
+13.do({ b.next.postln; });
+)
+::
+
+Nested sequences of pitches:
+
+code::
+(
+var a;
+a = Prand([
+		Pseq(#[60, 61, 63, 65, 67, 63]),
+		Prand(#[72, 73, 75, 77, 79], 6),
+		Pshuf(#[48, 53, 55, 58], 2)
+	], inf
+).midicps.asStream;
+Task({
+	loop({
+		Synth( \help_SPE3_SimpleSine, [\freq, a.next] );
+		0.3.wait;
+	});
+}).play;
+)
+::
+
+section::Math operations on ListPatterns
+
+Pattern code::b:: plays pattern a once normally, once transposed up a fifth and once transposed up a fourth.
+
+code::
+(
+var a, b;
+a = Pseq(#[60, 62, 63, 65, 67, 63]);
+b = Pseq([ a, a + 7, a + 5], inf).asStream;
+Task({
+	24.do({
+		Synth(\help_SPE3_SimpleSine, [ \freq, b.next.midicps ]);
+		0.3.wait;
+	});
+}).play;
+)
+::
+
+Adding two patterns together. The second pattern transposes each fifth note of the first pattern down an octave.
+
+code::
+(
+var a;
+a = Pseq(#[60, 62, 63, 65, 67, 63], inf) + Pseq(#[0, 0, 0, 0, -12], inf);
+a = a.asStream.midicps;
+Task({
+	25.do({
+		Synth(\help_SPE3_SimpleSine, [\freq, a.next]);
+		0.3.wait;
+	});
+}).play;
+)
+::
+
+section::Making Music with ListPatterns
+
+Here is the same example given in part 2 rewritten to use ListPatterns. It uses nested patterns and results in much more concise code. SuperCollider allows you to write code::SomeClass.new(params):: as code::SomeClass(params):: eliminating the ".new". This can make code like the pattern examples below, which create a lot of objects, more readable.
+
+code::
+(
+SynthDef( \help_SPE3_Allpass6, { arg freq;
+	var out, env;
+	out = RLPF.ar(
+		LFSaw.ar( freq, mul: EnvGen.kr( Env.perc, levelScale: 0.3, doneAction: Done.freeSelf ) ),
+		LFNoise1.kr(1, 36, 110).midicps,
+		0.1
+	);
+	6.do({ out = AllpassN.ar(out, 0.05, [0.05.rand, 0.05.rand], 4) });
+	Out.ar( 0, out );
+}).add
+)
+
+(
+var freqStream;
+
+freqStream = Pseq([
+	Prand([
+		nil,	// a nil item reached in a pattern causes it to end
+		Pseq(#[24, 31, 36, 43, 48, 55]);
+	]),
+	Pseq([ 60, Prand(#[63, 65]), 67, Prand(#[70, 72, 74]) ], { rrand(2, 5) }),
+	Prand(#[74, 75, 77, 79, 81], { rrand(3, 9) })
+], inf).asStream.midicps;
+
+Task({
+	loop({
+		Synth( \help_SPE3_Allpass6, [\freq, freqStream.next ]);
+		0.13.wait;
+	});
+}).play;
+)
+::
+
+Here is an example that uses a Pattern to create a rhythmic solo. The values in the pattern specify the amplitudes of impulses fed to the link::Classes/Decay2:: generator.
+
+code::
+(
+SynthDef( \help_SPE3_Mridangam, { |out, t_amp|
+	var sound;
+
+	sound = Resonz.ar(
+		WhiteNoise.ar(70) * Decay2.kr( t_amp, 0.002, 0.1 ),
+		60.midicps,
+		0.02,
+		4
+	).distort * 0.4;
+
+	Out.ar(out, sound);
+	DetectSilence.ar(sound, doneAction: Done.freeSelf);
+}).add;
+
+SynthDef( \help_SPE3_Drone, { |out|
+	var sound;
+	sound = LPF.ar(
+		Saw.ar([60, 60.04].midicps)
+		+
+		Saw.ar([67, 67.04].midicps),
+		108.midicps,
+		0.007
+	);
+	Out.ar(out, sound);
+}).add;
+)
+
+(
+// percussion solo in 10/8
+
+var stream, pat, amp;
+
+pat = Pseq([
+	Pseq(#[0.0], 10),
+
+	// intro
+	Pseq(#[0.9, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 2),
+	Pseq(#[0.9, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.2, 0.0, 0.0], 2),
+	Pseq(#[0.9, 0.0, 0.0, 0.2, 0.0, 0.2, 0.0, 0.2, 0.0, 0.0], 2),
+	Pseq(#[0.9, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.2, 0.0, 0.2], 2),
+
+	// solo
+	Prand([
+		Pseq(#[0.9, 0.0, 0.0, 0.7, 0.0, 0.2, 0.0, 0.7, 0.0, 0.0]),
+		Pseq(#[0.9, 0.2, 0.0, 0.7, 0.0, 0.2, 0.0, 0.7, 0.0, 0.0]),
+		Pseq(#[0.9, 0.0, 0.0, 0.7, 0.0, 0.2, 0.0, 0.7, 0.0, 0.2]),
+		Pseq(#[0.9, 0.0, 0.0, 0.7, 0.2, 0.2, 0.0, 0.7, 0.0, 0.0]),
+		Pseq(#[0.9, 0.0, 0.0, 0.7, 0.0, 0.2, 0.2, 0.7, 0.2, 0.0]),
+		Pseq(#[0.9, 0.2, 0.2, 0.7, 0.2, 0.2, 0.2, 0.7, 0.2, 0.2]),
+		Pseq(#[0.9, 0.2, 0.2, 0.7, 0.2, 0.2, 0.2, 0.7, 0.0, 0.0]),
+		Pseq(#[0.9, 0.0, 0.0, 0.7, 0.2, 0.2, 0.2, 0.7, 0.0, 0.0]),
+		Pseq(#[0.9, 0.0, 0.4, 0.0, 0.4, 0.0, 0.4, 0.0, 0.4, 0.0]),
+		Pseq(#[0.9, 0.0, 0.0, 0.4, 0.0, 0.0, 0.4, 0.2, 0.4, 0.2]),
+		Pseq(#[0.9, 0.0, 0.2, 0.7, 0.0, 0.2, 0.0, 0.7, 0.0, 0.0]),
+		Pseq(#[0.9, 0.0, 0.0, 0.7, 0.0, 0.0, 0.0, 0.7, 0.0, 0.0]),
+		Pseq(#[0.9, 0.7, 0.7, 0.0, 0.0, 0.2, 0.2, 0.2, 0.0, 0.0]),
+		Pseq(#[0.9, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+	], 30),
+
+	// tehai : 7 beat motif 3 times sharing 1st beat with next 7x3
+	// and again the third time:
+	//   123456712345671234567                   123456712345671234567
+	//                       123456712345671234567
+	//   !                   !                   !                   !
+	//   1234567890123456789012345678901234567890123456789012345678901
+	Pseq(#[2.0, 0.0, 0.2, 0.5, 0.0, 0.2, 0.9,
+		1.5, 0.0, 0.2, 0.5, 0.0, 0.2, 0.9,
+		1.5, 0.0, 0.2, 0.5, 0.0, 0.2], 3),
+	Pseq(#[5], 1),	// sam
+
+	Pseq(#[0.0], inf)
+]);
+
+stream = pat.asStream;
+
+Task({
+	Synth(\help_SPE3_Drone);
+	loop({
+		if( ( amp = stream.next ) > 0,
+			{ Synth(\help_SPE3_Mridangam, [ \t_amp, amp ]) }
+		);
+		(1/8).wait;
+	})
+}).play
+)
+::
+
+To go to the next file:
+link::Tutorials/Streams-Patterns-Events4::
+
+
+title:: Understanding Streams, Patterns and Events - Part 4
+summary:: Environment & Event
+related:: Tutorials/Streams-Patterns-Events1, Tutorials/Streams-Patterns-Events2, Tutorials/Streams-Patterns-Events3, Tutorials/Streams-Patterns-Events5, Tutorials/Streams-Patterns-Events6, Tutorials/Streams-Patterns-Events7
+categories:: Tutorials>Streams-Patterns-Events
+
+The preceding sections showed how to use Streams and Patterns to generate complex sequences of values for a single parameter at a time.
+
+This section covers Environments and Events, which are used to build a symbolic event framework for patterns, allowing you to control all aspects of a composition using patterns.
+
+section::Environment
+
+An link::Classes/Environment:: is an link::Classes/IdentityDictionary:: mapping link::Classes/Symbol::s to values. There is always one current Environment which is stored in the code::currentEnvironment:: class variable of class link::Classes/Object::.
+
+Symbol and value pairs may be put into the current Environment as follows:
+
+code::
+currentEnvironment.put(\myvariable, 999);
+::
+
+and retrieved from the current Environment as follows:
+
+code::
+currentEnvironment.at(\myvariable).postln;
+::
+
+The compiler provides a shorthand for the two constructs above.
+
+code::
+~myvariable = 888;
+::
+
+is equivalent to:
+
+code::
+currentEnvironment.put(\myvariable, 888);
+::
+
+and:
+
+code::
+~myvariable.postln;
+::
+
+is equivalent to:
+
+code::
+currentEnvironment.at(\myvariable).postln;
+::
+
+section::Making an Environment
+
+Environment has a class method strong::make:: which can be used to create an link::Classes/Environment:: and fill it with values. What strong::make:: does is temporarily replace the current Environment with a new one, call your function where you fill the Environment with values, then it replaces the previous current Environment and returns you the new one.
+
+code::
+(
+var a;
+a = Environment.make({
+	~a = 100;
+	~b = 200;
+	~c = 300;
+});
+a.postln;
+)
+::
+
+section::Using an Environment
+
+The instance method strong::use:: lets you temporarily replace the current link::Classes/Environment:: with one you have made. The strong::use:: method returns the result of your function instead of the Environment like strong::make:: does.
+
+code::
+(
+var a;
+a = Environment.make({
+	~a = 10;
+	~b = 200;
+	~c = 3000;
+});
+a.use({
+	~a + ~b + ~c
+}).postln;
+)
+::
+
+There is also a strong::use:: class method for when you want to make and use the result from an link::Classes/Environment:: directly.
+
+code::
+(
+var a;
+a = Environment.use({
+	~a = 10;
+	~b = 200;
+	~c = 3000;
+	~a + ~b + ~c
+}).postln;
+)
+::
+
+section::Calling Functions with arguments from the current Environment
+
+It is possible to call a link::Classes/Function:: and have it look up any unspecified argument values from the current Environment. This is done with the strong::valueEnvir:: and strong::valueArrayEnvir:: methods. These methods will, for any unspecified argument value, look in the current Environment for a symbol with the same name as the argument. If the argument is not found then whatever the function defines as the default value for that argument is used.
+
+code::
+(
+var f;
+
+// define a function
+f = { arg x, y, z; [x, y, z].postln; };
+
+Environment.use({
+	~x = 7;
+	~y = 8;
+	~z = 9;
+
+	f.valueEnvir(1, 2, 3);	// all values supplied
+	f.valueEnvir(1, 2);	// z is looked up in the current Environment
+	f.valueEnvir(1);	// y and z are looked up in the current Environment
+	f.valueEnvir;		// all arguments are looked up in the current Environment
+	f.valueEnvir(z: 1);	// x and y are looked up in the current Environment
+});
+)
+::
+
+Here is a somewhat contrived example of how the Environment might be used to manufacture SynthDefs. Even though the three functions below have the freq, amp and pan args declared in different orders it does not matter, because valueEnvir looks them up in the environment.
+
+code::
+(
+var a, b, c, n;
+
+n = 40;
+a = { arg freq, amp, pan;
+	Pan2.ar(SinOsc.ar(freq), pan, amp);
+};
+b = { arg amp, pan, freq;
+	Pan2.ar(RLPF.ar(Saw.ar(freq), freq * 6, 0.1), pan, amp);
+};
+c = { arg pan, freq, amp;
+	Pan2.ar(Resonz.ar(GrayNoise.ar, freq * 2, 0.1), pan, amp * 2);
+};
+
+Task({
+	n.do({ arg i;
+		SynthDef("Help-SPE4-EnvirDef-" ++ i.asString, { |out|
+			var sound;
+			Environment.use({
+					// set values in the environment
+				~freq = exprand(80, 600);
+				~amp = 0.1 + 0.3.rand;
+				~pan = 1.0.rand2;
+
+					// call a randomly chosen instrument function
+					// with values from the environment
+				sound = [a,b,c].choose.valueEnvir;
+			});
+			sound = CombC.ar(sound, 0.2, 0.2, 3, 1, out);
+			sound = sound * EnvGen.kr(
+				Env.sine, doneAction: Done.freeSelf, timeScale: 1.0 + 6.0.rand, levelScale: 0.3
+			);
+			Out.ar(out, sound);
+		}).send(s);
+		0.02.wait;
+	});
+	loop({
+		Synth( "Help-SPE4-EnvirDef-" ++ n.rand.asString );
+		(0.5 + 2.0.rand).wait;
+	});
+}).play;
+)
+::
+
+section::Event
+
+The class link::Classes/Event:: is a subclass of link::Classes/Environment::. Events are mappings of Symbols representing names of parameters for a musical event to their value. This lets you put any information you want into an event.
+
+The class getter method strong::default:: retrieves the default prototype event which has been initialized with values for many useful parameters. It represents only one possible event model. You are free to create your own, however it would be good to understand the one provided first so that you can see what can be done.
+
+A prototype event is a default event which will be transformed by the streams returned by patterns. Compositions produced by event patterns are created entirely from transformations of copies of a single protoEvent.
+
+footnote::
+It's all a part of the Big Note, but don't tell the pigs and ponies.
+::
+
+section::Value Patterns, Event Patterns and Pbind
+
+The patterns discussed in parts 2 and 3 are known as "value patterns" because their streams return a single value for each call to strong::next::. Here we introduce "event patterns" which once turned into streams, return an link::Classes/Event:: for each call to strong::next::.
+
+The class link::Classes/Pbind:: provides a bridge between value patterns and event patterns. It binds symbols in each event to values obtained from a pattern. Pbind takes arguments in pairs, the first of a pair being a link::Classes/Symbol:: and the second being a value link::Classes/Pattern::. Any object can act as a Pattern, so you can use constants as the pattern ( see code::\amp:: in the example below ).
+
+The Pbind stream returns nil whenever the first one of its streams ends.
+
+code::
+Pbind( \freq, Pseq([440,880]) ).play
+::
+
+An event stream is created for a Pattern by sending it the code::asStream:: message. What Pbind does is to produce a stream which puts the values for its symbols into the event, possibly overwriting previous bindings to those symbols:
+
+code::
+t = Pbind( \freq, Pseq([440,880]) ).asStream;
+t.next(Event.default);
+t.next(Event.default);
+t.next(Event.default);
+::
+
+When calling link::Classes/Pattern#-play:: an link::Classes/EventStreamPlayer:: is automatically generated which handles scheduling as well as passing the protoEvent into the event stream.
+
+section::EventStreamPlayer
+
+The class link::Classes/EventStreamPlayer:: is a subclass of link::Classes/PauseStream::. A PauseStream is just a wrapper for a stream allowing to play, stop, start it, etc...
+
+EventStreamPlayers are initialized using the event stream returned by Pbind-asStream, as well as with a protoEvent. The EventStreamPlayer passes in a strong::protoEvent::, at each call to strong::next:: on the Pbind stream. The Pbind stream copies the event to pass down and back up the tree of pattern streams so that each stream can modify it.
+
+An EventStreamPlayer is itself a stream which returns scalars (numbers) which are used by the clock to schedule its next invocation. At every call to EventStreamPlayer-next by the clock, the player gets its delta values by querying the Event after it has been returned by the Pbind stream traversal.
+
+section::Changes in SC3
+
+In SC2, you called asEventStream on an Pattern and you'd get a stream which actually returned events.
+
+In SC3, if you want an event stream proper you call asStream on the Event Pattern. This will give you a stream of events which you can then use to initialize an EventStreamPlayer object. You don't however need to worry about that because it is usually done for you in Pattern's play method. Also changed is that you do not pass in your protoEvent through the asStream method. It is passed in for you by the EventStreamPlayer at each call to next on the stream.
+
+Here you can see what the stream returned from a Pbind looks like.
+
+code::
+(
+var pattern, stream;
+
+	// bind Symbol xyz to values obtained from a pattern
+pattern = Pbind(
+	\xyz, Pseq([1, 2, 3])
+);
+
+	// create a stream of events for the Pbind pattern.
+stream = pattern.asStream;
+
+	// event Streams require a prototype event as input.
+	// this example uses an empty Event as a prototype
+4.do({ stream.next(Event.new).postln; });
+)
+::
+
+Here is an example with more bindings.
+
+code::
+(
+var pattern, stream;
+
+pattern = Pbind(
+	\abc, Prand([6, 7, 8, 9], inf ),
+	\xyz, Pseq([1, 2, 3], 2 ),
+	\uuu, 999 // a constant represents an infinite sequence of itself
+);
+
+stream = pattern.asStream;
+
+7.do({ stream.next(Event.new).postln; });
+)
+::
+
+The ListPatterns discussed in part 3 can be put around Event Streams to create sequences of Event Streams.
+
+code::
+(
+var pattern, stream;
+pattern =
+	Pseq([
+		Pbind( \abc, Pseq([1, 2, 3])),
+		Pbind( \def, Pseq([4, 5, 6])),
+		Pbind( \xyz, Pseq([7, 8, 9]))
+	]);
+stream = pattern.asStream;
+10.do({ stream.next(Event.new).postln; });
+)
+
+(
+var pattern, stream;
+pattern =
+	Prand([
+		Pbind( \abc, Pseq([1, 2, 3])),
+		Pbind( \def, Pseq([4, 5, 6])),
+		Pbind( \xyz, Pseq([7, 8, 9]))
+	], 3);
+stream = pattern.asStream;
+10.do({ stream.next(Event.new).postln; });
+)
+::
+
+To go to the next file:
+link::Tutorials/Streams-Patterns-Events5::
+
+
+title:: Understanding Streams, Patterns and Events - Part 5
+summary:: Event.default
+related:: Tutorials/Streams-Patterns-Events1, Tutorials/Streams-Patterns-Events2, Tutorials/Streams-Patterns-Events3, Tutorials/Streams-Patterns-Events4, Tutorials/Streams-Patterns-Events6, Tutorials/Streams-Patterns-Events7
+categories:: Tutorials>Streams-Patterns-Events
+
+More about the default Event:
+
+section::protoEvents
+
+The protoEvent contains default values for many useful parameters.
+
+The default protoEvent is code::Event.default::. It provides default bindings for duration, envelope, instrument, making a very simple Pattern directly playable:
+
+code::
+(
+// an endless sequence of middle Cs
+Pbind.new.play
+)
+::
+
+By adding other bindings, you can override the defaults in the protoEvent.
+
+code::
+(
+// duration 0.25 beats (16th notes)
+Pbind( \dur, 0.25 ).play
+)
+::
+
+code::
+(
+// specifying the pitch in terms of midinote
+// see also The pitch model below
+Pbind(
+	\dur, 0.125,
+	\legato, 0.2,
+	\midinote, Pseq(#[60, 62, 64, 65, 67, 69, 71, 72], inf)
+).play
+)
+::
+
+section::~finish
+
+Event.default contains a function bound to the Symbol code::'finish':: which is called for each new event generated in order to complete any computations that depend on the other values in the event.
+
+section::The pitch model
+
+Event.default implements a multi level pitch model which allows composition using modal scale degrees, equal division note values, midi note values, or frequencies in Hertz. These different ways of specifying the pitch can all be used interchangeably.
+
+The way this works is due to the default values bound to the Symbols of the pitch model.
+
+The lowest level Symbol in the pitch model is code::'freq'::. The default binding for code::'freq':: is a link::Classes/Function:: which calculates the frequency by getting the value of code::'midinote'::, adding a transpose value and converting it to Hertz using code::midicps::.
+
+code::
+	~freq = {
+		(~midinote.value + ~ctranspose).midicps;
+	};
+::
+
+If you compose with code::'freq':: directly then this default function is overridden.
+
+code::
+(
+Pbind(
+	\dur, 0.25,
+	\freq, Pseq(#[300, 400, 500, 700, 900], inf)
+).play;
+)
+::
+
+Event.default's code::'finish':: function sends the value message to the current binding of code::'freq':: in order to get the value for the frequency and adds a detune value to it which transposes the frequency in Hertz.
+
+code::
+(
+Pbind(
+	\dur, 0.25,
+	\detune, -20,
+	\freq, Pseq(#[300, 400, 500, 700, 900], inf)
+).play
+)
+::
+
+The next level is code::'midinote':: which is by default bound to this function:
+
+code::
+	~midinote = {
+		(~note.value + ~gtranspose + (~octave * divs) + ~root)
+				* 12.0 / ~stepsPerOctave;
+	};
+::
+
+This function gets the value bound to code::'note':: which is a value expressed in some equal temperament, not necessarily 12. It adds a gamut transpose value code::'gtranspose'::, and scales from the number of notes per octave being used into 12 notes per octave MIDI key values. If you compose with code::'midinote':: directly then that will override this function.
+
+code::
+(
+Pbind(
+	\dur, 0.2,
+	\midinote, Pseq([ Pshuf(#[60, 61, 62, 63, 64, 65, 66, 67], 3) ], inf)
+).play
+)
+::
+
+Another level higher is code::'note':: which is defined by default by this function:
+
+code::
+	~note = {
+		var divs;
+		divs = ~stepsPerOctave;
+		(~degree + ~mtranspose).degreeToKey(~scale, divs);
+	};
+::
+
+This function derives the note value from the next higher level variables which specify a pitch from a scale. These variables are defined as follows:
+
+code::
+	~stepsPerOctave = 12.0;
+::
+
+The number of equal divisions of an octave for this tuning. The equal temperament defined by this variable is known as the gamut. If you wanted to work in cents for example you could set this to 1200.0.
+
+code::
+	~octave = 5.0;
+::
+
+The current octave. Middle C is the lowest note in octave 5.
+
+code::
+	~root = 0.0;
+::
+
+The root of the scale given in equal divisions defined by code::~stepsPerOctave::.
+
+code::
+	~scale = #[0, 2, 4, 5, 7, 9, 11]; // diatonic major scale
+::
+
+A set of scale pitches given in equal divisions defined by code::~stepsPerOctave::.
+
+code::
+	~degree = 0;
+::
+
+A scale degree index into the code::~scale::. 0 is the root and the scale wraps in the manner defined by code::degreeToKey::.
+
+code::
+	~mtranspose = 0;
+::
+
+A modal transposition value that is added to the scale degree.
+
+code::
+	~gtranspose = 0;
+::
+
+A gamut transposition value that is added to the gamut pitch.
+
+code::
+	~ctranspose = 0;
+::
+
+A chromatic transposition value expressed in semitones.
+
+section::Pitch model Examples
+
+code::
+(
+// a simple scale degree sequence
+Pbind(
+		// -7 is 8ve below, -3 is a 4th below,
+		// 0 is root, 2 is 3rd above, 4 is 5th above, 7 is 8ve above.
+	\degree, Pseq([ Pshuf(#[-7,-3,0,2,4,7], 4), Pseq([0,1,2,3,4,5,6,7]) ], inf),
+	\dur, 0.15
+).play
+)
+
+
+(
+// change the octave
+Pbind(
+	\dur, 0.15,
+	\octave, 4,
+	\degree, Pseq([ Pshuf(#[-7,-3,0,2,4,7], 4), Pseq([0,1,2,3,4,5,6,7]) ], inf)
+).play
+)
+
+
+(
+// change the scale
+Pbind(
+	\dur, 0.15,
+	\scale, [0, 2, 3, 5, 7, 8, 10],
+	\degree, Pseq([ Pshuf(#[-7,-3,0,2,4,7], 4), Pseq([0,1,2,3,4,5,6,7]) ], inf)
+).play
+)
+
+
+(
+// modal transposition
+var notes;
+notes = Pseq([ Pshuf(#[-7,-3,0,2,4,7], 4), Pseq([0,1,2,3,4,5,6,7]) ], 1);
+Pseq([
+	Pbind(
+		\dur, 0.15,
+		\mtranspose, 0,
+		\degree, notes
+	),
+	Pbind(
+		\dur, 0.15,
+		\mtranspose, 1,
+		\degree, notes
+	),
+	Pbind(
+		\dur, 0.15,
+		\mtranspose, 2,
+		\degree, notes
+	)
+], inf).play
+)
+
+
+(
+// chromatic transposition
+var notes;
+notes = Pseq([ Pshuf(#[-7,-3,0,2,4,7], 4), Pseq([0,1,2,3,4,5,6,7]) ], 1);
+Pseq([
+	Pbind(
+		\dur, 0.15,
+		\ctranspose, 0,
+		\degree, notes
+	),
+	Pbind(
+		\dur, 0.15,
+		\ctranspose, 3,
+		\degree, notes
+	),
+	Pbind(
+		\dur, 0.15,
+		\ctranspose, -3,
+		\degree, notes
+	)
+], inf).play
+)
+
+
+(
+// frequency detuning
+var notes;
+notes = Pseq([ Pshuf(#[-7,-3,0,2,4,7], 4), Pseq([0,1,2,3,4,5,6,7]) ], 1);
+Pseq([
+	Pbind(
+		\dur, 0.15,
+		\detune, 0,
+		\degree, notes
+	),
+	Pbind(
+		\dur, 0.15,
+		\detune, 20,
+		\degree, notes
+	),
+	Pbind(
+		\dur, 0.15,
+		\detune, 40,
+		\degree, notes
+	)
+], inf).play
+)
+
+
+(
+// chords. If an Array of pitches is returned by a Stream for pitch, then a chord
+// will be played.
+Pbind(
+	\dur, 0.15,
+	\degree, Pseq([
+		Pshuf(#[-7,-3,0,2,4,7], 4)+[0,4],
+		Pseq( [0,1,2,3,4,5,6,7] )+[0,2]
+	], inf)
+).play
+)
+
+
+(
+// composing in non 12 equal temperaments. 72 tone equal temp.
+Pbind(
+	\stepsPerOctave, 72,
+	\note, Pseq([
+			// 1/1, 7/6, 3/2, 7/4, 9/8
+		Pseq([ [0,16,42,58,84], Pseq([ 0, 16, 42, 58, 72, 84 ], 2), [0,16,42,58,84] ], 1),
+			// 1/1, 6/5, 3/2, 9/5, 9/8
+		Pseq([ [0,19,42,61,84], Pseq([ 0, 19, 42, 61, 72, 84 ], 2), [0,19,42,61,84] ], 1),
+			// 1/1, 5/4, 3/2, 15/8, 9/8
+		Pseq([ [0,23,42,65,84], Pseq([ 0, 23, 42, 65, 72, 84 ], 2), [0,23,42,65,84] ], 1),
+			// 1/1, 9/7, 3/2, 27/14, 9/8
+		Pseq([ [0,26,42,68,84], Pseq([ 0, 26, 42, 68, 72, 84 ], 2), [0,26,42,68,84] ], 1)
+		], inf),
+	\dur, Pseq([ 1.2, Pseq([0.15], 12), 1.2], inf)
+).play
+)
+::
+
+section::The duration model
+
+Duration is expressed in beats and is bound to the code::'dur':: symbol. The sustain time of a note can be expressed directly in beats or by using a legato value which is multiplied by the note duration to get the sustain time.
+
+code::
+(
+// changing duration
+Pbind(
+	\dur, Pseq([ Pgeom(0.05, 1.1, 24), Pgeom(0.5, 0.909, 24) ], inf),
+	\midinote, Pseq(#[60, 58], inf)
+).play
+)
+
+
+(
+// changing legato value
+Pbind(
+	\dur, 0.2,
+	\legato, Pseq([ Pseries(0.05, 0.05, 40), Pseries(2.05, -0.05, 40) ], inf),
+	\midinote, Pseq(#[48, 51, 55, 58, 60, 58, 55, 51], inf)
+).play
+)
+::
+
+To go to the next file:
+link::Tutorials/Streams-Patterns-Events6::
+
+
+
+title:: Understanding Streams, Patterns and Events - Part 6
+summary:: Parallel Patterns
+related:: Tutorials/Streams-Patterns-Events1, Tutorials/Streams-Patterns-Events2, Tutorials/Streams-Patterns-Events3, Tutorials/Streams-Patterns-Events4, Tutorials/Streams-Patterns-Events5, Tutorials/Streams-Patterns-Events7
+categories:: Tutorials>Streams-Patterns-Events
+
+section::Parallel Patterns
+
+subsection::Ppar
+
+The link::Classes/Ppar:: pattern allows you to merge multiple event streams to play in parallel.
+
+Ppar is a link::Classes/ListPattern:: and so like most ListPatterns it takes two arguments, a strong::list:: of event patterns to play in parallel and a strong::repeats:: count.
+
+Ppar's child patterns must be event patterns. Using value patterns in a Ppar is an error because value patterns contain no duration data.
+
+A Ppar is done when all of its subpatterns are done.
+
+code::
+(
+Ppar([
+	Pbind(\dur, 0.2, \midinote, Pseq([62, 65, 69, 72], inf)),
+	Pbind(\dur, 0.4, \midinote, Pseq([50, 45], inf))
+]).play
+)
+
+
+(
+// Ppars can be nested
+Ppar([
+	Pbind(
+		\dur, Prand([0.2, 0.4, 0.6], inf),
+		\midinote, Prand([72, 74, 76, 77, 79, 81], inf),
+		\db, -26,
+		\legato, 1.1
+	),
+	Pseq([
+		Pbind(\dur, 3.2, \freq, Pseq([\rest]) ),
+		Prand([
+			Ppar([
+				Pbind(\dur, 0.2, \pan,  0.5, \midinote, Pseq([60, 64, 67, 64])),
+				Pbind(\dur, 0.4, \pan, -0.5, \midinote, Pseq([48, 43]))
+			]),
+			Ppar([
+				Pbind(\dur, 0.2, \pan,  0.5, \midinote, Pseq([62, 65, 69, 65])),
+				Pbind(\dur, 0.4, \pan, -0.5, \midinote, Pseq([50, 45]))
+			]),
+			Ppar([
+				Pbind(\dur, 0.2, \pan,  0.5, \midinote, Pseq([64, 67, 71, 67])),
+				Pbind(\dur, 0.4, \pan, -0.5, \midinote, Pseq([52, 47]))
+			])
+		], 12)
+	], inf)
+], inf).play;
+)
+::
+
+subsection::Ptpar
+
+The link::Classes/Ppar:: pattern starts all of its subpatterns at the same time.
+
+A link::Classes/Ptpar:: pattern includes a start time parameter before each subpattern which allow the subpatterns to be started at some time delay within the pattern. The start time is given in beats.
+
+code::
+(
+var makePattern, durpat;
+
+durpat = Pseq([ Pgeom(0.05, 1.1, 24), Pgeom(0.5, 0.909, 24) ], 2);
+
+makePattern = { arg note, db, pan;
+	Pbind( \dur, durpat, \db, db, \pan, pan, \midinote, Pseq([note, note-4], inf) );
+};
+
+Ptpar([
+	0.0, makePattern.value(53, -20, -0.9),
+	2.0, makePattern.value(60, -23, -0.3),
+	4.0, makePattern.value(67, -26,  0.3),
+	6.0, makePattern.value(74, -29,  0.9)
+], inf).play;
+)
+::
+
+The time arguments are sent the code::value:: message when the Ptpar pattern is started, so you may use functions to specify the times.
+
+code::
+(
+var makePattern, durpat;
+
+durpat = Pseq([ Pgeom(0.05, 1.1, 24), Pgeom(0.5, 0.909, 24) ], 2);
+
+makePattern = { arg note, db, pan;
+	Pbind( \dur, durpat, \db, db, \pan, pan, \midinote, Pseq([note, note-4], inf) );
+};
+
+Ptpar([
+	{ 0.0 }, makePattern.value(53, -20, -0.9),
+	{ 8.0.rand }, makePattern.value(60, -23, -0.3),
+	{ 8.0.rand }, makePattern.value(67, -26,  0.3),
+	{ 8.0.rand }, makePattern.value(74, -29,  0.9)
+], inf).play;
+)
+::
+
+section::FilterPatterns and transformation
+
+FilterPatterns take an existing pattern and apply some modification to its properties.
+
+subsection::Padd, Pmul, Pset, Pstretch
+
+There is a simpler way to write the modal transposition example given in part 5. In fact the earlier examples are setting the values of code::mtranspose:: and code::ctranspose:: which is not the best way to change those variables, because it wipes out any modifications to them by parent patterns. It is better to take the current value of those properties and add a value to them.
+
+The link::Classes/Padd:: filter takes the current value of a property and adds a value to it.
+
+code::
+(
+// modal transposition
+var pattern;
+
+// define the basic pattern
+pattern = Pbind(
+	\dur, 0.15,
+	\degree, Pseq([ Pshuf(#[-7,-3,0,2,4,7], 4), Pseq([0,1,2,3,4,5,6,7]) ], 1)
+);
+
+Pseq([
+	pattern,		// untransposed
+	Padd(\mtranspose, 1, pattern),	// modal transpose up 1 degree
+	Padd(\mtranspose, 2, pattern)	// modal transpose up 2 degrees
+], inf).play
+)
+::
+
+Similarly, link::Classes/Pmul:: multiplies the current value of a property by a value. link::Classes/Pset:: sets the property to a value.
+
+In order to process duration correctly link::Classes/Pstretch:: should be used.
+
+code::
+(
+// beat stretching using Pstretch
+var pattern;
+
+// define the basic pattern
+pattern = Pbind(
+	\dur, 0.15,
+	\degree, Pseq([ Pshuf(#[-7,-3,0,2,4,7], 4), Pseq([0,1,2,3,4,5,6,7]) ], 1)
+);
+
+Pseq([
+	pattern,		// normal
+	Pstretch(0.5, pattern),	// stretch durations by a factor of 1/2
+	Pstretch(2.0, pattern)	// stretch durations by a factor of 2
+], inf).play
+)
+::
+
+subsection::Paddp, Pmulp, Psetp, Pstretchp
+
+In fact there is an even shorter version of the modal transposition example. link::Classes/Paddp:: reads one pattern to get values for adding to a property and plays the second pattern once through modified with each new value.
+
+code::
+(
+// modal transposition
+var pattern;
+
+// define the basic pattern
+pattern = Pbind(
+	\dur, 0.15,
+	\degree, Pseq([ Pshuf(#[-7,-3,0,2,4,7], 4), Pseq([0,1,2,3,4,5,6,7]) ], 1)
+);
+
+Paddp(
+	\mtranspose,		// property to be modified
+	Pseq([0,1,2], inf),	// a value pattern as a source of values for adding to mtranspose
+	pattern			// the pattern to be modified
+).play
+)
+::
+
+Nested modifications:
+
+code::
+(
+// modal transposition
+var pat1, pat2;
+
+// define the basic pattern
+pat1 = Pbind(
+	\dur, 0.15,
+	\degree, Pseq([ Pshuf(#[-7,-3,0,2,4,7], 4), Pseq([0,1,2,3,4,5,6,7]) ], 1)
+);
+
+pat2 = Paddp(
+	\mtranspose,	// property to be modified
+	Pseq([0,1,2]),	// a value pattern as a source of values for adding to mtranspose
+	Ppar([
+		pat1,
+		Padd(\mtranspose, -3, pat1),	// down a 4th
+		Padd(\mtranspose, 2, pat1)	// up a 3rd
+	])
+);
+
+Pseq([
+	pat1,	// unmodified pattern
+	pat2,	// parallel sequence
+	Pstretch(1.5, pat2)	// parallel sequence stretched by 3/2
+], inf).play
+)
+::
+
+Another example using Paddp:
+
+code::
+(
+var chord;
+chord = Prand([[53, 58, 64],[53, 60, 64],[57,60,65]]);
+Paddp(\ctranspose, Prand([-1,0,2,4,5], inf),
+	Ppar([
+		Pbind(	// melody part
+			\dur, Prand([0.2, 0.4, 0.6], inf),
+			\midinote, Pxrand([71, 72, 74, 76, 77, 79], 10),
+			\db, -26,
+			\legato, 1.1
+		),
+		Pbind(	// harmony part
+			\pan, 0.4,
+			\dur, Pseq([0.1, 0.5, 0.4, 0.6], 4),
+			\midinote, Pseq([chord,\rest,chord,\rest], 4)
+		),
+		Pbind(	// bass part
+			\pan, -0.4,
+			\dur, 0.4,
+			\midinote, Pseq([38, 45, 38, 36], 4)
+		)
+	])
+).play
+)
+
+
+(
+// chromatic transposition
+var pattern;
+
+// define the basic pattern
+pattern = Pbind(
+	\dur, 0.1,
+	\degree, Pseq([0,1,2,3,4,5,6,7])
+);
+
+Paddp(
+	\ctranspose,		// property to be modified
+	Pseries(0,1,12),	// a value pattern as a source of values for multiplying with ctranspose
+	pattern			// the pattern to be modified
+).play
+)
+
+
+(
+// beat time stretching
+var pattern;
+
+// define the basic pattern
+pattern = Pbind(
+	\dur, 0.1,
+	\degree, Pseq([0,1,2,3,4,5,6,7])
+);
+
+Pstretchp(
+	Pseq([1,2,3], inf),	// a value pattern as a source of values for multiplying with stretch
+	pattern			// the pattern to be modified
+).play
+)
+::
+
+subsection::Pbindf
+
+link::Classes/Pbindf:: is like link::Classes/Pbind:: except that it merges all the bound symbols into events that it gets from a subpattern. It takes the same initial arguments in pairs as Pbind does, with an additional pattern to be modified as the last argument.
+
+code::
+(
+var pattern;
+pattern = Pbind( \midinote, Pseq(#[60, 62, 64, 65, 67, 69, 71, 72]) );
+
+Pseq([
+	Pbindf(pattern, \legato, 0.1, \dur, 0.2),
+	Pbindf(pattern, \legato, 1.0, \dur, 0.125),
+	Pbindf(pattern, \legato, 2.0, \dur, 0.3)
+], inf).play
+)
+::
+
+Patterns can be used as the arguments to Pbindf.
+
+code::
+(
+var pattern;
+pattern = Pbind( \midinote, Pseq(#[60, 62, 64, 65, 67, 69, 71, 72, 74, 76, 77, 79]) );
+
+Pseq([
+	Pbindf(pattern,\legato, 0.1, \dur, Pgeom(0.3, 0.85, inf)),
+	Pbindf(pattern,\legato, 1.0, \dur, Pseq([0.3, 0.15], inf)),
+	Pbindf(pattern,\legato, 2.0, \dur, Pseq([0.2, 0.2, 0.4], inf))
+], inf).play
+)
+::
+
+To go to the next file:
+link::Tutorials/Streams-Patterns-Events7::
+
+
+
+title:: Understanding Streams, Patterns and Events - Part 7
+summary:: Practical Considerations
+related:: Tutorials/Streams-Patterns-Events1, Tutorials/Streams-Patterns-Events2, Tutorials/Streams-Patterns-Events3, Tutorials/Streams-Patterns-Events4, Tutorials/Streams-Patterns-Events5, Tutorials/Streams-Patterns-Events6
+categories:: Tutorials>Streams-Patterns-Events
+
+section::Practical Considerations
+
+subsection::Using your own instrument
+
+code::
+(
+SynthDef(\help_SPE7_BerlinB, { arg i_out=0, freq = 80, amp = 0.2, pan=0;
+	var out, a, b;
+	amp = Decay2.kr(Impulse.kr(0), 0.05, 8, amp);
+	out = RLPF.ar(
+		LFPulse.ar(freq, 0, SinOsc.kr(0.12,[0,0.5pi],0.48,0.5), amp),
+		freq * SinOsc.kr(0.21,0,4,8),
+		0.07
+	);
+	#a, b = out;
+	DetectSilence.ar(a, 0.0001, doneAction: Done.freeSelf);
+	Out.ar(i_out, Mix.ar(PanAz.ar(4, [a, b], [pan, pan+1])));
+}).add;
+
+SynthDef(\help_SPE7_CFString1, { arg i_out, freq = 360, gate = 1, pan, amp=0.1;
+	var out, eg, fc, osc, a, b, w;
+	fc = LinExp.kr(LFNoise1.kr(Rand(0.25,0.4)), -1,1,500,2000);
+	osc = Mix.fill(8, { LFSaw.ar(freq * [Rand(0.99,1.01),Rand(0.99,1.01)], 0, amp) }).distort * 0.2;
+	eg = EnvGen.kr(Env.asr(1,1,1), gate, doneAction: Done.freeSelf);
+	out = eg * RLPF.ar(osc, fc, 0.1);
+	#a, b = out;
+	Out.ar(i_out, Mix.ar(PanAz.ar(4, [a, b], [pan, pan+0.3])));
+}).add;
+)
+::
+
+link::Classes/Pattern#-play:: creates an link::Classes/EventStreamPlayer:: for you and also supplies a default protoEvent. If you were using your own event model you would just pass in your own protoEvent to the play method.
+
+code::
+(
+Pbind(
+	\instrument, Prand([\help_SPE7_BerlinB, \help_SPE7_CFString1],inf),
+	\degree, Pseq([0,1,2,4,6,3,4,8],inf),
+	\dur, 0.8,
+	\octave, 3,
+	\amp, 0.03
+).play; // this returns an EventStreamPlayer
+)
+::
+
+subsection::Defining your own message bindings
+
+The default event prototype uses a code::msgFunc:: to determine which bindings to pass to the server. Synthdefs that have been stored in a link::Classes/SynthDescLib:: ("synth description library") construct the code::msgFunc:: automatically. The default event looks up the instrument name in a SynthDescLib of your choosing (using the code::\synthLib:: key). Normally only the global SynthDescLib is used; if code::\synthLib:: is empty, the global library is the default.
+
+You should not send or load synthdefs that you plan to use with patterns. Instead, store them in a SynthDescLib.
+
+code::
+// saves .scsyndef file on disk (like .load), and adds description to the global library
+SynthDef(...).store;
+
+// adds description to the global library; no file is saved (like .send)
+SynthDef(...).add;
+::
+
+If you don't do this, nondefault bindings will be ignored. In that case, you can provide a custom code::msgFunc:: manually. Here's an example:
+
+code::
+(
+SynthDef(\help_SPE4_CFString2, { arg i_out, freq = 360, gate = 1, pan, amp=0.1, dorkarg=1;
+	var out, eg, fc, osc, a, b, w;
+	fc = LinExp.kr(LFNoise1.kr(Rand(0.25,0.4)), -1,1,500,2000);
+	osc = Mix.fill(8, { LFSaw.ar(freq * [Rand(0.99,1.01),Rand(0.99,1.01)], 0, amp * dorkarg ) }).distort * 0.2;
+	eg = EnvGen.kr(Env.asr(1,1,1), gate, doneAction: Done.freeSelf);
+	out = eg * RLPF.ar(osc, fc, 0.1);
+	#a, b = out;
+	Out.ar(i_out, Mix.ar(PanAz.ar(4, [a, b], [pan, pan+0.3])));
+}).send(s);	// change .send(s) to .add
+)
+::
+
+As you can see I have added code::dorkarg:: to the arglist of the SynthDef from earlier.
+
+code::
+(
+Pbind(
+	\instrument, \help_SPE4_CFString2,
+	\degree, Pseq([0,1,2,4,6,3,4,8],inf),
+	\dur, 0.4,
+	\octave, 3,
+	\amp, 0.03,
+	\dorkarg, Pseq([1,0,1],inf) // silence every second note - doesn't work
+).play;
+)
+::
+
+code::dorkarg:: is ignored because the SynthDef was not properly code::.add::'d and consequently, the event prototype doesn't know that code::dorkarg:: is important.
+
+You could also supply a code::\msgFunc:: that includes code::dorkarg:: :
+
+code::
+(
+Pbind(
+	\instrument, \help_SPE4_CFString2,
+	\degree, Pseq([0,1,2,4,6,3,4,8],inf),
+	\dur, 0.4,
+	\octave, 3,
+	\amp, 0.03,
+	\dorkarg, Pseq([1,0,1],inf), // silence every second note - now works
+	\msgFunc, { arg out = 0, freq = 440, amp = 0.1, pan = 0, vol = 1,
+			dorkarg = 1;
+		[\out, out, \freq, freq, \amp, amp, \pan, pan, \vol, vol,
+			\dorkarg, dorkarg];
+	}
+).play;
+)
+::
+
+But this is quite clumsy. It is strongly recommended to get into the habit of using code::.add:: for all SynthDefs intended for use with Patterns.
+
+The other option you have if you will be using unspecified bindings, is of course to define an event with the appropriate code::msgFunc:: as default. Have a look at Event's source, it's easy, and it's cleaner than passing in the code::msgFunc:: every time.
+
+subsection::Manipulating an EventStreamPlayer in Realtime
+
+code::
+(
+p = Pbind(
+	\degree, Pwhite(0,12),
+	\dur, 0.2,
+	\instrument, \help_SPE4_CFString2
+);
+// e is an EventStreamPlayer
+e = p.play;
+)
+
+(
+// you can change the stream at any point in time
+e.stream = Pbind(
+	\degree, Pseq([0,1,2,4,6,3,4,8],inf),
+	\dur, Prand([0.2,0.4,0.8],inf),
+	\amp, 0.05,
+	\octave, 5,
+	\instrument, \help_SPE7_BerlinB, // you can also use a symbol
+	\ctranspose, 0
+).asStream;
+)
+
+(
+e.stream = Pbind(
+	[\degree, \dur], Pseq(
+		[
+			Pseq([[0,0.1],[2,0.1],[3,0.1],[4,0.1],[5,0.8]],2),
+			Ptuple([Pxrand([6,7,8,9],4), 0.4]),
+			Ptuple([Pseq([9,8,7,6,5,4,3,2]), 0.2])
+		], inf
+	),
+	\amp, 0.05,
+	\octave, 5,
+	\instrument, \help_SPE7_CFString1
+).asStream;
+)
+::
+
+The following methods are possible because an link::Classes/EventStreamPlayer:: is a link::Classes/PauseStream:: :
+
+code::
+e.mute;		// keeps playing, but replaces notes with rests
+
+e.unmute;
+
+e.reset;	// reset the stream.
+
+e.pause;	// will resume where paused.
+
+e.resume;
+
+e.stop;		// will reset before resume.
+
+e.resume;
+::
+
+
