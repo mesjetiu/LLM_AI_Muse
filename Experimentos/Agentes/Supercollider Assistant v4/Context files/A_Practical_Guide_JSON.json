@@ -1,0 +1,1049 @@
+[
+    {
+        "titulo": "Pattern Guide 01: Introduction",
+        "secciones": [
+            {
+                "titulo": "Introduction",
+                "contenido": "Patterns are one of the most powerful elements of the SuperCollider language but in some ways they can be difficult to approach using only the classoriented help files These documents seek to bridge the gap explaining the conceptual background behind patterns describing the usage of specific Pattern classes and proceeding into examples of practical musical tasks written as patterns",
+                "codigo": [],
+                "subsecciones": []
+            },
+            {
+                "titulo": "Contents",
+                "contenido": "",
+                "codigo": [],
+                "subsecciones": [
+                    {
+                        "titulo": "Pattern Cookbook",
+                        "contenido": "The pattern cookbook is a set of examples with explanations\n Playing a predefined note sequence\n Multichannel expansion\n Using custom SynthDefs including unpitched SynthDefs\n\n Merging interleaving independent streams\n Reading an array forward or backward arbitrarily\n Changing Pbind value patterns on the fly\n\n Control of parameters by MIDI or HID\n Triggering patterns by external control\n\n Sending notes under pattern control to MIDI devices\n\n Playing a pattern in time with a sampled loop\n Using audio samples to play pitched material\n\n Building a more complicated melody using shorter phrase patterns\n Also illustrates PmonoArtic for portamento with articulation\n\n An everchanging drumbeat\n\n Emulating quantizewithswing from conventional sequencers",
+                        "codigo": []
+                    },
+                    {
+                        "titulo": "Reference material",
+                        "contenido": "",
+                        "codigo": []
+                    }
+                ]
+            },
+            {
+                "titulo": "Why patterns?",
+                "contenido": "Patterns describe calculations without explicitly stating every step They are a higherlevel representation of a computational task While patterns are not ideally suited for every type of calculation when they are appropriate they free the user from worrying about every detail of the process Using patterns one writes emphasiswhat is supposed to happen rather than emphasishow to accomplish it\nIn SuperCollider patterns are best for tasks that need to produce sequences or streams of information Often these are numbers but they dont have to be  patterns can generate any kind of object\nFor a simple example lets count upward starting from 0 We dont know how high we will need to count we just know that every time we ask for values we should get a continually increasing series\ncode\na  Routine \nvar\ti  0\nloop \niyield\ni  i  1\n\n\nanextN10\n\nSuperColliders builtin control structures allow some simplification\ncode\na  Routine \n0do  i\niyield\n\n\nanextN10\n\ncode\na  Pseriesstart 0 step 1 length infasStream\nanextN10\n\nWhat are the advantages of the pattern representation\nlist\n Its shorter\n Its tested and it works You dont have to debug how Pseries works whereas if you write a Routine you might make a mistake and then have to find it\n With the Routine  especially if its complicated  you will have to decipher it when you come back to the code later The Pattern states the purpose right there in the code\n\nWhat are some disadvantages\nlist\n Patterns are a new vocabulary to learn Until you know a critical mass of them it can be hard to trust them Thats the purpose of this guide\n If there isnt a pattern that does quite what you want then it might take some ingenuity to combine patterns into new designs Custom behaviors can always be written using Prout\n\nUsing patterns for sequencing might seem to be an advanced usage but for many uses they are easier than the equivalent code written out step by step They can serve as a bridge for new and advanced users alike to represent a musical conception more directly with less connective tissue explicitly stated\nThe first step in learning a new language is vocabulary so the next chapter will concentrate on foundational patterns to generate data streams of nearly every sort",
+                "codigo": [],
+                "subsecciones": []
+            },
+            {
+                "titulo": "Patterns versus Streams",
+                "contenido": "Some context that is important to keep in mind throughout this discussion is the difference between patterns and streams In the most general terms\nemphasisPatterns define behavior streams execute it\nA pattern is like a blueprint for a building showing how all the parts fit together The building doesnt exist until the contractors go and do what the plans specify When a stream is made from a pattern it follows the plans laid out in the patterns blueprint Rendering the plans into a realworld result does not change the blueprint in any way but to get the result the stream has to go through different states\nA pattern is supposed to describe behavior and in general evaluating the pattern by way of a stream should not change anything in the Pattern object itself In computer science terms patterns are emphasisstateless their definition does not change over time The stream is what keeps track of where we are in the patterns evaluation\nThis explains an easy gotcha with patterns  forgetting to turn the pattern into a stream doesnt get the expected result Since a pattern doesnt have any concept of a current state calling codenext on it is meaningless so codenext does what it does for most objects return the receiver object itself The method codeasStream creates the stream conforming to the patterns specification and calling codenext on the stream advances to its next state and returns the new value\ncode\np  Pseries0 1 10\npnext\t always returns the Pseries not actual numbers\nq  pasStream\nqnext\t calling this repeatedly gets the desired increasing integers\n\nThere is a concrete benefit to this strict division of labor Since the stream does not modify the original pattern any number of streams can be made from the same blueprint All of those streams maintain their own independent states and they can operate concurrently without interfering with each other\ncode\nr  pasStream\nrnext\t starts from zero even though q already gave out some numbers\nqnext\t resumes where q left off with no effect from getting values from r\nqnext rnext\t and so on\n\nBear these points in mind as we move to the next subject getting basic types of data deterministic and random out of patterns",
+                "codigo": [],
+                "subsecciones": []
+            }
+        ]
+    },
+    {
+        "titulo": "Pattern Guide 02: Basic Vocabulary",
+        "secciones": [
+            {
+                "titulo": "Basic Vocabulary: Generating values",
+                "contenido": "Before getting to the really cool things patterns can do we need to build up a basic vocabulary Well start with some words then move into phrases in the next tutorial\nSome of the patterns will be demonstrated with a Pbind construct This is a taste of things to come  sequencing sonic events using patterns Dont worry about how Pbind works just yet all in good time\nLets start with a very quick reference of some basic patterns More complete descriptions follow this list The list might seem long at first but concentrate your attention on the patterns called primary patterns They are the most basic and commonly used\nAgain the purpose is to start learning the vocabulary of patterns  like learning new words when studying a human language You can always come back and look at the rest later\nFor more information on any of these patterns select the class name and use the help key for your editor to open its help file",
+                "codigo": [],
+                "subsecciones": []
+            },
+            {
+                "titulo": "Quick reference",
+                "contenido": "",
+                "codigo": [],
+                "subsecciones": [
+                    {
+                        "titulo": "Primary Patterns",
+                        "contenido": "",
+                        "codigo": [
+                            "Pseq(list, repeats, offset) // Play through the entire list coderepeats times. Like codelist.do.",
+                            "Prand(list, repeats) // Choose items from the list randomly (same as codelist.choose).",
+                            "Pxrand(list, repeats) // Choose randomly, but never repeat the same item twice in immediate succession.",
+                            "Pshuf(list, repeats) // Shuffle the list in random order, and use the same random order coderepeats times. Like codelist.scramble.",
+                            "Pwrand(list, weights, repeats) // Choose randomly, according to weighted probabilities (same as codelist.wchoose(weights)).",
+                            "Pseries(start, step, length) // Arithmetic series (addition).",
+                            "Pgeom(start, grow, length) // Geometric series (multiplication).",
+                            "Pwhite(lo, hi, length) // Random numbers, equal distribution (\"white noise\"). Like coderrand(lo, hi) .",
+                            "Pexprand(lo, hi, length) // Random numbers, exponential distribution. Like codeexprand(lo, hi) .",
+                            "Pbrown(lo, hi, step, length) // Brownian motion, arithmetic scale (addition).",
+                            "Pfunc(nextFunc, resetFunc) // Get the stream values from a user-supplied function.",
+                            "Pfuncn(func, repeats) // Get values from the function, but stop after coderepeats items.",
+                            "Prout(routineFunc) // Use the function like a routine. The function should return values using code.yield or code.embedInStream."
+                        ]
+                    },
+                    {
+                        "titulo": "Additional List Patterns",
+                        "contenido": "",
+                        "codigo": [
+                            "Pser(list, repeats, offset) // Play through the list as many times as needed, but output only coderepeats items.",
+                            "Pslide(list, repeats, len, step, start, wrapAtEnd) // Play overlapping segments from the list.",
+                            "Pwalk(list, stepPattern, directionPattern, startPos) // Random walk over the list.",
+                            "Place(list, repeats, offset) // Interlace any arrays found in the main list.",
+                            "Ppatlace(list, repeats, offset) // Interlace any patterns found in the main list.",
+                            "Ptuple(list, repeats) // Collect the list items into an array as the return value."
+                        ]
+                    },
+                    {
+                        "titulo": "Additional Random Number Generators",
+                        "contenido": "",
+                        "codigo": [
+                            "Pgbrown(lo, hi, step, length) // Brownian motion, geometric scale (multiplication).",
+                            "Pbeta(lo, hi, prob1, prob2, length) // Beta distribution, where codeprob1 = \u03b1  (alpha) and codeprob2 = \u03b2  (beta).",
+                            "Pcauchy(mean, spread, length) // Cauchy distribution.",
+                            "Pgauss(mean, dev, length) // Guassian (normal) distribution.",
+                            "Phprand(lo, hi, length) // Returns the greater of two equal-distribution random numbers.",
+                            "Plprand(lo, hi, length) // Returns the lesser of two equal-distribution random numbers.",
+                            "Pmeanrand(lo, hi, length) // Returns the average of two equal-distribution random numbers, i.e., code(x + y) / 2 .",
+                            "Ppoisson(mean, length) // Poisson distribution.",
+                            "Pprob(distribution, lo, hi, length, tableSize) // Arbitrary distribution, based on a probability table."
+                        ]
+                    }
+                ]
+            },
+            {
+                "titulo": "Functional descriptions of patterns",
+                "contenido": "",
+                "codigo": [],
+                "subsecciones": [
+                    {
+                        "titulo": "List Patterns",
+                        "contenido": "The most obvious thing one would want to do with a pattern is to give it a list of values and have it read them out in order You have a couple of choices which differ in their handling of the coderepeats parameter\nPseq1 2 3 4asStreamall\t 12 items  4 repeats  3 items\nPser1 2 3 4asStreamall\t 4 items only\nBefore playing a Pbind pattern such as this make sure the server is booted\nsboot\n\np  Pbind\ndegree Pseq0 0 4 4 5 5 4 1\ndur Pseq05 05 05 05 05 05 1 1\nplay\n\nTo stop the examples in this file use the stop keyboard shortcut cmd on macOS alt on Windows check documentation for other editors Or\npstop\n\nIf codestep  1  then the first segment is at codestart the second at codestart  1  and so on\nPslide1 2 3 4 5 6 7 8 10 3 1 0 falseasStreamall\n or to show the segments as separate arrays\nPslide1 2 3 4 5 6 7 8 10 3 1 0 falseclump3asStreamall\n Flock of Seagulls\n\np  Pbind\ndegree Pslide6 4  12 8 3 1 0\ndur Pseq01 01 02 inf\nsustain 015\nplay",
+                        "codigo": [
+                            "Pseq(list, repeats, offset) // Play through the entire list coderepeats times.",
+                            "Pser(list, repeats, offset) // Play through the list as many times as needed, but output only coderepeats items.",
+                            "",
+                            "",
+                            "",
+                            "Pslide(list, repeats, len, step, start, wrapAtEnd) // Play overlapping segments from the list.",
+                            "repeats // number of segments",
+                            "len // length of each segment",
+                            "step // is how far to step the start of each segment from previous.",
+                            "start // what index to start at.",
+                            "wrapAtEnd // if true (default), indexing wraps around if goes past beginning or end. If false, the pattern stops if it hits a nil element or goes outside the list bounds.",
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Random-order list patterns",
+                        "contenido": "Prand given scale degrees pentatonic with equal probability of each\n\np  Pbind\ndegree Prand0 1 2 4 5 inf\ndur 025\nplay\n\n Pxrand same as above but never repeats a pitch twice in a row\n\np  Pbind\ndegree Pxrand0 1 2 4 5 inf\ndur 025\nplay\n\n Pshuf randomly ordered once and repeated\n\np  Pbind\ndegree Pshuf0 1 2 4 5 inf\ndur 025\nplay\n\n Pwrand these probabilities favor triadic notes from scale degrees\n\np  Pbind\ndegree Pwrand07 4 1 3 1 3 2 1normalizeSum inf\ndur 025\nplay",
+                        "codigo": [
+                            "Prand(list, repeats) // Choose items from the list randomly (same as codelist.choose).",
+                            "",
+                            "Pxrand(list, repeats) // Choose randomly, but never repeat the same item twice in immediate succession.",
+                            "",
+                            "Pshuf(list, repeats) // Shuffle the list in random order, and use the same random order coderepeats times. Like codelist.scramble.",
+                            "",
+                            "Pwrand(list, weights, repeats) // Choose randomly, according to weighted probabilities (same as codelist.wchoose(weights)).",
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Interlacing values and making arrays",
+                        "contenido": "These are opposing operations interlacing means splitting arrays and merging them into a stream of single values and arrays can be made out of singlevalue streams as well\nPlace0 1 2 3 4 5 3asStreamall\n  0 1 3 0 2 4 0 1 5 \nIf we turn this into a matrix and read vertically the original arrays are clearly visible\nPlace0 1 2 3 4 5 3clump3dopostln\n 0 1 3 \t leftmost column 0 from first Place item\n 0 2 4 \t second column alternates between 1 and 2 from second Place item\n 0 1 5 \t third column 3 4 5 from third Place item\n Hanon exercise\n\np  Pbind\ndegree Ppatlace\nPseries0 1 8\t first third etc notes\nPseries2 1 7\t second fourth etc notes\n inf\ndur 025\nplay\n\nThats also a taste of things to come Patterns can be nested\n Chords\n degree receives 7 9 4 then 6 7 4 successively expanded to chords on the server\n\np  Pbind\ndegree Ptuple\nPseries7 1 8\nPseq9 7 7 7 4 4 2 2 1\nPseq4 4 4 2 2 0 0 3 1\n 1\ndur 1\nplay",
+                        "codigo": [
+                            "Place(list, repeats, offset) // Take one from each item in the main array item in succession. Hard to explain, easier to see:",
+                            "",
+                            "",
+                            "Ppatlace(list, repeats, offset) // Take one value from each sub-pattern in order.",
+                            "",
+                            "Ptuple(list, repeats) // Get one value from each item in the array, and return all of them as an array of values.",
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Arithmetic and geometric series",
+                        "contenido": "Now lets move to patterns that produce values mathematically without using a predefined list\n Use Pseries for a scale and Pgeom for an accelerando\n\np  Pbind\ndegree Pseries7 1 15\ndur Pgeom05 089140193218427 15\nplay\n\nstrongThirdparty extension alert  If you want an arithmetic or geometric series to start at one number and end at another specific number the step sizemultiplier must be calculated from the endpoints and the number of items desired The strongddwPatterns quark includes a convenience method codefromEndpoints for both Pseries and Pgeom that performs this calculation Its necessary to give an exact number of repeats at least two and less than infinity\np  PgeomfromEndpoints05 01 15\t error if ddwPatterns not installed\nppostcs\nPrints\nPgeom05 089140193218427 15",
+                        "codigo": [
+                            "Pseries(start, step, length) // Arithmetic series, successively adding codestep to the starting value, returning a total of codelength items.",
+                            "Pgeom(start, grow, length) // Geometric series, successively multiplying the current value by codegrow.",
+                            "",
+                            "",
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Random numbers and probability distributions",
+                        "contenido": "To see a distribution make a histogram out of it\nPmeanrand00 10 infasStreamnextN10000histo200 00 10plot",
+                        "codigo": [
+                            "Pwhite(lo, hi, length) // Produces codelength random numbers with equal distribution ('white' refers to white noise).",
+                            "Pexprand(lo, hi, length) // Same, but the random numbers have an exponential distribution, favoring lower numbers. This is good for frequencies, and also durations (because you need more notes with a shorter duration to balance the weight of longer notes).",
+                            "Pbrown(lo, hi, step, length) // Brownian motion. Each value adds a random codestep to the previous value, where the codestep has an equal distribution between code-step and code+step.",
+                            "Pgbrown(lo, hi, step, length) // Brownian motion on a geometric scale. Each value multiplies a random codestep factor to the previous value.",
+                            "Pbeta(lo, hi, prob1, prob2, length) // Beta distribution, where codeprob1 = \u03b1  (alpha) and codeprob2 = \u03b2  (beta).",
+                            "Pcauchy(mean, spread, length) // Cauchy distribution.",
+                            "Pgauss(mean, dev, length) // Gaussian (normal) distribution.",
+                            "Phprand(lo, hi, length) // Returns the greater of two equal-distribution random numbers.",
+                            "Plprand(lo, hi, length) // Returns the lesser of two equal-distribution random numbers.",
+                            "Pmeanrand(lo, hi, length) // Returns the average of two equal-distribution random numbers, i.e., code(x + y) / 2 .",
+                            "Ppoisson(mean, length) // Poisson distribution.",
+                            "Pprob(distribution, lo, hi, length, tableSize) // Given an array of relative probabilities across the desired range (a histogram) representing an arbitrary distribution, generates random numbers corresponding to that distribution.",
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Catchall Patterns",
+                        "contenido": "Not everything is prewritten as a pattern class These patterns let you embed custom logic",
+                        "codigo": [
+                            "Pfunc(nextFunc, resetFunc) // The next value is the return value from evaluating codenextFunc. If code.reset is called on a stream made from this pattern, coderesetFunc is evaluated. The stream will run indefinitely until codenextFunc returns codenil.",
+                            "Pfuncn(func, repeats) // Like Pfunc, output values come from evaluating the function. Pfuncn, however, returns exactly coderepeats values and then stops. The default number of repeats is 1.",
+                            "Prout(routineFunc) // Use the coderoutineFunc in a routine. The stream's output values are whatever this function code.yields. Prout ends when it yields codenil."
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "titulo": "Pattern Guide 03: What Is Pbind",
+        "secciones": [
+            {
+                "titulo": "What's that Pbind thing?",
+                "contenido": "Some of the examples in the last tutorial played notes using Pbind and you might be wondering how it works in general and what else you can do with it\ncode\ne  freq 440 dur 05\t an Event\neatfreq\t\t access a value by name\nefreq\nefreq\t\t See IdentityDictionary help for more on this usage\neputfreq 880\t Change a value by name\nefreq  660\nefreq  220\neputamp 06\t Add a new value into the event\neputdur nil\t Remove a value\n\nA Pbind is defined by a list of pairs keys associated with the patterns that will supply the values for the events",
+                "codigo": [],
+                "subsecciones": []
+            },
+            {
+                "titulo": "Building an event, one key at a time",
+                "contenido": "We can look at the return values from a Pbind by calling codenext on the stream Note that its necessary to pass an empty event into emphasisnext so that Pbind has somewhere to put the values\ncode\n\np  Pbind\ndegree Pseq0 0 4 4 5 5 4 1\ndur Pseq05 05 05 05 05 05 1 1\nasStream\t remember you have to make a stream out of the pattern before using it\n\npnextEventnew\t shorter pnext\n Output\n degree 0 dur 05 \n degree 0 dur 05 \n degree 4 dur 05 \n degree 4 dur 05 \n\nThe return events show us what Pbind really does Each time the next value is requested it goes through each keypattern pair and gets the next value from each pattern actually streams but Pbind makes streams out of the sub patterns internally Each value gets put into the event using the associated key\nFor the first event the first key is codedegree and the value is code0 This is placed into the event before moving to the next pair the event in transition contains code degree 0   Then the next key supplies code05 for codedur and since there are no more pairs the event is complete code degree 0 dur 05  \n User does\ncode\npnextEventnew\n\n SuperCollider processes\nnumberedList\n codedegree stream returns code0\n Put it in the Event code  degree 0  \n codedur stream returns code05\n Put it in the Event code  degree 0 dur 05  \n Return the result event\n\nnote\nDictionaries in SuperCollider are emphasisunordered collections Even though Pbind processes its child streams in the order given the results can display the keys and values in any order This does not affect the behavior of playing Events as we will soon see",
+                "codigo": [],
+                "subsecciones": []
+            },
+            {
+                "titulo": "Event, .play and event prototypes",
+                "contenido": "So far we havent seen anything that produces a note just data processing fetching values from patterns and stitching them together into events The notes come from the difference between Events and regular Dictionaries Events can do things when you codeplay them\ncode\n degree 0 dur 05 play\n\nThe action that the event will take is defined in an event prototype The prototype must include a function for the codeplay key this function is executed when codeplay is called on the event Also optionally the prototype can contain default values for a wide variety of parameters\nPbind doesnt do much without an event prototype Fortunately you dont have to write the prototype on your own There is a default event accessed by codeEventdefault that includes functions for many different servermessaging tasks If no specific action is requested the normal action is to play a Synth Thats why playing a Pbind as in the previous tutorial with only codedegree and codedur patterns produced notes each event produces at least one synth by default and the default event prototype knows how to convert scale degrees into frequencies and codedur duration into note lengths\n strongTo sum up so far  A Pbinds stream generates Events When an Event is played it does some work that usually makes noise on the server This work is defined in an event prototype The Event class provides a default event prototype that includes powerful options to create and manipulate objects on the server",
+                "codigo": [],
+                "subsecciones": [
+                    {
+                        "titulo": "Rests",
+                        "contenido": "Rests may be indicated in three ways\nlist\n strongRecommended\nlist\n\n strongLegacy\nlist\n emphasisSymbol as pitch  A symbol such as strongrest strongr or even the empty symbol strong   in a key related to pitch degree note midinote freq causes the event to be silent\n emphasistype rest  Setting the events type to rest also silences the event",
+                        "codigo": []
+                    },
+                    {
+                        "titulo": "Useful Pbind variant: Pmono",
+                        "contenido": "Compare the sound of these patterns Pbind produces an attack on every note while Pmono glides from pitch to pitch\np  Pbinddegree Pwhite0 7 inf dur 025 legato 1play\npstop\np  Pmonodefault degree Pwhite0 7 inf dur 025play\npstop",
+                        "codigo": [
+                            ""
+                        ]
+                    }
+                ]
+            },
+            {
+                "titulo": "Connecting Event values to SynthDef inputs",
+                "contenido": "code\nSynthDefdefault  arg out0 freq440 amp01 pan0 gate1\nvar z\nz  LPFar\nMixnewVarSawarfreq  0 Rand0400 Rand0004 0 03\nXLinekrRand40005000 Rand25003200 1\n  Linenkrgate 001 07 03 2\nOffsetOutarout Pan2arz pan amp\n ir\n\nWhen an event plays a synth any values stored in the event under the same name as a SynthDef input will be passed to the new synth Compare the following\ncode\n Similar to Synthdefault freq 2933333 amp 02 pan 07\nfreq 2933333 amp 02 pan 07play\n Similar to Synthdefault freq 440 amp 01 pan 07\nfreq 440 amp 01 pan 07play\n\nThis leads to a key point strongThe names that you use for patterns in Pbind should correspond to the arguments in the SynthDef being played The Pbind pattern names determine the names for values in the resulting Event and those values are sent to the corresponding Synth control inputs\nThe SynthDef to play is named by the codeinstrument key To play a pattern using a different Synth simply name it in the pattern\ncode\nSynthDefharpsi  outbus  0 freq  440 amp  01 gate  1\nvar out\nout  EnvGenarEnvadsr gate doneAction DonefreeSelf  amp \nPulsearfreq 025 075\nOutaroutbus out  2\nadd\t see below for more on add\np  Pbind\n Use harpsi not default\ninstrument harpsi\ndegree Pseries0 1 8\ndur 025\nplay\n\nIts actually an oversimplification to say that the Pbind names should always match up to SynthDef arguments\nlist\n\nstrongDont send or load SynthDefs use add or store instead\ncode\n Save into the library write a scsyndef file and load it on the server\nSynthDefstore\n Save into the library and send the SynthDef to the server no scsyndef file\n Make sure the server is booted before doing this\nSynthDefadd\n\nloads\t\tstore\nsends\t\tadd",
+                "codigo": [],
+                "subsecciones": []
+            },
+            {
+                "titulo": "Rest events",
+                "contenido": "list\n Rests may be given in any Pbind keyvalue pair Previously rests could be indicated only in type degree note midinote or freq\n A rest has a value eg codeRest05 and will pass transparently through calculations\n Addresses some problems with the former convention to be discussed in brief below\n\ncode\n\n first pitches ascending by 13 semitones until 2 octaves are reached\nvar\tpitches  Pseries0 Pconst24 Pwhite1 3 inf infasStreamall\n randomly block 13 of those\nmask  pitchesscramble0  pitchessize div 3\np  Pbind\narpeg Pseqpitches  pitchessize  2  pitchesreverse  pitchessize  2 inf\n if the note is found in the mask array replace it with Rest\n then that note does not sound\nnote PifPfunc  event maskincludeseventarpeg  Rest0 Pkeyarpeg\noctave 4\ndur 0125\nplay\n\npstop\n\nnote\nIn 39 it is no longer supported to use the Rest class in patterns All rests need to have a value eg codeRest0 Rest objects now support math operators That is you can now write codePseq1 2 Rest0 inf  2 emphasisand code1 2 Rest0  2 Prior to 39 the former usage was supported but only in Pbind and the latter usage was not supported at all\n\nIf its the codefreq key that determines whether the event as a rest or not why does it work to use it with codenote As noted keys like codedegree codenote and codemidinote are automatically converted into frequency The math operations that perform the conversion preserve Symbols intact  eg coderest  1  rest  So the coderest value is passed all the way through the chain of conversions so that codefreq in the event ends up receiving coderest\nNote that it doesnt matter if the SynthDef has a codefreq argument Its the event on the emphasisclient side that looks to this key to determine whether to play the note or not If it is a rest the server is not involved at all",
+                "codigo": [],
+                "subsecciones": []
+            },
+            {
+                "titulo": "Writing SynthDefs for patterns",
+                "contenido": "SynthDefs should have a couple of specific features to work well with patterns",
+                "codigo": [],
+                "subsecciones": [
+                    {
+                        "titulo": "Synths should release themselves",
+                        "contenido": "The default event prototype relies on the synth to remove itself from the server when its finished This can be done in several ways\nlist\nnote\nIf the release is controlled by a gate the gate must be represented by the synth argument codegate standard event prototypes expect to be able to control the synths release using this argument Also make sure the gates default value is greater than 0 Otherwise the envelope will never start and you will both hear nothing and watch synths pile up on the server\n\n Fixedduration envelopes no gate",
+                        "codigo": [
+                            "Linen.kr, which is a shortcut for codeEnvGen.kr(Env([0, susLevel, 0], [attackTime, releaseTime], \\lin, releaseNode: 1), gate, doneAction: [2 or higher]) . The default SynthDef uses this. The codedoneAction should be at least 2 to release the node."
+                        ]
+                    },
+                    {
+                        "titulo": "Argument name prefixes",
+                        "contenido": "SynthDeftrigdemo  out freq  440 gate  1 ttrig  1\t ttrig here\nvar\tenv  Decay2krttrig 001 01\nsig  SinOscarfreq 0 env\n Linenkrgate 001 01 01 doneAction DonefreeSelf\nOutarout sig  2\nadd\n\n\np  Pmonotrigdemo\nfreq Pexprand200 800 inf\ntrig 1\t note that this is NOT ttrig  just trig\ndelta 0125\nplay\n\npstop",
+                        "codigo": [
+                            ""
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "titulo": "Pattern Guide 04: Words to Phrases",
+        "secciones": [
+            {
+                "titulo": "From words to phrases",
+                "contenido": "A single pattern by itself is not so exciting But patterns can be used together to get more complex results",
+                "codigo": [],
+                "subsecciones": [
+                    {
+                        "titulo": "Patterns within list patterns",
+                        "contenido": "There is no preset limit to the number of levels of embedding\nIf a single pattern is like a word a list pattern that uses other patterns could be more like a sentence or phrase You can alternate between different behaviors either in a predictable order as in the example below or randomly by using one of the randomorder list patterns\n Scale segments in the sequence up up down repeat\n\nTempoClockdefaulttempo  1\np  Pbind\ndegree Pseq\nPseries rrand0 7  1  rrand4 8 \t up step  1\nPseries rrand0 7  1  rrand4 8 \t up step  1\nPseries rrand7 14  1  rrand4 8 \t down step  1\n inf\ndur 0125\nplay\n\npstop\nBut it gets even more fun  list patterns dont care whether theyre enclosing value patterns as in the previous example or event patterns That means you can write a set of Pbindstyle patterns each one representing a phrase and string them together This next example is longer but thats only because of a larger number of phrase patterns The structure is very simple though codePxrandPbind Pmono Pmono inf  Some of the phrases are written with Pmono to slide between notes\n\nSynthDefbass  out freq  440 gate  1 amp  05 slideTime  017 ffreq  1100 width  015\ndetune  1005 preamp  4\nvar\tsig\nenv  Envadsr001 03 04 01\nfreq  Lagkrfreq slideTime\nsig  MixVarSawarfreq freq  detune 0 width preampdistort  amp\n EnvGenkrenv gate doneAction DonefreeSelf\nsig  LPFarsig ffreq\nOutarout sig  2\nadd\n\n\nTempoClockdefaulttempo  13260\np  Pxrand\nPbind\t\t\t repeated notes\ninstrument bass\nmidinote 36\ndur Pseq075 025 025 025 05 1\nlegato Pseq09 03 03 03 03 1\namp 05 detune 1005\n\nPmonobass\t\t octave jump\nmidinote Pseq36 48 36 1\ndur Pseq025 025 05 1\namp 05 detune 1005\n\nPmonobass\t\t tritone jump\nmidinote Pseq36 42 41 33 1\ndur Pseq025 025 025 075 1\namp 05 detune 1005\n\nPmonobass\t\t diminished triad\nmidinote Pseq36 39 36 42 1\ndur Pseq025 05 025 05 1\namp 05 detune 1005\n\n infplayquant 1\n\npstop\nstrongShortcut notation  Just like you can concatenate arrays with  you can also concatenate patterns the same way Writing codepattern1  pattern2 is the same as writing codePseqpattern1 pattern2 1",
+                        "codigo": [
+                            "",
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Some ways to string together patterns",
+                        "contenido": "scale degree segments every fifth choice is oddnumbered only descending\n\nvar\tn  10\nscaleSegments  Arrayfilln  i\nifiodd \nPseries11 1 rrand5 10\n \nPseriesrrand4 4 1 i2\n\n\nTempoClockdefaulttempo  1\np  Pbind\ndegree PswitchscaleSegments PseqPwhite0 n1 4 Pwhite0 n1 1selectodd inf\ndur 0125\nplay\n\npstop\nIf this sounds a bit like a Markov chain thats because the Pfsm implementation is a special case of a Markov chain where there is an equal probability of choosing the next state from the valid successors In a Markov chain the probabilities are weighted according to analysis of a realworld data stream\n strongThirdparty extension alert  A good Markov chain implementation for SuperCollider exists in the MathLib quark",
+                        "codigo": [
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Library of named sub-patterns",
+                        "contenido": "Uses the bass SynthDef above\n\nphrases  \nrepeated Pbind\ninstrument bass\nmidinote 36\ndur Pseq075 025 025 025 05 1\nlegato Pseq09 03 03 03 03 1\namp 05 detune 1005\n\noctave Pmonobass\nmidinote Pseq36 48 36 1\ndur Pseq025 025 05 1\namp 05 detune 1005\n\ntritone Pmonobass\nmidinote Pseq36 42 41 33 1\ndur Pseq025 025 025 075 1\namp 05 detune 1005\n\ndim Pmonobass\nmidinote Pseq36 39 36 42 1\ndur Pseq025 05 025 05 1\namp 05 detune 1005\n\n\nTempoClockdefaulttempo  12860\n the higher level control pattern is really simple now\np  PsymPxrandrepeated octave tritone dim inf phrasesplay\n\npstop\nA complicated pattern with lots of embedding can be hard to read because its more work to separate notelevel details from the larger structure The pattern choosing the phrases  codePxrandrepeated octave tritone dim inf   is selfexplanatory however and Psym fills in the details transparently\nnote\n Psym  Pbind  Pnsym   \n Good \nlist\n\n Bad \nlist",
+                        "codigo": [
+                            "",
+                            "",
+                            "Psym(**, (pattern1: Pbind(**))",
+                            "Pbind(\\someValue, Pnsym(**, (pattern1: Pwhite(**)))",
+                            "Pbind(\\someValue, Psym(**, (pattern1: Pwhite(**)))"
+                        ]
+                    },
+                    {
+                        "titulo": "Switching between patterns for individual values",
+                        "contenido": "random pitches in two distinct ranges use a coin toss to decide which for this event\n 70 low 30 high\n\nTempoClockdefaulttempo  1\np  Pbind\ndegree Pswitch1Pwhite7 14 inf Pwhite7 0 inf Pfunc  07coinbinaryValue \ndur 025\nplay\n\npstop\nCompare to the following\n\np  Pbind\ndegree PswitchPwhite7 14 inf Pwhite7 0 inf Pfunc  07coinbinaryValue \ndur 025\nplay\n\npstop\nWith Pswitch one of the items is chosen from the list and keeps playing until its finished But the length of both Pwhite patterns is infinite so whichever one is chosen first retains control Pswitch1 does the coin toss on every event and embeds just one item\nPsym1 and Pnsym1 behave similarly choosing the name to look up the pattern for each event",
+                        "codigo": [
+                            "",
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Related: Conditional patterns",
+                        "contenido": "TempoClockdefaulttempo  1\np  Pbind\n translation if07coin  rrand7 0   rrand7 14 \ndegree PifPwhite00 10 inf  07 Pwhite7 0 inf Pwhite7 14 inf\ndur 025\nplay\n\npstop",
+                        "codigo": [
+                            ""
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "titulo": "Pattern Guide 05: Math on Patterns",
+        "secciones": [
+            {
+                "titulo": "Math on patterns",
+                "contenido": "Often there is not a pattern that delivers exactly the desired result by itself But other operations can be applied to patterns to manipulate one patterns output and turn it into something else\nSome of these operations look like things you would do to an array but there is a critical difference Doing math on an array performs the operation on every array item all at once By contrast patterns are lazy  they evaluate one value at the time only when asked and they only do as much as they need to do to deliver the next value An operation on a pattern produces another pattern that remembers the work that is to be done Making a stream out of the composite pattern creates the structure to perform the operation upon request\ncode\np  Pwhite1 5 inf  2\t a Pbinop\npoperator\t  \npa\t\t  a Pwhite\npb\t\t  2\n\nIn other words the multiplication here produces not the result of a single multiplication but a template for an infinite stream of multiplications to follow",
+                "codigo": [],
+                "subsecciones": [
+                    {
+                        "titulo": "Math on patterns",
+                        "contenido": "Not only can patterns generate numbers but they also support all the standard math operators unary abs reciprocal etc binary      min max etc and nary clip wrap fold linlin linexp etc operators are all valid with patterns\n Random integers 15\nPwhite1 5 infasStreamnextN10\n Random integers 15 multiplied by two gives even integers 210\nPwhite1 5 inf  2asStreamnextN10\n Random integers 15 multiplied by 14 gives multiples of 14 between 025 and 125\nPwhite1 5 inf  025asStreamnextN10\n Random integers 15 with the sign positive or negative randomly chosen\nPwhite1 5 inf  Prand1 1 infasStreamnextN10\nIf a binary operation occurs on two patterns every time a value is requested from the resulting stream both of the component streams are asked for a value and the operator applies to those results If either stream ends the binary operator stream also ends\n The resulting stream has two values because the shorter operand stream has two values\nPseq10 9 8 1  Pseq1 2 1do  x xpostln \n Play a major7th arpeggio transposed to different scale degrees\n Pwhite is the transposer Pseq is the chord\n The chord is like an inner loop\n\np  Pbind\nmidinote Pwhite48 72 inf x Pseq0 4 7 11 1\ndur 0125\nplay\n\npstop",
+                        "codigo": [
+                            "",
+                            "",
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Collection operations on patterns",
+                        "contenido": "Some of the things you can do to arrays also work with patterns\n Arbitrarycustom operation Turn each number into a twodigit hex string\nPwhite0 255 20collect x xasHexString2 do  x xpostln \n Keep odd numbers in the result which is now less than 20 items\nPwhite0 255 20select x xodd do  x xpostln \n Throw out odd numbers in the result\nPwhite0 255 20reject x xodd do  x xpostln \n A flat stream becomes an array of 4item arrays\nPwhite0 255 20clump4do  x xpostln \n a twodimensional array\nArrayfill5  Arrayfill4  rrand1 5  \n a pattern reading that array in sequence\np  PseqArrayfill5  Arrayfill4  rrand1 5   1\n the pattern returns several arrays\npdo  x xpostln \n flattening the pattern returns a onedimensional stream of numbers\npflattendo  x xpostln \nPseries1 1 20drop5do  x xpostln \nArraygeom20 1 101differentiate\nPgeom1 101 20differentiatedo  x xpostln",
+                        "codigo": [
+                            "collect(func) // Applies the function to each return value from the pattern. Good for generic transformations.",
+                            "select(func) // Preserve values from the output stream that pass the Boolean test; discard the rest.",
+                            "reject(func) // Discard values from the output stream that pass the test; return the rest to the user.",
+                            "",
+                            "clump(n) // Calling code.clump on an array turns a flat array into a multilevel array. Similarly, code.clump on a pattern gets emphasisn values from the pattern at once and returns all of them as an array. emphasisn can be a number or a numeric pattern.",
+                            "flatten(levels) // The reverse operation: if a pattern returns an array, its values will be output one by one.",
+                            "",
+                            "drop(n) // Discard the first emphasisn values, and return whatever is left.",
+                            "",
+                            "differentiate // Return the difference between successive values: second - first, third - second, and so on.",
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Miscellaneous calculation patterns",
+                        "contenido": "These are some other numeric calculations that dont exactly fall in the category of math operators\n Swing notes with Prorate\n\np  Pbind\ndegree Pseries4 Pwhite2 2 infreject x x  0  inffold7 11\ndur Prorate06 05\t actually yields 03 02 03 02\nplay\n\npstop",
+                        "codigo": [
+                            "Pavaroh(pattern, aroh, avaroh, stepsPerOctave) // Convert scale degrees to note numbers, with separate ascending and descending scale patterns. Originally written for Indian ragas, it also works well for the western melodic minor scale.",
+                            "PdegreeToKey(pattern, scale, stepsPerOctave) // Given a pattern yielding scale degrees, convert the degrees into note numbers according to the provided scale and steps per octave. This is done automatically when you use the code'degree' event key, but there might be cases where you would want to do some further math on the note numbers, and it might be necessary to make the conversion explicit.",
+                            "Pdiff(pattern) // Returns the difference between the source stream's latest and previous values. Among other uses, this can measure whether a stream is ascending or descending. This is the underlying implementation of the codedifferentiate method discussed just above.",
+                            "Prorate(proportion, pattern) // Splits up a number from codepattern according to proportion(s) given by the codeproportion pattern. This is tricky to explain briefly; see the help file for some good examples.",
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Calculations based on other event values",
+                        "contenido": "",
+                        "codigo": []
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "titulo": "Pattern Guide 060: Filter Patterns",
+        "secciones": [
+            {
+                "titulo": "Filter patterns",
+                "contenido": "Just like filter UGens modify an input signal filter patterns modify the stream of values coming from a pattern\nAll filter patterns take at least one source pattern providing the valuesevents to be filtered Some filter patterns are designed for value patterns others for event patterns A handful work equally well with both single values and events\nFollowing is a categorized overview See the separate category documents for more detail",
+                "codigo": [],
+                "subsecciones": [
+                    {
+                        "titulo": "Repetition and Constraint patterns",
+                        "contenido": "",
+                        "codigo": [
+                            "Pclutch(pattern, connected) // If the codeconnected pattern is true, Pclutch returns the next value from codepattern. If codeconnected is false, the previous pattern value is repeated. It's like a clutch in a car: when engaged, the pattern moves forward; when disconnected, it stays where it is.",
+                            "Pn(pattern, repeats) // Embeds the source pattern coderepeats times: simple repetition. This also works on single values: codePn(1, 5) outputs the number 1 5 times.",
+                            "Pdup(n, pattern) // coden and codepattern are both patterns. Each value from codepattern is repeated coden times. If coden is a pattern, each value can be repeated a different number of times.",
+                            "Psubdivide(n, pattern) // Like Pdup, except the pattern value is divided by the number of repeats (so that the total time for the repeat cycle is the duration value from the source pattern).",
+                            "Pfin(count, pattern) // Returns exactly codecount values from the source pattern, then stops.",
+                            "Pconst(sum, pattern, tolerance) // Output numbers until the sum reaches a predefined limit. The last output value is adjusted so that the sum matches the limit exactly.",
+                            "Pfindur(dur, pattern, tolerance) // Like Pconst, but applying the \"constrain\" behavior to the event's rhythmic values. The source pattern runs up to the specified duration, then stops. This is very useful if you know how long a musical behavior should go on, but the number of events to fill up that time is not known.",
+                            "Psync(pattern, quant, maxdur, tolerance) // Like Pfindur, but does not have a fixed duration limit. Instead, it plays until either it reaches codemaxdur (in which case it behaves like Pfindur, adjusting the last event so the total duration matches codemaxdur), or the pattern stops early and the last event is rounded up to the next integer multiple of quant."
+                        ]
+                    },
+                    {
+                        "titulo": "Time-based patterns",
+                        "contenido": "",
+                        "codigo": [
+                            "Ptime(repeats) // Returns the amount of time elapsed since embedding.",
+                            "Pstep(levels, durs, repeats) // Repeat a codelevel value for its corresponding duration, then move to the next."
+                        ]
+                    },
+                    {
+                        "titulo": "Adding values into event patterns (Or, \"Pattern Composition\")",
+                        "contenido": "",
+                        "codigo": [
+                            "Pbindf(pattern, pairs) // Adds new key-value pairs onto a pre-existing Pbind-style pattern.",
+                            "Pchain(patterns) // Chains separate Pbind-style patterns together, so that all their key-value pairs go into the same event."
+                        ]
+                    },
+                    {
+                        "titulo": "Parallelizing event patterns",
+                        "contenido": "",
+                        "codigo": [
+                            "Ppar(list, repeats) // Start each of the event patterns in the codelist at the same time. When the last one finishes, the Ppar also stops. If coderepeats > 1, all the subpatterns start over again from the beginning.",
+                            "Ptpar(list, repeats) // Here, the list consists of code[timeOffset0, pattern0, timeOffset1, pattern1...] . Each pattern starts after the number of beats given as its time offset. The patterns can start at different times relative to each other.",
+                            "Pgpar(list, repeats) // Like Ppar, but it creates a separate group for each subpattern.",
+                            "Pgtpar(list, repeats) // This is supposed to be like Ptpar with separate groups for the sub patterns, but the class is currently broken.",
+                            "Pspawner(routineFunc) // The function is used to make a routine. A Spawner object gets passed into this routine, and this object is used to add or remove streams to/from the parallel stream. New patterns can be added in sequence or in parallel."
+                        ]
+                    },
+                    {
+                        "titulo": "Language control methods",
+                        "contenido": "",
+                        "codigo": [
+                            "Pif(condition, iftrue, iffalse, default) // Evaluates a pattern codecondition that returns true or false. Then, one value is taken from the true or false branch before going back to evaluate the condition again. The codedefault value or pattern comes into play when the true or false branch stops producing values (returns nil). If the codedefault is not given, Pif returns control to the parent upon nil from either branch.",
+                            "Pseed(randSeed, pattern) // Random number generators depend on seed values; setting a specific seed produces a repeatable stream of pseudorandom numbers. Pseed sets the random seed before embedding codepattern, effectively restarting the random number generator at the start of the pattern.",
+                            "Pprotect(pattern, func) // Like the codeprotect error handling method, if an error occurs while getting the next value from the pattern, the function will be evaluated before the error interrupts execution.",
+                            "Ptrace(pattern, key, printStream, prefix) // For debugging, Ptrace prints every return value. Is your pattern really doing what you think? This will tell you. A Ptrace is created automatically by the codetrace message: codeaPattern.trace(key, printStream, prefix) --> codePtrace(aPattern, key, printStream, prefix)."
+                        ]
+                    },
+                    {
+                        "titulo": "Server control methods",
+                        "contenido": "",
+                        "codigo": [
+                            "Pbus(pattern, dur, fadeTime, numChannels, rate) // Creates a private group and bus for the synths played by the pattern. The group and bus are released when the pattern stops. Useful for isolating signals from different patterns.",
+                            "Pgroup(pattern) // Creates a private group (without private bus) for the pattern's synths.",
+                            "Pfx(pattern, fxname, pairs) //",
+                            "Pproto(makeFunction, pattern, cleanupFunc) // Allocate resources on the server and add references to them into the event prototype used to play codepattern. When the pattern stops (or is stopped), the resources can be removed automatically."
+                        ]
+                    },
+                    {
+                        "titulo": "Data sharing",
+                        "contenido": "",
+                        "codigo": [
+                            "Pkey(key) // Read the codekey in the input event, making previously-calculated values available for other streams.",
+                            "Penvir(envir, pattern, independent) // Run the pattern inside a given environment.",
+                            "Pfset(func, pattern) // Assign default values into the input event before getting each result event out of the given pattern."
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "titulo": "Pattern Guide 06a: Repetition Constraint Patterns",
+        "secciones": [
+            {
+                "titulo": "Repetition and Constraint patterns",
+                "contenido": "These are essentially flow of control patterns Each one takes a source pattern and repeats values from it or stops the stream early based on a preset constraint",
+                "codigo": [],
+                "subsecciones": [
+                    {
+                        "titulo": "Repetition patterns",
+                        "contenido": "These patterns allow you to repeat single values or in the case of Pn entire patterns\n play repeated notes with a different rhythmic value per new pitch\n using Pdup\np  Pbind\n making n a separate stream so that degree and dur can share it\nn Pwhite3 10 inf\ndegree PdupPkeyn Pwhite4 11 inf\ndur PdupPkeyn Pwhite01 04 inf\nlegato 03\nplay\npstop\n using Pfin  Pn\n Pn loops the Pbind infinitely\n Plazy builds a new Pbind for each iteration\n Pfin cuts off the Pbind when its time for a new value\np  Pn\nPlazy \nPbind\ndegree Pfinrrand3 10 rrand4 11\ndur rrand01 04\n\n\ninf\nplay\npstop\n using Pclutch\n the rule is when degree changes dur should change also\n if Pdiff returns 0 degree has not changed\n so here nonzero Pdiff values connect the clutch and allow a new dur to be generated\n otherwise the old one is held\np  Pbind\ndegree PdupPwhite3 10 inf Pwhite4 11 inf\ndur PclutchPwhite01 04 inf PdiffPkeydegreeabs  0\nlegato 03\nplay\npstop",
+                        "codigo": [
+                            "Pn(pattern, repeats) // Embeds the source pattern coderepeats times: simple repetition. This also works on single values: codePn(1, 5) outputs the number 1 5 times.",
+                            "Pdup(n, pattern) // coden and codepattern are both patterns. Each value from codepattern is repeated coden times. If coden is a pattern, each value can be repeated a different number of times.",
+                            "Psubdivide(n, pattern) // Like Pdup, except the pattern value is divided by the number of repeats (so that the total time for the repeat cycle is the duration value from the source pattern).",
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Constraint (or interruption) patterns",
+                        "contenido": "Instead of prolonging a stream by repetition these patterns use different methods to stop a stream dynamically They are especially useful for modularizing pattern construction One section of your code might be responsible for generating numeric or event patterns By using constraint patterns that part of the code doesnt have to know how many events or how long to play It can just return an infinite pattern and another part of the code can wrap it in one of these to stop it based on the appropriate condition\n Two variants on the same thing\n Use Pconst or Pfindur to create 4beat segments with randomized rhythm\n Pconst and Pfindur both can ensure the total rhythm doesnt go above 40\np  PnPbind\n always a low C on the downbeat\ndegree Pseq7 Pwhite0 11 inf 1\ndur Pconst4 Pwhite1 4 inf  025\n infplay\npstop\np  PnPfindur4 Pbind\ndegree Pseq7 Pwhite0 11 inf 1\ndur Pwhite1 4 inf  025\n infplay\npstop\n\n in this case the pattern stops by reaching maxdur\n elapsed time  4\nvar\tstartTime\np  PsyncPbind\ndur 025\t total duration  infinite\ntime Pfunc  startTime  startTime  thisThreadclockbeatsdebugtime \n 1 4  Pfuncn\nthisThreadclockbeatsdebugfinish time\nthisThreadclockbeats  startTimedebugelapsed\nnil\n 1play\n\n\n in this case the pattern stops itself before maxdur 4\n the Pbinds duration 125 gets rounded up to 2 next multiple of 1\nvar\tstartTime\np  PsyncPbind\ndur Pn025 5\t total duration  025  5  125\ntime Pfunc  startTime  startTime  thisThreadclockbeatsdebugtime \n 1 4  Pfuncn\nthisThreadclockbeatsdebugfinish time\nthisThreadclockbeats  startTimedebugelapsed\nnil\n 1play",
+                        "codigo": [
+                            "Pconst(sum, pattern, tolerance) // Output numbers until the sum goes over a predefined limit. The last output value is adjusted so that the sum matches the limit exactly.",
+                            "Pfindur(dur, pattern, tolerance) // Like Pconst, but applying the \"constrain\" behavior to the event's rhythmic values. The source pattern runs up to the specified duration, then stops. This is very useful if you know how long a musical behavior should go on, but the number of events to fill up that time is not known.",
+                            "",
+                            "Psync(pattern, quant, maxdur, tolerance) // Like Pfindur, but does not have a fixed duration limit. Instead, it plays until either it reaches codemaxdur (in which case it behaves like Pfindur, adjusting the last event so the total duration matches codemaxdur), or the pattern stops early and the last event is rounded up to the next integer multiple of codequant. This is hard to explain; a couple of examples might make it clearer.",
+                            ""
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "titulo": "Pattern Guide 06b: Time Based Patterns",
+        "secciones": [
+            {
+                "titulo": "Time-based patterns",
+                "contenido": "Timebased patterns here are value patterns that use time as part of their calculation Event patterns are naturally timedriven when played on a clock Technically its possible to request events from an event stream without running it in an EventStreamPlayer but this is not typical usage\nMost of these patterns work by remembering the clocks current time at the moment the pattern is embedded into a value stream The time value used for calculation is then the clocks time at the moment of evaluation minus the starting time  that is the number of beats elapsed since the patterns started embedding If the pattern is embedded several times the starting time is also reset so that the pattern begins again from the beginning\nThere is nothing to prevent using these patterns outside of a scheduling context In these documents that context would be an event pattern played on a clock but streams made from these patterns can be used in scheduled routines or functions as well Only a scheduling context can ensure precise timing of requests for values\n codePtimerepeats  Returns the amount of time elapsed since embedding One nice trick with this pattern is to stop a value streampattern after a certain amount of time\ncode\n This is a really useful trick like Pfindur but for value patterns\n\np  Pbind\ndegree PifPtimeinf  40 Pwhite4 11 inf\ndur 025\nplay\n\n\n codePsteplevels durs repeats  Repeat a codelevel value for its corresponding duration then move to the next\n codePseglevels durs curves repeats  Similar to Pstep but interpolates to the next value instead of stepping abruptly at the end of the duration Interpolation is linear by default but any envelope segment curve can be used codelevels codedurs and codecurves should be patterns\ncode\n curve is 5  heres what the curve looks like ascending first then descending\nEnv0 1 0 1 1 5plot\n\np  Pbind\n using note bc Pseg will give fractional note numbers\n cant use degree because it handles nonintegers differently\nnote Pseg\nPwhite7 19 inf\t chromatic note numbers\n alternate version for diatonic numbers\n PdegreeToKey does the same conversion as degree  note\n\t\tPdegreeToKeyPwhite4 11 inf Pkeyscale 12\nPwhite1 4 inf  05\n5 inf\ndur 0125\nplay\n\npstop",
+                "codigo": [],
+                "subsecciones": [
+                    {
+                        "titulo": "Using envelopes as patterns",
+                        "contenido": "e  Envlinen1 1 1\neat2\t  1\neat25\t  05\n print envelope values\nr  fork \nvar stream  easStream\n12do\nstreamnextpostln\n025wait\n\n\n Use an envelope to pan notes from left to right and back\np  Pbind\ndegree Pwhite4 11 32\npan Env1 1 1 2 2 sin\ndur 0125\nplay\npstop\nThe codereleaseNode and codeloopNode envelope parameters do not take effect because they are meaningful only when used in a Synth with a gated EnvGen\nWhen the envelope ends the stream will hold the final level indefinitely The codePifPtimeinf  totalTime Env trick can make it stop instead\n Use an envelope to pan notes from left to right and back\n Plays one cycle\n\np  Pbind\n change to inf we dont need to know exactly how many events are needed\ndegree Pwhite4 11 inf\npan PifPtimeinf  40 Env1 1 1 2 2 sin\ndur 0125\nplay\n\npstop\n To keep looping the envelope wrap Pif inside Pn\n\np  Pbind\ndegree Pwhite4 11 inf\npan PnPifPtimeinf  40 Env1 1 1 2 2 sin inf\ndur 0125\nplay\n\npstop",
+                        "codigo": [
+                            "",
+                            ""
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "titulo": "Pattern Guide 06c: Composition of Patterns",
+        "secciones": [
+            {
+                "titulo": "Adding values to a base event pattern (Or, \"Pattern Composition\")",
+                "contenido": "One way to use patterns is to write everything into the pattern up front This has the advantage of clarity and ease of understanding Another way is to modularize the behavior by creating smaller simpler patterns and combining their results into single events that have keys and values from all the component patterns\nThis is related to the computer science concept of function composition in which a complex calculation can be written not as a single large function but as several smaller functions that are then chained together into a single function Since Functions are normal objects in SuperCollider its easy to do an operation on a function that returns a composite function which may then be used like any other function httpenwikipediaorgwikiFunctioncompositioncomputerscience\nIn mathematics the code operator represents function composition\ncode\nfx  x  1\ngx  x  2\ng  f  gfx  x  1  2\n\ncodeg \u00a0f means to evaluate codef first then pass its result to codeg The code operator is written as code in SuperCollider\ncode\nf   x x  1 \ng   x x  2 \nh  g  f\n a Function\nhvalue1\n 4\t  11  2\nf  gvalue1\n 3\t  12  1\n g  f  gfx  f is evaluated first and its result is passed to g\ngvaluefvalue1\n 4\n\nEvent patterns can be similarly composed\n codePbindfpattern pairs  Adds new keyvalue pairs onto a preexisting Pbindstyle pattern codePbindfPbinda patternA b patternB c patternC gets the same result as codePbinda patternA b patternB c patternC \n codePchainpatterns  Chains separate Pbindstyle patterns together so that all their keyvalue pairs go into the same event For example if one part of your code creates a Pbind instance codea  Pbinda patternA and another part creates codeb  Pbindb patternB c patternC you could append codeb and codec into the codea result using codePchainb a  The subpatterns evaluate in reverse order in keeping with function composition notation\ncode\nrhythm  Pbind\ndur Pwrand0125 025 05 03 05 02 inf\nlegato Pwrand01 06 101 01 03 06 inf\n\nmelody  Pbind\ndegree Pwhite4 11 inf\n\np  Pchainmelody rhythmplay\npstop\n\ncode\nrhythm  EventPatternProxyPbind\ndur Pwrand0125 025 05 03 05 02 inf\nlegato Pwrand01 06 101 01 03 06 inf\n\nmelody  EventPatternProxyPbind\ndegree Pwhite4 11 inf\n\np  Pchainmelody rhythmplay\nmelodysource  PmonoArticdefault degree Pseries4 Prand1 1 inf inffold4 11\nmelodysource  Pbinddegree Pseries4 Pwrand2 1 1 2 03 02 02 03 inf inffold4 11\npstop",
+                "codigo": [],
+                "subsecciones": [
+                    {
+                        "titulo": "Pset and cousins",
+                        "contenido": "table\n\n\ntable\n\nSimilar for codePmulpre",
+                        "codigo": [
+                            "Pset(name, value, pattern) // Get one event from codepattern, and then put the next value from the codevalue pattern into the codename key. If the source pattern specifies a value for the same name, the value from the source will be replaced with the new one.",
+                            "Padd(name, value, pattern) // After getting the next event, replace the codename value with its existing value code+ the next number from codevalue.",
+                            "Pmul(name, value, pattern) // After getting the next event, replace the codename value with its existing value code* the next number from codevalue.",
+                            "Pset(name, value, pattern) // codePbindf(pattern, name, value)",
+                            "Padd(name, value, pattern) // codePbindf(pattern, name, Pkey(name) + value)",
+                            "Pmul(name, value, pattern) // codePbindf(pattern, name, Pkey(name) * value)",
+                            "Psetpre(name, value, pattern) // Get the next codevalue and put it into the event prototype before evaluating codepattern.",
+                            "Psetpre(name, value, pattern) // codePchain(pattern, Pbind(name, value))",
+                            "Paddpre(name, value, pattern) // codePchain(pattern, Pbind(name, Pkey(name) + value))"
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "titulo": "Pattern Guide 06d: Parallel Patterns",
+        "secciones": [
+            {
+                "titulo": "Parallelizing event patterns",
+                "contenido": "There are a couple of different ways to have several patterns playing at the same time The most obvious is to play them separately The patterns events get scheduled independently on their clocks and run concurrently None of these patterns need to have any knowledge of the others One advantage of this approach is that the patterns can be stopped and started independently\nThe other is to combine them into a parallel stream The result is a single pattern object that can be played or stopped only as one unit Some degree of interactive control is lost but there are times when merging several patterns is necessary  for instance converting a pattern into a Score object for NRT rendering\n codePtparlist repeats  Here the list consists of codetimeOffset0 pattern0 timeOffset1 pattern1  Each pattern starts after the number of beats given as its time offset The patterns can start at different times relative to each other\n codePgparlist repeats  Like Ppar but it creates a separate group for each subpattern\n codePgtparlist repeats  This is like Ptpar with separate groups for the subpatterns",
+                "codigo": [],
+                "subsecciones": [
+                    {
+                        "titulo": "Dynamic parallelizing",
+                        "contenido": "p  Pspawner sp\t sp  the Spawner object\nloop \n run a new pattern in parallel\n the pattern is finite\n after a few events it stops and the Pspawner forgets about it\nspparPbind\ndegree Pseriesrrand5 7 1 1choose rrand4 7\npan rrand10 10\ndur rrand01 03\t duration is chosen once for each pattern\n\n tell the Spawner to wait a bit before the next pattern goes\n DO NOT use numBeatswait for this\n Everything must go through the Spawner\nspwaitrrand1 4  025\n\nplay\n\npstop\n\np  PspawnPbind\nmethod par\t\t embed patterns in parallel\n generate the subpattern in a Pfunc so theres a new pattern each time\n Pfunc returns the pattern without rendering the stream\n  important for Pspawn\n See the Pspawn helpfile for other ways to embed patterns\npattern Pfunc \nPbind\ndegree Pseriesrrand5 7 1 1choose rrand4 7\npan rrand10 10\ndur rrand01 03\t duration is chosen once for each pattern\n\n\n The delta key is used automatically for the spawnerwait call\ndelta Pwhite1 4 inf  025\nplay\n\npstop",
+                        "codigo": [
+                            "Pspawner(routineFunc) // The function is run in a Routine. A Spawner object gets passed into this Routine, and this object is used to add or remove streams to/from the parallel stream. New patterns can be added in sequence or in parallel.",
+                            "Pspawn(pattern, spawnProtoEvent) // Supports most of the features of Pspawner, but uses a pattern to control the Spawner object instead of a Routine function.",
+                            "",
+                            ""
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "titulo": "Pattern Guide 06e: Language Control",
+        "secciones": [
+            {
+                "titulo": "Language control methods",
+                "contenido": "codePifcondition iftrue iffalse default  Evaluates a pattern codecondition that returns true or false Then one value is taken from the true or false branch before going back to evaluate the condition again The codedefault value or pattern comes into play when the true or false branch stops producing values returns nil If the codedefault is not given Pif returns control to the parent upon nil from either branch\ncode\np  Pbind\ndegree Pwhite0 11 inf\n odd numbered scale degrees get a shorter rhythmic value\ndur PifPkeydegreeodd 025 05\nplay\npstop\n\ncode\np  Pbind\n the random seed is generated once when creating the Pattern object\n so the same random seed is used every time whenever this pattern object plays\ndegree Pseed0x7FFFFFFFrand Pseries rrand7 0  Pwhite1 3 inf  rrand4 10 \ndur 025\n\nq  pplay\t uses one seed\nqstop\nr  pplay\t uses the same seed\nrstop\n reexecute the p  Pbind and the seed will be different\n\n codePprotectpattern func  Like the codeprotect error handling method if an error occurs while getting the next value from the pattern the function will be evaluated before the error interrupts execution\n codePtracepattern key printStream prefix  For debugging Ptrace prints every return value Is your pattern really doing what you think This will tell you A Ptrace is created automatically by the codetrace message codeaPatterntracekey printStream prefix  PtraceaPattern key printStream prefix \n codePwhilefunc pattern  Like while as long as the function evaluates to true the pattern is embedded The function is checked once at the beginning and thereafter when the pattern comes to an end If its applied to an infinite pattern theres no looping because the pattern never gives control back\ncode\n Pwhile and Ptrace\n\ngo  true\np  Pwhile go  Pbind\ndegree Pseries rrand7 0  Pwhite1 3 inf  rrand4 10 \ntraceprefix degree \ndur 025\nplay\n\ngo  false\t will stop the whole pattern when the Pbind comes to an end",
+                "codigo": [],
+                "subsecciones": []
+            }
+        ]
+    },
+    {
+        "titulo": "Pattern Guide 06f: Server Control",
+        "secciones": [
+            {
+                "titulo": "Server control methods",
+                "contenido": "A handful of filter patterns can isolate signals on a private bus andor group and also apply effect synths A nice feature is that resources allocated at the beginning of the pattern are removed at the end This is especially useful for effects where you dont want to have a lot of effect synths left over taking up CPU but not processing audio\n codePbuspattern dur fadeTime numChannels rate  Creates a private group and bus for the synths played by the pattern The group and bus are released when the pattern stops Useful for isolating signals from different patterns\n codePgrouppattern  Creates a private group without private bus for the patterns synths\n codePfxpattern fxname pairs \nThere are a lot of permutations when it comes to signal routing and effect management too many to discuss in depth here Some of the main scenarios are\nlist\n\ncode\nPfxb\nPfx\nevent pattern here\nsynthDefNameOfFirstEffectInChain\nargument list for the first effect\n\nsynthDefNameOfSecondEffectInChain\nargument list for the second effect\nplay\n\nThis example uses Pfxb to isolate a pair of separatelysounding patterns on different buses and to pass the two signals streams through separate volume controls The effect synth for volume is kept deliberately simple for the example but of course it can do any kind of signal processing you like\nIt might seem odd at first to use a gated envelope for an effect but this is important to keep the signals integrity If the gate is not there the effect synth will be nfreed brutally cut off probably before the nodes played by the source pattern have finished In this case it would produce a sudden brief jump in volume at the end The gate combined with the onesecond release in the envelope keeps the effect synth around long enough to allow its source synths to become silent first\nRemember that streams made from patterns dont expose their internals That means you cant adjust the parameters of an effect synth directly because you have no way to find out what its node ID is The example addresses this problem by allocating a couple of control buses for the amplitude values and mapping the volume synths to those control buses Then the little GUI needs only to update the control bus values\ncode\n Demonstrates how Pfxb isolates signals on different buses\n The fx synth is a simple volume control here\n but it could be more complex\n\nSynthDefvolumeCtl  out amp  1 gate  1\nvar\tsig  Inarout 2  amp\nsig  sig  EnvGenkrEnv1 1 0 1 1 3 releaseNode 1 gate doneAction DonefreeSelf\nReplaceOutarout sig\nadd\nvbus1  Buscontrols 1set05\nvbus2  Buscontrols 1set05\nwindow  Windownewmixers Rect10 100 320 60\nwindowviewdecorator  FlowLayoutwindowviewbounds 22\nEZSliderwindow 31020 low part amp  ez vbus1setezvalue  05\nwindowviewdecoratornextLine\nEZSliderwindow 31020 high part amp  ez vbus2setezvalue  05\nwindowfrontonClose vbus1free vbus2free \n\n\np  Ppar\nPfxbPbind\ndegree Pseq0 7 4 3 9 5 1 4 inf\noctave 4\ndur 05\n volumeCtl amp vbus1asMap\t map to control bus here\nPfxbPbind\ndegree Pwhite0 11 inf\ndur 025\n volumeCtl amp vbus2asMap\t  and here\nplay\n\npstop\n\n\nstrongThirdparty extension alert  Pfx and its cousins work on the philosophy that a signal routing arrangement should be created as needed when its subpattern is playing and removed immediately when the pattern is finished Another approach is to treat signal routing and effects as a persistent infrastructure created and destroyed under the users control not the patterns JITLibs proxy system offers some support for this MixerChannels in the ddwMixerChannel quark are a more explicit way Any pattern can be played on a MixerChannel codeaMixerplayaPattern",
+                "codigo": [],
+                "subsecciones": [
+                    {
+                        "titulo": "Pproto: Allocating other resources for the duration of a pattern",
+                        "contenido": "Its also possible to load sound file or wavetable buffers or play synths as part of the preparation to run a Pbindstyle pattern When the Pbind stops those resources would be removed automatically from the server\nThe mechanism to do this is a bit unlike most of the other protocols to use the server in SuperCollider To create the resources Pproto takes a function in which one or more Event objects contain the instructions to create them These events should use specific event types described in Pprotos help file The pattern is able to clean up the resources because each event has an associated cleanup action see the event types with cleanup class Thus Pproto needs only to remember the events representing the resources and execute their cleanup actions at the end\nThe Pproto help file has several complex examples that are worth reading Here is just one simple case that loads the standard a11wlk01wav sound file and plays fragments from it\n\nSynthDefplaybuf  bufnum start dur  1 amp  02 out\nvar\tsig  PlayBufar1 bufnum BufRateScaleirbufnum 0 start\nsig  sig  amp  EnvGenkrEnvlinen001 dur 001 doneAction DonefreeSelf\nOutarout sig  2\nadd\n\n\nTempoClockdefaulttempo  1\np  Pproto\nbuf  type allocRead path PlatformresourceDir  soundsa11wlk01wavyield\n Pbind\ninstrument playbuf\n access resources in the protoevent by Pkey\nbufnum Pkeybuf\ndur Pwhite1 4 inf  025\n upper bound of Pwhite is based on duration\n so that start  dur  samplerate never goes past the buffers end\nstart Pwhite0 188893  Pkeydur  44100 inf\nplay\n\n shows a buffer number allocated true ContiguousBlock\nsbufferAllocatordebug\npstop\nsbufferAllocatordebug\t after stop the buffer is gone",
+                        "codigo": [
+                            ""
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "titulo": "Pattern Guide 06g: Data Sharing",
+        "secciones": [
+            {
+                "titulo": "Sharing data between patterns",
+                "contenido": "So far weve seen patterns that are independent of each other A single Pbind works on its own information which is not available to other Pbinds Also for instance the codedegree pattern in a Pbind is not aware of what the codedur pattern is doing Making these data available adds musical intelligence\nThere are a couple of distinct ways to transmit information from one pattern into another The first simpler technique is to read values from the current event that is already being processed The second is to pass information from one event pattern into a separate event pattern Since both are event patterns they produce different result events and the first technique does not apply",
+                "codigo": [],
+                "subsecciones": [
+                    {
+                        "titulo": "Reading values from the current event",
+                        "contenido": "p  PkeyaasStream\n The input value is an event with a  2 b  3 codenext result is 2\npnexta 2 b 3\n We can do math on the input event too\np  Pkeya  PkeybasStream\npnexta 2 b 3\t returns 6  2  3\nIn this simple example staccato vs legato is calculated based on scale degree lower notes are longer and higher notes are shorter That only scratches the surface of this technique\nBe aware that Pkey can only look backward to keys stated earlier in the Pbind definition Pbind processes the keys in the order given In the example it would not work to put codelegato first and have it refer to codedegree coming later because the degree value is not available yet\n something simple  the higher the note the shorter the length\n\np  Pbind\ndegree PseqPseries7 1 14 Pseries7 1 14 inf\ndur 025\n degree is EARLIER in the Pbind\nlegato Pkeydegreelinexp7 7 20 005\nplay\n\npstop",
+                        "codigo": [
+                            "",
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Other information storage patterns",
+                        "contenido": "These patterns represent three different strategies to persist information from one pattern and make it available to others\nThe codeindependent flag specifies whether the environment will be kept separate for each stream made from the Penvir If true the default whenever the Penvir is embedded in a stream a new environment is created that inherits the initial values provided by codeenvir If false the same environment is used for every stream In that case the same environment could also be used in different Penvir patterns and modifications of the environment by one Penvir would carry over to all the others  hence its usefulness for sharing data\n\nSynthDefplaybuf  bufnum start dur  1 amp  02 out\nvar\tsig  PlayBufar1 bufnum BufRateScaleirbufnum 0 start\nsig  sig  amp  EnvGenkrEnvlinen001 dur 001 doneAction DonefreeSelf\nOutarout sig  2\nadd\n\n\nTempoClockdefaulttempo  1\np  Pfset\nbuf  Bufferreads PlatformresourceDir  soundsa11wlk01wav\n02yield\t sync seems to be incompatible with patterns\nbufFrames  bufnumFrames\n Pbind\ninstrument playbuf\n access resources in the protoevent by Pkey\nbufnum Pkeybuf\ndur Pwhite1 4 inf  025\n upper bound of Pwhite is based on duration\n so that start  dur  samplerate never goes past the buffers end\nstart Pwhite0 PkeybufFrames  Pkeydur  44100 inf\n  deferinEnvir  freeing bufferpostln buffree  11 play\n\n shows a buffer number allocated true ContiguousBlock\nsbufferAllocatordebug\npstop\nPlambda removes the eventScope before returning the final event to the caller You can see the scope by tracing the inner pattern\np  Plambda\nPbind\na Pletz Pseries0 1 inf Pseries100 1 inf\nb Pgetz 0 inf  2\ntracekey eventScope prefix nscope \nasStream\npnext\nSomething similar can be done with Pkey by using intermediate values in the event that dont correspond to any SynthDef control names Theres no harm in having extra values in the event that its synth will not use only the required ones are sent to the server Often this is simpler than Plambda but there might be cases where Plambda is the only way\np  Pbind\nz Pseries0 1 inf\na Pseries100 1 inf\nb Pkeyz  2\nasStream\npnextN5 dopostln",
+                        "codigo": [
+                            "",
+                            "Plambda(pattern, scope) // Maintains an 'eventScope' environment, that is attached to events while they're being processed. Values can be assigned into the event scope using Plet(key, pattern, return), and read from scope using codePget(key, default, repeats). Pget is somewhat similar to Pkey, but it has a coderepeats argument controlling the number of return values as well as a codedefault that will be used if the given key is not found in the event scope.",
+                            "",
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Communicating values between separate event patterns",
+                        "contenido": "Passing values from one Pbind to another takes a couple of little tricks First is to store completed events in an accessible location Neither the Pattern nor the EventStreamPlayer save the finished events but calling codecollect on the pattern attaches a custom action to perform on every result event Here we save the event into an environment variable but it could go into the global library a declared variable or any other data structure\nSecond we have to ensure that the source pattern is evaluated before any client patterns that depend on the sources value The only way to do this is to schedule the source slightly earlier because items scheduled at the same time on any clock can execute in any order There is no priority mechanism to make one thread always run first But this scheduling requirement should not affect audio timing\nThe solution is a timing offset mechanism which delays the sound of an event by a given number of beats In the example the bass pattern is scheduled 01 beats before wholenumbered beats while the chord pattern runs exactly on wholenumbered beats The bass pattern operates with a timing offset of 01 delaying the sound so that it occurs on integer beats Both patterns sound together in the server even though their timing is different in the client\ntable\n strongBeat  strongClient timing  strongServer timing\n 09  Bass event calculated  bass event delayed by 01 nothing happens here\n 10  Chord event calculated  Both bass and chord make sound\n\n\nTempoClockdefaulttempo  1\nbass  Pbind\ndegree Pwhite0 7 inf\noctave 3\t down 2 octaves\ndur Pwhite1 4 inf\nlegato 1\namp 02\ncollect event\nlastBassEvent  event\nplayquant Quantquant 1 timingOffset 01\n shorter form for the Quant object 1 0 01\nchords  Pbind\ntopNote Pseries7 Prand2 1 1 2 inf inffold2 14\nbassTriadNotes Pfunc  lastBassEventdegree   0 2 4\n merge triad into topnote\n raises triad notes to the highest octave lower than top note\n div is integer division so x div 7  7 means the next lower multiple of 7\nmerge PkeytopNote  PkeybassTriadNotes div 7  7  PkeybassTriadNotes\n add topNote to the array if not already there\ndegree Pfunc  ev\nifevmergedetect item item  evtopNote isNil \nevmerge  evtopNote\n \nevmerge\n\n\ndur PwrandPseq05 Pwhite1 3 1 05 1 1 2 3 1 3 2 2normalizeSum inf\namp 005\nplayquant 1\n\nbassstop\nchordsstop\nThe chord pattern demonstrates some of the ways higherlevel logic can be expressed in patterns The goal is to transpose the notes of the root position triad over the bass note by octave so that the notes all fall within the octave beneath a top note chosen by stepwise motion codePkeytopNote  PkeybassTriadNotes gives the number of transposition steps to bring the triad notes up to the top note then the transposition steps are truncated to the next lower octave  codex div 7 is integer division producing an octave number multiplying by 7 gives the number of scale degrees for that octave\nf   topNote triad\nvar\tx\nx  topNote  triaddebuginitial transposition steps\nx  x div 7debugoctaves to transpose\nx  x  7debugsteps to transpose\nx  triad\n\nfvalue7 0 2 4\n  7 2 4  first inversion triad\nThen the transposed array is checked to see if the top note is already a member If not its added so that the melody will always be present\nNote that lazy operations on patterns define most of this behavior only the conditional array check had to be written as a function\nThe above example breaks one of the design principles of patterns Ideally it should be possible to play a single pattern object many times simultaneously without the different streams interfering with each other Saving the bass note in one environment variable means that concurrent streams would not work together because they cant both use the same environment variable at the same time The above approach does however allow the two patterns to be stopped and started independently and new bassdependent patterns to be added at any time In some musical scenarios this kind of flexibility is more important than respecting the pattern design ideal\n\np  Penvir Ptpar\n00 Pbind\ndegree Pwhite0 7 inf\noctave 3\t down 2 octaves\ndur Pwhite1 4 inf\nlegato 1\namp 02\ntimingOffset 01\ncollect event\nlastBassEvent  event\n\n01 Pbind\ntopNote Pseries7 Prand2 1 1 2 inf inffold2 14\nbassTriadNotes Pfunc  lastBassEventdegree   0 2 4\nmerge PkeytopNote  PkeybassTriadNotes div 7  7  PkeybassTriadNotes\ndegree Pfunc  ev\nifevmergedetect item item  evtopNote isNil \nevmerge  evtopNote\n \nevmerge\n\n\ndur PwrandPseq05 Pwhite1 3 1 05 1 1 2 3 1 3 2 2normalizeSum inf\namp 005\n\nplay\n\npstop",
+                        "codigo": [
+                            "",
+                            "",
+                            ""
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "titulo": "Pattern Guide 07: Value Conversions",
+        "secciones": [
+            {
+                "titulo": "Pitch and rhythm conversions in the default event",
+                "contenido": "Using the default event prototype pitch and rhythm can be specified in Pbind at different levels depending on the musical requirement The default event prototype includes logic to convert higherlevel abstractions into the physical parameters that are useful for synthesis\nThe descriptions below start with the ending value that will actually be used following up with the other values that are used in the calculations eg delta is based on dur and stretch The calculations may be bypassed by providing another value for the calculated item If your pattern specifies codedelta directly codedur and codestretch are ignored\nNote also that there is no obligation to use these constructs The default event prototype is not meant to enforce one model of pitch or rhythm over any other it simply provides these options which you may use if they suit the task or ignore or override if your task calls for something else entirely",
+                "codigo": [],
+                "subsecciones": [
+                    {
+                        "titulo": "Timing conversions",
+                        "contenido": "Rhythm is based on codedelta and codesustain event keys Both of these can be calculated from higherlevel abstractions codedur codestretch and codelegato\n delta  The number of beats until the next event You can give the delta pattern directly or the default event prototype can calculate it for you based on other values\n dur  Duration of this event\n stretch  A multiplier for duration codedelta  dur  stretch\n\n\n legato  A fraction of the events duration for which the synth should sustain code10 means this synth will release exactly at the onset of the next code05 means the last half of the duration will be a rest Values greater than code10 produce overlapping notes codesustain  dur  legato  stretch",
+                        "codigo": []
+                    },
+                    {
+                        "titulo": "Pitch conversions",
+                        "contenido": "Pitch handling in the default event is rich with a large number of options To use events it is not necessary to understand all of those options As the examples have shown a noteplaying pattern produces sensible results even specifying only codedegree The other parameters allow you to control how the event gets from codedegree to the frequency that is finally passed to the new synth The default event prototype includes reasonable defaults for all of these\nTo go from the highest level of abstraction down\n degree  represents a scale degree Fractional scale degrees support accidentals adding code01 to an integer scale degree raises the corresponding chromatic note number by a semitone and subtracting code01 lowers the chromatic note number code02 raises or lowers by two semitones and so on\n note  is a chromatic note index calculated from codedegree based on a codescale and modal transposition codemtranspose scale degrees to raise or lower the note codenote is in equaltempered units of any number of steps to the octave  codestepsPerOctave \n midinote  is a 12ET conversion of codenote transposed into the right codeoctave and applying gamut transposition codegtranspose given in stepsPerOctave units If codestepsPerOctave is anything other than code12 the non12ET units are scaled into 12 codemidinote units per octave\n freq  is calculated from codemidinote by codemidicps A chromatic transposition in 12ET units  codectranspose  is added\n\nMost noteplaying SynthDefs use codefreq as an argument If desired they may use codemidinote codenote or even codedegree\nTo simplify into rules of thumb\nlist\n If your material is organized around scales or modes use codedegree\nlist\n\n If your material is organized around equal divisions of the octave not necessarily 12 divisions use codenote and codestepsPerOctave for equal temperament other than 12 notes\n If your material is organized around MIDI note numbers or 12tone equal temperament codemidinote will also work\n If you prefer to give frequencies directly in Hz use codefreq\n\nFollowing is a complete description of all elements of the pitch system Feel free to use the ones that are of interest and ignore the rest\n freq  Frequency in Hz May be given directly or calculated based on the following Pitch may be expressed at any one of several levels Only one need be used at a time For instance if you write pitch in terms of scale degrees the note MIDI note and frequency values are calculated automatically for you\n ctranspose  Chromatic transposition in 12ET units Added to midinote\n midinote  MIDI note number 12 MIDI notes  one octave This may be fractional if needed Calculated based on\n root  The scale root given in 12ET MIDI note increments\n octave  The octave number for codenote  0  The default is code5 mapping note code0 onto MIDI note code60\n stepsPerOctave  How many codenote units map onto the octave Supports non12ET temperaments\n gtranspose  Non12ET transposition in codenote units Added to note\n note  The note number in any division of the octave code0 is the scale root Calculated based on\n degree  Scale degree\n scale  Mapping of scale degrees onto semitones Major for instance is code0 2 4 5 7 9 11\n stepsPerOctave  Same as above\n mtranspose  Modal transposition added to degree\n\n\n\n\n\n approximate a major scale with a 19TET chromatic scale\np  Pbind\nscale 0 3 6 8 11 14 17\nstepsPerOctave 19\ndegree Pwhite0 7 inf\ndur 0125\nlegato Pexprand02 60 inf\nplay\n\npstop",
+                        "codigo": [
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Amplitude conversion",
+                        "contenido": "Finally you can specify amplitude as codedb or codeamp If its given as codedb the amplitude will be calculated automatically using codedbamp",
+                        "codigo": []
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "titulo": "Pattern Guide 08: Event Types and Parameters",
+        "secciones": [
+            {
+                "titulo": "Event types",
+                "contenido": "A common question is Which parameters have special meanings in Pbind Perhaps surprisingly none of them do Thats because Pbind simply puts data into the result event it doesnt care what the data are\nThe event prototype used when playing the pattern defines the actions to take and it is here that parameters are defined Most patterns will play using the default event prototype  codeEventdefault  so this is the source of the parameters that will most typically be used\nThe default event prototype defines a number of event types each of which performs a different task The codetype key determines which action is taken and the significant parameters depend on the event type\nBefore looking at the event types themselves lets go over some standard parameters used across many event types Not every common parameter is used in every event type but these turn up in lots of places",
+                "codigo": [],
+                "subsecciones": []
+            },
+            {
+                "titulo": "Common parameters",
+                "contenido": "",
+                "codigo": [],
+                "subsecciones": [
+                    {
+                        "titulo": "Timing control",
+                        "contenido": "delta  Number of strongbeats until the next event Calculated from codedur  stretch if codedelta is not given explicitly\n lag  Number of strongseconds to delay the events server messages\n sustain  Number of beats to wait before releasing a Synth node on the server The SynthDef must have a codegate argument for the explicit release to be sent otherwise the pattern assumes the note will release itself using a timed envelope codesustain is calculated from codedur  legato  stretch if not given directly\nIt isnt typical use to override nonetheless for some special cases it may be useful\n tempo  Optional If a value is given in beats per second it will change the tempo of the TempoClock playing the pattern Here the note duration is constant but the clocks speed changes\nnoteChanging the tempo will affect all patterns playing on the same clock\nPbind\ncurve PsegPseq0 1 0 1 15\ndegree Pwhite7 0 inf  Pkeycurvelinlin0 1 0 14asInteger\ndur 05\ntempo Pkeycurvelinlin0 1 1 10\nplay",
+                        "codigo": [
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Node control",
+                        "contenido": "amp  Not formally defined as a special parameter but this is typically used for Synth amplitude The SynthDef should have an codeamp argument and use it to control volume codeamp is optionally calculated from codedb\n id  The desired ids for newly created Nodes in this event Normally this is codenil in which case the IDs will be obtained from codeservernextNodeID\n group  The target node relative to which new nodes will be created Similar to codetarget in codeSynthdefName args target addAction",
+                        "codigo": []
+                    },
+                    {
+                        "titulo": "User function hooks",
+                        "contenido": "finish  A function that will be executed after codeplay has been called but before event type processing Use this to manipulate event data\n callback  A function that will be executed after the Event has finished all its work The codecallback may be used for bookkeeping Finished Events are expected to store new node IDs under codeid with the IDs you can register functions to watch node status or set node controls for instance The function receives the finished event as its argument",
+                        "codigo": []
+                    }
+                ]
+            },
+            {
+                "titulo": "Event Types",
+                "contenido": "",
+                "codigo": [],
+                "subsecciones": [
+                    {
+                        "titulo": "Node control",
+                        "contenido": "rest  As one would expect a coderest does nothing except wait the required amount of time until the next event\n note  This is the default event type used when codetype is not specified It plays one or more Synth nodes on the server with an automatic release after codesustain beats if the SynthDef has a codegate argument\n Standard Timing and Node control arguments \n sendGate  Override SynthDef behavior for the codegate argument If the SynthDef as codegate setting codesendGate  false prevents the release message from being sent Rarely used\n strum  If multiple notes are produced usually a chord given by providing an array to one of the pitch parameters codestrum is the number of beats to delay each successive note onset When using codestrum another key is active codestrumEndsTogether If false the default each strummed node will play for its full duration and the releases will be staggered If true the releases will occur at the same time\np  Pbind\n array is multichannel expanded into one Synth each\ndegree 2 5 8 11 13 16\noctave 3\ndur 2\nsustain 3\n nonzero strum staggers the entrances\nstrum 012\nplayquant 2\npstop\n\n on  Start a Synth node or nodes without releasing The node IDs are in the events codeid variable Those IDs can be used with the off set and kill event types\n Standard Timing and Node control arguments \n sendGate and strum parameters are not used \n\n off  Release server nodes nicely if possible If the SynthDef has a codegate argument the gate will be set to code0 or a userspecified value Otherwise the nodes are brutally killed with codenfree\n Standard Timing control arguments \n hasGate  True or false telling the event whether the SynthDef has a codegate argument or not The default is assumed true\n id  The node IDs must be given explicitly\n\n kill  Immediately remove nodes using codenfree\n Standard Timing control arguments \n id  The node IDs must be given explicitly\n\n set  Send new values to the control inputs of existing nodes\n Standard Timing control arguments \n id  The node IDs must be given explicitly This may be an integer ID or SynthGroup node object\n\n\nThere are two ways to specify argument names by emphasisinstrument and by emphasisargument array\n emphasisBy instrument \n instrument  The SynthDef name should be given again so that the event knows which event values are relevant for the nodes\n args  By default the codeargs key contains the control names for the default synthdef To take argument names from the instrument name you must override this default with an empty array or any noncollection object\n\nSynthDefeventset  freq  440 gate  1 amp  01 lagTime  01\nffreq  2000 detune  1005 out  0\nvar\tsig  SawarLagkrfreq lagTime  1 detunesum  amp\n EnvGenkrEnvadsr gate doneAction DonefreeSelf\nOutarout sig  2\nadd\n\na  Syntheventset\n\np  Pbind\ntype set\nid a\ninstrument eventset\nargs \nfreq Pexprand200 600 inf\ndur Pwhite1 5 inf  0125\nplay\n\npstop\nafree\n\n emphasisBy argument names \n args  Provide a list of the Synth argument names as an array here eg codefreq amp pan There is no need to provide the instrument name this way\na  Syntheventset\n\np  Pbind\ntype set\nid a\nargs freq\nfreq Pexprand200 600 inf\ndur Pwhite1 5 inf  0125\nplay\n\npstop\nafree\n\n monoNote \n monoOff \n monoSet  These event types are used internally by Pmono and PmonoArtic They should not be used directly",
+                        "codigo": [
+                            "",
+                            "",
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Server control",
+                        "contenido": "group  Create a new group or groups\n Standard Timing and Node control arguments \n id   Optional IDs for the new groups If not specified the new ID for one group only can be found in the event after codeplay To create multiple groups you must provide an array of IDs\n\n bus  Set the value of a control bus or contiguous control buses This assumes that you already have the bus index\n Standard Timing control arguments \n array  The values to send to the buses If its only one value it doesnt have to be an array\n out  The first bus index to be set A Bus object can be used",
+                        "codigo": []
+                    },
+                    {
+                        "titulo": "Buffer control",
+                        "contenido": "alloc  Allocate memory for a buffer on the server Only one buffer may be allocated per event\n Standard Timing control arguments \n\n free  Deallocate the buffers memory on the server\n Standard Timing control arguments \n bufnum  Buffer number to free one only\n\n Standard Timing control arguments \n bufnum \n gencmd  The generator plugin name codesine1 codesine2 codesine3 codecheby\n genflags  Three flags associated with numbers normalize  code1 asWavetable  code2 clearFirst  code4 Add the numbers for the desired flags Normally the flags are all true adding up to code7\n\n load  Allocate buffer memory in the server and load a sound file into it using codeballocRead\n Standard Timing control arguments \n bufnum \n filename  Path to disk file\n frame  Starting frame to read default code0\n numframes  Number of frames to read default code0 which loads the entire file\n\n read  Read a sound file into a buffer already allocated on the server This event type is good to cue a sound file for use with DiskIn\n Standard Timing control arguments \n bufnum \n filename  Path to disk file\n frame  Starting soundfile frame to read default code0\n numframes  Number of frames to read default code0 which loads the entire file\n bufpos  Starting buffer frame default code0",
+                        "codigo": []
+                    },
+                    {
+                        "titulo": "Event types with cleanup",
+                        "contenido": "These event types uniquely have automatic cleanup event types associated with them Playing one of these event types allocates a server resource Later the resource may be freed by changing the event type to the corresponding cleanup type and playing the event again While the resource is active the event can be used as a reference to the resource in other events or Synth messaging\n create a buffer\nb  type allocRead path PlatformresourceDir  soundsa11wlk01wavplay\na   PlayBufar1 b doneAction DonefreeSelf play\n remove buffer\nEventTypesWithCleanupcleanupb\n audioBus  Allocate an audio bus index from the server\n channels  Number of channels to allocate\n\n controlBus  Allocate a control bus index from the server\n channels  Number of channels to allocate\n\n buffer  Allocate a buffer number if not specified and reserve the memory on the server\n bufNum  Optional Buffer number If not given a free number will be obtained from the server\n numBufs  Number of contiguous buffer numbers to reserve default  code1\n numFrames  Number of frames\n numChannels  Number of channels\n\n allocRead  Read a disk file into server memory The file is closed when finished\n bufNum  Optional Buffer number If not given a free number will be obtained from the server\n path  Path to the sound file on disk\n firstFileFrame  Where to start reading in the file\n numFrames  Number of frames If not given the whole file is read\n\n cue  Cue a sound file generally for use with DiskIn\n bufNum  Optional Buffer number If not given a free number will be obtained from the server\n path  Path to the sound file on disk\n firstFileFrame  Where to start reading in the file\n numFrames  Number of frames If not given the whole file is read\n firstBufferFrame  Where in the buffer to start putting file data\n\n table  Fill a buffer with preset data This uses codebsetn to transfer the data so all of the data must fit into one datagram It may take some experimentation to find the upper limit\n bufNum  Optional Buffer number If not given a free number will be obtained from the server\n amps  The values to put into the buffer These should all be Floats\n\n cheby  Generate a Chebyshev transfer function for waveshaping\n bufNum  Optional Buffer number If not given a free number will be obtained from the server\n numFrames  Number of frames should be a power of 2\n numChannels  Number of channels\n genflags  Three flags associated with numbers normalize  code1 asWavetable  code2 clearFirst  code4 Add the numbers for the desired flags Normally the flags are all true adding up to code7\n amps  The amplitude of each partial ie polynomial coefficient\n\n bufNum  Optional Buffer number If not given a free number will be obtained from the server\n numFrames  Number of frames should be a power of 2\n numChannels  Number of channels\n genflags  See above\n amps  Array of amplitudes for each partial\n\n sine2  Like strongsine1 but the frequency ratio of each partial is also given\n Same arguments as sine1 plus \n freqs  Array of frequencies for each partial code10 is the fundamental frequency its sine wave occupies the entire buffer duration\n\n sine3  Like strongsine2 but the phase of each partial may also be provided\n Same arguments as sine1 plus \n phases  Array of phases for each partial given in radians 00  2pi",
+                        "codigo": [
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "MIDI output",
+                        "contenido": "midi  Sends one of several types of MIDI messages to a MIDIOut object\n Standard Timing control arguments except timingOffset which is not used \n midicmd  The type of MIDI message to send This also determines other arguments that should be present in the event\n midiout  The MIDI out object which connects to one of the MIDI devices listed in codeMIDIClientdestinations\n chan  The MIDI channel number 015 on the device that should receive the message This applies to all midicmds except the global ones  strongsmpte strongsongPtr strongsysex \n\n\n Available midicmds \n noteOn  Starts a note and optionally stops it If multiple frequencies are given one noteOnnoteOff pair is sent for each and codestrum is also supported\n chan  MIDI channel 015\n amp  codeMIDI velocity  amp  127\n sustain  How many beats to wait before sending the corresponding note off message If not given directly its calculated as codesustain  dur  legato  stretch just like the standard codenote event type\n hasGate  Normally true If false the note off message will not be sent\n\n noteOff  Send an explicit note off message useful if stronghasGate is set false in the note on event\n chan  MIDI channel 015\n midinote  Note number\n amp  Release velocity supported by some synthesizers\n\n allNotesOff  Panic message kills all notes on the channel\n chan  MIDI channel 015\n\n control  Continuous controller message\n chan  MIDI channel 015\n ctlNum  Controller number to receive the new value\n control  New value 0127\n\n bend  Pitch bend message\n chan  MIDI channel 015\n val  New value 016383 8191 is centered\n\n touch  Aftertouch message\n chan  MIDI channel 015\n val  New value 0127\n\n polyTouch  Poly aftertouch message not supported by all synthesizers\n chan  MIDI channel 015\n midinote  Note number to get the new after touch value As in note on it may be calculated from the standard pitch hierarchy\n polyTouch  New value 0127\n\n program  Program change message\n chan  MIDI channel 015\n progNum  Program number 0127\n\n smpte  Send MIDI Time Code messages\n Arguments  frames seconds minutes hours frameRate\n\n songPtr  Song pointer message\n songPtr  Pointer value 016383\n\n sysex  System exclusive messages\nnote\nVery important Arrays normally multichannel expand in patterns So you must wrap the Int8Array inside another array to prevent this Write codeInt8Array not just codeInt8Array",
+                        "codigo": []
+                    },
+                    {
+                        "titulo": "Miscellaneous",
+                        "contenido": "composite  Perform any number of event types given as types You should ensure that parameters are compatible It is possible using codecomposite to play a synth and send MIDI for the same pitches It is not possible to use one frequency for the synth and a different one for MIDI in the same event you would need two different events for that case\n types  An array of Symbols listing the Event types to be performed\n\nMIDIClientinit\nm  MIDIOut0\n should play a synth and an external MIDI note simultaneously\ntype composite types note midi midiout m degree 0 dur 3play\n setProperties  Set variables belonging to a given object One possible use is to control a GUI using a pattern\n receiver  The object to be modified\n args  The list of variable names to set in the receiver The receiver should have a setter method  variableName  for each of these New values will be looked up in the event\n\n Visualize Brownian motion\nw  WindowBrownian motion Rect10 100 500 50\nx  Sliderw Rect10 15 480 20\nwfront\np  Pbind\ntype setProperties\nreceiver x\n this means call xvalue on every event\nargs value\n and look for the value under value\nvalue Pbrown0 1 01 inf\ndelta 01\nplay\npstop",
+                        "codigo": [
+                            "",
+                            ""
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "titulo": "Pattern Guide Cookbook 01: Basic Sequencing",
+        "secciones": [
+            {
+                "titulo": "Cookbook: Sequencing basics",
+                "contenido": "",
+                "codigo": [],
+                "subsecciones": [
+                    {
+                        "titulo": "Playing a predefined note sequence",
+                        "contenido": "The following are three different ways of playing the same famous fugue subject\nThe first is brute force listing all the scale degrees mechanically in order The second and third recognize the A pedal point and use interlacing operations to insert the pedal notes in between the changing notes\nThe example demonstrates the use of the codescale and coderoot event keys to define tonality Root  2 is D and the scale defines a natural minor mode The degree sequence also uses accidentals Subtracting 01 from an integer scale degree flattens the note by a semitone adding 01 raises by a semitone 09 is 01 higher than 1 a natural minor scale degree below the tonic is a flat 7 and a half step higher than that is the leading tone\n\nTempoClockdefaulttempo  8460\np  Pbind\nscale 0 2 3 5 7 8 10\nroot 2\ndegree Pseqrest 4 3 4 2 4 1 4 0 4 09 4 0 4 1 4 2 4\n3 4 19 4 09 4 0 4 09 4 0 4 1 4 2 1\ndur 025\nplay\n\n\np  Pbind\nscale 0 2 3 5 7 8 10\nroot 2\ndegree Placerest 3 2 1 0 09 0 1 2 3 19 09 0 09 0 1 2\n4  16  rest 17\ndur 025\nplay\n\n\np  Pbind\nscale 0 2 3 5 7 8 10\nroot 2\ndegree PpatlacePseqrest 3 2 1 0 09 0 1 2 3 19 09 0 09 0 1 2 1\nPn4 16 inf\ndur 025\nplay",
+                        "codigo": [
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "\"Multichannel\" expansion",
+                        "contenido": "The codedegree pattern applies a set of chord intervals to a melody thats always on top Its a compound pattern Pseries  Prand where Pseries returns a single number and Prand returns an array As with regular math operations a number plus an array is an array If the current Pseries value is 7 and Prand returns 0 3 5 the result is 7 4 2 and you would hear a C major triad in first inversion\n\np  Pbind\ndegree Pseries7 Pwhite1 3 inf  Prand1 1 inf inffold0 14\n Prand0 2 4 0 3 5 0 2 5 0 1 4 inf\ndur Pwrand1 05 08 02 inf\nplay\n\npstop",
+                        "codigo": [
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Using custom SynthDefs (including unpitched SynthDefs)",
+                        "contenido": "Patterns have special features to support several styles of pitch organization but those features are strictly optional Here we play a SynthDef that has no frequency argument whatsoever\nNote the use of codeadd to prepare the SynthDef Without it most of the SynthDef inputs would not be recognized and the pattern would not send values to them\nIts worth noting that the pattern runs in beats whose real duration in seconds depends on the clocks tempo The SynthDef however always measures time in seconds This example keeps things simple by setting the clock to 1 beat per second If the tempo needs to be something else though the codetime key should be divided by the tempo\ntime Pkeydelta  Pfunc  thisThreadclocktempo \n\nb  Bufferreads PlatformresourceDir  soundsa11wlk01wav\nSynthDefstretchedFragments  out bufnum start time  1 stretch  1 amp  1 attack  001 decay  005\nvar sig  PlayBufar1 bufnum rate stretchreciprocal startPos start eg\nsig  PitchShiftarsig pitchRatio stretch\neg  EnvGenkrEnvlinenattack time decay sigabs  0 doneAction DonefreeSelf\nOutarout sig  eg  2\nadd  note add Without this arguments wont work\n\n\nTempoClockdefaulttempo  1\np  Pbind\ninstrument stretchedFragments\nbufnum b\nstart Pwhite0 bnumFrames  07asInteger inf\ndelta Pexprand02 15 inf\ntime Pkeydelta\nstretch Pexprand10 40 inf\namp 05\nattack 01\ndecay 02\nplay\n\npstop\nbfree\t be tidy remember to clean up your Buffer",
+                        "codigo": [
+                            "",
+                            ""
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "titulo": "Pattern Guide Cookbook 02: Manipulating Patterns",
+        "secciones": [
+            {
+                "titulo": "Manipulating pattern data",
+                "contenido": "",
+                "codigo": [],
+                "subsecciones": [
+                    {
+                        "titulo": "Merging (interleaving) independent streams",
+                        "contenido": "degree PwrandPwhite7 11 1 Pwhite7 18 1 07 03 inf\n\nvar\tmelodies  \nlowMelody Pseries4 Prand2 1 1 2 inf inffold7 11\nhighMelody Pseries14 Prand3 2 2 3 inf inffold7 18\n\np  Pbind\ndegree Pnsym1PwrandlowMelody highMelody 07 03 inf melodies\ndur Pwrand025 05 04 06 inf\nplay\n\npstop",
+                        "codigo": [
+                            "",
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Reading an array forward or backward arbitrarily",
+                        "contenido": "Heres an interesting one We have an array of possible output values and we want the pattern to move forward or backward through the array depending on some kind of user input\nIn general GUI objects should not be used for data storage The approach here is to save the step size into a variable and then refer to that variable in the Pwalk pattern\n\nvar\tpitches  014\t replace with other pitches you want\nmove  0\nwindow slider\nwindow  WindownewMouse Transport Rect5 100 500 50\nslider  Slidernewwindow Rect5 5 490 20\naction view\nmove  viewvalue  4  2round\n\nvalue05\nwindowfront\np  Pbind\n Pfunc is the direction to move through the array\n it could be anything\n    could read from MIDI or HID and convert it into a step\n    could be a GUI control as it is here\ndegree Pwalkpitches Pfunc  move  1 7\ndur 025\nplay\n\npstop",
+                        "codigo": [
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Changing Pbind value patterns on the fly",
+                        "contenido": "Patterns are converted into streams to generate values or events By design there is no way to access the internal state of the stream This means for Pbind and similar patterns the streams producing values for the event keys are invisible So it isnt possible to reach inside the stream and change them while the pattern is playing\nIn the first example pattern proxies are held in environment variables and they can be manipulated through those variables\n\ndegree  PatternProxyPnPseries0 1 8 inf\ndur  PatternProxyPn025 inf\np  Pbind\ndegree degree\ndur dur\nplay\n\ndegreesource  Pexprand1 8 inf  1round\ndursource  Pwrand025 05 075 05 03 02 inf\npstop\n\nPdefndegree PnPseries0 1 8 inf\nPdefndur Pn025 inf\np  Pbind\ndegree Pdefndegree\ndur Pdefndur\nplay\n\nPdefndegree Pexprand1 8 inf  1round\nPdefndur Pwrand025 05 075 05 03 02 inf\npstop\nstrongThirdparty extension alert  The strongddwChucklib quark defines a third way of doing this using object prototyping based on Environments to create objects that encapsulate all the information needed to perform a musical behavior Patterns stored in the prototypes variables are automatically available as pattern proxies to the objects pattern making it easier to create complex malleable processes which can be replicated as separate objects that dont interfere with each other Its a step toward objectoriented modeling of musical behaviors without requiring hardcoded classes that are specific to one piece or another",
+                        "codigo": [
+                            "",
+                            ""
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "titulo": "Pattern Guide Cookbook 03: External Control",
+        "secciones": [
+            {
+                "titulo": "Pattern control by external device",
+                "contenido": "",
+                "codigo": [],
+                "subsecciones": [
+                    {
+                        "titulo": "Control of parameters by MIDI or HID",
+                        "contenido": "legato  1\nc  MIDIFunccc value num chan src\nlegato  valuelinlin0 127 01 25\n 1\t 1 means modwheel\n\n\np  Pbind\ndegree Pwhite7 12 inf\ndur Pwrand025 Pn0125 2 08 02 inf\nlegato Pfunc  legato \t retrieves value set by MIDI control\nplay\n\npstop\ncfree\n\nlegato  PatternProxy1\nc  MIDIFunccc value num chan src\nlegatosource  valuelinlin0 127 01 25\n 1\n\n\np  Pbind\ndegree Pwhite7 12 inf\ndur Pwrand025 Pn0125 2 08 02 inf\nlegato legato\nplay\n\npstop\ncremove",
+                        "codigo": [
+                            "",
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Triggering patterns by external control",
+                        "contenido": "Issuing codeplay to a pattern can occur in an action function for many different kinds of objects GUI MIDI OSCFunc HID actions This allows triggering patterns from a variety of interfaces",
+                        "codigo": []
+                    },
+                    {
+                        "titulo": "Triggering a pattern by a GUI",
+                        "contenido": "var\tpattern  Pbind\ndegree Pseries7 Pwhite1 3 inf  Prand1 1 inf inffold0 14\n Prand0 2 4 0 3 5 0 2 5 0 1 4 inf\ndur Pwrand1 05 08 02 inf\n\nplayer window\nwindow  WindownewPattern trigger Rect5 100 150 100\n onClose is fairly important\n without it closing the window could leave the pattern playing\nonClose playerstop \nButtonnewwindow Rect5 5 140 90\nstatesPattern GO Pattern STOP\nfontFontnewHelvetica 18\naction button\nifbuttonvalue  1 and  playerisNil or  playerisPlayingnot   \nplayer  patternplay\n \nplayerstop\nbuttonvalue  0\n\n\nwindowfront\n\npstop",
+                        "codigo": [
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Triggering a pattern by MIDI",
+                        "contenido": "var\tpattern  Pbind\ndegree Pseries7 Pwhite1 3 inf  Prand1 1 inf inffold0 14\n Prand0 2 4 0 3 5 0 2 5 0 1 4 inf\ndur Pwrand1 05 08 02 inf\n\nplayer\nnoteOnFunc  MIDIFuncnoteOn\nifplayerisNil or  playerisPlayingnot  \nplayer  patternplay\n \nplayerstop\n\n 60 limits this MIDIFunc to listen to middleC only\n but it will pick up that note from any port any channel\n 60\n\n when done\nnoteOnFuncfree",
+                        "codigo": [
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Triggering a pattern by signal amplitude",
+                        "contenido": "The actual threshold depends on the incoming signal so the example pops up a quick and dirty window to see the measured amplitude and set the threshold and decay accordingly The synth listens by default to the first hardware input bus but you can change it the following in the code to use a different input bus\ninbus soptionsnumOutputBusChannels\nIn this configuration the first trigger starts the pattern and the second trigger stops it You might want the pattern to play while the input signal is above the threshold and stop when the signal drops to a quieter level The comparison codeamp  thresh can send a trigger only when the signal goes from softer to lower so if we want the pattern to stop when the signal becomes quiet we need to send a trigger when crossing the threshold in both directions\nvar\tamp  AmplitudekrInarinbus 1 attackTime 001 releaseTime decay\ntrig  HPZ1kramp  thresh\nSendTrigkrtrigabs 1 trig\nFor this example triggers are measured only when the signal rises above the threshold\n\nvar\tpattern  Pbind\ndegree Pseries7 Pwhite1 3 inf  Prand1 1 inf inffold0 14\n Prand0 2 4 0 3 5 0 2 5 0 1 4 inf\ndur Pwrand1 05 08 02 inf\n\nplayer\n Quicky GUI to tune threshold and decay times\nw  Windowthreshold setting Rect15 100 300 100\nonClose\nampSynthfree\nampUpdaterfree\noscTrigRespfree\nplayerstop\n\nwviewdecorator  FlowLayoutwviewbounds 22 22\nampView  EZSliderw 29520 amplitude amp labelWidth 80 numberWidth 60\nampViewsliderViewcanFocusfalseenabledfalse\nampViewnumberViewcanFocusfalseenabledfalse\nStaticTextw 2955backgroundColorgray\nthreshView  EZSliderw 29530 threshold amp action  ez\nampSynthsetthresh ezvalue\n initVal 04 labelWidth 80 numberWidth 60\ndecayView  EZSliderw 29530 decay 01 100 exp action  ez\nampSynthsetdecay ezvalue\n initVal 800 labelWidth 80 numberWidth 60\nwfront\nampSynth  SynthDefampSynth  inbus thresh  08 decay  1\nvar\tamp  AmplitudekrInarinbus 1 attackTime 001 releaseTime decay\n this trigger id0 is to update the gui only\nSendReplykrImpulsekr10 amp amp\n this trigger gets sent only when amplitude crosses threshold\nSendReplykramp  thresh amptrig\nplayargs inbus soptionsnumOutputBusChannels thresh threshViewvalue decay decayViewvalue\nampUpdater  OSCFunc msg\ndefer  ampViewvalue  msg3 \n amp saddr\noscTrigResp  OSCFunc msg\nifplayerisNil or  playerisPlayingnot  \nplayer  patternplay\n \nplayerstop\n\n amptrig saddr",
+                        "codigo": [
+                            "",
+                            "",
+                            ""
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "titulo": "Pattern Guide Cookbook 04: Sending MIDI",
+        "secciones": [
+            {
+                "titulo": "Sending MIDI out with Patterns",
+                "contenido": "The codemidi event type supports the following commands chosen in the event by the codemidicmd key codeallNotesOff bend control noteOff noteOn polyTouch program smpte songPtr sysex touch The default is codenoteOn When playing a note noteOn by default the corresponding noteOff message will be sent after the notes sustain time\nIf you want to synchronize events played by a MIDI device and events played by the SuperCollider server the MIDIOut objects latency must match the server latency You can set the latency any time to affect all future events\ncode\nMIDIClientinit\t if not already done\n\n substitute your own device here\nvar\tmOut  MIDIOutnewByNameFastLane USB Port AlatencyServerdefaultlatency\np  Pbind\ntype midi\n this line is optional bc noteOn is the default\n just making it explicit here\nmidicmd noteOn\nmidiout mOut\t must provide the MIDI target here\nchan 0\n degree is converted to midinote not just frequency\ndegree Pwhite7 12 inf\ndur Pwrand025 Pn0125 2 08 02 inf\nlegato sinPtimeinf  05linexp1 1 13 3\namp Pexprand05 10 inf\nplayquant 1\n\npstop",
+                "codigo": [],
+                "subsecciones": []
+            }
+        ]
+    },
+    {
+        "titulo": "Pattern Guide Cookbook 05: Using Samples",
+        "secciones": [
+            {
+                "titulo": "Using samples",
+                "contenido": "",
+                "codigo": [],
+                "subsecciones": [
+                    {
+                        "titulo": "Playing a pattern in time with a sampled loop",
+                        "contenido": "A deceptively complex requirement\nTo synchronize patterns with a sampled loop the basic procedure is\nnumberedlist\n Determine the loop boundaries\n Adjust tempo andor playback rate\n Sequence individual loop segments alongside other patterns\n\nstrong1 Determine the loop boundaries\nUse an external audio editor to identify a segment of the source file that loops in a musically sensible way For this example we will use a11wlk01wav because its readily available Empirically we can find that the segment from 0404561 to 3185917 seconds produces a rhythm that can be parsed as one bar of 44 time\nThe segment beginning 0404561 and ending 3185917 are important We will use them below\nChoose these values carefully If the loop boundaries are wrong then the musical result will not make sense\nstrong2 Adjust tempo andor playback rate\nTo match the loop tempo with sequencing tempo we need to know both\nlist\n the loops original tempo and\n the desired playback tempo\n\nstrongOriginal tempo  The duration of the segment chosen in part 1 is 3185917  0404561  2781356 seconds This spans one bar  4 beats so the duration of one beat is 2781356  4  0695339 secondsbeat SuperCollider specifies tempo as beats per second so we need the reciprocal 1  0695339  14381474359988 beatssecond 86289 bpm\nend  start  numBeatsreciprocal\n or algebraically\nend  startreciprocal  numBeats\n which equals\nnumBeats  end  start\nstrongPlayback tempo  In principle you can choose any tempo you like The loopsegment player should provide a coderate parameter where the rate is codedesiredTempo  originalTempo If the original tempo is as above 86289 bpm and you want to play at 72 bpm you have to scale the samples rate down by a factor of 72  86289  083440531238049\nstrong3 Sequence individual loop segments alongside other patterns\n\nb  Bufferreads PlatformresourceDir  soundsa11wlk01wav\n one loop segment\nSynthDefoneLoop  out bufnum start time amp rate  1\nvar sig  PlayBufar1 bufnum\nrate rate  BufRateScalekrbufnum\nstartPos start loop 0\n\nenv  EnvGenkrEnvlinen001 time 005 level amp\ndoneAction DonefreeSelf\nOutarout sig  envdup\nadd\nSynthDefbell  out accent  0 amp  01 decayScale  1\nvar exc  PinkNoisearamp\n Decay2krImpulsekr0 001 005\nsig  Klankar\n ExpRand400 1600   4\n1  4\n ExpRand01 04   4\n exc freqscale accent  1 decayscale decayScale\nDetectSilencearsig doneAction DonefreeSelf\nOutarout sigdup\nadd\n\n\nvar start  0404561 end  3185917\nbeatsInLoop  4\noriginalTempo  beatsInLoop  end  start\nTempoClocktempo  originalTempo\np  Ptpar\n0 Pbind\ninstrument oneLoop\nbufnum b\namp 04\nstart start  bsampleRate\ndur beatsInLoop\ntime Pkeydur  Pfunc  thisThreadclocktempo \nrate Pfunc  thisThreadclocktempo  originalTempo \n\n05 Pn\nPfindur4\nPbind\ninstrument bell\naccent Pseq2 Pn0 inf 1\namp Pseq03 Pn01 inf 1\ndecayScale Pseq6 Pn1 inf 1\ndur Pwrand025 05 075 1 2 3 1 1normalizeSum inf\n\n\ninf\n05 Pbind\ninstrument bell\naccent 06\namp 02\ndecayScale 01\ndur 1\n\n 1play\n\n for fun change tempo\n resyncs on next bar\nTempoClocktempo  10460\npstop\n\nvar start  0404561 end  3185917\nbeatsInLoop  4\noriginalTempo  beatsInLoop  end  start\nTempoClocktempo  originalTempo\np  Pbind\ninstrument oneLoop\nbufnum b\namp 04\nstart start  bsampleRate\ndur beatsInLoop\ntime Pkeydur  Pfunc  thisThreadclocktempo \nrate Pfunc  thisThreadclocktempo  originalTempo \nplayquant 4 35\nq  Pn\nPfindur4\nPbind\ninstrument bell\naccent Pseq2 Pn0 inf 1\namp Pseq03 Pn01 inf 1\ndecayScale Pseq6 Pn1 inf 1\ndur Pwrand025 05 075 1 2 3 1 1normalizeSum inf\n\n\ninfplayquant 4 4\nr  Pbind\ninstrument bell\naccent 06\namp 02\ndecayScale 01\ndur 1\nplayquant 4 4\n\np q rdostop\nbfree",
+                        "codigo": [
+                            "",
+                            "",
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Using audio samples to play pitched material",
+                        "contenido": "Frequency is controlled by the rate parameter The sample plays at a given frequency at normal rate so to play a specific frequency codefrequency  baseFrequency gives you the required rate\nThe first example makes a custom protoEvent that calculates rate as codefreq based on the base frequency It uses one sample so it would be best for patterns that will play in a narrow range Since there isnt an instrument sample in the SuperCollider distribution we will record a frequencymodulation sample into a buffer before running the pattern\n make a sound sample\n\nvar recorder\nfork \nb  Bufferallocs 44100  2 1\nssync\nrecorder   freq  440\nvar initPulse  Impulsekr0\nmod  SinOscarfreq  Decay2krinitPulse 001 3  5\ncar  SinOscarfreq  modfreq  Decay2krinitPulse 001 20\nRecordBufarcar b loop 0 doneAction DonefreeSelf\ncar  2\nplay\no  OSCFunc msg\nifmsg1  recordernodeID \ndone recordingpostln\nofree\n\n nend saddr\n\nSynthDefsampler  out bufnum freq  1 amp  1\nvar sig  PlayBufar1 bufnum rate freq doneAction DonefreeSelf  amp\nOutarout sig  2\nadd\n\n\n WAIT for done recording message before doing this\nvar samplerEvent  Eventdefaultputfreq  midinotemidicps  sampleBaseFreq \nTempoClockdefaulttempo  1\np  Pbind\ndegree Pwhite0 12 inf\ndur Pwrand025 Pn0125 2 08 02 inf\namp Pexprand01 05 inf\nsampleBaseFreq 440\ninstrument sampler\nbufnum b\nplayprotoEvent samplerEvent\n\npstop\nbfree",
+                        "codigo": [
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Multi-sampled instruments",
+                        "contenido": "To extend the samplers range using multiple samples and ensure smooth transitions between frequency ranges the SynthDef should crossfade between adjacent buffers A hybrid approach is used here where Pbind calculates the lower buffer number to use and the SynthDef calculates the crossfade strength The calculations could be structured differently either putting more of them into the SynthDef for convenience in the pattern or loading them into the pattern and keeping the SynthDef as lean as possible\nMIDI note numbers are used for these calculations because its a linear frequency scale and linear interpolation is easier than the exponential interpolation that would be required when using Hz Assuming a sorted array indexInBetween gives the fractional index using linear interpolation If you need to use frequency in Hz use this function in place of indexInBetween\nf   val array\nvar a b div\nvar i  arrayindexOfGreaterThanval\nifiisNil  arraysize  1  \nifi  0  i  \na  arrayi1 b  arrayi\ndiv  b  a\nifdiv  1  i  \n log  log  logvala at base ba\n which is the inverse of exponential interpolation\nlogval  a  logdiv  i  1\n\n\n\n\nBut that function isnt needed for this example\n\nvar bufCount\nmidinotes  39 46  88\nbufCount  midinotessize\nfork \n record the samples at different frequencies\nb  BufferallocConsecutivemidinotessize s 44100  2 1\nSynthDefsampleSource  freq  440 bufnum\nvar initPulse  Impulsekr0\nmod  SinOscarfreq  Decay2krinitPulse 001 3  5\ncar  SinOscarfreq  modfreq  Decay2krinitPulse 001 20\nRecordBufarcar bufnum loop 0 doneAction DonefreeSelf\nsends\nssync\n record all 8 buffers concurrently\nbdo buf i\nSynthsampleSource freq midinotesimidicps bufnum buf\n\n\no  OSCFunc msg\nbufCount  bufCount  1\nifbufCount  0 \ndone recordingpostln\nofree\n\n nend saddr\nSynthDefmultiSampler  out bufnum bufBase baseFreqBuf freq  440 amp  1\nvar buf1  bufnumfloor\nbuf2  buf1  1\nxfade  bufnum  buf1madd2 1\nbasefreqs  IndexkrbaseFreqBuf buf1 buf2\nplaybufs  PlayBufar1 bufBase  buf1 buf2 freq  basefreqs loop 0\ndoneAction DonefreeSelf\nsig  XFade2arplaybufs0 playbufs1 xfade amp\nOutarout sig  2\nadd\nbaseBuf  Bufferallocs midinotessize 1  buf bufsetnMsg0 midinotesmidicps \n\n\nTempoClockdefaulttempo  1\np  Pbind\ninstrument multiSampler\nbufBase bfirst\nbaseFreqBuf baseBuf\ndegree Pseries0 Prand2 1 1 2 inf inffold11 11\ndur Pwrand025 Pn0125 2 08 02 inf\namp Pexprand01 05 inf\n some important conversions\n identify the buffer numbers to read\nfreq Pfunc  ev evuseevfreq \nbufnum Pfunc ev midinotesindexInBetweenevfreqcpsmidi \nclip0 midinotessize  1001\nplay\n\npstop\nbdofree baseBuffree",
+                        "codigo": [
+                            "",
+                            ""
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "titulo": "Pattern Guide Cookbook 06: Phrase Network",
+        "secciones": [
+            {
+                "titulo": "Sequencing by a network of phrases",
+                "contenido": "",
+                "codigo": [],
+                "subsecciones": []
+            },
+            {
+                "titulo": "Articulating notes with PmonoArtic",
+                "contenido": "Two for one here\nThis is a long example but its only because there are lots of phrases The structure is very simple just a set of phrases chosen in succession by Pfsm\n strongThirdparty extension alert  In this example the selection of the next phrase is explicitly weighted by repeating array elements such as code1 1 1 1 2 2 3 3 4 4 5 A more elegant way to do this is using the strongWeighBag class in the strongMathLib quark\ncode\n the following are equivalent\na  1 1 1 1 2 2 3 3 4 4 5\n achoose   100histo5 1 5\na  WeighBagwith15 4 2 2 2 1\n awchoose   100histo5 1 5",
+                "codigo": [],
+                "subsecciones": [
+                    {
+                        "titulo": "Example",
+                        "contenido": "this SynthDef has a strong attack emphasizing the articulation\nSynthDefsawpulse  out freq  440 gate  05 plfofreq  6 mw  0 ffreq  2000 rq  03 freqlag  005 amp  1\nvar sig plfo fcurve\nplfo  SinOsckrplfofreq mulmw add1\nfreq  Lagkrfreq freqlag  plfo\nfcurve  EnvGenkrEnvadsr0 03 01 20 gate\nfcurve  fcurve  1madd07 1  ffreq\nsig  MixarPulsearfreq 09 Sawarfreq1007\nsig  RLPFarsig fcurve rq\n EnvGenkrEnvadsr004 02 06 01 gate doneAction DonefreeSelf\n amp\nOutarout sig  2\nadd\n\n\nTempoClockdefaulttempo  12860\n Pmul does only one thing here take amp from each event\n and replace it with amp  04\np  Pmulamp 04 Pfsm\n0 3 1\t\t starting places\nPmonoArticsawpulse\nmidinote Pseq78 81 78 76 78 76 72 71 69 66 1\ndur Pseq025 125 025 025 025 025 025 025 025 025 1\nsustain Pseq03 12 03 02 03 02 03 02 03 021 \namp Pseq1 05 075 05 075 05 075 05 075 05 1\nmw Pseq0 003 Pseq0 inf 1\n 1 2 3 4 7\nPmonoArticsawpulse\nmidinote Pseq64 66 69 71 72 73 1\ndur Pseq025 6\nsustain Pseq03 02 02 02 03 02 1\namp Pseq1 05 05 05 05 05 1\nmw 0\n 1 1 1 1 2 2 3 3 4 4 5\nPmonoArticsawpulse\nmidinote Pseq69 71 69 66 64 69 71 69 1\ndur Pseq0125 0625 025 025 025 025 025 075 1\nsustain Pseq02 064 02 02 02 03 03 075 1\namp Pseq05 075 05 05 05 1 05 05 1\nmw 0\n 0 1 1 1 1 3 3 3 3 5\nPmonoArticsawpulse\nmidinote Pseq72 73 76 72 71 69 66 71 69 1\ndur Pseq025 025 025 0083 0083 0084 025 025 025 1\nsustain Pseq03 02 02 01 007 007 02 03 02 1\namp Pseq1 05 05 1 03 03 075 075 05 1\nmw 0\n 1 1 1 1 3 3 4 4 4\nPmonoArticsawpulse\nmidinote Pseq64 66 69 71 72 73 71 69 66 71 69 66 64 69 1\ndur Pseq025 025 025 025 0125 0375 0166 0166 0168\n05 0166 0166 0168 05 1\nsustain Pseq03 02 02 02 014 04 02 02 02 06 02 02 02 051\namp Pseq05 05 06 08 1 05 05 05 05 1\n05 05 05 045 1\nmw 0\n 0 1 1 1 1 3 3 5\nPmonoArticsawpulse\nmidinote Pseq72 73 76 78 81 78 83 81 84 85 1\ndur Pseq025 025 025 025 05 05 05 05 0125 1125 1\nsustain Pseq03 02 02 02 095 025 095 025 02 113 1\namp Pseq07 05 05 05 07 05 08 05 1 05 1\nmw PseqPseq0 9 003 1\n 6 6 6 8 9 10 10 10 10 11 11 13 13\nPmonoArticsawpulse\nmidinote Pseq83 81 78 83 81 78 76 72 73 78 72 72 71 1\ndur Pseq025 025 025 025 025 025 025 025 025 025 025\n025 2 1\nsustain Pseq03 03 02 03 03 03 02 03 02 03 02 03 2 1\namp Pseq05 05 05 08 05 05 05 08 05 08 05\n1 04 1\nmw PseqPseq0 12 003 1\n 0 7 7 7 7 7 3 3 3 3\nPmonoArticsawpulse\nmidinote Pseq69 71 72 71 69 66 64 69 71 1\ndur Pseq025 025 025 025 0166 0167 0167 025 025 1\nsustain Pseq02 02 03 02 02 02 014 03 02 1\namp Pseq05 05 08 05 05 05 05 08 05 1\n 3 3 3 4 4 5\nPmonoArticsawpulse\nmidinote Pseq84 85 84 84 88 84 83 81 83 81 78 76 81 83 1\ndur Pseq0125 0535 067 192 025 0166 0167 0167\n025 025 025 025 025 025 1\nsustain Pseq02 312 02 02 02 02 02 015 03 02 02 02\n03 02 1\namp Pseq1 08 08 08 1 1 08 08 1 08 08 08\n1 08 1\nmw Pseq0 0005 0005 006 Pseq0 10 1\n 10 10 10 11 11 11 11 12 12 12\n same as 4 8va\nPmonoArticsawpulse\nmidinote Pseq64 66 69 71 72 73 71 69 66 71 69 66 64 6912 1\ndur Pseq025 025 025 025 0125 0375 0166 0166 0168\n05 0166 0166 0168 05 1\nsustain Pseq03 02 02 02 014 04 02 02 02 06 02 02 02 051\namp Pseq05 05 06 08 1 05 05 05 05 1\n05 05 05 045 1\nmw 0\n 11 11 11 11 11 12 12\nPmonoArticsawpulse\nmidinote Pseq81 84 83 81 78 76 81 83 1\ndur Pseq025 8\nsustain Pseq02 03 03 02 03 02 03 02 1\namp Pseq05 1 05 05 06 05 08 05 1\nmw 0\n 0 9 9 11 11 12 12 12 12 12\n same as 1 8va\nPmonoArticsawpulse\nmidinote Pseq64 66 69 71 72 7312 1\ndur Pseq025 6\nsustain Pseq03 02 02 02 03 02 1\namp Pseq1 05 05 05 05 05 1\nmw 0\n 6 6 8 9 9 9 9 10 10 10 10 13 13 13\nPmonoArticsawpulse\nmidinote Pseq78 81 83 78 83 84 78 84 85 1\ndur Pseq025 025 05 025 025 05 025 025 175 1\nsustain Pseq02 03 02 02 03 02 02 03 175 1\namp Pseq04 08 05 04 08 05 04 1 08 1\nmw PseqPseq0 8 003 1\n 8 13 13\nPmonoArticsawpulse\nmidinote Pseq88 84 83 81 83 81 78 76 81 83 1\ndur Pseq025 0166 0167 0167\n025 025 025 025 025 025 1\nsustain Pseq02 02 02 015 03 02 02 02\n03 02 1\namp Pseq1 1 08 08 1 08 08 08\n1 08 1\nmw 0\n 10\n infplay\n\npstop",
+                        "codigo": [
+                            ""
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "titulo": "Pattern Guide Cookbook 07: Rhythmic Variations",
+        "secciones": [
+            {
+                "titulo": "Creating variations on a base rhythmic pattern",
+                "contenido": "Normally patterns are stateless objects This would seem to rule out the possibility of making onthefly changes to the material that pattern is playing Indeed modifying an existing pattern object is tricky and not always appropriate because that approach cannot confine its changes to the one stream making the changes\nThe logic in this example is a bit more involved for each measure start with arrays containing the basic rhythmic pattern for each part kick drum snare and hihat and insert ornamental notes with different amplitudes and durations Arrays hold the rhythmic data because this type of rhythm generation calls for awareness of the entire bar future whereas patterns generally dont look ahead\nThe specific ornaments to be added are slightly different for the three parts so there are three environments Some functions are shared rather than copy and paste them into each environment we put them into a separate environment and use that as the parent of the environment for each drum part\nMost of the logic is in the drum parts environments and consist mostly of straightforward array manipulations Lets unpack the pattern that uses the environments to generate notes\ncode\nkik  PenvirkikEnvir PnPlazy\ninitvalue\naddNotesvalue\nPbindf\nPbind\ninstrument kik\npreamp 04\ndur 025\npbindPairsvalueamp decay2\n\nfreq PifPkeyamp  0 1 rest\n\n infplayquant 4\n\n codePenvirkikEnvir   Tell the enclosed pattern to run inside the kick drums environment\n codePn inf  Repeat the enclosed pattern Plazy an infinite number of times\n codePlazy    The function can do anything it likes as long as it returns some kind of pattern The first two lines of the function do the hard work especially codeaddNotesvalue calling into the environment to use the rhythm generator code This changes the data in the environment which then get plugged into Pbind in the codepbindPairsvalue line That pattern will play through when it ends Plazy gives control back to its parent  Pn which repeats Plazy\n codePbindf freq   Pbindf adds new values into events coming from a different pattern This usage is to take advantage of a fact about the default event If the codefreq key is a symbol rather than a number or array the event represents a rest and nothing will play on the server It doesnt matter whether or not the SynthDef has a codefreq control a symbol in this space produces a rest Here its a simple conditional to produce a rest when code amp  0 \n codePbind  The meat of the notes SynthDef name general parameters and rhythmic values from the environment The code syntax explains the need for Pbindf The codefreq expression must follow the pbindPairs result but it isnt possible to put additional arguments after code  Pbindf allows the inner Pbind to be closed while still accepting additional values\n\nstrongThirdparty extension alert  This type of hybrid between patternstyle flow of control and objectoriented modeling is powerful but has some limitations mainly difficulty with inheritance subclassing The strongddwChucklib quark which depends on ddwPrototype expands the objectoriented modeling possibilities while supporting patterns ability to work with data external to a pattern itself",
+                "codigo": [],
+                "subsecciones": [
+                    {
+                        "titulo": "Example",
+                        "contenido": "this kick drum doesnt sound so good on cheap speakers\n but if your monitors have decent bass its electrolicious\nSynthDefkik  basefreq  50 ratio  7 sweeptime  005 preamp  1 amp  1\ndecay1  03 decay1L  08 decay2  015 out\nvar\tfcurve  EnvGenkrEnvbasefreq  ratio basefreq sweeptime exp\nenv  EnvGenkrEnv1 decay1L 0 decay1 decay2 4 doneAction DonefreeSelf\nsig  SinOscarfcurve 05pi preampdistort  env  amp\nOutarout sig  2\nadd\nSynthDefkraftySnr  amp  1 freq  2000 rq  3 decay  03 pan out\nvar\tsig  PinkNoisearamp\nenv  EnvGenkrEnvperc001 decay doneAction DonefreeSelf\nsig  BPFarsig freq rq env\nOutarout Pan2arsig pan\nadd\ncommonFuncs  \n save starting time to recognize the last bar of a 4bar cycle\ninit \nifstartTimeisNil  startTime  thisThreadclockbeats \n\n convert the rhythm arrays into patterns\npbindPairs  keys\nvar\tpairs  Arraykeyssize  2\nkeysdo key\nifkeyenvirGetnotNil  pairsaddkeyaddPseqkeyenvirGet 1 \n\npairs\n\n identify rests in the rhythm array\n to know where to stick notes in\ngetRestIndices  array\nvar\tresult  Arrayarraysize\narraydo item i\nifitem  0  resultaddi \n\nresult\n\n\n\n\nTempoClockdefaulttempo  104  60\nkikEnvir  \nparent commonFuncs\n rhythm pattern that is constant in each bar\nbaseAmp 1 0 0 0  0 0 07 0  0 1 0 0  0 0 0 0  05\nbaseDecay 015 0 0 0  0 0 015 0  0 015 0 0  0 0 0 0\naddNotes \nvar\tbeat16pos  thisThreadclockbeats  startTime  16\navailable  getRestIndicesbaseAmp\namp  baseAmpcopy\ndecay2  baseDecaycopy\n if last bar of 4beat cycle do busier fills\nifbeat16posinclusivelyBetween12 16 \navailablescramblerrand5 10do index\n crescendo\nampindex  indexlinexp0 15 02 05\ndecay2index  015\n\n \navailablescramblerrand0 2do index\nampindex  rrand015 03\ndecay2index  rrand005 01\n\n\n\n\nsnrEnvir  \nparent commonFuncs\nbaseAmp 0 0 0 0  1 0 0 0  0 0 0 0  1 0 0 0  15\nbaseDecay 0 0 0 0  07 0 0 0  0 0 0 0  04 0 0 0\naddNotes \nvar\tbeat16pos  thisThreadclockbeats  startTime  16\navailable  getRestIndicesbaseAmp\nchoice\namp  baseAmpcopy\ndecay  baseDecaycopy\nifbeat16posinclusivelyBetween12 16 \navailablescramblerrand5 9do index\nampindex  indexlinexp0 15 05 18\ndecayindex  rrand02 04\n\n \navailablescramblerrand1 3do index\nampindex  rrand015 03\ndecayindex  rrand02 04\n\n\n\n\nhhEnvir  \nparent commonFuncs\nbaseAmp 15  16\nbaseDelta 025  16\naddNotes \nvar\tbeat16pos  thisThreadclockbeats  startTime  16\navailable  015\ntoAdd\n if last bar of 4beat cycle do busier fills\namp  baseAmpcopy\ndur  baseDeltacopy\nifbeat16posinclusivelyBetween12 16 \ntoAdd  availablescramblerrand2 5\n \ntoAdd  availablescramblerrand0 1\n\ntoAdddo index\nampindex  doubleTimeAmps\ndurindex  doubleTimeDurs\n\n\ndoubleTimeAmps Pseq15 10 1\ndoubleTimeDurs Pn0125 2\n\nkik  PenvirkikEnvir PnPlazy\ninitvalue\naddNotesvalue\nPbindf\nPbind\ninstrument kik\npreamp 04\ndur 025\npbindPairsvalueamp decay2\n\n default Event checks freq \n if a symbol like rest or even just \n the event is a rest and no synth will be played\nfreq PifPkeyamp  0 1 rest\n\n infplayquant 4\nsnr  PenvirsnrEnvir PnPlazy\ninitvalue\naddNotesvalue\nPbindf\nPbind\ninstrument kraftySnr\ndur 025\npbindPairsvalueamp decay\n\nfreq PifPkeyamp  0 5000 rest\n\n infplayquant 4\nhh  PenvirhhEnvir PnPlazy\ninitvalue\naddNotesvalue\nPbindf\nPbind\ninstrument kraftySnr\nrq 006\namp 15\ndecay 004\npbindPairsvalueamp dur\n\nfreq PifPkeyamp  0 12000 rest\n\n infplayquant 4\n\n stop just before barline\nt  TempoClockdefault\ntschedAbstnextTimeOnGrid4 0001 \nkik snr hhdostop",
+                        "codigo": [
+                            ""
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "titulo": "Pattern Guide Cookbook 08: Swing",
+        "secciones": [
+            {
+                "titulo": "Converting equal divisions into \"swing\"",
+                "contenido": "Most MIDI sequencers have a swing feature which handles a notes timing differently depending on its metric position A note in a stronger metric position is played on time a note in a weaker position is delayed by some fraction of the beat\nIn SuperCollider patterns its more convenient to express rhythm in terms of equal note durations To mimic the swingquantize behavior of conventional sequencers its helpful to have a way to modify the output events from a pattern so that the metricallyweaker notes sound later without requiring the original pattern to be aware of the notes metric positions",
+                "codigo": [],
+                "subsecciones": [
+                    {
+                        "titulo": "Requirements",
+                        "contenido": "definitionlist\n Parameter Base rhythmic value  You should be able to swing any subdivision of the beat 8th 16th quarternotes If this is 05 8thnotes then quarter notes will play unchanged\n Parameter Swing amount  Fraction of the base rhythm to delay the weaker notes The actual delay time will be codebasevalue  swingamount\n Strongerpositioned notes  The attack will not be moved in time but if the next note is in a weaker position this note needs to be slightly longer to compensate for the additional time between note onsets\n Nonduple subdivisions  Swing typically assumes a beat will be divided into two notes Treating triplets quintuplets or other divisions by the same algorithm would produce confusing rhythms So we may also want a parameter teletypeswingThreshold to disable swing for notes that are too far away from the base rhythmic value",
+                        "codigo": []
+                    },
+                    {
+                        "titulo": "Implementation",
+                        "contenido": "So deep breath\n\nswingify  Prout ev\nvar now nextTime  0 thisShouldSwing nextShouldSwing  false adjust\nwhile  evnotNil  \n current time is what was next last time\nnow  nextTime\nnextTime  now  evdelta\nthisShouldSwing  nextShouldSwing\nnextShouldSwing  nextTime absdif nextTimeroundevswingBase  evswingThreshold  0 and \nnextTime  evswingBaseroundasIntegerodd\n\nadjust  evswingBase  evswingAmount\n an odd number here means were on an offbeat\nifthisShouldSwing \nevtimingOffset  evtimingOffset  0  adjust\n if next note will not swing this note needs to be shortened\nifnextShouldSwingnot \nevsustain  evuse  sustainvalue   adjust\n\n \n if next note will swing this note needs to be lengthened\nifnextShouldSwing \nevsustain  evuse  sustainvalue   adjust\n\n\nev  evyield",
+                        "codigo": [
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Examples",
+                        "contenido": "p  Pbinddegree Pseries0 1 8 dur 025\npplay   straight 16ths\n swingBase 025 Every other 16thnote is delayed\n swingAmount 13 Offbeat notes will be delayed by 13 of a 16thnote\nPchainswingify p swingBase 025 swingAmount 13play\n note duration  twice swingBase no swing correct\nPchainswingify Pstretch2 p swingBase 025 swingAmount 13play\n hear the result of different swing amounts\n\nPpar\n 60 of a 16thnote\nPchainswingify p swingBase 025 swingAmount 06 pan 1\n 20 of a 16thnote\nPchainswingify p swingBase 025 swingAmount 02 pan 1 octave 6\nplay\n\n\nq  Ppar\n walking bass by a bass player who only chooses notes randomly\nPbind\noctave 3\ndegree Pwhite0 7 inf\ndur 05\n\nPseq\nPchain\nswingify\nPbind\ndegree Pseries7 1 15 x Pseq0 9 1\ndur Pwhite1 3 inf  025\n\nswingBase 025 swingAmount 02\n\nPfuncn qstop Eventsilent1  1\n\nplay\n\nSwing should not apply to triplets Note that the rhythmic value 16 introduces floatingpoint rounding error so we need to raise the threshold slightly code161616 is within 005 of an eighthnote but code16 is not causing triplet notes to pass through unchanged\n swing threshold throw a few triplets in\n\nPchain\nswingify\nPbind\ndegree Pseries7 1 15\ndur PwrandPn025 2 Pn16 3 07 03 inf\n\nswingBase 025 swingAmount 02 swingThreshold 005\nplay",
+                        "codigo": [
+                            "",
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Explanation",
+                        "contenido": "swingify  Prout ev\nvar now nextTime  0 thisShouldSwing nextShouldSwing  false adjust\n\nIf the source event is nil errors will follow so we should stop looping in that case\nwhile  evnotNil  \n\nnow  nextTime\nnextTime  now  evdelta\n\nAs discussed above there are two factors to decide whether or not this note should be delayed\ndefinitionlist\n Is it close enough to the base rhythm grid  Round the current time to the grid and the difference between the actual and rounded times must be less than the threshold codenow absdif nowroundevswingBase  evswingThreshold  0\n Is it in a weaker metrical position  Dividing by the base value yields an even number for stronger positions and odd for weaker positions codenow  evswingBaseroundasIntegerodd\n\nTheres room also for a slight optimization In the previous event we decided whether the next event would need to swing or not Now in the current event we are processing what used to be next So we can just copy the old value of teletypenextShouldSwing from last time instead of redoing the calculation Note that this requires codenextShouldSwing  false in the beginning  because teletypenow is always 0 for the first event and consequently can never swing\n current this time is what was next last time\nthisShouldSwing  nextShouldSwing\nnextShouldSwing  nextTime absdif nowroundevswingBase  evswingThreshold  0 and \nnextTime  evswingBaseroundasIntegerodd\n\nadjust  evswingBase  evswingAmount\n\nNaming the variables appropriately makes the subsequent if block almost selfexplanatory Two notes\nlist\n The events teletypetimingOffset may be nonzero in which case it would be wrong to overwrite We need to emphasisadjust the timing offset \n\nifthisShouldSwing \nevtimingOffset  evtimingOffset  0  adjust\n if next note will not swing this note needs to be shortened\nifnextShouldSwingnot \nevsustain  evuse  sustainvalue   adjust\n\n \n if next note will swing this note needs to be lengthened\nifnextShouldSwing \nevsustain  evuse  sustainvalue   adjust\n\n\n\nteletypeyield is a bit of a funny method It doesnt return its result right away It passes the yielded value to whichever block of code called teletypenext on the stream and then pauses Then the next time teletypenext is called the teletypeyield method returns taking its value from teletypenexts argument Here that will be the event currently being processed so we need to reassign it to teletypeev and loop back\nThis is the normal correct way to handle input values from teletypenext within routines\nev  evyield",
+                        "codigo": [
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            ""
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "titulo": "Pattern Guide Reference 01: Pattern Internals",
+        "secciones": [
+            {
+                "titulo": "Inner workings of patterns",
+                "contenido": "",
+                "codigo": [],
+                "subsecciones": [
+                    {
+                        "titulo": "Patterns as streams",
+                        "contenido": "As noted patterns by themselves dont do much They have to be turned into streams first then values are requested from a stream not from the pattern\nasStream  Routine arg inval thisembedInStreaminval  \nThis line creates a Routine whose job is simply to embed the pattern into its stream Embedding means for the pattern to do its assigned work and return control to the parent level when its finished When a simple pattern finishes its parent level is the Routine itself After codeembedInStream returns there is nothing else for the Routine to do so that stream is over it can only yield nil thereafter\np  Pseries0 1 3asStream\t this will yield exactly 3 values\n4do  pnextpostln \t\t 4th value is nil\nWe saw that list patterns can contain other patterns and that the inner patterns are treated like subroutines List patterns do this by calling codeembedInStream on their list items Most objects are embedded into the stream just by yielding the object\n in Object\nembedInStream  thisyield \nBut if the item is a pattern itself control enters into the subpattern and stays there until the subpattern ends Then control goes back to the list pattern to get the next item which is embedded and so on\np  PseqPseries0 1 3 Pgeom10 2 3 1asStream\npnext\t Pseq is embedded first item is Pseries0 also embedded\n Control is now in the Pseries\npnext\t second item from Pseries\npnext\t third item from Pseries\npnext\t no more Pseries items control goes back to Pseq\n Pseq gets the next item Pgeom and embeds it yielding 10\npnext\t second item from Pgeom\npnext\t third item from Pgeom\npnext\t no more Pgeom items Pseq has no more items so it returns to Routine\n Routine has nothing left to do so the result is nil\nTo write a new pattern class then the bare minimum required is\nlist\n strongInstance variables for the patterns parameters\n A codenew method to initialize those variables\n An codeembedInStream method to do the patterns work\n\nOne of the simpler pattern definitions in the main library is Prand\nPrand  ListPattern \nembedInStream  arg inval\nvar item\nrepeatsvaluedo arg i\nitem  listatlistsizerand\ninval  itemembedInStreaminval\n\ninval\n\n\nThis definition doesnt show the instance variables or codenew method Where are they They are inherited from the superclass ListPattern\nListPattern  Pattern \nvar list repeats1\nnew  arg list repeats1\nif listsize  0 \nsupernewlistlistrepeatsrepeats\n\nErrorListPattern   thisname   requires a nonempty collection received \n list  throw\n\n\n some misc methods omitted in this document\n\nBecause of this inheritance Prand simply expresses its behavior as a codedo loop choosing coderepeats items randomly from the list and embedding them into the stream When the loop is finished the method returns the input value see below",
+                        "codigo": [
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Streams' input values (inval, inevent)",
+                        "contenido": "Before discussing input values in patterns lets take a step back and discuss how it works for Routines\nIn reality when a Routine yields a value its execution is interrupted after calling codeyield but before codeyield returns Then when the Routine is asked for its next value execution resumes by providing a return value from the codeyield method This behavior isnt visible in the SuperCollider code in the class library codeyield is a primitive in the C backend which is how its able to do something that is otherwise impossible in the language\nFor a quick example consider a routine that is supposed to multiply the input value by two First the wrong way assuming that everything is done by the function argument codeinval In reality the first codeinval to come in is code1 Since nothing in the routine changes the value of codeinval the routine yields the same value each time\nr  Routine inval\nloop \nyieldinval  2\n\n\n13do  x rnextxpostln \nIf instead the routine saves the result of codeyield into the codeinval variable the routine becomes aware of the successive input values and returns the expected results\nr  Routine inval\nloop \n here is where the 2nd 3rd 4th etc input values come in\ninval  yieldinval  2\n\n\n13do  x rnextxpostln \nThis convention  receiving the first input value as an argument and subsequent input values as a result of a method call  holds true for the codeembedInStream method in patterns also The rules are\nlist\n When the pattern needs to yield a value directly or embed an item into the stream it receives the next input value as the result of codeyield or codeembedInStream  codeinval  outputyield or codeoutputembedInStreaminval\n When the pattern exits it must return the last input value so that the parent pattern will get the input value as the result of its codeembedInStream call codeinval\n\nBy following these rules codeembedInStream becomes a near twin of codeyield Both do essentially the same thing spit values out to the user and come back with the next input value The only difference is that yield can return only one object to the codenext caller while codeembedInStream can yield several in succession\nTake a moment to go back and look at how Prands codeembedInStream method does it",
+                        "codigo": [
+                            "",
+                            "",
+                            "embedInStream takes strongone argument, which is the first input value."
+                        ]
+                    },
+                    {
+                        "titulo": "embedInStream vs. asStream + next",
+                        "contenido": "If a pattern class needs to use values from another pattern should it evaluate that pattern using codeembedInStream or should it make a separate stream  codeasStream  and pull values from that stream using codenext Both approaches are used in the class library\np  PseqPwhite0 9 inf Pwhite100 109 inf 1asStream\npnextN20\t no matter how long you do this itll never be  9\nPdiff  FilterPattern \nembedInStream  arg event\n here is the stream\nvar stream  patternasStream\nvar next prev  streamnextevent\nwhile \nnext  streamnextevent\nnextnotNil\n\n and here is the return value\nevent  next  prevyield\nprev  next\n\nevent",
+                        "codigo": [
+                            "",
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Writing patterns: other factors",
+                        "contenido": "Because of this rule emphasisall variables reflecting the state of a particular stream should be local to the embedInStream method If you look through existing pattern classes for examples you will see in virtually every case that codeembedInStream does not alter the instance variables defined in the class It uses them as parameters but does not change them Anything that changes while a stream is being evaluated is a local method variable\nTo initialize the patterns parameters instance variables typical practice in the library is to give getter and setter methods to all instance variables and use the setters in the codenew method or use codesupernewCopyArgs Its not typical to have an init method populate the instance variables Eg\nPn  FilterPattern \nvar repeats\nnew  arg pattern repeatsinf\n setter method used here for repeats\nsupernewpatternrepeatsrepeats\n\n\n\n strongExercise for the reader  Why does codePwhite00 10 inf work even with the codeasStream and next calls\nPwhite  Pattern \nvar lo hi length\nnew  arg lo00 hi10 lengthinf\nsupernewCopyArgslo hi length\n\nstoreArgs  lohilength \nembedInStream  arg inval\n lo and hi streams\nvar loStr  loasStream\nvar hiStr  hiasStream\nvar hiVal loVal\n lengthvalue  functions allowed for length\n eg Pwhite could give a random number of values for each embed\nlengthvaluedo\nhiVal  hiStrnextinval\nloVal  loStrnextinval\nifhiValisNil or  loValisNil   inval \ninval  rrandloVal hiValyield\n\ninval\n\n\n the plot rises bc the lo and hi values increase on every next value\nPwhitePseries00 001 inf Pseries02 001 inf infasStreamnextN200plot",
+                        "codigo": [
+                            "",
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "Cleaning up event pattern resources",
+                        "contenido": "Basic usage involves 4 stages\nembedInStream  inval\nvar\toutputEvent\n 1  make the EventStreamCleanup instance\nvar\tcleanup  EventStreamCleanupnew\n 2  make persistent resource and add cleanup function\n could be some kind of resource other than a Synth\nsynth   make the Synth here\ncleanupaddFunctioninval  flag\nifflag \nsynthrelease\n\n\nloop \noutputEvent   get output event\n 4  cleanupexit\nifoutputEventisNil  cleanupexitinval \n 3  update the EventStreamCleanup before yield\ncleanupupdateoutputEvent\ninval  outputEventyield\n\n\nnumberedList\n The embedInStream method should create its own instance of EventStreamCleanup Alternately it may receive the cleanup object as the second argument but it should not assume that the cleanup object will be passed in It should always check for its existence and create the instance if needed Note that the pattern should also reimplement codeasStream as shown Its much simpler for the pattern just to create its own instance\nThe flag should be used when removing Synth or Group nodes Normally the flag is true but if the patterns EventStreamPlayer gets stopped by cmd the nodes will already be gone from the server If your function tries to remove them again the user will see FAILURE messages from the server and then get confused thinking that they did something wrong when in fact the error is preventable in the class\n Before calling codeyield with the return event also call codecleanupupdateoutputEvent\n When codeembedInStream returns control back to the parent normally this is done with codeinval When an EventStreamCleanup is involved it should be codecleanupexitinval This executes the cleanup functions and also removes them from EventStreamCleanups at any parent level",
+                        "codigo": [
+                            ""
+                        ]
+                    },
+                    {
+                        "titulo": "When does a pattern need an EventStreamCleanup?",
+                        "contenido": "If the pattern creates something on the server bus group synth buffer etc it must use an EventStreamCleanup as shown to make sure those resources are properly garbage collected\nOr if there is a chance of the pattern stopping before one or more child patterns has stopped on its own EventStreamCleanup is important so that the pattern is aware of cleanup actions from the children For example in a construction like codePfindur10 Pmononame pairs  Pmono may continue for more than 10 beats in which case Pfindur will cut it off The Pmono needs to end its synth but it doesnt know that a pattern higher up in the chain is making it stop It becomes the parents responsibility to clean up after the children As illustrated above EventStreamCleanup handles this with only minimal intrusion into normal pattern logic",
+                        "codigo": []
+                    }
+                ]
+            }
+        ]
+    }
+]

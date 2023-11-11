@@ -1,0 +1,2497 @@
+title:: 00. Getting Started With SC
+summary:: Getting Started With SuperCollider
+categories:: Tutorials>Getting-Started
+related:: Tutorials/Mark_Polishook_tutorial/00_Introductory_tutorial
+
+by Scott Wilson and James Harkins
+
+section::Table of Contents
+
+definitionList::
+## To Begin ||
+list::
+## link::Tutorials/Getting-Started/01-Introductory-Remarks::
+## link::Tutorials/Getting-Started/02-First-Steps::
+::
+## Making Sound ||
+list::
+## link::Tutorials/Getting-Started/03-Start-Your-Engines::
+## link::Tutorials/Getting-Started/04-Functions-and-Other-Functionality::
+## link::Tutorials/Getting-Started/05-Functions-and-Sound::
+## link::Tutorials/Getting-Started/06-Presented-in-Living-Stereo::
+## link::Tutorials/Getting-Started/07-Mix-it-Up::
+## link::Tutorials/Getting-Started/08-Scoping-and-Plotting::
+## link::Tutorials/Getting-Started/09-Getting-Help::
+::
+## Server Abstractions ||
+list::
+## link::Tutorials/Getting-Started/10-SynthDefs-and-Synths::
+## link::Tutorials/Getting-Started/11-Busses::
+## link::Tutorials/Getting-Started/12-Groups::
+## link::Tutorials/Getting-Started/13-Buffers::
+::
+## Scheduling and Sequencing ||
+list::
+## link::Tutorials/Getting-Started/14-Scheduling-Events::
+## link::Tutorials/Getting-Started/15-Sequencing-with-Routines-and-Tasks::
+## link::Tutorials/Getting-Started/16-Sequencing-with-Patterns::
+::
+::
+
+
+title:: 01. Introductory Remarks
+summary:: Getting Started With SuperCollider
+categories:: Tutorials>Getting-Started
+related:: Tutorials/Getting-Started/00-Getting-Started-With-SC
+
+The following text is intended to serve as an introduction to SuperCollider 3, an object-oriented language for sound synthesis and digital signal processing (DSP). This tutorial does not assume a background in computer science, but does assume basic familiarity with your computer and its OS, as well as a basic knowledge of acoustics and digital audio. (I'm assuming here that words like frequency and sample will not cause any confusion.)
+
+The tutorial is written from a macOS perspective, but much of it should apply to Linux and Windows as well. The parts which specifically differ have mostly to do with GUI aspects (Graphical User Interface).
+
+I should acknowledge that this tutorial is 'by' me in only a limited sense. In writing it I have drawn freely upon the general documentation, which was written by a number of people. This document is not intended to replace those (often more detailed) sources, and refers the reader to them constantly for further information.
+
+A full list of those who have contributed to SuperCollider and its documentation can be seen at:
+
+https://supercollider.github.io
+
+section::Key Combinations
+
+Within this text, you will see text like "Ctrl-Enter" and "Cmd-Enter". These are key combinations. They mean: hold down the first key and then press the second key (while still holding down the first). 
+
+For example: "Ctrl-Enter" is a key combination of the "Ctrl" key and the "Enter" key. It means: press and hold down the "Ctrl" key and then while keeping the "Ctrl" key held down, press the "Enter" key. Once both are pressed down at the same time, you can release both keys. 
+
+"Ctrl" is a key found on most Windows and Linux computers. Mac computers have a "Ctrl" key, but when more than one key combination is given for the same instruction, the one that starts with "Cmd" is intended for Mac users. "Cmd" is short for "command" and is the key with "⌘" on it. 
+
+For key combinations with 3 or more keys, hold down all keys except the last key and then press the last key. For example, "Ctrl-Shift-P" means: press and hold down the "Ctrl" and "Shift" keys first, then press the "P" key while still holding "Ctrl" and "Shift".
+
+section::Links
+
+Within the text, and at the end of each section there might be a list of links to other documents, that will look something like this:
+
+See also: link::Tutorials/Getting-Started/01-Introductory-Remarks#Links##Some other document::
+
+Most of these are meant to expand upon what you have just read, but some just point you in the direction of further information which you will probably need in the future. Some of the linked documents are written in fairly technical language, and may duplicate information which is presented in this tutorial in a more casual form. Often they are designed as reference documents for people already familiar with SC, so don't worry if everything in them doesn't immediately make sense. You won't need to have seen and/or fully understood them in order to continue with the tutorial.
+
+section::Code Examples
+
+Code examples within the text are in a different font:
+
+code::
+{ [SinOsc.ar(440, 0, 0.2), SinOsc.ar(442, 0, 0.2)] }.play;
+::
+
+This is a common convention in documentation of computer languages, and one that is followed throughout SC's doc. The different colours you'll see in code are just to make things clearer, and have no effect on what the code does.
+
+You are encouraged to copy the code examples to another window and play around with modifying them. This is a time honoured way of learning a new computer language! SC will allow you to modify the original tutorial documents, but if you do so you should be careful not to save them (for instance if prompted when closing them). It's safest to copy things to a new document before changing them.
+
+____________________
+
+This document is part of the tutorial strong::Getting Started With SuperCollider::.
+
+Click here to go on to the next section: link::Tutorials/Getting-Started/02-First-Steps::
+
+Click here to return to the table of Contents: link::Tutorials/Getting-Started/00-Getting-Started-With-SC::
+
+
+title:: 02. First Steps
+summary:: Getting Started With SuperCollider
+categories:: Tutorials>Getting-Started
+related:: Tutorials/Getting-Started/00-Getting-Started-With-SC
+
+note::
+This document is written so that it can be used on all supported systems, though having first of all macOS in mind using the application SuperCollider.app (SCapp). Some features, e.g. menu commands, are platform specific, but the principles extend to all platforms. See the helpfile link::Reference/KeyboardShortcuts:: for key commands when using other tools such as SC enhanced editors, e.g. on Linux platforms.
+::
+
+section::Hello World, I'm SuperCollider
+
+It is traditional when learning a new programming language to start with a simple program called 'Hello World'. This just makes the program print the text 'Hello World!' to well, wherever it prints text. In SC that's a place called the post window. The post window is the one that opened up when you first started SC, and a bunch of stuff was printed there which looks something like this:
+
+code::
+init_OSC
+compiling class library..
+	NumPrimitives = 587
+	compiling dir: '/Applications/SC3/SCClassLibrary'
+	pass 1 done
+	Method Table Size 3764776 bytes
+	Number of Method Selectors 3184
+	Number of Classes 1814
+	Number of Symbols 7595
+	Byte Code Size 180973
+	compiled 296 files in 1.34 seconds
+compile done
+RESULT = 256
+Class tree inited in 0.14 seconds
+::
+
+Don't worry too much about what all that means just now, just keep in mind that this is where SC will send you information. It's also where we'll get the result of our Hello World program, which you can see below:
+
+code::
+"Hello World!".postln;
+::
+
+To execute it, simply click to place the cursor somewhere on the same line as the code and then press Shift-Enter (Shift-Return on macOS). Try this now.
+
+If all went well, you should see this in the post window.
+
+code::
+Hello World!
+-> Hello World!
+::
+
+Alternatively you can also first select the code you wish to execute (by clicking and dragging over the text until it is highlighted) and then press Ctrl-Enter (Cmd-Return on macOS). Try this now.
+
+Now let's take a closer look at the code. The first bit, code::"Hello World!"::, is a kind of emphasis::Object::, called a String. An object is basically just a way of representing something in the computer, for instance a bit of text, or an oscillator, that allows you to control it and send messages to it. More about that later, but for now just understand that a String is a way of representing a bit of text.
+
+The second bit, code::.postln;::, says 'print me (or a meaningful description of me) to the post window.' Remember postln, it's your friend. You can apply it to almost anything in SC and get something meaningful back. This can be very handy when tracking down bugs in your code.
+
+Why did it print twice? Well, when you execute code in SC, it always posts the result of the last bit of code (the last statement). So it first prints because we explicitly told it to print, and then it prints the result of this operation, which happens to be the same in this case.
+
+So in this case we didn't really need the code::postln:: bit. But in the following example we would. Select both lines of text by clicking and dragging over them, and then execute, i.e. press Ctrl-Enter (Cmd-Return on macOS).
+
+code::
+"Hello there, I'm SuperCollider!".postln;
+"Hello World!".postln;
+::
+
+The first line, 'Hello there, I'm SuperCollider!' would not have printed if we didn't have the explicit postln.
+
+In general, when you are meant to execute several lines of code at the same time they will be surrounded by parentheses, as in the example below. You can have your cursor anywhere in this region (or on the line of the parentheses on macOS), then double-click and press Ctrl-Enter or Shift-Enter (Cmd-Return or Shift-Return on macOS) - this selects the whole region and executes it. Try it out on the example below.
+
+code::
+(
+"Call me,".postln;
+"Ishmael.".postln;
+)
+::
+
+Double clicking inside a pair of enclosing parentheses may not select the entire region on all systems, notably not on modern Macs. On some it may only select the double clicked word. Thus it may be good, to make it a habit to stick to a particular technique. E.g. to first always check you have selected all of the intended code, regardless of the selection technique, before pressing either Ctrl-Enter or Shift-Enter (Cmd-Return or Shift-Enter on macOS). Then stick to the technique that works best for you. Experiment with this to learn how your system behaves.
+
+When code is not surrounded by parentheses it is generally intended to be executed one line at a time. You can have your cursor anywhere in a line of code and press Ctrl-Enter or Shift-Enter (Cmd-Return or Shift-Return on macOS) - this selects the whole line and executes it.
+
+Note that each of the lines within the block of code ends with a semi-colon. This is very important when executing multiple lines of code. Try what happens when you execute following variant of the almost identical code.
+
+code::
+(
+"Call me?".postln
+"Ishmael.".postln;
+)
+::
+
+Executing the code above results in a 'Parse Error'. With an error of this kind, the dot in the error message shows you where SC ran into trouble. Here it happens just after code::"Ishmael."::.
+
+code::
+ERROR: syntax error, unexpected STRING, expecting DOTDOT or ':' or ',' or ')'
+in interpreted text
+line 3 char 10:
+
+"Ishmael.".postln;
+^^^^^^^^^
+)
+::
+
+Usually the problem actually occurs a little before that, so that's where you should look.  In this case, it's the lack of a semi-colon at the end of the previous line.  Note that each line of code ends normally with a semi-colon.  This is how you separate lines of code in SC. Since we didn't have a semi-colon between the two lines we have gotten an error. 
+
+Note also, having an extra semi-colon at the very end of the last piece of code does not hurt and is tolerated by SC for reasons of convenience. 
+
+A couple of more notes about the post window. It's very useful to be able to see it, but sometimes it can get hidden behind other windows. You can bring it to the front at any time by pressing Cmd-\.
+
+Other times, the post window becomes full of text and hard to read. You can clear it at any time by pressing Ctrl-Shift-P (Cmd-Shift-P on macOS).
+
+section::The World According to SuperCollider
+
+SuperCollider is actually three programs:
+list::
+##The text editor you are looking at (also referred to as the IDE or Integrated Development Environment),
+##the language (sclang or the "client" app),
+##and the server, which does the actual synthesis and calculation of audio.
+::
+The sclang part is a sophisticated programming language with nice features for building GUIs (Graphical User Interfaces); and the server part is a lean, mean, efficient UNIX command line application (meaning it runs without any GUI representation).
+
+They communicate by a protocol called OSC (Open Sound Control), over either UDP (User Datagram Protocol) or TCP (Transmission Control Protocol), which are network protocols also used on the internet. Because the client and server communicate this way, more advanced projects might run them on separate computers for performance reasons. In fact, it's even possible that they could be running in different parts of the world! However, just because these two applications communicate using common internet protocols does not mean they must be connected to the internet or on different computers. Most of the time they will be running on the same computer, and the "networking" aspect of things will be relatively transparent for you. Especially while you're still getting started.
+
+You can only communicate with the server using OSC messages over the network, but luckily the language app has lots of powerful objects which represent things on the server and allow you to control them easily and elegantly. Understanding how exactly that works is crucial to effectively working in SC, so we'll be talking about that in some depth.
+
+But first let's have a little fun, and make some sound!
+
+For more information see:
+
+link::Guides/How-to-Use-the-Interpreter::, link::Reference/Literals::, link::Classes/String::, link::Guides/ClientVsServer::, link::Reference/Server-Architecture::
+
+section::Suggested Exercise
+
+Open a new tab or window by pressing Ctrl-N (Cmd-N on macOS) or choose 'New' from the File menu. Save the document by giving it a name like 'My first SC code.scd'. Note, you should always use extension '.scd' for files containing SC code. Copy some of above code examples and paste them into the new document using Ctrl-C and Ctrl-V (Cmd-C and Cmd-V on macOS) or use the copy and paste Edit menu items.
+
+SC will let you edit the help files and documentation, so it's always a good idea to copy text over before changing it to avoid accidentally saving altered help files!
+
+Experiment with altering the text between the quotes to print different things to the post window. Do this with both blocks of text wrapped in parentheses, and single lines.
+
+____________________
+
+This document is part of the tutorial strong::Getting Started With SuperCollider::.
+
+Click here to go on to the next section: link::Tutorials/Getting-Started/03-Start-Your-Engines::
+
+Click here to return to the table of Contents: link::Tutorials/Getting-Started/00-Getting-Started-With-SC::
+
+
+title:: 03. Start Your Engines
+summary:: Getting Started With SuperCollider
+categories:: Tutorials>Getting-Started
+related:: Tutorials/Getting-Started/00-Getting-Started-With-SC
+
+Before we can make any sound, we need to start or 'boot' a server application. The easiest way to do this is to use the shortcut Ctrl-B (Cmd-B on macOS). There is also a Server menu entry for "Boot Server".
+
+Notice that the white font on the black view on the bottom of the window has changed to green. This indicates that the server is running. The view also provides you with some information about CPU usage, and some other things which probably aren't too clear yet. More about them soon.
+
+Also take a look at the post window, where SC has given you some info, and let you know that it booted okay. For example:
+
+code::
+Booting server 'localhost' on address 127.0.0.1:57110.
+Number of Devices: 2
+   0 : "Built-in Microph"
+   1 : "Built-in Output"
+
+"Built-in Microph" Input Device
+   Streams: 1
+      0  channels 2
+
+"Built-in Output" Output Device
+   Streams: 1
+      0  channels 2
+
+SC_AudioDriver: sample rate = 44100.000000, driver's block size = 512
+SuperCollider 3 server ready.
+Requested notification messages from server 'localhost'
+localhost: server process's maxLogins (1) matches with my options.
+localhost: keeping clientID (0) as confirmed by server process.
+Shared memory server interface initialized
+::
+
+If for some reason it failed to boot, there should be information printed about the error that occurred. If this happens, please reach out to the community for help: https://supercollider.github.io#community
+
+By default you can refer to the localhost server in your code by using the letter code::s::. You can send messages to start and stop it like so:
+
+code::
+s.quit;
+s.boot;
+::
+
+Try this out and then leave the server running. Many examples in the documentation have code::s.boot:: at the beginning, but in general you should make sure the server is running before using any examples that generate audio, or otherwise access the server. In general the examples in this tutorial assume that the server is running.
+
+You can also refer to the default server with the text code::Server.default::, for example:
+
+code::
+Server.default.boot;
+::
+
+For more information see:
+
+link::Classes/Server::
+
+link::Reference/AudioDeviceSelection::
+
+____________________
+
+This document is part of the tutorial strong::Getting Started With SuperCollider::.
+
+Click here to go on to the next section: link::Tutorials/Getting-Started/04-Functions-and-Other-Functionality::
+
+Click here to return to the table of Contents: link::Tutorials/Getting-Started/00-Getting-Started-With-SC::
+
+
+title:: 04. Functions and Other Functionality
+summary:: Getting Started With SuperCollider
+categories:: Tutorials>Getting-Started
+related:: Tutorials/Getting-Started/00-Getting-Started-With-SC
+
+WARNING:: If you are using headphones or external speakers, it is recommended to set your volume low before playing the following example and then bring it up to a comfortable level. Raw synthesized tones can sometimes seem louder than music and the other forms of audio we usually listen to.::
+
+The easiest way to get sound from SC is to use the code::play:: Function. After making sure the server is booted, run the simple example below.
+
+When you've had enough, strong:: stop the sound by pressing Ctrl-. (Cmd-. on macOS).:: This will always stop all running processes and sound in SC. You'll be using it a lot, so learn it by heart.
+
+code::
+{ [SinOsc.ar(440, 0, 0.2), SinOsc.ar(442, 0, 0.2)] }.play;
+::
+
+Not too inspiring? Don't worry, we're just getting started, and this is just a simple example to demonstrate Functions and sound. We'll take it apart a bit below.
+
+Before we get to doing that though, let's learn a little about Functions in general.
+
+A Function is just a reusable bit of code. You define a Function by enclosing code in curly brackets: { }. Here's an example:
+
+code::
+f = { "Function evaluated".postln };
+::
+
+The stuff within the curly brackets is what will get executed each time you reuse, or "call", or "evaluate" the Function. Note that this is written like an equation, i.e. code::f = {...}::. This is not an equation in the mathematical sense, it's what's called an "assignment". Basically it allows me to name the Function I've created, by storing it in a variable called code::f::. A variable is a name representing a slot in which we can store things, such as a Function, a number, a list, etc. Execute the following lines one at a time and watch the post window:
+
+code::
+f = { "Function evaluated".postln };
+f;
+::
+
+Both times it should say code::'a Function'::. Now, whenever we want to refer to our Function we can just use the letter f. That's in fact what makes it reusable! Otherwise we'd need to type the Function in every time.
+
+Functions can also span multiple lines. Double-click on the first line to make sure everything between the parentheses is selected (all the code inside the curly brackets, but also the code::f =::):
+
+code::
+(
+f = {
+	"Starting Function evaluation".postln;
+	"Finishing Function evaluation".postln
+};
+)
+f;
+::
+
+So how do we reuse it? Execute the following lines one at a time and watch the post window:
+
+code::
+f = { "Function evaluated".postln };
+f.value;
+f.value;
+f.value;
+::
+
+Our Function is an object, (i.e a thing that does something or represents something), which we have defined and stored in the variable code::f::. The bit of code that says code::'.value':: says evaluate this function now. This is an example of sending a message to an object. This follows the syntax someObject.someMessage. The dot must go in between.
+
+Now, this next bit is a little bit tricky. In a given object, each emphasis::message:: calls (calls means executes) a particular emphasis::method::. Different types of objects may have methods with the same name, and thus respond to the same message in different ways. Read it again slowly, as this is pretty important:
+
+emphasis::Different types of objects may have methods with the same name, and thus respond to the same message in different ways.::
+
+What's interesting about this is that the actual methods may differ in what they do, but as long as they implement a method with that name, they become interchangeable in your code.
+
+A good example is "value". All objects in SC respond to the message "value". When you "call" a method, it always "returns" something. When you call the "value" method on a Function it will evaluate and return the result of its last line of code. The Function example below and will return the result on the last line (5):
+
+code::
+(
+f = {
+	"Evaluating...".postln;
+	2 + 3
+};
+f.value;
+)
+::
+
+Often methods simply return the object itself. This is the case with most objects and the message "value". The example below demonstrates this. (Everything to the right of the code:://:: is a "comment", which means that SC just ignores it. Comments are often used to leave notes on complicated or confusing pieces of code for future readers)
+
+code::
+f = 3;              // Create a variable and assign it a number as a value
+f.value;            // Post window says: 3, i.e the number returns itself
+f.value;            // f hasn't changed, so the post window says 3 again
+
+f = { 3.0.rand };  // Assign the variable a Function as a value
+f.value;            // 3.0.rand returns a random value from 0.0 to 3.0 (exclusive).
+f.value;            // Another random value
+f.value;            // Yet another random value
+::
+
+By using the "value" method Functions and other objects can be interchangeable in your code. This is an example of emphasis::polymorphism::, which is one of the powerful features of what's called Object Oriented Programming (OOP). Polymorphism means that different objects are interchangeable if they respond to the same message. More on this later.
+
+Functions can also have what are called arguments. These are values which are passed into the Function when it is evaluated. The example below demonstrates how this works. See if you can guess what the result will be before executing it.
+
+code::
+(
+f = { arg a, b;
+	a - b
+};
+f.value(5, 3);
+)
+::
+
+Arguments are declared at the beginning of the Function, using the keyword code::'arg'::. You can then refer to them just like variables. When you call value on a Function, you can pass in arguments, in order, by putting them in parentheses: code::someFunc.value(arg1, arg2)::. This is the same with any method that takes arguments, not just value.
+
+You can specify different orders by using what are called keyword arguments:
+
+code::
+(
+f = { arg a, b;
+    a / b               // '/' means divide
+};
+f.value(10, 2);         // regular style
+f.value(b: 2, a: 10);   // keyword style
+)
+::
+
+You can mix regular and keyword style if you like, but the regular args must come first:
+
+code::
+(
+f = { arg a, b, c, d;
+	(a + b) * c - d
+};
+f.value(2, c:3, b:4, d: 1); // (2 + 4) * 3 - 1
+)
+::
+
+(Note that SC has no operator precedence, i.e. math operations are done in left-to-right order, and division and multiplication are not done first. To force an order use parentheses. e.g. 4 + (2* 8) )
+
+Sometimes it's useful to set default values for arguments. You can do this like so:
+
+code::
+(
+f = { arg a, b = 2;
+	a + b
+};
+f.value(2); 			// 2 + 2
+)
+::
+
+Default values must be what are called literals. Literals are basically numbers, strings, symbols (more on these later), or collections of them. Don't worry if that doesn't totally make sense, it will become clearer as we go on.
+
+There is an alternate way to specify args, which is to enclose them within two vertical lines. (On most keyboards the vertical line symbol is Shift-\ ) The following two Functions are equivalent:
+
+code::
+(
+f = { arg a, b;
+	a + b
+};
+g = { |a, b|
+	a + b
+};
+f.value(2, 2);
+g.value(2, 2);
+)
+::
+
+Why have two different ways? Well some people like the second one better and consider it a shortcut. SC has a number of syntax shortcuts like this, which can make writing code a little faster. In any case you will encounter both forms, so you need to be aware of them.
+
+You can also have variables in a Function. These you need to declare at the beginning of the Function, just after the args, using the keyword code::'var'::.
+
+code::
+(
+f = { arg a, b;
+	var firstResult, finalResult;
+	firstResult = a + b;
+	finalResult = firstResult * 2;
+	finalResult
+};
+f.value(2, 3);	// this will return (2 + 3) * 2 = 10
+)
+::
+
+Variable and argument names can consist of letters and numbers, but must begin with a lower-case letter and cannot contain spaces.
+
+Variables are only valid for what is called their scope. The scope of a variable declared in a Function is that Function, i.e. the area between the two curly brackets. Execute these one at a time:
+
+code::
+(
+f = {
+	var foo;
+	foo = 3;
+	foo
+};
+f.value;
+foo;			// this will cause an error as "foo" is only valid within f.
+)
+::
+
+You can also declare variables at the top of any block of code which you execute altogether (i.e. by selecting it all). In such a case that block of code is the variable's scope. Execute the block (in parentheses) and then the last line.
+
+code::
+(
+var myFunc;
+myFunc = { |input| input.postln };
+myFunc.value("foo");	// arg is a String
+myFunc.value("bar");
+)
+
+myFunc;			// throws an error
+::
+
+You may be wondering why we haven't needed to declare variables like code::f::, and why they keep their values even when executing code one line at a time (i.e. have a global scope). The letters a to z are what are called interpreter variables. These are pre-declared when you start up SC, and have an unlimited, or "global", scope. This makes them useful for quick tests or examples. You've already encountered one of these, the variable "s", which you'll recall by default refers to the localhost server.
+
+With arguments, we can see an example of how polymorphism works:
+
+code::
+(
+f = { arg a;
+  a.value + 3        // call "value" on a; polymorphism awaits!
+};
+)
+f.value(3);          // a.value is 3, so this returns 3 + 3 = 6
+g = { 3.0.rand };
+f.value(g);          // here the arg is a Function. a.value evaluates 3.0.rand
+f.value(g);          // try it again, different result
+::
+
+Start to see how this could be useful?
+
+For more information see:
+
+link::Reference/Functions::, link::Classes/Function::, link::Reference/Assignment::, link::Guides/Intro-to-Objects::, link::Reference/Literals::, link::Reference/Scope::
+
+____________________
+
+This document is part of the tutorial strong::Getting Started With SuperCollider::.
+
+Click here to go on to the next section: link::Tutorials/Getting-Started/05-Functions-and-Sound::
+
+Click here to return to the table of Contents: link::Tutorials/Getting-Started/00-Getting-Started-With-SC::
+
+
+title:: 05. Functions and Sound
+summary:: Getting Started With SuperCollider
+categories:: Tutorials>Getting-Started
+related:: Tutorials/Getting-Started/00-Getting-Started-With-SC
+
+section::And What About Functions and Sound?
+
+I've probably bored you enough with technical details, so let's get back to making noise, which I assume is why you're reading this after all. Trust me though, all this work will pay off later, and believe it or not, we've already covered a fair amount of the basics of the language, at least in passing.
+
+Let's go back to our sound example, or rather a slightly simplified version of it. Check that the localhost server is running, execute the code below and then press Cmd-. when you've had enough.
+
+code::
+{ SinOsc.ar(440, 0, 0.2) }.play;
+::
+
+In this case we've created a Function by enclosing some code in curly brackets, and then called the method 'play' on that Function. To Functions 'play' means evaluate yourself and play the result on a server. If you don't specify a server, you'll get the default one, which you'll recall is stored in the variable 's' and is set at startup to be the localhost server.
+
+We didn't store the Function in a variable, so it can't be reused. (Well, actually you could just execute the same line of code again, but you know what I mean...) This is often the case when using Function-play, as it is useful as a quick way of getting something to make noise, and is often used for testing purposes. There are other ways of reusing Functions for sounds, which are often better and more efficient as we will see.
+
+Lets look at what's between the curly brackets. We're taking something called a 'SinOsc' and we're sending it the message ar, with a few arguments. It turns out that SinOsc is an example of something called a emphasis::class::. To understand what a class is, we need to know a little more about OOP and objects.
+
+In a nutshell, an object is some data, i.e. some information, and a set of operations that you can perform on that data. You might have many different objects of the same type. These are called instances. The type itself is the object's class. For instance we might have a class called Student, and several instances of it, Bob, Dave and Sue. All three will have the same types of data, for instance they might have a bit of data named gpa. The value of each bit of data could be different however. They would also have the same methods to operate on the data. For instance they could have a method called calculateGPA, or something similar.
+
+An object's class defines its set of data (or emphasis::instance variables:: as they are called) and methods. In addition it may define some other methods which only you send only to the class itself, and some data to be used by all of its instances. These are called class methods and class variables.
+
+All classes begin with upper-case letters, so it's pretty easy to identify them in code.
+
+Classes are what you use to make objects. They're like a template. You do this through class methods such as 'new', or, in the case of our SinOsc class above, 'ar'. Such methods return an object, an instance, and the arguments affect what its data will be, and how it will behave. Now take another look at the example in question:
+
+code::
+SinOsc.ar(440, 0, 0.2)
+::
+
+This tells the class SinOsc to make an instance of itself. All SinOscs are an example of what are called unit generators, or UGens. These are objects which produce audio or control signals. SinOsc is a sine wave oscillator. This means that it will produce a signal consisting of a single frequency. A graph of its waveform would look like this:
+
+image::Functions-and-Sound-00.png#(don't worry about the 'index' and 'value' stuff; it's not important just now)::
+
+This waveform loops, creating the output signal. 'ar' means make the instance emphasis::audio rate::. SuperCollider calculates audio in groups of samples, called emphasis::blocks::. Audio rate means that the UGen will calculate a value for each sample in the block. There's another method, 'kr', which means emphasis::control rate::. This means calculate a single value for each block of samples. This can save a lot of computing power, and is fine for (you guessed it) signals which control other UGens, but it's not fine enough detail for synthesizing audio signals.
+
+The three arguments to SinOsc-ar given in the example determine a few things about the resulting instance. I happen to know that the arguments are frequency, phase, and mul. (We'll get to how I know that in a second.) Frequency is just the frequency of the oscillator in Hertz (Hz), or cycles per second (cps). Phase refers to where it will start in the cycle of its waveform. For SinOsc (but not for all UGens) phase is given in radians. If you don't know what radians are, don't worry, just understand that it's a value between 0 and 2 * pi. (You can look at a trigonometry text if you really want more detail.) So if we made a SinOsc with a phase of (pi * 0.5), or one quarter of the way through its cycle, the waveform would look like this:
+
+image::Functions-and-Sound-01.png::
+
+Make sense? Here are several cycles of the two side by side to make the idea clearer:
+
+image::Functions-and-Sound-02.png::
+
+So what about 'mul'? Mul is a special argument that almost all UGens have. It's so ubiquitous that it's usually not even explained in the documentation. It just means a value or signal by which the output of the UGen will be multiplied. It turns out that in the case of audio signals, this affects the amplitude of the signal, or how loud it is. The default mul of most UGens is 1, which means that the signal will oscillate between 1 and -1. This is a good default as anything bigger would cause clipping and distortion. A mul of 0 would be effectively silent, as if the volume knob was turned all the way down.
+
+To make clearer how mul works, here is a graph of two SinOscs, one with the default mul of 1, and one with a mul of 0.25:
+
+image::Functions-and-Sound-03.png::
+
+Get the idea? There's also another similar arg called 'add' (also generally unexplained in the doc), which (you guessed it) is something which is added to the output signal. This can be quite useful for things like control signals. 'add' has a default value of 0, which is why we don't need to specify something for it.
+
+Okay, with all this in mind, let's review our example, with comments:
+
+code::
+(
+{ 			// Open the Function
+	SinOsc.ar(	// Make an audio rate SinOsc
+		440, 	// frequency of 440 Hz, or the tuning A
+		0, 	// initial phase of 0, or the beginning of the cycle
+		0.2) 	// mul of 0.2
+}.play;			// close the Function and call 'play' on it
+)
+::
+
+section::Some More Fun with Functions and UGens
+
+Here's another example of polymorphism, and how powerful it is. When creating Functions of UGens, for many arguments you don't have to use fixed values, you can in fact use other UGens! Below is an example which demonstrates this:
+
+code::
+(
+{ var ampOsc;
+	ampOsc = SinOsc.kr(0.5, 1.5pi, 0.5, 0.5);
+	SinOsc.ar(440, 0, ampOsc);
+}.play;
+)
+::
+
+Try this. (Again, use Cmd-. to stop the sound.)
+
+What we've done here is plugged the first SinOsc (a emphasis::control rate:: one!) into the mul arg of the second one. So its output is being multiplied by the output of the second one. Now lets look at the first SinOsc's arguments.
+
+Frequency is set to 0.5 cps, which if you think about it a bit means that it will complete one cycle every 2 seconds. (1 / 0.5 = 2)
+
+Mul and add are both set to 0.5. Think for a second about what that will do. If by default SinOsc goes between 1 and -1, then a mul of 0.5 will scale that down to between 0.5 and -0.5. Adding 0.5 to that brings it to between 0 and 1, a rather good range for mul!
+
+The phase of 1.5pi (this just means 1.5 * pi) means 3/4 of the way through its cycle, which if you look at the first graph above you'll see is the lowest point, or in this case, 0. So the ampOsc SinOsc's waveform will look like this:
+
+image::Functions-and-Sound-04.png::
+
+And what we have in the end is a SinOsc that fades gently in and out. Shifting the phase just means that we start quiet and fade in. We're effectively using ampOsc as what is called an amplitude emphasis::envelope::. There are other ways of doing the same thing, some of them simpler, but this demonstrates the principle.
+
+Patching together UGens in this way is the basic way that you make sound in SC. For an overview of the various types of UGens available in SC, see link::Browse#UGens:: or link::Guides/Tour_of_UGens::.
+
+For more information see:
+
+link::Reference/Functions::, link::Classes/Function::, link::Browse#UGens:: link::Guides/Tour_of_UGens::
+
+section::Suggested Exercise
+
+Experiment with altering the Functions in the text above. For instance try changing the frequencies of the SinOsc, or making multi-channel versions of things.
+
+____________________
+
+This document is part of the tutorial strong::Getting Started With SuperCollider::.
+
+Click here to go on to the next section: link::Tutorials/Getting-Started/06-Presented-in-Living-Stereo::
+
+Click here to return to the table of Contents: link::Tutorials/Getting-Started/00-Getting-Started-With-SC::
+
+
+title:: 06. Presented in Living Stereo
+summary:: Getting Started With SuperCollider
+categories:: Tutorials>Getting-Started
+related:: Tutorials/Getting-Started/00-Getting-Started-With-SC
+
+Okay, but what about our first, unsimplified example? Remember:
+
+code::
+{ [SinOsc.ar(440, 0, 0.2), SinOsc.ar(442, 0, 0.2)] }.play;
+::
+
+This also has two SinOscs, but in a different arrangement, between two square brackets code::[]::, and with a comma in between. Just like the curly brackets indicate a Function, square brackets define something called an Array. An Array is a type of Collection, which is (you guessed it) a collection of Objects. Collections themselves are Objects, and most types of Collections can hold any types of objects, mixed together, including other Collections! There are many different types of Collections in SC, and you will come to learn that they are one of the SC's most powerful features.
+
+An Array is a particular type of Collection: An ordered collection of limited maximum size. You can make one as we have above, by putting objects in between two square brackets, with commas in between. You can get the different elements of an Array using the method 'at', which takes an index as an argument. Indices correspond to the order of objects in the Array, and start from 0.
+
+code::
+a = ["foo", "bar"];	// "foo" is at index 0; "bar" is at index 1
+a.at(0);
+a.at(1);
+a.at(2);		// returns "nil", as there is no object at index 2
+
+// there's a shorthand for at that you'll see sometimes:
+a[0];			// same as a.at(0);
+::
+
+In addition to being used to hold collections of objects, Arrays also have a special use in SC: They are used to implement multichannel audio! If your Function returns an Array of UGens (remember that Functions return the result of their last line of code) then the output will be a number of channels. How many depends on the size of the Array, and each channel will correspond to an element of the Array. So in our example:
+
+code::
+{ [SinOsc.ar(440, 0, 0.2), SinOsc.ar(442, 0, 0.2)] }.play;
+::
+
+What we end up with is stereo output, with a SinOsc at 440Hz in the left channel, and a SinOsc at 442Hz in the right channel. We could have even more channels of output by having a larger array.
+
+Now watch carefully, because this next bit involves a little slight of hand, but shows another way in which SC makes things very interchangeable. Because the arguments for phase and mul are the same for both SinOscs, we can rewrite the code for our example like this:
+
+code::
+{ SinOsc.ar([440, 442], 0, 0.2) }.play;
+::
+
+We've replaced the frequency argument with an Array. This causes something called 'multichannel expansion', which means that if you plug an Array into one of a UGen's arguments, you get an Array of that UGen instead of a single one. Now consider this:
+
+code::
+(
+{ var freq;
+	freq = [[660, 880], [440, 660], 1320, 880].choose;
+	SinOsc.ar(freq, 0, 0.2);
+}.play;
+)
+::
+
+Try executing it several times, and you'll get different results. 'choose' is just a method which randomly selects one of the elements of the Array. In this case the result may be a single number or another Array. In the case of the latter you'll get stereo output, in the case of the former, monophonic. This sort of thing can make your code very flexible.
+
+But what if you want to 'pan' something, crossfading it between channels? SC has a number of UGens which do this in various ways, but for now I'll just introduce you to one: Pan2. Pan2 takes an input and a position as arguments and returns an Array of two elements, the left and right or first and second channels. The position arg goes between -1 (left) and 1 (right). Take a look at this example:
+
+code::
+{ Pan2.ar(PinkNoise.ar(0.2), SinOsc.kr(0.5)) }.play;
+::
+
+This uses a SinOsc to control the position (remember it outputs values from -1 to 1, or left to right), but uses a different UGen as the input to the Pan2, something called PinkNoise. This is just a kind of noise generator, and it has a single argument: mul. You can of course also used fixed values for the position arg.
+
+code::
+{ Pan2.ar(PinkNoise.ar(0.2), -0.3) }.play; // slightly to the left
+::
+
+For more information see:
+
+link::Guides/Multichannel-Expansion::, link::Overviews/Collections::, link::Classes/Pan2::
+
+section::Suggested Exercise
+
+Experiment with altering the Functions in the text above. For instance try changing the frequencies of the SinOsc, or making multi-channel versions of things.
+
+____________________
+
+This document is part of the tutorial strong::Getting Started With SuperCollider::.
+
+Click here to go on to the next section: link::Tutorials/Getting-Started/07-Mix-it-Up::
+
+Click here to return to the table of Contents: link::Tutorials/Getting-Started/00-Getting-Started-With-SC::
+
+
+title:: 07. Mix it Up
+summary:: Getting Started With SuperCollider
+categories:: Tutorials>Getting-Started
+related:: Tutorials/Getting-Started/00-Getting-Started-With-SC
+
+We've already seen that multiplication changes the level of something, but what about mixing UGens together? This turns out to be equally simple. All we need is addition:
+
+code::
+{ PinkNoise.ar(0.2) + SinOsc.ar(440, 0, 0.2) + Saw.ar(660, 0.2) }.play;
+::
+
+Saw is another type of oscillator, with a waveform that looks like a sawtooth. Note that we use a low value for mul, thus ensuring that the final output will be between -1 and 1, and not clip.
+
+There's another handy class called Mix, which will mix an array of channels down to a single channel or an array of arrays of channels down to a single array of channels. Watch the post window to see Mix's results.
+
+code::
+// one channel
+{ Mix.new([SinOsc.ar(440, 0, 0.2), Saw.ar(660, 0.2)]).postln }.play;
+
+// combine two stereo arrays
+(
+{
+	var a, b;
+	a = [SinOsc.ar(440, 0, 0.2), Saw.ar(662, 0.2)];
+	b = [SinOsc.ar(442, 0, 0.2), Saw.ar(660, 0.2)];
+	Mix([a, b]).postln;
+}.play;
+)
+::
+
+In the first case we get a 'BinaryOpUGen' (in this case this means the two UGens added together), and in the second we get an Array of two BinaryOpUGens.
+
+Note that in the first example we use Mix.new(...), but in the second we use Mix(...). The latter is a shorthand for the former. 'new' is the most common class method for creating a new object. In some cases objects have more than one class method for creating objects, such as the 'ar' and 'kr' methods of UGens. (Mix, however, is actually just a 'convenience' class, and doesn't actually create Mix objects, it just returns the results of its summing, either a BinaryOpUGen or an Array of them.)
+
+Mix also has another class method called fill, which takes two arguments. The first is a number, which determines how many times the second argument, a Function, will be evaluated. The results of the evaluations will be summed. Confusing? Take a look at the following example:
+
+code::
+(
+	var n = 8;
+	{ Mix.fill(n, { SinOsc.ar(500 + 500.0.rand, 0, 1 / n) }) }.play;
+)
+::
+
+The Function will be evaluated n times, each time creating a SinOsc with a random frequency from 500 to 1000 Hz (500 plus a random number between 0 and 500). The mul arg of each SinOsc is set to 1 / n, thus ensuring that the total amplitude will not go outside -1 and 1. By simply changing the value of n, you can have vastly different numbers of SinOscs! (Try it!) This sort of approach makes this code extremely flexible and reusable.
+
+Each time the Function is evaluated it is passed the number of times evaluated so far as an argument. So if 'n' is 8 the Function will be passed values from 0 to 7, in sequence, counting up. By declaring an argument within our Function we can use this value.
+
+code::
+// Look at the post window for frequencies and indices
+(
+	var n = 8;
+	{
+		Mix.fill(n, { arg index;
+			var freq;
+			index.postln;
+			freq = 440 + index;
+			freq.postln;
+			SinOsc.ar(freq , 0, 1 / n)
+		})
+	}.play;
+)
+::
+
+By combining addition and multiplication (or indeed almost any mathematical procedure you could imagine!) with the use of classes like Mix, we have the tools we need to combine multichannel sources of sound into complex mixes and submixes.
+
+For more information see:
+
+link::Classes/Mix::, link::Classes/BinaryOpUGen::, link::Overviews/Operators::, link::Reference/Syntax-Shortcuts::
+
+section::Suggested Exercise
+
+Experiment with altering the Functions in the text above. For instance try changing the frequencies of the SinOsc, or making multi-channel versions of things.
+
+____________________
+
+This document is part of the tutorial strong::Getting Started With SuperCollider::.
+
+Click here to go on to the next section: link::Tutorials/Getting-Started/08-Scoping-and-Plotting::
+
+Click here to return to the table of Contents: link::Tutorials/Getting-Started/00-Getting-Started-With-SC::
+
+
+title:: 08. Scoping and Plotting
+summary:: Getting Started With SuperCollider
+categories:: Tutorials>Getting-Started
+related:: Tutorials/Getting-Started/00-Getting-Started-With-SC
+
+section::Scoping Out Some Plots
+
+Function has two other useful audio related methods. The first you've already seen some results of, Function-plot:
+
+code::
+{ PinkNoise.ar(0.2) + SinOsc.ar(440, 0, 0.2) + Saw.ar(660, 0.2) }.plot;
+::
+
+This makes a graph of the signal produced by the output of the Function. You can specify some arguments, such as the duration. The default is 0.01 seconds, but you can set it to anything you want.
+
+code::
+{ PinkNoise.ar(0.2) + SinOsc.ar(440, 0, 0.2) + Saw.ar(660, 0.2) }.plot(1);
+::
+
+This can be useful to check what's happening, and if you're getting the output you think you're getting.
+
+The second method, Function-scope, shows an oscilloscope-like display of the Function's output.
+
+So let's try to scope some audio:
+
+code::
+{ PinkNoise.ar(0.2) + SinOsc.ar(440, 0, 0.2) + Saw.ar(660, 0.2) }.scope;
+::
+
+This should open a window which looks something like this:
+
+image::Scoping-and-Plotting01.png::
+
+This also works for multiple channels:
+
+code::
+{ [SinOsc.ar(440, 0, 0.2), SinOsc.ar(442, 0, 0.2)] }.scope;
+::
+
+Scope also has a zoom argument. Higher values 'zoom out'.
+
+code::
+{ [SinOsc.ar(440, 0, 0.2), SinOsc.ar(442, 0, 0.2)] }.scope(zoom: 10);
+::
+
+Like Function-plot, Function-scope can be useful for testing purposes, and to see if you're actually getting out what you think you are.
+
+section::Scoping on Demand
+
+You can also scope the output of the server at any time, by calling 'scope' on it.
+
+code::
+{ [SinOsc.ar(440, 0, 0.2), SinOsc.ar(442, 0, 0.2)] }.play;
+s.scope;
+::
+
+You can do the same thing by clicking on the server window and pressing the 's' key.
+
+For more information see:
+
+link::Classes/Function::, link::Classes/Server::, link::Classes/Stethoscope::
+
+section::Suggested Exercise
+
+Experiment with scoping and plotting some of the Function examples from earlier sections, or some Functions of your own creation. Try experimenting with different duration or zoom values.
+
+____________________
+
+This document is part of the tutorial strong::Getting Started With SuperCollider::.
+
+Click here to go on to the next section: link::Tutorials/Getting-Started/09-Getting-Help::
+
+Click here to return to the table of Contents: link::Tutorials/Getting-Started/00-Getting-Started-With-SC::
+
+
+title:: 09. Getting Help
+summary:: Getting Started With SuperCollider
+categories:: Tutorials>Getting-Started
+related:: Tutorials/Getting-Started/00-Getting-Started-With-SC
+
+This is probably a good point to stop and explore some methods of finding further information. You're already familiar with the clickable links that have been used so far in this tutorial. Here's an example:
+
+link::Help::
+
+Clicking on this link will open the main help window, which contains a number of links to other help files. At some point, it would be a good idea to familiarise yourself with some of these. Again don't worry if everything doesn't immediately make complete sense to you. Learning a computer language is sometimes a little like slowly zeroing in on something, rather than getting it immediately, and some information you can just file away for future reference.
+
+section::Classes and Methods
+
+By now we've learned enough OOP theory that we know that we have classes, which are like templates for objects, and instances, which are objects which have been created from those templates. We also have class and instance methods, which may take arguments. Class methods do things like create instances (as well as some convenience functions that don't require an actual instance), and instance methods control and manipulate instances. There are also instance variables, which are the data specific to each instance, and class variables, which are data in common between all instances.
+
+Recall that anything in the code that begins with an uppercase letter is a class. Most classes have help files. If you select a class by double-clicking on it, and press Cmd - d (that's hold down the Cmd key and press the d key) the help file for that class will open if it exists. (If not you'll get the main help window.) Try it with this example below:
+
+code::
+SinOsc
+::
+
+You should have gotten a window with a brief description of the class and what it does, a list of some methods, and a description of their arguments. (Remember that 'mul' and 'add' are usually not explained.)
+
+Beneath that are some examples of the class in action. These can be very useful for making it clear exactly what the class does, and can serve as starting points for your own work. It's a good idea to cut and paste these to a new window, and then play around with modifying them. (Remember that SC won't stop you from saving any modified files, including this tutorial!) This is a great way to learn.
+
+You may be wondering how to access the helpfiles for Function and Array, since they often appear in code as {...} and [...]. They are also named classes, so by typing in the following, you can also select and Cmd-? on them.
+
+code::
+Function
+Array
+::
+
+Some methods also have helpfiles, and there are a number of ones on general topics. Most of these are listed in the main help window.
+
+section::Syntax Shortcuts
+
+Remember the example of Mix(...) vs. Mix.new(...)? SC has a number of such shorthand forms or alternate syntaxes. A common example is the distinction between Functional and receiver notation. This means that the notation code::someObject.someMethod(anArg):: is equivalent to code::someMethod(someObject, anArg)::. Here's a concrete example. Both of these do exactly the same thing:
+
+code::
+{ SinOsc.ar(440, 0, 0.2) }.play;
+
+play({ SinOsc.ar(440, 0, 0.2) });
+::
+
+You will find numerous other examples of syntax shortcuts throughout SC's documentation. If you see something you don't recognize, a good place to check is link::Reference/Syntax-Shortcuts::, which gives examples of most of these.
+
+section::Snooping, etc.
+
+SC has numerous other ways of tracking down information on classes, methods, etc. Most of these won't be too helpful for you at this point, but are good to know about for future use. Information on these can be found in the files link::Guides/More-On-Getting-Help:: and link::Guides/Internal-Snooping::.
+
+For more information see:
+
+link::Guides/More-On-Getting-Help::, link::Guides/Internal-Snooping::, link::Reference/Syntax-Shortcuts::
+
+section::Suggested Exercise
+
+Go back over the examples in the previous tutorials, and try opening up the helpfiles for the various classes used. Try out the examples, and if you like open up the help files for any unfamiliar classes used in those examples. Get used to Cmd-d, you'll be using it a lot. :-)
+
+____________________
+
+This document is part of the tutorial strong::Getting Started With SuperCollider::.
+
+Click here to go on to the next section: link::Tutorials/Getting-Started/10-SynthDefs-and-Synths::
+
+Click here to return to the table of Contents: link::Tutorials/Getting-Started/00-Getting-Started-With-SC::
+
+
+title:: 10. SynthDefs and Synths
+summary:: Getting Started With SuperCollider
+categories:: Tutorials>Getting-Started
+related:: Tutorials/Getting-Started/00-Getting-Started-With-SC
+
+Now that we've covered some basic information we're going to start looking at server abstractions, which are the various classes in the language app which represent things on the server. When looking at these it is important to understand that these objects are just client-side emphasis::representations:: of parts of the server's architecture, and should not be confused with those parts themselves. Server abstraction objects are simply conveniences.
+
+Distinguishing between the two can be a little confusing, so in general I refer herein to the client-side classes with uppercase names, and the corresponding aspects of server architecture with lowercase names, i.e. Synth vs. synth.
+
+You've already met one kind of server abstraction, class Server itself. The objects referred to by Server.local and Server.internal (and whichever one is stored in the interpreter variable 's' at any given moment) are instances of Server.
+
+Now it's time to get familiar with the rest of them. The first thing we'll look at is the class SynthDef, which is short for 'synth definition'.
+
+section::Meet the SynthDef
+
+Up until now we've been using Functions to generate audio. This way of working is very useful for quick testing, and in cases where maximum flexibility is needed. This is because each time we execute the code, the Function is evaluated anew, which means the results can vary greatly.
+
+The server, however, doesn't understand Functions, or OOP, or the SC language. It wants information on how to create audio output in a special form called a synth definition. A synth definition is data about UGens and how they're interconnected. This is sent in a kind of special optimised form, called 'byte code', which the server can deal with very efficiently.
+
+Once the server has a synth definition, it can very efficiently use it to make a number of synths based on it. Synths on the server are basically just things that make or process sound, or produce control signals to drive other synths.
+
+This relationship between synth definitions and synths is something like that between classes and instances, in that the former is a template for the latter. But remember that the server app knows nothing about OOP.
+
+Luckily for us there are classes in the language such as SynthDef, which make it easy to create the necessary byte code and send it to the server, and to deal with synth definitions in an object oriented way.
+
+Whenever you use any of Function's audio creating methods what happens is that a corresponding instance of SynthDef is created 'behind the scenes', so to speak, and the necessary byte code is generated and sent to the server, where a synth is created to play the desired audio. So Function's audio methods provide a kind of convenience for you, so that you don't have to take care of this.
+
+So how do you make a SynthDef yourself? You use its 'new' method. Let's compare a by now familiar Function based example, and make an equivalent SynthDef. Like Function, SynthDef also has a convenient play method, so we can easily confirm that these two are equivalent.
+
+code::
+//first the Function
+{ SinOsc.ar(440, 0, 0.2) }.play;
+
+// now here's an equivalent SynthDef
+SynthDef.new("tutorial-SinOsc", { |out| Out.ar(out, SinOsc.ar(440, 0, 0.2)) }).play;
+::
+
+SynthDef-new takes a number of arguments. The first is a name, usually in the form of a String as above. The second is in fact a Function. This argument is called a UGen Graph Function, as it tells the server how to connect together its various UGens.
+
+note:: Within the function braces, the code::|out|:: argument defines a SynthDef emphasis::control input::, which is then used as the first input to code::Out.ar::. It is a good habit to provide an code::out:: control in every SynthDef. Review link::Tutorials/Getting-Started/04-Functions-and-Other-Functionality:: for more about function arguments. ::
+
+section::SynthDefs vs. Functions
+
+This UGen Graph Function we used in the second example above is similar to the Function we used in the first one, but with one notable difference: It has an extra UGen called Out. Out writes out an ar or kr signal to one of the server's busses, which can be thought of as mixer channels or outputs. We'll discuss busses in greater detail later, but for now just be aware that they're used for playing audio out of the computer, and for reading it in from sources such as microphones.
+
+Out takes two arguments: The first is the index number of the bus to write out on. These start from 0, which on a stereo setup is usually the left output channel. The second is either a UGen or an Array of UGens. If you provide an array (i.e. a multichannel output) then the first channel will be played out on the bus with the indicated index, the second channel on the bus with the indicated index + 1, and so on.
+
+Here's a stereo example to make clear how this works. The SinOsc with the frequency argument of 440 Hz will be played out on the first output bus (the left channel), and the SinOsc with the frequency argument of 442 Hz will be played out on the second bus (the right channel). By default, code::out:: assumes bus 0 as the first channel, so the two will play on buses 0 and 1 respectively.
+
+code::
+(
+SynthDef.new("tutorial-SinOsc-stereo", { |out|
+	var outArray;
+	outArray = [SinOsc.ar(440, 0, 0.2), SinOsc.ar(442, 0, 0.2)];
+	Out.ar(out, outArray)
+}).play;
+)
+::
+
+When you use Function-play an Out UGen is in fact created for you if you do not explicitly create one. The default bus index for this Out UGen is 0.
+
+Both Function-play and SynthDef-play return another type of object, a Synth, which represents a synth on the server. If you store this object by assigning it to a variable you can control it's behaviour in various ways. For instance the method 'free' causes the synth on the server to stop playing and its memory and cpu resources to be freed.
+
+code::
+x = { SinOsc.ar(660, 0, 0.2) }.play;
+y = SynthDef.new("tutorial-SinOsc", { |out| Out.ar(out, SinOsc.ar(440, 0, 0.2)) }).play;
+x.free;	// free just x
+y.free;	// free just y
+::
+
+This is more flexible than Cmd-., which frees all synths at once.
+
+More often, you will want to send the corresponding byte code to the server app without immediately creating a synth. The great advantage of this is that you can play any number of copies of the SynthDef without the overhead of compiling or sending a network of unit generators. In almost all cases, use 'add', as in the next example below. See link::Classes/SynthDef#-add:: for details.
+
+code::
+// execute first, by itself
+SynthDef.new("tutorial-PinkNoise", { |out| Out.ar(out, PinkNoise.ar(0.3)) }).add;
+
+// then:
+x = Synth.new("tutorial-PinkNoise");
+y = Synth.new("tutorial-PinkNoise");
+x.free; y.free;
+::
+
+This is more efficient than repeatedly calling play on the same Function, as it saves the effort of evaluating the Function, compiling the byte code, and sending it multiple times. In many cases this saving in CPU usage is so small as to be largely insignificant, but when doing things like 'mass producing' synths, this can be important.
+
+A corresponding limitation to working with SynthDefs directly is that the UGen Graph Function in a SynthDef is evaluated emphasis::once and only once::. (Remember that the server knows nothing about the SC language.) This means that it is somewhat less flexible. Compare these two examples:
+
+code::
+// first with a Function. Note the random frequency each time 'play' is called.
+f = { SinOsc.ar(440 + 200.rand, 0, 0.2) };
+x = f.play;
+y = f.play;
+z = f.play;
+x.free; y.free; z.free;
+
+// Now with a SynthDef. No randomness!
+SynthDef("tutorial-NoRand", { |out| Out.ar(out, SinOsc.ar(440 + 200.rand, 0, 0.2)) }).add;
+x = Synth("tutorial-NoRand");
+y = Synth("tutorial-NoRand");
+z = Synth("tutorial-NoRand");
+x.free; y.free; z.free;
+::
+
+Each time you create a new Synth based on the def, the frequency is the same. This is because the Function (and thus code::200.rand::) is only evaluated only once, when the SynthDef is created.
+
+section::Creating Variety with SynthDefs
+
+There are numerous ways of getting variety out of SynthDefs, however. Some things, such as randomness, can be accomplished with various UGens. One example is link::Classes/Rand::, which calculates a random number between low and high values when a synth is first created:
+
+code::
+// With Rand, it works!
+SynthDef("tutorial-Rand", { |out| Out.ar(out, SinOsc.ar(Rand(440, 660), 0, 0.2)) }).add;
+x = Synth("tutorial-Rand");
+y = Synth("tutorial-Rand");
+z = Synth("tutorial-Rand");
+x.free; y.free; z.free;
+::
+
+This link::Browse#UGens:: category link lists a number of such UGens.
+
+The most common way of creating variables is through putting arguments into the UGen Graph Function. This allows you to set different values when the synth is created. These are passed in an array as the second argument to Synth-new. The array should contain pairs of arg names and values.
+
+code::
+(
+SynthDef("tutorial-args", { arg freq = 440, out = 0;
+	Out.ar(out, SinOsc.ar(freq, 0, 0.2));
+}).add;
+)
+x = Synth("tutorial-args");				// no args, so default values
+y = Synth("tutorial-args", ["freq", 660]);		// change freq
+z = Synth("tutorial-args", ["freq", 880, "out", 1]);	// change freq and output channel
+x.free; y.free; z.free;
+::
+
+This combination of args and UGens means that you can get a lot of mileage out of a single def, but in some cases where maximum flexibility is required, you may still need to use Functions, or create multiple defs.
+
+section::More About Synth
+
+Synth understands some methods which allow you to change the values of args after a synth has been created. For now we'll just look at one, 'set'. Synth-set takes pairs of arg names and values.
+
+code::
+s.boot;
+(
+SynthDef.new("tutorial-args", { arg freq = 440, out = 0;
+	Out.ar(out, SinOsc.ar(freq, 0, 0.2));
+}).add;
+)
+s.scope; // scope so you can see the effect
+x = Synth.new("tutorial-args");
+x.set("freq", 660);
+x.set("freq", 880, "out", 1);
+x.free;
+::
+
+section::Some Notes on Symbols, Strings, SynthDef and Arg Names
+
+SynthDef names and argument names can be either a String, as we've seen above, or another kind of literal called a Symbol. You write symbols in one of two ways, either enclosed in single quotes: code::'tutorial_SinOsc':: or preceded by a backslash: code::\tutorial_SinOsc::. Like Strings Symbols are made up of alpha-numeric sequences. The difference between Strings and Symbols is that all Symbols with the same text are guaranteed to be identical, i.e. the exact same object, whereas with Strings this might not be the case. You can test for this using '==='. Execute the following and watch the post window.
+
+code::
+"a String" === "a String"; 	// this will post false
+\aSymbol === 'aSymbol';		// this will post true
+::
+
+In general in methods which communicate with the server one can use Strings and Symbols interchangeably, but be aware that this is not necessarily true in general code.
+
+code::
+"this" === \this; 	// this will post false
+::
+
+For more information see:
+
+link::Classes/SynthDef::, link::Classes/Synth::, link::Classes/String::, link::Classes/Symbol::, link::Reference/Literals::, link::Guides/Randomness::, link::Browse#UGens::
+
+section::Suggested Exercise
+
+Try converting some of the earlier Function based examples, or Functions of your own, to SynthDef versions, adding Out UGens. Experiment with adding and changing arguments both when the synths are created, and afterwards using 'set'.
+
+____________________
+
+This document is part of the tutorial strong::Getting Started With SuperCollider::.
+
+Click here to go on to the next section: link::Tutorials/Getting-Started/11-Busses::
+
+Click here to return to the table of Contents: link::Tutorials/Getting-Started/00-Getting-Started-With-SC::
+
+
+title:: 11. Busses
+summary:: Getting Started With SuperCollider
+categories:: Tutorials>Getting-Started
+related:: Tutorials/Getting-Started/00-Getting-Started-With-SC
+
+Now a little bit more about busses on the server. Busses are named after the busses or sends in analog mixing desks, and they serve a similar purpose: routing signals from one place to another. In SC, this means to or from the audio hardware, or between different synths. They come in two types: audio rate and control rate. As you've probably guessed, the former routes audio rate signals and the latter routes control rate signals.
+
+The control rate busses are fairly simple to understand. Each one has an index number, starting from 0.
+
+Audio rate busses are similar, but require slightly more explanation. A server app will have a certain number of output and input channels. These correspond to the first audio busses, with outputs coming before inputs.
+
+For example, if we imagine a server with two output channels and two input channels (i.e. stereo in and out) then the first two audio busses (index 0 and index 1) will be the outputs, and the two immediately following those (index 2 and index 3) will be the inputs. Writing audio out to one of the output busses will result in sound being played from your speakers, and reading audio in from the input busses will get sound into SC for things like recording and processing (provided you have a source such as a microphone connected to the input of your computer or audio interface).
+
+The remaining audio busses will be 'private'. These are used simply to send audio and control signals between various synths. Sending audio to a private bus will not result in sound from your speakers unless you reroute it later to one of the output busses. These 'private' busses are often used for things like an 'effects send', i.e. something that requires further processing before it reaches the speakers.
+
+The number of control and audio busses available, as well as the number of input and output channels, is set at the time the server app is booted. (See link::Classes/ServerOptions:: for information on how to set the number of input and output channels, and busses.)
+
+section::Writing to or Reading from Busses
+
+We've already seen Out.ar, which allows you to write (i.e. play out) audio to a bus. Recall that it has two arguments – an index, and an output – which can be an array of UGens (i.e. a multichannel output) or a single UGen.
+
+To read in from a bus you use another UGen: In. In's 'ar' method also takes two arguments: an index, and the number of channels to read in. If the number of channels is greater than one, than In's output will be an Array. Execute the following examples, and watch the post window:
+
+code::
+In.ar(0, 1); // this will return 'an OutputProxy'
+In.ar(0, 4); // this will return an Array of 4 OutputProxies
+::
+
+An OutputProxy is a special kind of UGen that acts as a placeholder for some signal that will be present when the synth is running. You'll probably never need to deal with one directly, so don't worry about them. Just understand what they are so that you'll recognise them when you see them in the post window and elsewhere.
+
+In and Out also have 'kr' methods, which will read and write control rate signals to and from control rate busses. Note that Out.kr will convert an audio rate signal to control rate (this is called 'downsampling'), but that the reverse is not true: Out.ar needs an audio rate signal as its second argument.
+
+code::
+// This throws an error. Can't write a control rate signal to an audio rate bus
+{ |out| Out.ar(out, SinOsc.kr) }.play;
+
+// This will work as the audio rate signal is downsampled to control rate
+{ |out| Out.kr(out, SinOsc.ar) }.scope;
+::
+
+(This limitation is not universal amongst audio rate UGens, however, and most will accept control rate signals for some or all of their arguments. Some will even convert control rate inputs to audio rate if needed, filling in the extra values through a process called interpolation.)
+
+You'll note that when multiple Synths write to the same bus, their output is summed (i.e. mixed).
+
+code::
+(
+SynthDef("tutorial-args", { arg freq = 440, out = 0;
+	Out.ar(out, SinOsc.ar(freq, 0, 0.2));
+}).add;
+)
+// both write to bus 1, and their output is mixed
+x = Synth("tutorial-args", ["out", 1, "freq", 660]);
+y = Synth("tutorial-args", ["out", 1, "freq", 770]);
+::
+
+section::Creating a Bus Object
+
+There is a handy client-side object to represent server busses: Bus. Given that all you need is an In or Out UGen and an index to write to a bus, you might wonder what one would need a full-fledged Bus object for. Well, much of the time you don't, particularly if all you're doing is playing audio in and out. But Bus does provide some useful functionality. We'll get to that in a second, but first let's look at how to make one.
+
+Just as many UGens have ar and kr methods, Bus has two commonly used creation methods: Bus-audio and Bus-control. These each take two arguments: a Server object, and the number of channels.
+
+code::
+b = Bus.control(s, 2); // Get a two channel control Bus
+c = Bus.audio(s); 	// Get a one channel private audio Bus (one is the default)
+::
+
+You may be wondering what a 'two channel' bus is, since we haven't mentioned these before. You should recall that when Out has an Array as its second argument it will write the channels of the Array to consecutive busses. Recall this example from link::Tutorials/Getting-Started/10-SynthDefs-and-Synths:: :
+
+code::
+(
+SynthDef.new("tutorial-SinOsc-stereo", { |out|
+	var outArray;
+	outArray = [SinOsc.ar(440, 0, 0.2), SinOsc.ar(442, 0, 0.2)];
+	Out.ar(out, outArray); // writes to busses 0 and 1
+}).play;
+)
+::
+
+The truth is that there aren't multichannel busses per se, but Bus objects are able to represent a series of busses with consecutive indices. They emphasis::encapsulate:: several adjacent server-side busses into a single Bus object, allowing you to treat them as a group. This turns out to be rather handy.
+
+When you're working with so-called 'private' busses (i.e. anything besides the input and output channels; all control busses are 'private') you generally want to make sure that that bus is only used for exactly what you want. The point after all is to keep things separate. You could do this by carefully considering which indices to use, but Bus allows for this to be done automatically. Each Server object has a bus allocator, and when you make a Bus object, it reserves those private indices, and will not give them out again until freed. You can find out the index of a Bus by using its 'index' method. Normally however, you will not need to store this value, as instances of Bus can be passed directly as UGen inputs or Synth args.
+
+code::
+s.reboot; // this will restart the server and thus reset the bus allocators
+
+b = Bus.control(s, 2);	// a 2 channel control Bus
+b.index; 		// this should be zero
+b.numChannels 		// Bus also has a numChannels method
+c = Bus.control(s);
+c.numChannels;		// the default number of channels is 1
+c.index;		// note that this is 2; b uses 0 and 1
+::
+
+So by using Bus objects to represent adjacent busses, you can guarantee that there won't be a conflict. Since the indices are allocated dynamically, you can change the number of channels of a Bus in your code (for instance because you now need to route a multichannel signal), and still be guaranteed to be safe. If you were simply 'hard allocating' busses by using index numbers, you might have to adjust them all to make room for an extra adjacent channel, since the indices need to be consecutive! This is a good example of the power of objects: by encapsulating things like index allocation, and providing a emphasis::layer of abstraction::, they can make your code more flexible.
+
+You can free up the indices used by a Bus by calling its 'free' method. This allows them to be reallocated.
+
+code::
+b = Bus.control(s, 2);
+b.free; // free the indices. You can't use this Bus object after that
+::
+
+Note that this doesn't actually make the bus on the server go away, it's still there. 'free' just lets the allocator know that you're done using this bus for the moment, and it can freely reallocate its index.
+
+Now here's another advantage when working with private audio rate busses. As we said above, the first few busses are the output and input channels. So if we want to use the first private bus, all we need to do is add those together, right? Consider our server app with 2 output and 2 input channels. The first private audio bus is index 4. (0, 1, 2, 3 ... 4!) So we write our code, and give the appropriate Out UGen 4 as its index arg.
+
+But what happens if we later decide to change the number of output channels to 6? Now everything that was written to our private bus is going out one of the output channels! A Server's audio bus allocator will only assign private indices, so if you change the number of input or output channels it will take this into account when you execute your code. Again, this makes your code more flexible.
+
+section::Busses in Action
+
+So here are two examples using busses. The first is with a control rate bus.
+
+code::
+(
+SynthDef("tutorial-Infreq", { arg bus, freqOffset = 0, out;
+	// this will add freqOffset to whatever is read in from the bus
+	Out.ar(out, SinOsc.ar(In.kr(bus) + freqOffset, 0, 0.5));
+}).add;
+
+SynthDef("tutorial-Outfreq", { arg freq = 400, bus;
+	Out.kr(bus, SinOsc.kr(1, 0, freq/40, freq));
+}).add;
+
+b = Bus.control(s,1);
+)
+
+(
+x = Synth.new("tutorial-Outfreq", [\bus, b]);
+y = Synth.after(x, "tutorial-Infreq", [\bus, b]);
+z = Synth.after(x, "tutorial-Infreq", [\bus, b, \freqOffset, 200]);
+)
+x.free; y.free; z.free; b.free;
+::
+
+Both y and z read from the same bus. The latter just modifies the frequency control signal by adding a constant value of 200 to it. This is more efficient than having two separate control oscillators to control frequency. This sort of strategy of connecting together synths, each of which does different things in a larger process, can be very effective in SC.
+
+Now an example with an audio bus. This is the most complicated example we've seen so far, but should give you some idea of how to start putting all the things we've learned together. The code below will use two Synths as sources, one creating pulses of PinkNoise (a kind of Noise which has less energy at high frequencies than at low), and another creating pulses of sine waves. The pulses are created using the UGens link::Classes/Impulse:: and link::Classes/Decay2::. These are then reverberated using a chain of link::Classes/AllpassC::, which is a kind of delay.
+
+Note the construction 16.do({ ... }), below. This makes the chain by evaluating the function 16 times. This is a very powerful and flexible technique, as by simply changing the number, I can change the number of evaluations. See link::Classes/Integer:: for more info on Integer-do.
+
+code::
+(
+// the arg direct will control the proportion of direct to processed signal
+SynthDef("tutorial-DecayPink", { arg outBus = 0, effectBus, direct = 0.5;
+	var source;
+	// Decaying pulses of PinkNoise. We'll add reverb later.
+	source = Decay2.ar(Impulse.ar(1, 0.25), 0.01, 0.2, PinkNoise.ar);
+	// this will be our main output
+	Out.ar(outBus, source * direct);
+	// this will be our effects output
+	Out.ar(effectBus, source * (1 - direct));
+}).add;
+
+SynthDef("tutorial-DecaySin", { arg outBus = 0, effectBus, direct = 0.5;
+	var source;
+	// Decaying pulses of a modulating sine wave. We'll add reverb later.
+	source = Decay2.ar(Impulse.ar(0.3, 0.25), 0.3, 1, SinOsc.ar(SinOsc.kr(0.2, 0, 110, 440)));
+	// this will be our main output
+	Out.ar(outBus, source * direct);
+	// this will be our effects output
+	Out.ar(effectBus, source * (1 - direct));
+}).add;
+
+SynthDef("tutorial-Reverb", { arg outBus = 0, inBus;
+	var input;
+	input = In.ar(inBus, 1);
+
+	// a low-rent reverb
+	// aNumber.do will evaluate its function argument a corresponding number of times
+	// {}.dup(n) will evaluate the function n times, and return an Array of the results
+	// The default for n is 2, so this makes a stereo reverb
+	16.do({ input = AllpassC.ar(input, 0.04, { Rand(0.001,0.04) }.dup, 3)});
+
+	Out.ar(outBus, input);
+}).add;
+
+b = Bus.audio(s,1); // this will be our effects bus
+)
+
+(
+x = Synth.new("tutorial-Reverb", [\inBus, b]);
+y = Synth.before(x, "tutorial-DecayPink", [\effectBus, b]);
+z = Synth.before(x, "tutorial-DecaySin", [\effectBus, b, \outBus, 1]);
+)
+
+// Change the balance of wet to dry
+y.set(\direct, 1); // only direct PinkNoise
+z.set(\direct, 1); // only direct Sine wave
+y.set(\direct, 0); // only reverberated PinkNoise
+z.set(\direct, 0); // only reverberated Sine wave
+x.free; y.free; z.free; b.free;
+::
+
+Note that we could easily have many more source synths being processed by the single reverb synth. If we'd built the reverb into the source synths we'd be duplicating the effort. But by using a private bus, we're able to be more efficient.
+
+section::More Fun with Control Busses
+
+There are some other powerful things that you can do with control rate busses. For instance, you can map any arg in a running synth to read from a control bus. This means you don't need an In UGen. You can also write constant values to control busses using Bus' 'set' method, and poll values using its 'get' method.
+
+code::
+(
+// make two control rate busses and set their values to 880 and 884.
+b = Bus.control(s, 1); b.set(880);
+c = Bus.control(s, 1); c.set(884);
+// and make a synth with two frequency arguments
+x = SynthDef("tutorial-map", { arg freq1 = 440, freq2 = 440, out;
+	Out.ar(out, SinOsc.ar([freq1, freq2], 0, 0.1));
+}).play(s);
+)
+// Now map freq1 and freq2 to read from the two busses
+x.map(\freq1, b, \freq2, c);
+
+// Now make a Synth to write to the one of the busses
+y = {Out.kr(b, SinOsc.kr(1, 0, 50, 880))}.play(addAction: \addToHead);
+
+// free y, and b holds its last value
+y.free;
+
+// use Bus-get to see what the value is. Watch the post window
+b.get({ arg val; val.postln; f = val; });
+
+// set the freq2, this 'unmaps' it from c
+x.set(\freq2, f / 2);
+
+// freq2 is no longer mapped, so setting c to a different value has no effect
+c.set(200);
+
+x.free; b.free; c.free;
+::
+
+Note that unlike audio rate busses, control rate busses hold their last value until something new is written.
+
+Also note that Bus-get takes a Function (called an action function) as an argument. This is because it takes a small amount of time for the server to get the reply and send it back. The function, which is passed the value (or Array of values, in the case of a multichannel bus) as an argument, allows you to do something with the value once it comes back.
+
+This concept of things taking a small amount of time to respond (usually called emphasis::latency::) is quite important to understand. There are a number of other methods in SC which function this way, and it can cause you problems if you're not careful. To illustrate this consider the example below.
+
+code::
+// make a Bus object and set its values
+b = Bus.control(s, 1); b.set(880);
+
+// execute this altogether
+(
+f = nil; // just to be sure
+b.get({ arg val; f = val; });
+f.postln;
+)
+
+// f equals nil, but try it again and it's as we expected!
+f.postln;
+::
+
+So why was f nil the first time but not the second time? The part of the language app which executes your code (called the emphasis::interpreter::), does what you tell it, as fast as it can, when you tell it to. So in the block of code between the parentheses above it sends the 'get' message to the server, schedules the Function to execute when a reply is received, and then moves on to posting f. Since it hasn't received the reply yet f is still nil when it's posted the first time.
+
+It only takes a tiny amount of time for the server to send a reply, so by the time we get around to executing the last line of code f has been set to 880, as we expected. In the previous example this wasn't a problem, as we were only executing a line at a time. But there will be cases where you will need to execute things as a block, and the action function technique is very useful for that.
+
+section::Getting it all in the Right Order
+
+In the examples above, you may have wondered about things like Synth.after, and addAction: \addToHead. During each cycle (the period in which a block of samples is calculated) the server calculates things in a particular order, according to its list of running synths.
+
+It starts with the first synth in its list, and calculates a block of samples for its first UGen. It then takes that and calculates a block of samples for each of its remaining UGens in turn (any of which may take the output of an earlier UGen as an input.) This synth's output is written to a bus or busses, as the case may be. The server then moves on to the next synth in its list, and the process repeats, until all running synths have calculated a block of samples. At this point the server can move on to the next cycle.
+
+The important thing to understand is that as a emphasis::general rule::, when you are connecting synths together using busses it is important that synths which write signals to busses are earlier in the server's order than synths which read those signals from those busses. For instance, in the audio bus example above it was important that the 'reverb' synth is calculated after the noise and sine wave synths that it processes.
+
+This is a complicated topic, and there are some exceptions to this, but you should be aware that ordering is crucial when interconnecting synths. The file link::Guides/Order-of-execution:: covers this topic in greater detail.
+
+Synth-new has two arguments which allow you to specify where in the order a synth is added. The first is a emphasis:: target::, and the second is an emphasis:: addAction::. The latter specifies the new synth's position in relation to the target.
+
+code::
+x = Synth("default", [\freq, 300]);
+// add a second synth immediately after x
+y = Synth("default", [\freq, 450], x, \addAfter);
+x.free; y.free;
+::
+
+A target can be another Synth (or some other things; more on that soon), and an addAction is a symbol. See link::Classes/Synth:: for a complete list of possible addActions.
+
+Methods like Synth-after are simply convenient ways of doing the same thing, the difference being that they take a target as their first argument.
+
+code::
+// These two lines of code are equivalent
+y = Synth.new("default", [\freq, 450], x, \addAfter);
+y = Synth.after(x, "default", [\freq, 450]);
+::
+
+For more information see:
+
+link::Classes/Bus::, link::Classes/In::, link::Classes/OutputProxy::, link::Guides/Order-of-execution::, link::Classes/Synth::
+
+section::Suggested Exercise
+
+Experiment with interconnecting different synths using audio and control busses. When doing so, be mindful of their ordering on the server.
+
+____________________
+
+This document is part of the tutorial strong::Getting Started With SuperCollider::.
+
+Click here to go on to the next section: link::Tutorials/Getting-Started/12-Groups::
+
+Click here to return to the table of Contents: link::Tutorials/Getting-Started/00-Getting-Started-With-SC::
+
+
+title:: 12. Groups
+summary:: Getting Started With SuperCollider
+categories:: Tutorials>Getting-Started
+related:: Tutorials/Getting-Started/00-Getting-Started-With-SC
+
+Our discussion about the order of synths on the server brings us to the topic of groups. Synths on the server are a type of what are called emphasis::nodes::. There's one other type of node: groups. Groups are simply collections of nodes, and can contain synths, other groups, or combinations of both. They are mostly useful in two ways: First they are very helpful in controlling order, second, they allow you to easily group together nodes and send them messages all at once. As you've probably guessed, there's a handy Server abstraction object to represent group nodes in the client app: Group.
+
+section::Groups as Ordering Tools
+
+Groups can be quite helpful in terms of controlling order. Like synths they take targets and addActions as arguments, which makes it easy to put them in position.
+
+code::
+g = Group.new;
+h = Group.before(g);
+g.free; h.free;
+::
+
+This can be very helpful for things like keeping effects or processing separate from sound sources, and in the right order. Let's reconsider our reverb example from the previous section.
+
+code::
+(
+// a stereo version
+SynthDef(\tutorial_DecaySin2, { arg outBus = 0, effectBus, direct = 0.5, freq = 440;
+	var source;
+	// 1.0.rand2 returns a random number from -1 to 1, used here for a random pan
+	source = Pan2.ar(Decay2.ar(Impulse.ar(Rand(0.3, 1), 0, 0.125), 0.3, 1,
+		SinOsc.ar(SinOsc.kr(0.2, 0, 110, freq))), Rand(-1.0, 1.0));
+	Out.ar(outBus, source * direct);
+	Out.ar(effectBus, source * (1 - direct));
+}).add;
+
+SynthDef(\tutorial_Reverb2, { arg outBus = 0, inBus;
+	var input;
+	input = In.ar(inBus, 2);
+	16.do({ input = AllpassC.ar(input, 0.04, Rand(0.001,0.04), 3)});
+	Out.ar(outBus, input);
+}).add;
+)
+
+// now we create groups for effects and synths
+(
+~sources = Group.new;
+~effects = Group.after(~sources); 	// make sure it's after
+~bus = Bus.audio(s, 2); 		// this will be our stereo effects bus
+)
+
+// now synths in the groups. The default addAction is \addToHead
+(
+x = Synth(\tutorial_Reverb2, [\inBus, ~bus], ~effects);
+y = Synth(\tutorial_DecaySin2, [\effectBus, ~bus, \outBus, 0], ~sources);
+z = Synth(\tutorial_DecaySin2, [\effectBus, ~bus, \outBus, 0, \freq, 660], ~sources);
+)
+
+// we could add other source and effects synths here
+
+~sources.free; ~effects.free; // this frees their contents (x, y, z) as well
+~bus.free;
+
+// remove references to ~sources and ~effects environment variables:
+currentEnvironment.clear;
+::
+
+Note that we probably don't care what order the sources and effects are within the groups, all that matters is that all effects synths come after the source synths that they process.
+
+If you're wondering about the names '~sources' and '~effects', placing a tilde (~) in front of a word is a way of creating an emphasis::environment:: variable. For the moment, all you need to know about them is that they can be used in the same way as interpreter variables (you don't need to declare them, and they are persistent), and they allow for more descriptive names. You should consider using strong::variable definitions:: and link::Classes/Function::s wherever no later direct access is needed - a large number of environment variables may cause bugs that are hard to find. Remember to strong::clear:: the currentEnvironment (see above) to avoid interference.
+
+code::
+// to be sure, create a new Environment:
+Environment.new.push;
+
+// some code..
+
+// restore old environment
+currentEnvironment.pop;
+::
+
+section::All the addActions
+
+At this point it's probably good to cover the remaining add actions. In addition to \addBefore and \addAfter, there is also the (rarely) used \addReplace, and two add actions which apply to Groups: \addToHead and \addToTail. The former adds the receiver to the beginning of the group, so that it will execute first, the latter to the end of the group, so that it will execute last. Like the other addActions, \addToHead and \addToTail have convenience methods called 'head' and 'tail'.
+
+code::
+g = Group.new;
+h = Group.head(g);		// add h to the head of g
+x = Synth.tail(h, \default);	// add x to the tail of h
+s.queryAllNodes;		// this will post a representation of the node hierarchy
+x.free; h.free; g.free;
+::
+
+section::'queryAllNodes' and node IDs
+
+Server has a method called 'queryAllNodes' which will post a representation of the server's node tree. You should have seen something like the following in the post window when executing the example above:
+
+code::
+nodes on localhost:
+a Server
+Group(0)
+        Group(1)
+                Group(1000)
+                        Group(1001)
+                                Synth 1002
+::
+
+When you see a Group printed here, anything below it and indented to the right is contained within it. The order of nodes is from top to bottom. The numbers you see are what are called node IDs, which are how the server keeps track of nodes. Normally when working with Server abstraction objects you won't need to deal with node IDs as the objects keep track of them, assigning and freeing them when appropriate.
+
+You may have been wondering why there were four groups posted above when we only created two. The first two, with the IDs 0 and 1, are special groups, called the RootNode and the 'default group'.
+
+section::The Root Node and the Default Group
+
+When a server app is booted there is a special group created with a node ID of 0. This represents the top of the server's node tree. There is a special server abstraction object to represent this, called RootNode. In addition there is another group created with an ID of 1, called the default group. This is the default target for all Nodes and is what you will get if you supply a Server as a target. If you don't specify a target or pass in nil, you will get the default group of the default Server.
+
+code::
+s.boot;
+a = Synth.new(\default); // creates a synth in the default group of the default Server
+a.group; // Returns a Group object. Note the ID of 1 (the default group) in the post window
+::
+
+The default group serves an important purpose: It provides a predictable basic Node tree so that methods such as Server-scope and Server-record (which create nodes which emphasis::must:: come after everything else) can function without running into order of execution problems. In the example below the scoping node will come after the default group.
+
+code::
+{ SinOsc.ar(mul: 0.2) }.scope(1);
+
+// watch the post window;
+s.queryAllNodes;
+
+// our SinOsc synth is within the default group (ID 1)
+// the scope node ('stethoscope') comes after the default group, so no problems
+::
+
+In general you should add nodes to the default group, or groups contained within it, and emphasis::not:: before or after it. When adding an 'effects' synth, for instance, one should resist the temptation to add it after the default group, and instead create a separate source group within the default group. This will prevent problems with scoping or recording.
+
+code::
+default group [
+	source group [
+		source synth1
+		source synth2
+	]
+	effects synth
+]
+recording synth
+::
+
+section::Groups as, well, groups...
+
+The other major use of groups is to allow you to easily treat a number of synths as a whole. If you send a 'set' message to a group, it will apply that message to all nodes contained within it.
+
+code::
+g = Group.new;
+
+// make 4 synths in g
+// 1.0.rand2 returns a random number from -1 to 1.
+4.do({ { arg amp = 0.1; Pan2.ar(SinOsc.ar(440 + 110.rand, 0, amp), 1.0.rand2) }.play(g); });
+
+g.set(\amp, 0.005); // turn them all down
+
+g.free;
+::
+
+section::Groups, their Inheritance, and More on Tracking Down Help
+
+Now for a little more OOP theory. Both Group and Synth are examples of what are called emphasis::subclasses::. You can think of subclasses as being children of a parent class, called their emphasis::superclass::. All subclasses inherit the methods of their superclass. They may emphasis::override:: some methods with their own implementation (taking advantage of emphasis::polymorphism::), but in general subclasses respond to all the methods of their superclass, and some other ones of their own. Some classes are emphasis::abstract classes::, which means that you don't actually make instances of them, they just exist to provide a common set of methods and variables to their subclasses.
+
+We might for instance imagine an abstract class called Dog, which has a number of subclasses, such as Terrier, BassetHound, etc. These might all have a 'run' method, but not all would need a 'herdSheep' method.
+
+This way of working has certain advantages: If you need to change an inherited method, you can do so in one place, and all the subclasses which inherit it will be changed too. As well, if you want to extend a class to make your own personal variant or enhanced version, you can automatically get all the functionality of the superclass.
+
+Inheritance can go back through many levels, which is to say that a class' superclass may also have a superclass. (A class cannot, however have more than one immediate superclass.) All objects in SC in fact inherit from a class called Object, which defines a certain set of methods which all its subclasses either inherit or override.
+
+Group and Synth are subclasses of the abstract class link::Classes/Node::. Because of this, some of their methods are defined in Node, and (perhaps more practically important) are emphasis::documented in Node's helpfile::.
+
+So if you're looking at a helpfile and can't find a particular method that a class responds to, you may need to go to the helpfile for that class' superclass, or farther up the chain. Most classes have their superclass listed at the top of their helpfile. You can also use the following methods for getting this kind of info and tracking down documentation (watch the post window):
+
+code::
+Group.superclass; 				// this will return 'Node'
+Group.superclass.help;
+Group.findRespondingMethodFor('set');		// Node-set
+Group.findRespondingMethodFor('postln');	// Object-postln;
+Group.helpFileForMethod('postln'); 		// opens class Object help file
+::
+
+For more information see:
+
+link::Classes/Group::, link::Classes/Node::, link::Reference/default_group::, link::Classes/RootNode::, link::Guides/Intro-to-Objects::, link::Guides/Order-of-execution::, link::Classes/Synth::, link::Guides/More-On-Getting-Help::, link::Guides/Internal-Snooping::
+
+____________________
+
+This document is part of the tutorial strong::Getting Started With SuperCollider::.
+
+Click here to go on to the next section: link::Tutorials/Getting-Started/13-Buffers::
+
+Click here to return to the table of Contents: link::Tutorials/Getting-Started/00-Getting-Started-With-SC::
+
+
+title:: 13. Buffers
+summary:: Getting Started With SuperCollider
+categories:: Tutorials>Getting-Started
+related:: Tutorials/Getting-Started/00-Getting-Started-With-SC
+
+Buffers represent server buffers, which are ordered arrays of floats on the server. 'float' is short for floating point number, which means a number with a decimal point, like 1.3. This is in contrast to integers, which are positive or negative whole numbers (or zero), and are written without decimal points. So 1 is an integer, but 1.0 is a float.
+
+Server buffers can be single or multichannel, and are the usual way of storing data server-side. Their most common use is to hold soundfiles in memory, but any sort of data that can be represented by floats can be stored in a buffer.
+
+Like busses, the number of buffers is set before you boot a server (using link::Classes/ServerOptions::), but before buffers can be used, you need to allocate memory to them, which is an asynchronous step. Also like busses, buffers are numbered, starting from 0. Using Buffer takes care of allocating numbers, and avoids conflicts.
+
+You can think of buffers as the server-side equivalent of an Array, but without all the elegant OOP functionality. Luckily with Buffer, and the ability to manipulate data in the client app when needed, you can do almost anything you want with buffer data. A server's buffers are global, which is to say that they can be accessed by any synth, and by more than one at a time. They can be written to or even changed in size, emphasis::while:: they are being read from.
+
+Many of Buffer's methods have numerous arguments. Needless to say, for full information see the link::Classes/Buffer:: help file.
+
+section::Making a Buffer Object and Allocating Memory
+
+Making a Buffer object and allocating the necessary memory in the server app is quite easy. You can do it all in one step with Buffer's alloc method:
+
+code::
+s.boot;
+b = Buffer.alloc(s, 100, 2);	// allocate 2 channels, and 100 frames
+b.free;				// free the memory (when you're finished using it)
+::
+
+The example above allocates a 2 channel buffer with 100 frames. The actual number of values stored is numChannels * numFrames, so in this case there will be 200 floats. So each frame is in this case a pair of values.
+
+If you'd like to allocate in terms of seconds, rather than frames, you can do so like this:
+
+code::
+b = Buffer.alloc(s, s.sampleRate * 8.0, 2); // an 8 second stereo buffer
+b.free;
+::
+
+Buffer's 'free' method frees the memory on the server, and returns the Buffer's number for reallocation. You should not use a Buffer object after doing this.
+
+section::Using Buffers with Sound Files
+
+Buffer has another class method called 'read', which reads a sound file from disk into memory, and returns a Buffer object. Using the UGen PlayBuf, we can play the file.
+
+code::
+// read a soundfile
+b = Buffer.read(s, Platform.resourceDir +/+ "sounds/a11wlk01.wav");
+
+// now play it
+(
+x = SynthDef("tutorial-PlayBuf",{ arg out = 0, bufnum;
+	Out.ar( out,
+		PlayBuf.ar(1, bufnum, BufRateScale.kr(bufnum))
+	)
+}).play(s,[\bufnum, b]);
+)
+x.free; b.free;
+::
+
+PlayBuf.ar has a number of arguments which allow you to control various aspects of how it works. Take a look at the link::Classes/PlayBuf:: helpfile for details of them all, but for now lets just concern ourselves with the first three, used in the example above.
+
+code::
+PlayBuf.ar(
+	1,				// number of channels
+	bufnum, 			// number of buffer to play
+	BufRateScale.kr(bufnum)		// rate of playback
+	)
+::
+
+Number of channels: When working with PlayBuf you must let it know how many channels any buffer it will read in will have. emphasis::You cannot make this an argument in the SynthDef and change it later.:: Why? Remember that SynthDefs must have a fixed number of output channels. So a one channel PlayBuf is always a one channel PlayBuf. If you need versions that can play varying numbers of channels then make multiple SynthDefs or use Function-play.
+
+Buffer Number: As noted above, Buffers are numbered, starting from zero. You can get a Buffer's number using its strong::bufnum:: method, but you will not normally need to do this, since Buffer objects can be passed directly as UGen inputs or Synth args.
+
+Rate of Playback: A rate of 1 would be normal speed, 2 twice as fast, etc. But here we see a UGen called BufRateScale. What this does is check the samplerate of the buffer (this is set to correspond to that of the soundfile when it is loaded) and outputs the rate which would correspond to normal speed. This is useful because the soundfile we loaded (a11wlk01.wav) actually has a samplerate of 11025 Hz. With a rate of 1, PlayBuf would play it back using the sampling rate of the server, which is usually 44100 Hz, or four times as fast! BufRateScale thus brings things back to normal.
+
+section::Streaming a File in From Disk
+
+In some cases, for instance when working with very large files, you might not want to load a sound completely into memory. Instead, you can stream it in from disk a bit at a time, using the UGen DiskIn, and Buffer's 'cueSoundFile' method:
+
+code::
+(
+SynthDef("tutorial-Buffer-cue",{ arg out=0,bufnum;
+	Out.ar(out,
+		DiskIn.ar( 1, bufnum )
+	)
+}).add;
+)
+
+b = Buffer.cueSoundFile(s,Platform.resourceDir +/+ "sounds/a11wlk01-44_1.aiff", 0, 1);
+y = Synth.new("tutorial-Buffer-cue", [\bufnum,b], s);
+
+b.free; y.free;
+::
+
+This is not as flexible as PlayBuf (no rate control), but can save memory. footnote::For variable playback rate while streaming from disk, look at the link::Classes/VDiskIn:: UGen.::
+
+section::More on Instance Variables and Action Functions
+
+Now a little more OOP. Remember that individual Objects store data in emphasis::instance variables::. Some instance variables have what are called getter or setter methods, which allow you to get or set their values. We've already seen this in action with Buffer's 'bufnum' method, which is a getter for its buffer number instance variable.
+
+Buffer has a number of other instance variables with getters which can provide helpful information. The ones we're interested in at the moment are numChannels, numFrames, and sampleRate. These can be particularly useful when working with sound files, as we may not have all this information at our fingertips before loading the file.
+
+code::
+// watch the post window
+b = Buffer.read(s, Platform.resourceDir +/+ "sounds/a11wlk01.wav");
+b.bufnum;
+b.numFrames;
+b.numChannels;
+b.sampleRate;
+b.free;
+::
+
+Now (like with the example using an action function in our Bus-get example; see link::Tutorials/Getting-Started/11-Busses::) because of the small messaging latency between client and server, instance variables will not be immediately updated when you do something like read a file into a buffer. For this reason, many methods in Buffer take action functions as arguments. Remember that an action function is just a Function that will be evaluated after the client has received a reply, and has updated the Buffer's vars. It is passed the Buffer object as an argument.
+
+code::
+// with an action function
+// note that the vars are not immediately up-to-date
+(
+b = Buffer.read(s, Platform.resourceDir +/+ "sounds/a11wlk01.wav", action: { arg buffer;
+	("numFrames after update:" + buffer.numFrames).postln;
+	x = { PlayBuf.ar(1, buffer, BufRateScale.kr(buffer)) }.play;
+});
+
+// Note that the next line will execute BEFORE the action function
+("numFrames before update:" + b.numFrames).postln;
+)
+x.free; b.free;
+::
+
+In the example above, the client sends the read command to the server app, along with a request for the necessary information to update the Buffer's instance variables. It then cues the action function to be executed when it receives the reply, and continues executing the block of code. That's why the 'Before update...' line executes first.
+
+section::Recording into Buffers
+
+In addition to PlayBuf, there's a UGen called RecordBuf, which lets you record into a buffer.
+
+code::
+b = Buffer.alloc(s, s.sampleRate * 5, 1); // a 5 second 1 channel Buffer
+
+// record for four seconds
+(
+x = SynthDef("tutorial-RecordBuf",{ arg out=0,bufnum=0;
+	var noise;
+	noise = PinkNoise.ar(0.3);	// record some PinkNoise
+	RecordBuf.ar(noise, bufnum); 	// by default this loops
+}).play(s,[\out, 0, \bufnum, b]);
+)
+
+// free the record synth after a few seconds
+x.free;
+
+// play it back
+(
+SynthDef("tutorial-playback",{ arg out=0,bufnum=0;
+	var playbuf;
+	playbuf = PlayBuf.ar(1,bufnum);
+	FreeSelfWhenDone.kr(playbuf); // frees the synth when the PlayBuf has played through once
+	Out.ar(out, playbuf);
+}).play(s,[\out, 0, \bufnum, b]);
+)
+b.free;
+::
+
+See the link::Classes/RecordBuf:: help file for details on all of its options.
+
+section::Accessing Data
+
+Buffer has a number of methods to allow you to get or set values in a buffer. Buffer-get and Buffer-set are straightforward to use and take an index as an argument. Multichannel buffers interleave their data, so for a two channel buffer index 0 = frame1-chan1, index 1 = frame1-chan2, index 2 = frame2-chan1, and so on. 'get' takes an action function.
+
+code::
+b = Buffer.alloc(s, 8, 1);
+b.set(7, 0.5); 			// set the value at 7 to 0.5
+b.get(7, {|msg| msg.postln});	// get the value at 7 and post it when the reply is received
+b.free;
+::
+
+The methods 'getn' and 'setn' allow you to get and set ranges of adjacent values. 'setn' takes a starting index and an array of values to set, 'getn' takes a starting index, the number of values to get, and an action function.
+
+code::
+b = Buffer.alloc(s,16);
+b.setn(0, [1, 2, 3]);				// set the first 3 values
+b.getn(0, 3, {|msg| msg.postln});		// get them
+b.setn(0, Array.fill(b.numFrames, {1.0.rand}));	// fill the buffer with random values
+b.getn(0, b.numFrames, {|msg| msg.postln});	// get them
+b.free;
+::
+
+There is an upper limit on the number of values you can get or set at a time (usually 1633 when using UDP, the default). This is because of a limit on network packet size. To overcome this Buffer has two methods, 'loadCollection' and 'loadToFloatArray' which allow you to set or get large amounts of data by writing it to disk and then loading to client or server as appropriate.
+
+code::
+(
+// make some white noise
+v = FloatArray.fill(44100, {1.0.rand2});
+b = Buffer.alloc(s, 44100);
+)
+(
+// load the FloatArray into b, then play it
+b.loadCollection(v, action: {|buf|
+	x = { PlayBuf.ar(buf.numChannels, buf, BufRateScale.kr(buf), loop: 1)
+		* 0.2 }.play;
+});
+)
+x.free;
+
+// now get the FloatArray back, and compare it to v; this posts 'true'
+// the args 0, -1 mean start from the beginning and load the whole buffer
+b.loadToFloatArray(0, -1, {|floatArray| (floatArray == v).postln });
+b.free;
+::
+
+A FloatArray is just a subclass of Array which can only contain floats.
+
+section::Plotting and Playing
+
+Buffer has two useful convenience methods: 'plot' and 'play'.
+
+code::
+// see the waveform
+b = Buffer.read(s, Platform.resourceDir +/+ "sounds/a11wlk01.wav");
+b.plot;
+
+// play the contents
+// this takes one arg: loop. If false (the default) the resulting synth is
+// freed automatically
+b.play; 			// frees itself
+x = b.play(true);		// loops so doesn't free
+x.free; b.free;
+::
+
+section::Other Uses For Buffers
+
+In addition to being used for loading in sound files, buffers are also useful for any situation in which you need large and/or globally accessible data sets on the server. One example of another use for them is as a lookup table for waveshaping.
+
+code::
+b = Buffer.alloc(s, 512, 1);
+b.cheby([1,0,1,1,0,1]);
+(
+x = play({
+	Shaper.ar(
+		b,
+		SinOsc.ar(300, 0, Line.kr(0,1,6)),
+		0.5
+	)
+});
+)
+x.free; b.free;
+::
+
+The Shaper UGen performs waveshaping on an input source. The method 'cheby' fills the buffer with a series of chebyshev polynomials, which are needed for this. (Don't worry if you don't understand all this.) Buffer has many similar methods for filling a buffer with different waveforms.
+
+There are numerous other uses to which buffers can be put. You'll encounter them throughout the documentation.
+
+For more information see:
+
+link::Classes/Buffer::, link::Classes/PlayBuf::, link::Classes/RecordBuf::, link::Classes/SynthDef::, link::Classes/BufRateScale::, link::Classes/Shaper::
+
+____________________
+
+This document is part of the tutorial strong::Getting Started With SuperCollider::.
+
+Click here to go on to the next section: link::Tutorials/Getting-Started/14-Scheduling-Events::
+
+Click here to return to the table of Contents: link::Tutorials/Getting-Started/00-Getting-Started-With-SC::
+
+
+title:: 14. Scheduling Events
+summary:: Getting Started With SuperCollider
+categories:: Tutorials>Getting-Started
+related:: Tutorials/Getting-Started/00-Getting-Started-With-SC
+
+Music happens over time, and to make effective music, it's necessary to control when things happen. In SuperCollider, this is done by scheduling things on clocks.
+
+section::Clocks
+
+A clock in SuperCollider has two major functions. It knows what time it is, and it knows what time things are supposed to happen, so that it can wake them up at just the right time.
+
+Musical sequencing will usually use link::Classes/TempoClock::, because you can change its tempo and it is also aware of meter changes. Two other kinds of clock exist: link::Classes/SystemClock::, which always runs in seconds, and link::Classes/AppClock::, which also runs in seconds but has a lower system priority (so it is better for graphic updates and other activities that are not time critical).
+
+section::Scheduling
+
+Scheduling means to tell the clock to execute something at some time in the future. So, you need to have the thing to schedule, and a number indicating the time.
+
+Let's have SuperCollider say hello, 5 seconds from now.
+
+code::
+SystemClock.sched(5, { "hello".postln });
+::
+
+Notice that when you do this, 'SystemClock' prints immediately. Every time you run something in SuperCollider, it has to return a value right away; the method's return value is the clock. Before returning, however, the clock 'remembers' the function, and that you wanted it to run 5 seconds later. And indeed, 'hello' appears in the post window, right on cue. code::{ "hello".postln } :: is an emphasis::asynchronous:: action: it runs emphasis::after:: its code block has already returned.
+
+strong::sched:: does emphasis::relative:: scheduling. The actual time when the function runs is x seconds (or beats, for TempoClock) later than the time the .sched call occurred. It is also possible to schedule for an exact time point, provided you know what time it is on the clock. strong::schedAbs:: handles emphasis::absolute:: scheduling.
+
+code::
+(
+var timeNow = TempoClock.default.beats;
+"Time is now: ".post; timeNow.postln;
+"Scheduling for: ".post; (timeNow + 5).postln;
+TempoClock.default.schedAbs(timeNow + 5,
+	{ "Time is later: ".post; thisThread.clock.beats.postln; nil });
+)
+::
+
+Note that we have moved to TempoClock, since this is the most commonly used. While there is only one SystemClock, there can be many TempoClocks all running at different speeds, if need be. One TempoClock is the default, accessed by code::TempoClock.default:: -- we will use this throughout. (To save typing, you may wish to assign a TempoClock to a variable, for instance, code::t = TempoClock.default ::.)
+
+For fun, change the tempo and run the last example again:
+
+code::
+(
+var timeNow;
+TempoClock.default.tempo = 2;	// 2 beats/sec, or 120 BPM
+timeNow = TempoClock.default.beats;
+"Time is now: ".post; timeNow.postln;
+"Scheduling for: ".post; (timeNow + 5).postln;
+TempoClock.default.schedAbs(timeNow + 5,
+	{ "Time is later: ".post; thisThread.clock.beats.postln; nil });
+)
+::
+
+Notice that the 'Time is later' message shows up after a shorter delay, but the difference between the two times is still 5.
+
+section::What time is it?
+
+Inside a scheduled function, you might want to know which clock is running the function. code::thisThread.clock:: tells you this -- don't worry for now about how it knows, just know that you can use this to find out.
+
+Once you know the clock, you can find out what time it is using strong::beats:: :
+
+code::
+SystemClock.beats;
+TempoClock.default.beats;
+AppClock.beats;
+thisThread.clock.beats;
+::
+
+section::What can you schedule?
+
+Suppose we schedule "hello" by itself.
+
+code::
+TempoClock.default.sched(5, "hello");
+::
+
+Nothing happens. That's because "hello" is just a value -- it doesn't do anything. The lesson is that it makes sense to schedule objects that will emphasis::take some action::.
+
+code::
+Function
+Routine
+Task
+::
+
+Routines and Tasks will be covered in the next section, and Functions we have already seen. There are some others, but these are the best starting point.
+
+section::Caution
+
+If you schedule function that returns a number, the clock will treat that number as the amount of time before running the function again.
+
+code::
+// fires many times (but looks like it should fire just once)
+TempoClock.default.sched(1, { rrand(1, 3).postln; });
+::
+
+This will keep going forever, until you stop it with cmd-.
+
+If you want the function to run only once, make sure to end the function with 'nil':
+
+code::
+// fires once
+TempoClock.default.sched(1, { rrand(1, 3).postln; nil });
+::
+
+It's easy to return a number by mistake, and get an ongoing activity when you wanted a one-shot action.
+
+If that number happens to be 0, or negative, something worse happens. The function will run again immediately. And, if the number is always 0, it creates an infinite loop that can lock up SuperCollider.
+
+That shouldn't scare you off of scheduling -- this is less likely to happen with Routines and Tasks, which you will use more often. But you should be aware of it.
+
+For more: link::Classes/SystemClock::, link::Classes/TempoClock::, link::Classes/AppClock::, link::Classes/Function::
+
+____________________
+
+This document is part of the tutorial strong::Getting Started With SuperCollider::.
+
+Click here to go on to the next section: link::Tutorials/Getting-Started/15-Sequencing-with-Routines-and-Tasks::
+
+Click here to return to the table of Contents: link::Tutorials/Getting-Started/00-Getting-Started-With-SC::
+
+
+title:: 15. Sequencing with Routines and Tasks
+summary:: Getting Started With SuperCollider
+categories:: Tutorials>Getting-Started
+related:: Tutorials/Getting-Started/00-Getting-Started-With-SC
+
+When you schedule a function (as in the Scheduling Events tutorial), the function always begins at the beginning and runs through to the end. For sequencing, it's more useful to have a control structure that can run part of the way through, return a value, and then pick up where it left off the next time it's needed. In SuperCollider, this is a Routine.
+
+Routines can be used for data processing, e.g.
+
+code::
+(
+r = Routine({
+	"abcde".yield;
+	"fghij".yield;
+	"klmno".yield;
+	"pqrst".yield;
+	"uvwxy".yield;
+	"z{|}~".yield;
+});
+)
+
+r.next;	// get the next value from the Routine
+6.do({ r.next.postln });
+::
+
+The first time you call next, the routine yields strong::"abcde"::. This yield value becomes the result of r.next, and is printed in the post window. On the second next call, execution picks up just after the first yield and continues with the second string, and so forth. When there is nothing more to yield, r.next returns nil.
+
+We will come back to the use of routines for data generation. More important for sequencing is what happens when you schedule a routine on a clock, and the routine returns time values.
+
+section::Scheduling routines
+
+Recall that, when you schedule a function on a clock, numbers returned by the function are treated as time values -- specifically, the amount of time until the function should execute again. The same thing happens with numbers yielded by a routine.
+
+code::
+(
+r = Routine({
+	var delta;
+	loop {
+		delta = rrand(1, 3) * 0.5;
+		"Will wait ".post; delta.postln;
+		delta.yield;
+	}
+});
+)
+
+r.next;
+
+TempoClock.default.sched(0, r);
+
+r.stop;
+::
+
+Now let's replace the posting statements with instructions to play a synth. Preparation:
+
+code::
+(
+SynthDef(\singrain, { |freq = 440, amp = 0.2, sustain = 1, out|
+	var sig;
+	sig = SinOsc.ar(freq, 0, amp) * EnvGen.kr(Env.perc(0.01, sustain), doneAction: Done.freeSelf);
+	Out.ar(out, sig ! 2);	// sig ! 2 is the same as [sig, sig]
+}).add;
+
+r = Routine({
+	var delta;
+	loop {
+		delta = rrand(1, 3) * 0.5;
+		Synth(\singrain, [freq: exprand(200, 800), amp: rrand(0.1, 0.5), sustain: delta * 0.8]);
+		delta.yield;
+	}
+});
+)
+::
+
+Scheduling a routine makes a certain sense, but playing a routine seems more intuitive.
+
+code::
+r.play;
+
+r.stop;
+::
+
+There you go -- our first sequence.
+
+section::Pause and resume: Task
+
+Routines have one sticky little characteristic that can limit their usefulness as musical objects. Once you stop a routine, you can only start it over again from the beginning. There is no way to replay the routine from the point where it was stopped.
+
+Task is a variation that can be paused and resumed at will. For example, let's iterate over a C major scale. Note that all of SuperCollider's control structures are valid inside a Routine or Task. Note also that we can use 'wait' as a synonym for 'yield'.
+
+code::
+(
+t = Task({
+	loop {
+		[60, 62, 64, 65, 67, 69, 71, 72].do({ |midi|
+			Synth(\singrain, [freq: midi.midicps, amp: 0.2, sustain: 0.1]);
+			0.125.wait;
+		});
+	}
+}).play;
+)
+
+// probably stops in the middle of the scale
+t.stop;
+
+t.play;	// should pick up with the next note
+
+t.stop;
+::
+
+Task will be used for the remainder of this tutorial.
+
+section::When do you want to start?
+
+By default, strong::play:: applied to a Task starts the Task immediately. Most of the time, many tasks will be running simultaneously, and they should be synchronized. While there might be a virtuoso out there somewhere who can hit the enter key at just right time for precise sync, most of us would prefer a more reliable mechanism.
+
+Play takes several arguments to control its behavior.
+
+code::
+aRoutine.play(clock, quant)
+aTask.play(argClock, doReset, quant)
+::
+
+definitionList::
+## strong::clock:: (Routine) or strong::argClock:: (Task) || Which clock should handle scheduling for this sequence
+## strong::doReset:: (Task only) || If true, reset the sequence to the beginning before playing; if false (default), resume
+## strong::quant:: || A specification of the exact starting time
+::
+
+The quant argument uses a basic model of two numbers, which can be related to the western concept of meter:
+
+quant: Corresponds roughly to bar length; the current time is rounded up to the next multiple of this number
+phase: Position within the bar (0 = beginning of the bar)
+
+For convenience, if you just want to start at the beginning of the bar, you can give the bar length as a number. An array of two numbers tells SuperCollider the bar length and the phase.
+
+To see how this works in practice, let's take the C major scale above and play two copies of it slightly offset. We'll slow the rhythm down to 16th-notes (0.25) and start the second one 8th-note into the bar. We will need two tasks to do this, which will be manufactured in a function.
+
+code::
+(
+f = {
+	Task({
+		loop {
+			[60, 62, 64, 65, 67, 69, 71, 72].do({ |midi|
+				Synth(\singrain, [freq: midi.midicps, amp: 0.2, sustain: 0.1]);
+				0.25.wait;
+			});
+		}
+	});
+};
+)
+
+t = f.value.play(quant: 4);		// start on next 4-beat boundary
+
+u = f.value.play(quant: [4, 0.5]);	// next 4-beat boundary + a half-beat
+
+t.stop; u.stop;
+::
+
+section::Using data routines in note sequencing
+
+The previous example controls the generation of one parameter (pitch) by looping over an array inside the Task. What if you want to control several parameters?
+
+Remember that routines can also generate data, in addition to their scheduling capabilities. You can refer to as many data routines as you want in your sequence.
+
+code::
+(
+var midi, dur;
+midi = Routine({
+	[60, 72, 71, 67, 69, 71, 72, 60, 69, 67].do({ |midi| midi.yield });
+});
+dur = Routine({
+	[2, 2, 1, 0.5, 0.5, 1, 1, 2, 2, 3].do({ |dur| dur.yield });
+});
+
+SynthDef(\smooth, { |freq = 440, sustain = 1, amp = 0.5, out|
+	var sig;
+	sig = SinOsc.ar(freq, 0, amp) * EnvGen.kr(Env.linen(0.05, sustain, 0.1), doneAction: Done.freeSelf);
+	Out.ar(out, sig ! 2)
+}).add;
+
+r = Task({
+	var delta;
+	while {
+		delta = dur.next;
+		delta.notNil
+	} {
+		Synth(\smooth, [freq: midi.next.midicps, sustain: delta]);
+		delta.yield;
+	}
+}).play(quant: TempoClock.default.beats + 1.0);
+)
+::
+
+Note that routines are used for the data, but task is used for play. Also, unlike the previous infinite sequences, this one stops when it runs out of data. That's the purpose of the while loop -- it continues only as long as the 'dur' data stream keeps pumping out values. (See the link::Reference/Control-Structures:: helpfile for more on strong::while::.)
+
+There must be an easier way to write the data streams -- repeatedly writing the same do loop is certainly inconvenient. In fact, there is such a way, covered in the next tutorial: sequencing with patterns.
+
+(Here we use quant simply to delay Task onset by one beat. This is because it takes some time for the synthdef to be ready for use on the server. Without it, the first note would not be heard.)
+
+section::A note on server messaging and timing
+
+Using Synth as in the preceding examples can result in small but sometimes noticeable timing inaccuracies. This is because it takes a short time to transmit OSC messages from your code to the server, and this time is not always constant. SuperCollider deals with this by giving you the option to send the message with a timestamp telling the server exactly when the message should take effect. A strong::latency:: value is used to calculate the timestamp.
+
+Latency works by adding itself to the current time on the clock. If all the messages go out with the same latency value, their timing will be precise relative to each other and to the clock. The link::Guides/ServerTiming:: help file explains in more detail how this works, but you don't really need to know all of that in order to use it. The main point is to use a consistent, small latency value for perfect timing. (A Server object has a latency variable that you can use for consistency.)
+
+Here's an example illustrating the kinds of inaccuracy you might hear. The inaccuracy may be more or less noticeable on different systems. It uses the \singrain SynthDef above and plays 10 notes per second.
+
+code::
+(
+t = Task({
+	loop {
+		Synth(\singrain, [freq: exprand(400, 1200), sustain: 0.08]);
+		0.1.wait;
+	}
+}).play;
+)
+
+t.stop;
+::
+
+The easiest way to add latency to your outgoing Synths is with the Server strong::makeBundle:: method. Don't worry about how it works for now -- the important thing is that it uses the first value for latency, and runs the messages produced by the function according to that latency.
+
+code::
+(
+t = Task({
+	loop {
+		s.makeBundle(s.latency, {
+			Synth(\singrain, [freq: exprand(400, 1200), sustain: 0.08]);
+		});
+		0.1.wait;
+	}
+}).play;
+)
+
+t.stop;
+::
+
+See also:
+
+link::Classes/Routine::, link::Classes/Task::, link::Classes/Quant::, link::Guides/ServerTiming::, link::Guides/Bundled-Messages::
+
+section::Suggested Exercise
+
+Make a more interesting SynthDef to replace the \smooth SynthDef. Use more arguments for greater variability. Then change the data streams in the 'Over the Rainbow' example and add new data streams to play a different tune, more expressively.
+
+____________________
+
+This document is part of the tutorial strong::Getting Started With SuperCollider::.
+
+Click here to go on to the next section: link::Tutorials/Getting-Started/16-Sequencing-with-Patterns::
+
+Click here to return to the table of Contents: link::Tutorials/Getting-Started/00-Getting-Started-With-SC::
+
+
+title:: 16. Sequencing with Patterns
+summary:: Getting Started With SuperCollider
+categories:: Tutorials>Getting-Started
+related:: Tutorials/Getting-Started/00-Getting-Started-With-SC
+
+The previous section demonstrated how to use data routines to generate sequences of synthesis parameters. However, writing a routine with explicit yields is not a very convenient syntax. Since this is an essential part of creating computer music, we really need an easier way.
+
+Patterns greatly simplify the use of data streams. A pattern is essentially a factory for a stream. The pattern objects includes the data you want to come out of the stream, and the type of pattern determines how the data will be streamed.
+
+For example, we used this routine to output MIDI note numbers to play a couple of phrases from 'Over the Rainbow.'
+
+code::
+(
+r = Routine({
+	[60, 72, 71, 67, 69, 71, 72, 60, 69, 67].do({ |midi| midi.yield });
+});
+)
+
+while { (m = r.next).notNil } { m.postln };
+::
+
+With patterns, we can express the idea of a stream returning the same values, but more clearly and concisely. Because we don't have to write the yield explicitly, there is nothing in the pattern to distract attention from the data (which are the real concern in composition).
+
+link::Classes/Pseq:: (Pattern-sequence) means simply to spit out the values in the array one by one, in order, as many times as the second argument (here, only once).
+
+code::
+p = Pseq([60, 72, 71, 67, 69, 71, 72, 60, 69, 67], 1);
+r = p.asStream;
+while { (m = r.next).notNil } { m.postln };
+::
+
+Note that the Pseq is not streamable by itself, but it creates a stream (Routine) when you call asStream on it. This routine can then be used exactly like to any other routine -- the while loop used to read out the stream values is exactly the same for both, even though they are written differently.
+
+Thus the 'Over the Rainbow' example could be rewritten, with less clutter:
+
+code::
+(
+var midi, dur;
+midi = Pseq([60, 72, 71, 67, 69, 71, 72, 60, 69, 67], 1).asStream;
+dur = Pseq([2, 2, 1, 0.5, 0.5, 1, 1, 2, 2, 3], 1).asStream;
+
+SynthDef(\smooth, { |out, freq = 440, sustain = 1, amp = 0.5|
+	var sig;
+	sig = SinOsc.ar(freq, 0, amp) * EnvGen.kr(Env.linen(0.05, sustain, 0.1), doneAction: Done.freeSelf);
+	Out.ar(out, sig ! 2)
+}).add;
+
+r = Task({
+	var delta;
+	while {
+		delta = dur.next;
+		delta.notNil
+	} {
+		Synth(\smooth, [freq: midi.next.midicps, sustain: delta]);
+		delta.yield;
+	}
+}).play(quant: TempoClock.default.beats + 1.0);
+)
+::
+
+section::What else can patterns do?
+
+The SuperCollider pattern library is large (over 120 classes, not including extension libraries), obviously beyond the scope of a tutorial to cover in depth. But some patterns you'll come back to again and again.
+
+Many patterns take lists of values and return them in some order.
+
+definitionList::
+## link::Classes/Pseq::(list, repeats, offset) || return the list's values in order
+## link::Classes/Pshuf::(list, repeats) || scramble the list into random order
+## link::Classes/Prand::(list, repeats) || choose from the list's values randomly
+## link::Classes/Pxrand::(list, repeats) || choose randomly, but never return the same list item twice in a row
+## link::Classes/Pwrand::(list, weights, repeats) || like Prand, but chooses values according to a list of probabilities/weights
+::
+
+Other patterns generate values according to various parameters. In addition to these basic patterns, there is a whole set of random number generators that produce specific distributions, and also chaotic functions.
+
+definitionList::
+## link::Classes/Pseries::(start, step, length) || arithmetic series, e.g., 1, 2, 3, 4, 5
+## link::Classes/Pgeom::(start, grow, length) || geometric series, e.g., 1, 2, 4, 8, 16
+## link::Classes/Pwhite::(lo, hi, length) || random number generator, uses rrand(lo, hi) -- equal distribution
+## link::Classes/Pexprand::(lo, hi, length) || random number generator, uses exprand(lo, hi) -- exponential distribution
+::
+
+Other patterns modify the output of value patterns. These are called FilterPatterns.
+
+definitionList::
+## link::Classes/Pn::(pattern, repeats) || repeat the pattern as many times as repeats indicates
+## link::Classes/Pdup::(n, pattern) || repeat individual values from a pattern emphasis::n:: times. emphasis::n:: may be a numeric pattern itself.
+::
+
+You can use patterns inside of other patterns. Here, we generate random numbers over a gradually increasing range. The upper bound on the random number generator is a stream that starts at 0.01, then proceeds to 0.02, 0.03 and so on, as the plot shows clearly.
+
+code::
+p = Pwhite(0.0, Pseries(0.01, 0.01, inf), 100).asStream;
+	// .all pulls from the stream until it returns nil
+	// obviously you don't want to do this for an 'inf' length stream!
+p.all.plot;
+::
+
+Or, for another example, if you want to order a set of numbers randomly so that all numbers come out before a new order is chosen, use Pn to repeat a Pshuf.
+
+code::
+p = Pn(Pshuf([1, 2, 3, 4, 5], 1), inf).asStream;
+p.nextN(15);	// get 15 values from the pattern's stream
+::
+
+This is just a taste, meant to illustrate the kinds of flexibility you can get with patterns. As with any rich and adaptable structure, the best way is to start with simple cases and gradually extend into more complicated setups.
+
+section::Playing notes with a pattern: Pbind
+
+Not only can patterns produce data for notes, but they can also play the notes themselves. 'Over the Rainbow' again.
+
+code::
+(
+SynthDef(\smooth, { |out, freq = 440, sustain = 1, amp = 0.5|
+	var sig;
+	sig = SinOsc.ar(freq, 0, amp) * EnvGen.kr(Env.linen(0.05, sustain, 0.1), doneAction: Done.freeSelf);
+	Out.ar(out, sig ! 2)
+}).add;
+)
+
+(
+p = Pbind(
+		// the name of the SynthDef to use for each note
+	\instrument, \smooth,
+		// MIDI note numbers -- converted automatically to Hz
+	\midinote, Pseq([60, 72, 71, 67, 69, 71, 72, 60, 69, 67], 1),
+		// rhythmic values
+	\dur, Pseq([2, 2, 1, 0.5, 0.5, 1, 1, 2, 2, 3], 1)
+).play;
+)
+::
+
+The first thing to notice is how short, concise and clean the syntax is. Nothing is extra; it focuses all your attention on what is supposed to play and minimizes distractions from program logic.
+
+The link::Overviews/Streams:: documentation explains how all of this works in detail. The high-level overview goes like this:
+
+- The Pbind pattern generates Event objects, which contain names and values describing how the note is supposed to sound.
+
+- It does this by reading through the 'name, pattern' pairs, getting values from each pattern stream in turn and adding the values to the result Event.
+
+- Then the event is played. It interprets the values according to a set of defaults and rules encoded within the event prototype and performs an action in response. The default action is to play a new synth on the server. You can choose from several other actions defined in the default event prototype, which are documented in the Streams series of help files.
+
+- To play the synth, the event needs to know which values to pass as arguments to the server. SuperCollider can store information about a synthdef into a library of synthdef descriptions using the strong::add:: method.
+
+- The delta value in the event tells SuperCollider how long to wait until playing the next event.
+
+An introductory tutorial cannot cover all the possibilities. Learning a set of core pattern classes is important; the link::Tutorials/A-Practical-Guide/PG_01_Introduction##Practical Guide to Patterns:: help file series is a more comprehensive introduction. Pattern manipulations, and ways to combine or nest patterns, open up the field to nearly every compositional need.
+
+For example, we can generate a rhythmic (but not necessarily metric) bassline by choosing randomly from a set of Pbind sequences. (Some of these will use Pmono, which is a variant of Pbind designed to play monophonic synth lines.) While this is a bigger block of code, its structure is fairly simple and it brings together several concepts introduced in the sequencing tutorials. Note that the quant argument to play is used to keep a couple of distinct sequences together on the beat.
+
+Don't be intimidated by the bassline pattern. At a higher level, it reduces to strong::Pxrand([a, b, c, d], inf)::, which simply chooses items randomly without repeating any of them twice in a row. It happens that each item is an event pattern that plays a series of notes, but this doesn't matter to Pxrand. It just chooses an item, plays it through to the end, and then chooses the next, and so forth. Viewed this way, the pattern is an elegant expression of the idea of selecting phrases. The code representation is straightforward to relate to a musical conception.
+
+code::
+(
+SynthDef(\bass, { |out, freq = 440, gate = 1, amp = 0.5, slideTime = 0.17, ffreq = 1100, width = 0.15,
+		detune = 1.005, preamp = 4|
+	var sig, env;
+	env = Env.adsr(0.01, 0.3, 0.4, 0.1);
+	freq = Lag.kr(freq, slideTime);
+	sig = Mix(VarSaw.ar([freq, freq * detune], 0, width, preamp)).distort * amp
+		* EnvGen.kr(env, gate, doneAction: Done.freeSelf);
+	sig = LPF.ar(sig, ffreq);
+	Out.ar(out, sig ! 2)
+}).add;
+
+TempoClock.default.tempo = 132/60;
+
+p = Pxrand([
+	Pbind(
+		\instrument, \bass,
+		\midinote, 36,
+		\dur, Pseq([0.75, 0.25, 0.25, 0.25, 0.5], 1),
+		\legato, Pseq([0.9, 0.3, 0.3, 0.3, 0.3], 1),
+		\amp, 0.5, \detune, 1.005
+	),
+	Pmono(\bass,
+		\midinote, Pseq([36, 48, 36], 1),
+		\dur, Pseq([0.25, 0.25, 0.5], 1),
+		\amp, 0.5, \detune, 1.005
+	),
+	Pmono(\bass,
+		\midinote, Pseq([36, 42, 41, 33], 1),
+		\dur, Pseq([0.25, 0.25, 0.25, 0.75], 1),
+		\amp, 0.5, \detune, 1.005
+	),
+	Pmono(\bass,
+		\midinote, Pseq([36, 39, 36, 42], 1),
+		\dur, Pseq([0.25, 0.5, 0.25, 0.5], 1),
+		\amp, 0.5, \detune, 1.005
+	)
+], inf).play(quant: 1);
+)
+
+// totally cheesy, but who could resist?
+(
+SynthDef(\kik, { |out, preamp = 1, amp = 1|
+	var freq = EnvGen.kr(Env([400, 66], [0.08], -3)),
+		sig = SinOsc.ar(freq, 0.5pi, preamp).distort * amp
+			* EnvGen.kr(Env([0, 1, 0.8, 0], [0.01, 0.1, 0.2]), doneAction: Done.freeSelf);
+	Out.ar(out, sig ! 2);
+}).add;
+
+// before you play:
+// what do you anticipate '\delta, 1' will do?
+k = Pbind(\instrument, \kik, \delta, 1, \preamp, 4.5, \amp, 0.32).play(quant: 1);
+)
+
+p.stop;
+k.stop;
+::
+
+section::Further reading
+
+link::Overviews/Streams::, link::Tutorials/Streams-Patterns-Events1##Streams-Patterns-Events::, link::Tutorials/A-Practical-Guide/PG_01_Introduction##Practical Guide to Patterns::
+
+section::Suggested exercises
+
+list::
+## Choose a familiar tune and write a Pbind for it, using any synthdef you like.
+## Add as many phrases as you wish to the bassline sequence in the previous example.
+::
+
+____________________
+
+This document is part of the tutorial strong::Getting Started With SuperCollider::.
+
+Click here to return to the table of Contents: link::Tutorials/Getting-Started/00-Getting-Started-With-SC::
+
+

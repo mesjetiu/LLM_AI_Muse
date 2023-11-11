@@ -1,0 +1,1835 @@
+title:: Class Tree
+related:: Overviews/Classes
+summary:: The whole class inheritance tree
+categories:: Language>OOP
+
+classtree::Object
+
+
+
+title:: Collections
+summary:: A hierarchical overview of Collection subclasses
+categories:: Collections
+related:: Classes/Collection
+
+SuperCollider has a rich hierarchy of Collection subclasses, detailed below. Subclasses of a given class are indented (sub-lists) relative to the class. Classes labelled "abstract" are not for direct use, but classes lower down the tree may inherit methods from them. For this reason it is important to consult the helpfiles of classes farther up the tree in order to get a complete list of available methods.
+
+section:: Hierarchy
+
+classtree::Collection
+
+subsection:: Notes
+
+definitionlist::
+## link::Classes/List::
+|| is an expandable link::Classes/SequenceableCollection:: (compare to link::Classes/ArrayedCollection:: and link::Classes/Array::).
+## link::Classes/Array::
+|| is more efficient than link::Classes/List::.
+## link::Classes/SparseArray::
+|| is an array of elements optimized for huge gaps between them.
+## link::Classes/TwoWayIdentityDictionary::
+|| is similar to link::Classes/IdentityDictionary:: and allows easy searching by both key and value. It is faster than link::Classes/IdentityDictionary:: on reverse lookup, but with more memory overhead.
+## link::Classes/Environment::
+|| is an link::Classes/IdentityDictionary::, one of which is always current; useful for creating sets of persistent variables.
+## link::Classes/Event::
+|| is a dictionary mapping names of musical parameters to their values.
+## link::Classes/IdentitySet::
+|| is an unordered collection of unidentical objects (compare to link::Classes/Set::).
+::
+
+
+title:: Event types
+summary:: Different ways that an Event can "play"
+categories:: Streams-Patterns-Events>Events
+related:: Classes/Event
+
+
+An link::Classes/Event:: responds to a code::play:: message by evaluating ~play in the event, and the default behaviour of ~play is determined by the value of ~type.footnote::To see how event types are normally invoked, here is a slightly simplified version of the default definition of  ~play as defined in the Event class:
+
+code::{ ~eventTypes[~type].value(server); }::
+
+The function uses the value of ~type to select a function from the Dictionary held in ~eventTypes. ::
+
+
+code::
+a = (play: { ~word.scramble.postln }, word: "hello word");
+a.play;
+
+a = (type: \note, freq: [1310, 1321]); // choosing a play function by specifying type
+a.play;
+::
+
+
+The collection of eventTypes can be readily extended using link::Classes/Event#*addEventType#*addEventType:::
+
+code::
+Event.addEventType(\test, { "Your word is: ".post; ~word.scramble.postln });
+(type: \test, word: "annahme").play;
+::
+
+
+section::Currently existing event types:
+Note:: this documentation is incomplete. ::
+
+definitionlist::
+
+## note || Instantiate a synth on the server, with specified arguments, and later to free it. The choice of link::Classes/SynthDef:: is specified using the \instrument key. This event type is what code::Event.default:: returns.
+
+code::(degree: [0, 5, 7, 11]).play;::
+
+Actually plays this event type:
+
+code::(type: \note, degree: [0, 5, 7, 11], instrument: \default).play;::
+
+## set || used to set parameters of some already-running node(s).
+
+code::
+a = (degree: 3, sustain: 40).play;
+fork { 10.do { (type: \set, id: a[\id], \degree: [0, 5, 8, 11].choose).play; 0.3.wait } };
+::
+
+(See also: note in link::Classes/Pmono:: helpfile)
+
+
+## group || creates a new group
+optional parameters:
+table::
+## ~id || node ID, or node object
+## ~group || outer group id or object
+## ~addAction / ~lag / ~timingOffset || determine how and when the group is created
+::
+
+Example:
+code::
+(type: \group, id: 2).play					// create a group with nodeID 2
+(type: \note, freq: 500, group: 2).play		// play a synth in that group
+::
+
+
+## midi || send note parameters to midi device
+parameters:
+table::
+## ~midicmd || A Symbol, for the MIDI command to issue
+## ~midiout || A MIDIOut object
+## ~chan || The MIDI channel number (0-15)
+::
+
+See link::Tutorials/A-Practical-Guide/PG_08_Event_Types_and_Parameters#MIDI output:: for details on available midicmds.
+
+## on || play synth, ~id must be specified
+## off || release synth (or free if no gate)
+## kill || free synth
+
+## rest || do nothing for a specified amount of time
+
+## composite || perform any number of event types, given as ~types
+code::
+MIDIClient.init;
+m = MIDIOut(0);
+
+// should play a synth *and* an external MIDI note simultaneously
+(type: \composite, types: [\note, \midi], midiout: m, degree: 0, dur: 3).play;
+::
+
+## bus || write ~array to control buses starting at ~out
+## audioBus || allocate ~channels consecutive audio buses
+## controlBus || allocate ~channels consecutive control buses
+
+## alloc || allocate ~bufnum with ~numframes and ~numchannels
+## allocRead || load a file from ~path, starting at ~firstFileFrame, reading ~numFrames sample frames
+## cue || cue a file for DiskIn, with ~bufferSize frames
+
+## free || free ~bufnum
+## gen || send ~gencmd to ~bufnum
+## load || load ~filename starting at ~frame into ~bufnum
+## read ||
+
+## table || load ~amps directly into a buffer
+## sine1 || generate a buffer from ~amps
+## sine2 || generate a buffer from ~freqs, ~amps
+## sine3 || generate a buffer from ~freqs, ~amps, ~phases
+## cheby || generate a waveshape buffer from ~amps
+
+## setProperties || sends setter messages to ~receiver for each key in ~args that has a nonNil value in the Event.
+
+## tree || creates a tree of groups. ~tree can be an array of nodeIDs, and may contain associations to further nested arrays.
+
+## phrase || instead of playing a single synth from a SynthDef with ~instrument, it looks up a Pdef and plays a cluster of sounds.
+
+
+::
+
+subsection::Some event types are used internally, e.g.:
+definitionlist::
+## monoNote || used by Pmono
+## monoSet || used by Pmono
+## monoOff || used by Pmono
+::
+
+
+title:: List of GUI classes
+summary:: The most used GUI classes and their kit-specific equivalents
+categories:: GUI
+
+section:: Kit-independent GUI classes
+
+The following table contains classes that are independent of GUI implementation, but may use other GUI classes or be used with any of them.
+
+table::
+## strong::Class::  ||  strong::Description::
+## EZSlider         ||
+## EZNumber         ||
+## EZRanger         ||
+## EZListView       ||
+## EZPopUpMenu      ||
+## EZScroller       ||
+## EZKnob           ||
+## EZText           ||
+## Gradient         || Linear gradient between two colors.
+## HiliteGradient   || Radial gradient between two colors
+## FlowLayout       || A decorator that positions views in horizontal series, wrapping to a new line when meeting a border
+## Color            || Representation of colors
+## FreqScopeView    || A view based on ScopeView that displays frequency spectrum
+## FreqScope        || A window containing a FreqScopeView and tools to control its display
+::
+
+section:: Window and views
+
+The following table contains generic classes and their corresponding classes in each GUI kit, for window and most views.
+
+table::
+## strong::Generic::    ||  strong::CocoaGUI::    || strong::SwingGUI::  || strong::Qt GUI::    || strong::Description::
+## Window               || SCWindow               || JSCWindow           || QWindow             || a frame that can contain gadgets
+## N/A                  || SCModalWindow          ||                     || N/A                 || a modal window
+## N/A                  || SCModalSheet           ||                     || N/A                 || a modal sheet to attach to windows
+## View                 || SCView                 || JSCView             || QView               || The base class for most view classes. Important help file.
+## CompositeView        || SCCompositeView        || JSCCompositeView    || QView               || container view for nesting layouts
+## HLayoutView          || SCHLayoutView          || JSCHLayoutView      || QHLayoutView        || container view with horizontal distribution of children
+## VLayoutView          || SCVLayoutView          || JSCVLayoutView      || QVLayoutView        || container view with vertical distribution of children
+## Button               || SCButton               || JSCButton           || QButton             || a multiple state push button
+## PopUpMenu            || SCPopUpMenu            || JSCPopUpMenu        || QPopUpMenu          || a collapsed multiple choice button
+## Slider               || SCSlider               || JSCSlider           || QSlider             || a horizontal or vertical slider
+## RangeSlider          || SCRangeSlider          || JSCRangeSlider      || QRangeSlider        || horizontal or vertical interval slider
+## Slider2D             || SC2DSlider             || JSC2DSlider         || QSlider2D           || a horizontally and vertically moveable slider
+## TextField            || SCTextField            || JSCTextField        || QTextField          || an editable one line text field
+## ListView             || SCListView             || JSCListView         || QListView           || a list of text items
+## StaticText           || SCStaticText           || JSCStaticText       || QStaticText         || a text label
+## NumberBox            || SCNumberBox            || JSCNumberBox        || QNumberBox          || editable number field
+## DragSource           || SCDragSource           || JSCDragSource       || QDragSource         || object container acting as a source for drag-n-drop
+## DragSink             || SCDragSink             || JSCDragSink         || QDragSink           || object container acting as a target for drag-n-drop
+## DragBoth             || SCDragBoth             || JSCDragBoth         || QDragBoth           || combination of DragSource and DragSink
+## Stethoscope          || SCStethoscope          || JStethoscope        || QStethoscope        || oscilloscope tool
+## ScopeView            || SCScope                || JSCScope            || QScope              || oscilloscope view
+## TabletView           || SCTabletView           || JSCTabletView       || N/A                 || view for receiving graphic tablet data
+## TabletSlider2D       || SC2DTabletSlider       || N/A                 || N/A                 || 2D slider with support for graphic tablet data
+## FreqScope            || FreqScope              || FreqScope           || FreqScope           || spectrum tool
+## FreqScopeView        || FreqScopeView          || FreqScopeView       || FreqScopeView       || spectrum view
+## MultiSliderView      || SCMultiSliderView      || JSCMultiSliderView  || QMultiSliderView    || array of sliders
+## EnvelopeView         || SCEnvelopeView         || JSCEnvelopeView     || QEnvelopeView       || breakpoint envelope editor
+## UserView             || SCUserView             || JSCUserView         || QUserView           || view for user-defined drawing operations
+## SoundFileView        || SCSoundFileView        || JSCSoundFileView    || QSoundFileView      || waveform view / editor for sound files
+## MovieView            || SCMovieView            || JSCMovieView        || N/A                 || canvas for movie (QuickTime) and image display
+## TextView             || SCTextView             || JSCTextView         || QTextView           || multiline text editor
+## N/A                  || SCQuartzComposerView   || N/A                 || N/A                 || view for displaying QuartzComposer documents
+## N/A                  || SCImage                || N/A                 || N/A                 || an image component for the macOS
+## N/A                  || SCImageFilter          || N/A                 || N/A                 || a filter class to use with SCImage
+## N/A                  || SCImageKernel          || N/A                 || N/A                 || a kernel class to use with SCImage.
+## Knob                 || SCKnob                 || JKnob               || QKnob               || a knob view
+::
+
+section:: Layout management
+
+The following table contains classes used in layout management.
+
+note:: This classes are only implemented in Qt GUI! ::
+
+table::
+## strong::Class::      || strong::Description::
+## QLayout              || The abstract base class of all layouts.
+## QLineLayout          || The abstract base class of layouts that arrange items in a line.
+## HLayout              || A layout that arranges items in horizontal line.
+## VLayout              || A layout that arranges items in vertical line.
+## GridLayout           || A layout that arranges items in a 2 dimensional grid.
+## StackLayout          || A layout that stacks items on top of each other.
+::
+
+section:: Other GUI classes
+
+table::
+## strong::Generic::    ||  strong::CocoaGUI::    || strong::SwingGUI::  || strong::Qt GUI::    || strong::Description::
+## Dialog               || CocoaDialog            || SwingDialog         || QDialog             || file selection dialog management
+## Font                 || SCFont                 || JFont               || QFont               || a font typeface description.
+## Pen                  || SCPen                  || JPen                || QPen                || custom drawing operations class
+## MouseX               || MouseX                 || JMouseX             || MouseX              || UGen. JMouseX for backward compatiblility only.
+## MouseY               || MouseY                 || JMouseY             || MouseY              || UGen. JMouseY for backward compatiblility only.
+## MouseButton          || MouseButton            || JMouseButton        || MouseButton         || UGen. JMouseButton for backward compatiblility only.
+## KeyState             || KeyState               || JKeyState           || KeyState            || UGen. JKeyState for backward compatiblility only.
+## use GUI.speech       || Speech                 || JSpeech             || N/A                 || text-to-speech synthesis management
+::
+
+
+title:: Generic Collectors
+categories:: Language, Common methods
+summary:: Methods that incrementally build up collections from nothing
+
+You can see which classes implement a specific method by clicking on the method name.
+
+There are a number of methods that incrementally build up (or reduce down) collections like arrays or events. Nil responds by creating a collection, so that variables do not need to be initialized. Nil is just the "ground" (default case) from which the rest is bootstrapped.
+
+method::add
+Returns an array with the value. This makes it unnecessary to initialize when adding to a variable.
+code::
+x = nil;
+x = x.add(8);  // returns an array
+x = x.add(7); // appends to the array
+::
+
+method::addAll
+Returns an array with all the values. This makes it unnecessary to initialize when adding to a variable.
+code::
+x = nil;
+x = x.addAll([0, 2, 1, 2]);  // returns an array
+x = x.addAll(7); // single objects are converted to an array and appended
+::
+
+method::remove
+For nil, it just returns nil. This makes it unnecessary to initialize when removing from a variable and adding to it again.
+code::
+x = nil;
+x.remove(1); // stays nil, returns nil
+x = x.addAll([0, 2, 1]);  // returns an array
+x.remove(1); // returns 1
+x;
+::
+
+method::++
+Returns an array with all the values. This makes it unnecessary to initialize when adding to a variable.
+code::
+x = nil;
+x = x ++ [7, 8, 9]; // returns the receiver
+x = x ++ [3, 0, 1, 2]; // adds to the array
+::
+note:: Note that, unlike with addAll, the second operand must be a collection in order to function in this way.::
+
+method::addFunc
+Returns a function or a FunctionList.
+This method is used to add multiple functions to already existing ones.
+code::
+f = nil;
+f = f.addFunc { "----------****".scramble };
+f = f.addFunc { 1.0.rand };
+f.value;
+
+// a typical use case for addFunc is where you have to add functionality to an already existing one.
+(
+w = Window("move me", Rect(300, 300, 600, 40)).front; w.addFlowLayout;
+a = Slider(w, Rect(0, 0, 580, 30));
+a.action = a.action.addFunc { "I am moved".postln };
+)
+a.action = a.action.addFunc { "I am so very moved".postln };
+a.addFuncTo(\action, { "Now, I am finally really moved".postln }); // shorter alternative
+::
+
+method::removeFunc
+This method is used to remove multiple functions from already existing ones. For Nil, it just returns itself.
+
+code::
+f = { 1.0.rand };
+g = { "you have produced a random value".postln };
+f = f.addFunc(g);
+f.value;
+f.removeFunc(g);
+f.value;
+::
+
+
+method::transformEvent
+This method is used to operate on events which are passed through the system as an argument.
+
+code::
+// for Nil: return the argument unmodified (an event).
+nil.transformEvent((x: 8));
+// for Dictionary (and thus for Event): add to the argument.
+(y: 100, z: 1).transformEvent((x: 8));
+// for Association: add the association to the event
+(\a -> \x).transformEvent((x: 8));
+// for Function: use the function receive the event as argument.
+{ |event| event.use { ~x = ~x + 1 }; event }.transformEvent((x: 8));
+::
+
+
+title:: JITLib
+summary:: An overview of the Just In Time programming library
+categories:: JITLib, Tutorials>JITLib, Live Coding
+
+section::Introduction
+
+emphasis::"Passenger to taxtidriver: take me to number 37. I'll give you the street name when we are there."::
+footnote::An austrian math teacher's joke::
+
+Disclaimer: there is no time, really; punctuality, however, is your personal responsibility.
+
+
+emphasis::Just in time programming:: (or: emphasis::conversational programming, live coding:: footnote::For Live Coding see: http://toplap.org ::emphasis::, on-the fly-programming, interactive programming::) is a paradigm that includes the programming activity in the program's operation. Here, a program is not taken as a tool that is made first to be productive later, but instead as a dynamic construction process of description and conversation. Writing code becomes an integral part of musical or experimental practice.
+
+	Being a dynamic programming language, SuperCollider provides several possibilities for modification of a running program - this library extends, unifies and develops them, mainly by providing abstract placeholders, called emphasis::proxies::, which can be used in calculations and modified at runtime.
+
+	subsection::Overview
+	JITLib consists of a number of strong::placeholders:: (server side and client side emphasis::proxies::) and strong::schemes of access::footnote::They have in common that they treat assignment as a method. In such a way, they are an extension of the assignment implementation in Smalltalk-72, which makes "=" a message sent to the receiving object.::.
+These two aspects of space corresponding to emphasis::inclusion:: and emphasis::reference::, depend on their context - here the placeholders are like roles which have a certain behaviour and can be fulfilled by certain objects.
+It is useful to be aware of the three aspects of such a placeholder: a certain set of elements can be their strong::source::, they can be used in a set of strong::contexts:: and have a default source, if none is given.
+
+
+Frequently used classes:
+	link::Classes/Tdef:: (for tasks), link::Classes/ProxySpace::, link::Classes/NodeProxy:: and link::Classes/Ndef:: (for synths), link::Classes/Pdef:: and link::Classes/Pdefn:: (for patterns).
+
+
+
+note::
+For some recent changes, see: link::Other/JITLibChanges3.7::
+::
+
+For additional functionality, see also strong::JITLib extensions Quark::. To install it, run the following:
+code::
+"JITLibExtensions".include;
+::
+
+
+section::Tutorial: Interactive Programming with SuperCollider and jitlib
+
+This tutorial focusses on some basic concepts used in JITLib. There are many possibilities,
+such as server messaging and pattern proxies which are not covered in tutorial form presently.
+
+definitionList::
+## content: ||
+definitionList::
+## placeholders in SuperCollider || link::Tutorials/JITLib/jitlib_basic_concepts_01::
+## referencing and environments || link::Tutorials/JITLib/jitlib_basic_concepts_02::
+## internal structure of node proxy || link::Tutorials/JITLib/jitlib_basic_concepts_03::
+## timing in node proxy || link::Tutorials/JITLib/jitlib_basic_concepts_04::
+::
+::
+
+
+section::Overview of the different classes and techniques
+
+list::
+## strong::Defs::: One way or style of access is the def-classes (Pdef, Ndef etc.). It binds a symbol to an object in a specific way:
+code::
+Pdef(\name)		//returns the proxy
+::
+code::
+Pdef(\name, object)	//sets the source and returns the proxy
+::
+the rest of the behaviour depends on its use.
+
+client side: link::Classes/Pdef::, link::Classes/Pdefn::, link::Classes/Tdef::, link::Classes/Pbindef::, link::Classes/Psym::, link::Classes/Pnsym::, link::Classes/Fdef::
+
+server side: link::Classes/Ndef::
+
+## strong::Environments::: Another way, for server side NodeProxies, is an environment that returns placeholders on demand:
+code::
+ProxySpace.push
+::
+code::
+~out = { ...}
+::
+
+helpfile: link::Classes/ProxySpace:: for the use together with other environments, see link::Tutorials/JITLib/jitlib_basic_concepts_02::
+
+## strong::Lower Level Proxies::: There is also direct access emphasis::without using the access schemes:: : NodeProxy, TaskProxy etc. provide it. Internally the former use these as base classes.
+
+language side: link::Classes/PatternProxy::, link::Classes/EventPatternProxy::, link::Classes/TaskProxy::, link::Classes/PbindProxy::, link::Classes/Pdict::
+
+server side: link::Classes/NodeProxy::
+
+## strong::History::: To record all textual changes, link::Classes/History:: is provides navigation and a memory of code.
+
+## strong::Multichannel systems:::, link::Classes/Monitor:: (used internally) has a link::Reference/playN:: method.
+
+## strong::GUI::: overviews and mixers: link::Classes/ProxyMixer::, link::Classes/TdefAllGui::, link::Classes/PdefAllGui::, link::Classes/NdefMixer::
+
+(for separate use: link::Classes/TdefGui::, link::Classes/PdefGui::, link::Classes/MonitorGui::, link::Classes/NdefGui::, link::Classes/NdefParamGui::)
+::
+
+
+section::Tutorials
+
+definitionList::
+## link::Tutorials/JITLib/proxyspace_examples:: || (a broad variety of inputs and uses)
+## link::Tutorials/JITLib/jitlib_efficiency:: || (optimising code)
+## link::Tutorials/JITLib/the_lazy_proxy:: || (how the initialisation works)
+## link::Tutorials/JITLib/jitlib_fading:: || (how crossfade of code works)
+## link::Tutorials/JITLib/jitlib_asCompileString:: || (storing and reproducing proxies)
+## link::Tutorials/JITLib/recursive_phrasing:: || (a specific use of Pdef)
+## link::Tutorials/JITLib/jitlib_asCompileString:: || (how to reproduce source code from objects)
+## link::Tutorials/JITLib/jitlib_networking:: || (how to collaborative live code with JITLib)
+## link::Tutorials/JITLib/basic_live_coding_techniques:: || (live coding without jitlib)
+## link::Reference/NodeProxy_roles:: || (adverbial syntax for NodeProxy sources)
+::
+
+section::Networking
+
+list::
+## in remote and local networks thanks to sc-architecture node proxies can be strong::used on any server::, as long as it notifies the client and has a correctly initialized default node.
+
+	strong::Note that the number of logins or the client id should be set::.
+
+	code::
+	s.options.maxLogins = 16; // an ensemble with up to 16 servers
+	::
+::
+
+section::See also these related useful classes:
+
+definitionList::
+## link::Classes/BusPlug:: || (listener on a bus)
+## link::Classes/SkipJack:: || (a task that keeps awake across cmd-period)
+## link::Classes/LazyEnvir:: || (and environment that returns proxies)
+## link::Classes/EnvironmentRedirect:: || (abstract superclass for redirecting environments)
+## link::Classes/EnvGate:: || (singleton fade envelope)
+::
+
+
+History and GUI classes written by Alberto de Campo.
+
+Thanks a lot for all the feedback and ideas!
+
+
+
+_____________________________________________________________
+
+The research for this project was funded by: German Research Foundation (DFG)
+and the Future Funds of Styria, Austria.
+
+
+title:: Operators
+categories:: Language, Common methods
+summary:: common unary and binary operators
+related:: Reference/Adverbs
+
+SuperCollider supports operator overloading. Operators can thus be applied to a variety of different objects; Numbers, Ugens, Collections, and so on. When operators are applied to ugens they result in link::Classes/BinaryOpUGen::s or link::Classes/UnaryOpUGen::s, through the methods of link::Classes/AbstractFunction::.
+
+This is a list of some of the common unary and binary operators that are implemented by several classes.
+See the specific classes for details and other operators.
+
+You can see which classes implements a specific operator by clicking on the method name.
+
+section:: Unary Operators
+Unary operators may be written in two ways:
+code::
+a.operator
+operator(a)
+::
+
+
+subsection:: Arithmetics
+
+method:: neg
+Inversion.
+discussion::
+code::
+{
+	var a;
+	a = FSinOsc.ar(300);
+	[ a, a.neg ]
+}.plot
+::
+
+method:: reciprocal
+Reciprocal (1/x).
+
+method:: abs
+Absolute value.
+
+method:: floor
+Next lower integer.
+discussion::
+code::
+{
+	var a;
+	a = Line.ar(-1, 1, 0.01);
+	[ a, a.floor ]
+}.plot
+::
+
+method:: ceil
+Next higher integer.
+discussion::
+code::
+{
+	var a;
+	a = Line.ar(-1, 1, 0.01);
+	[ a, a.ceil ]
+}.plot
+::
+
+method:: frac
+Fractional part.
+
+method:: sign
+Sign function.
+returns::
+-1 when a < 0, +1 when a > 0, 0 when a is 0
+
+method:: squared
+Squared value.
+returns::
+code:: a*a ::
+
+method:: cubed
+Cubed value.
+returns::
+code:: a*a*a ::
+
+method:: sqrt
+Square root.
+discussion::
+The definition of square root is extended for signals so that sqrt(a) when a<0 returns
+-sqrt(-a).
+
+method:: exp
+Exponential.
+
+
+subsection:: Musical acoustics
+
+
+method:: midicps
+Convert MIDI note number to cycles per second.
+discussion::
+code::
+{
+	Saw.ar(Line.kr(24,108,10).midicps, 0.2)
+}.play
+::
+
+method:: cpsmidi
+Convert cycles per second to MIDI note.
+
+method:: midiratio
+Convert an interval in MIDI notes into a frequency ratio.
+
+method:: ratiomidi
+Convert a frequency ratio to an interval in MIDI notes.
+
+method:: dbamp
+Convert decibels to linear amplitude.
+
+method:: ampdb
+Convert linear amplitude to decibels.
+
+method:: octcps
+Convert decimal octaves to cycles per second.
+
+method:: cpsoct
+Convert cycles per second to decimal octaves.
+
+subsection:: Random operators
+
+See also link::Guides/Randomness::
+
+method::rand
+Returns an evenly distributed random value between this and zero.
+code::
+10.rand;
+
+{ SinOsc.ar(110).rand }.plot;
+::
+
+method::rand2
+Returns an evenly distributed random value between [+this ... - this].
+code::
+10.rand2;
+
+{ SinOsc.ar(110).rand2 }.plot;
+::
+
+method::linrand
+Returns a linearly distributed random value between this and zero.
+code::
+10.linrand;
+
+{ SinOsc.ar(110).linrand }.plot;
+::
+
+
+method::bilinrand
+Returns a linearly distributed random value between [+this ... - this].
+code::
+10.bilinrand;
+
+{ SinOsc.ar(110).bilinrand }.plot;
+::
+
+method::sum3rand
+Returns a value from a gaussian-like random distribution between this and zero.
+This was suggested by Larry Polansky as a loose approximation of gaussian. Follows the formula:
+
+code::
+{ 1.0.rand }.dup(3).sum - 1.5 * (2/3)
+::
+
+code::
+10.sum3rand;
+
+{ SinOsc.ar(110).sum3rand }.plot;
+::
+
+method::coin
+Returns one or zero with the probability given by the argument.
+code::
+0.4.coin;
+
+{ SinOsc.ar(110).coin }.plot;
+::
+
+
+subsection:: Other
+
+
+method:: log
+Natural logarithm.
+discussion::
+code::
+{
+	var a, e;
+	e = exp(1);
+	a = Line.ar(e, 1/e, 0.01);
+	a.log
+}.plot
+::
+
+method:: log2
+Base 2 logarithm.
+
+method:: log10
+Base 10 logarithm.
+
+method:: sin
+Sine.
+
+method:: cos
+Cosine.
+
+method:: tan
+Tangent.
+
+method:: asin
+Arcsine.
+
+method:: acos
+Arccosine.
+
+method:: atan
+Arctangent.
+
+method:: sinh
+Hyperbolic sine.
+
+method:: cosh
+Hyperbolic cosine.
+
+method:: tanh
+Hyperbolic tangent.
+
+method:: distort
+Nonlinear distortion.
+discussion::
+The formula used is :
+code::
+x / (1 + abs(x))
+::
+Here is an example :
+code::
+(
+{
+	var a;
+	a = Line.ar(-4, 4, 0.01);
+	a.distort
+}.plot
+)
+
+{ FSinOsc.ar(500, 0.0, XLine.kr(0.1, 10, 10)).distort * 0.25 }.scope;
+::
+
+method:: softclip
+Nonlinear distortion.
+discussion::
+Distortion with a perfectly linear region from -0.5 to +0.5
+code::
+(
+{
+	var a;
+	a = Line.ar(-2, 2, 0.01);
+	a.softclip
+}.plot
+)
+
+
+{ FSinOsc.ar(500,0.0, XLine.kr(0.1, 10, 10)).softclip * 0.25 }.scope(2);
+::
+
+method:: isPositive
+Test if signal is >= 0.
+
+method:: isNegative
+Test if signal is < 0.
+
+method:: isStrictlyPositive
+Test if signal is > 0.
+
+section:: Binary Operators
+Three different syntaxes can be used for binary operators consisting of letters:
+code::
+operator(a, b)
+
+a operator: b
+
+a.operator(b)
+::
+Operators consisting of symbols are written like this:
+code::
+a + b
+::
+
+subsection:: Arithmetics
+
+method:: +
+Addition.
+
+method:: -
+Subtraction.
+
+method:: *
+Multiplication.
+
+method:: /
+Division.
+
+method:: %
+Floating point modulo.
+
+method:: **
+Exponentiation. Same as pow.
+
+method:: pow
+Exponentiation.
+NOTE:: When used with UGens which produce a negative signal this function extends the usual definition of exponentiation and returns code::neg(neg(a) ** b)::. This allows exponentiation of negative signal values by noninteger exponents.::
+
+method:: lcm
+Least common multiple. This definition extends the usual definition and returns a negative number if strong::any of the operands:: is negative. This makes it consistent with the lattice-theoretical interpretation and its idempotency, commutative, associative, absorption laws.
+
+Following the example of the programming language J (see: link::Guides/J-concepts-in-SC::), lcm is analogous to logical strong::and:: (see also: link::http://www.jsoftware.com/papers/eem/gcd.htm::).
+
+
+code::
+lcm(4, 6);
+lcm(1, 1); // and
+lcm(1624, 26);
+lcm(1624, -26);
+lcm(-1624, -26);
+lcm(513, gcd(513, 44)) // absorption law -> 513.
+::
+code::
+(
+{
+	var mx = MouseX.kr(-20, 20);
+	var my = MouseY.kr(-20, 20);
+	SinOsc.ar(SinOsc.kr(0.3) * 20 lcm: [mx, my] * 30 + 500) * 0.1
+}.play;
+)
+::
+
+
+method:: gcd
+Greatest common divisor. This definition extends the usual definition and returns a negative number if strong::both operands:: are negative. This makes it consistent with the lattice-theoretical interpretation and its idempotency, commutative, associative, absorption laws.
+
+"greater" means "divisible by" in this interpretation, so code::gcd(-1, -1):: returns a negative number. This is necessary to make the whole system consistent (fundamental law of arithmetics, idempotency and absorption laws would fail). See examples below.
+
+Following the example of the programming language J (see: link::Guides/J-concepts-in-SC::), gcd is analogous to logical strong::or::  (see also: link::http://www.jsoftware.com/papers/eem/gcd.htm::).
+
+code::
+gcd(4, 6);
+gcd(0, 1); // or
+gcd(1024, 256);
+gcd(1024, -256);
+gcd(-1024, -256); // "greater" means "divisible by" in this case, so this returns a negative number.
+gcd(-1024, lcm(-1024, 256)) // absorption law -> -1024.
+gcd(66, 54) * lcm(66, 54) == (66 * 54); // true
+::
+
+code::
+(
+{
+	var mx = MouseX.kr(-200, 200);
+	var my = MouseY.kr(-200, 200);
+	SinOsc.ar(SinOsc.kr(0.3) * 20 gcd: [mx, my] * 30 + 500) * 0.1
+}.play;
+)
+::
+
+Here is an overview of how negative numbers are treated:
+
+code::
+
+lcm(4, 6) // -> 12. "least multiple" interpreted as smallest in Z
+lcm(4, -6) // -> -12 "least multiple" interpreted as smallest in Z
+lcm(-4, -6) // -> -12 "least multiple" interpreted as smallest in Z
+
+gcd(4, 6) // -> 2 "greatest divisor" interpreted as highest in Z
+gcd(4, -6) // -> 2 "greatest divisor" is interpreted as highest in Z
+gcd(-4, -6) // -> -2 "greatest divisor" is interpreted as *inverse* in Z. This is the only necessary asymmetry.
+::
+
+
+subsection:: Comparisons
+
+method:: <
+Less than.
+
+method:: <=
+Less than or equal.
+
+method:: >
+Greater than.
+discussion::
+With UGens, this can be useful for triggering purposes, among other things:
+code::
+(
+{ // trigger an envelope
+	var trig;
+	trig = SinOsc.ar(1) > 0;
+	EnvGen.kr(Env.perc, trig, doneAction: Done.none)
+			* SinOsc.ar(440, 0, 0.1)
+}.play
+)
+
+// trigger a synth
+(
+SynthDef("help-EnvGen", { arg out=0;
+	Out.ar(out,
+		EnvGen.kr(Env.perc,1.0,doneAction: Done.freeSelf)
+			* SinOsc.ar(440, 0, 0.1)
+	)
+}).add;
+
+// This synth has no output. It only checks amplitude of input and looks for a transition from < 0.2
+// to > 0.2
+
+{ SendTrig.kr(Amplitude.kr(SoundIn.ar(0)) > 0.2) }.play;
+
+// OSCFunc to trigger synth
+OSCFunc({ "triggered".postln; Synth.new("help-EnvGen") },'/tr', s.addr);
+)
+::
+
+method:: >=
+Greater than or equal.
+
+method:: ==
+Equal.
+
+method:: !=
+Not equal.
+
+method:: |==|
+"Lazy equality." See link::Classes/Object#-|==|::.
+
+subsection:: Other
+
+method:: <!
+Return first argument.
+
+code::
+// this is useful when two ugens need to be called, but only one of their outputs is needed
+(
+{
+	var a, b, c;
+	a = Dseq([1, 2, 3, 4], inf).dpoll("a");
+	b = Dseq([1955, 1952, 1823, 1452], inf).dpoll("b");
+	c = (a <! b).dpoll("------> a <! b = "); // c only
+	Duty.kr(0.4, 0, c);
+	0.0
+}.play
+)
+::
+
+method:: min
+Minimum.
+discussion::
+code::
+{ // distorts and envelopes z
+var z;
+z = FSinOsc.ar(500);
+z min: FSinOsc.ar(0.1);
+}.play;
+::
+
+method:: max
+Maximum.
+discussion::
+code::
+{ // modulates and envelopes z
+var z;
+z = FSinOsc.ar(500);
+z max: FSinOsc.ar(0.1);
+}.play;
+::
+
+method:: round
+Quantization by rounding. Rounds a to the nearest multiple of b.
+
+method:: trunc
+Quantization by truncation. Truncate a to a multiple of b.
+
+method:: hypot
+Hypotenuse. Returns the square root of the sum of the squares of a and b. Or equivalently, the distance from the origin
+to the point (x, y).
+discussion::
+In this example, hypot is used to calculate a doppler shift pitch and amplitude based on distance.
+code::
+(
+{
+	var x, y, distance, velocity, pitchRatio, amplitude;
+	// object travels 200 meters in 6 secs (=120kph) passing 10 meters
+	// from the listener
+	x = 10;
+	y = LFSaw.kr(1/6, 0, 100);
+	distance = hypot(x, y);
+	velocity = Slope.kr(distance);
+	pitchRatio = (344 - velocity) / 344;  // speed of sound is 344 meters/sec
+	amplitude = 10 / distance.squared;
+	FSinOsc.ar(1000 * pitchRatio, 0, amplitude)
+}.play)
+::
+The next example uses the distance to modulate a delay line.
+code::
+(
+{
+	var x, y, distance, velocity, pitchRatio, amplitude, motorSound;
+	// object travels 200 meters in 6 secs (=120kph) passing 10 meters
+	// from the listener
+	x = 10;
+	y = LFSaw.kr(1/6, 0, 100);
+	distance = hypot(x, y);
+	amplitude = 40 / distance.squared;
+	motorSound = RLPF.ar(FSinOsc.ar(200, 0, LFPulse.ar(31.3, 0, 0.4)), 400, 0.3);
+	DelayL.ar(motorSound, 110/344, distance/344, amplitude)
+}.play)
+::
+
+method:: hypotApx
+Hypotenuse approximation. Returns an approximation of the square root of the sum of the squares of x and y.
+discussion::
+The formula used is :
+code::
+abs(x) + abs(y) - ((sqrt(2) - 1) * min(abs(x), abs(y)))
+::
+hypotApx is used to implement Complex method magnitudeApx.
+This should not be used for simulating a doppler shift because it is discontinuous. Use hypot.
+
+See also link::#hypot::, link::#atan2::.
+
+method:: atan2
+Returns the arctangent of y/x.
+discussion::
+OK, now we can add a pan to the link::#hypot:: doppler examples by using atan2 to find the azimuth,
+or direction angle, of the sound source.
+Assume speakers at +/- 45 degrees and clip the direction to between those.
+code::
+(
+{
+	var x, y, distance, velocity, pitchRatio, amplitude, azimuth, panValue;
+	// object travels 200 meters in 6 secs (=120kph) passing 10 meters
+	// from the listener
+	x = 10;
+	y = LFSaw.kr(1/6, 0, 100);
+	distance = hypot(x, y);
+	velocity = Slope.kr(distance);
+	pitchRatio = (344 - velocity) / 344;  // speed of sound is 344 meters/sec
+	amplitude = 10 / distance.squared;
+	azimuth = atan2(y, x); // azimuth in radians
+	panValue = (azimuth / 0.5pi).clip2(1);
+	Pan2.ar(FSinOsc.ar(1000 * pitchRatio), panValue, amplitude)
+}.play)
+
+(
+{
+	var x, y, distance, velocity, pitchRatio, amplitude, motorSound,
+			azimuth, panValue;
+	// object travels 200 meters in 6 secs (=120kph) passing 10 meters
+	// from the listener
+	x = 10;
+	y = LFSaw.kr(1/6, 0, 100);
+	distance = hypot(x, y);
+	amplitude = 40 / distance.squared;
+	motorSound = RLPF.ar(FSinOsc.ar(200, 0, LFPulse.ar(31.3, 0, 0.4)), 400, 0.3);
+	azimuth = atan2(y, x); // azimuth in radians
+	panValue = (azimuth / 0.5pi).clip2(1); // make a value for Pan2 from azimuth
+	Pan2.ar(DelayL.ar(motorSound, 110/344, distance/344), panValue, amplitude)
+}.play)
+::
+
+method:: ring1
+Ring modulation plus first source.
+discussion::
+Return the value of  ((a*b) + a). This is more efficient than using
+separate unit generators for the multiply and add.
+
+See also link::#*::, link::#ring1::, link::#ring2::, link::#ring3::, link::#ring4::.
+code::
+{ (FSinOsc.ar(800) ring1: FSinOsc.ar(XLine.kr(200,500,5))) * 0.125 }.play;
+::
+same as :
+code::
+(
+{
+	var a, b;
+	a = FSinOsc.ar(800);
+	b = FSinOsc.ar(XLine.kr(200,500,5));
+	((a * b) + a) * 0.125
+}.play)
+::
+normal ring modulation:
+code::
+(
+{
+	var a, b;
+	a = FSinOsc.ar(800);
+	b = FSinOsc.ar(XLine.kr(200,500,5));
+	(a * b) * 0.125
+}.play)
+::
+
+method:: ring2
+Ring modulation plus both sources.
+discussion::
+Return the value of  ((a*b) + a + b). This is more efficient than using
+separate unit generators for the multiply and adds.
+code::
+{ (FSinOsc.ar(800) ring2: FSinOsc.ar(XLine.kr(200,500,5))) * 0.125 }.play;
+::
+same as :
+code::
+(
+{
+	var a, b;
+	a = FSinOsc.ar(800);
+	b = FSinOsc.ar(XLine.kr(200,500,5));
+	((a * b) + a + b) * 0.125
+}.play)
+::
+
+method:: ring3
+Ring modulation variant.
+discussion::
+Return the value of  (a*a *b). This is more efficient than using
+separate unit generators for each multiply.
+code::
+{ (FSinOsc.ar(800) ring3: FSinOsc.ar(XLine.kr(200,500,5))) * 0.125 }.play;
+::
+same as :
+code::
+(
+{
+	var a, b;
+	a = FSinOsc.ar(800);
+	b = FSinOsc.ar(XLine.kr(200,500,5));
+	(a * a * b) * 0.125;
+}.play)
+::
+
+method:: ring4
+Ring modulation variant.
+discussion::
+Return the value of  ((a*a *b) - (a*b*b)). This is more efficient than using
+separate unit generators for each operation.
+code::
+{ (FSinOsc.ar(800) ring4: FSinOsc.ar(XLine.kr(200,500,5))) * 0.125 }.play;
+::
+same as :
+code::
+(
+{
+	var a, b;
+	a = FSinOsc.ar(800);
+	b = FSinOsc.ar(XLine.kr(200,500,5));
+	((a * a * b) - (a * b * b)) * 0.125
+}.play)
+::
+
+method:: sumsqr
+Sum of squares.
+discussion::
+Return the value of  (a*a) + (b*b). This is more efficient than using
+separate unit generators for each operation.
+code::
+{ (FSinOsc.ar(800) sumsqr: FSinOsc.ar(XLine.kr(200,500,5))) * 0.125 }.play;
+::
+same as :
+code::
+(
+{
+	var a, b;
+	a = FSinOsc.ar(800);
+	b = FSinOsc.ar(XLine.kr(200,500,5));
+	((a * a) + (b * b)) * 0.125
+}.play)
+::
+
+method:: difsqr
+Difference of squares.
+discussion::
+Return the value of  (a*a) - (b*b). This is more efficient than using
+separate unit generators for each operation.
+code::
+{ (FSinOsc.ar(800) difsqr: FSinOsc.ar(XLine.kr(200,500,5))) * 0.125 }.play;
+::
+same as :
+code::
+(
+{
+	var a, b;
+	a = FSinOsc.ar(800);
+	b = FSinOsc.ar(XLine.kr(200,500,5));
+	((a * a) - (b * b)) * 0.125
+}.play)
+::
+
+method:: sqrsum
+Square of the sum.
+discussion::
+Return the value of  (a + b)**2. This is more efficient than using
+separate unit generators for each operation.
+code::
+{ (FSinOsc.ar(800) sqrsum: FSinOsc.ar(XLine.kr(200,500,5))) * 0.125 }.play;
+::
+same as :
+code::
+(
+{
+	var a, b, c;
+	a = FSinOsc.ar(800);
+	b = FSinOsc.ar(XLine.kr(200,500,5));
+	c = a + b;
+	(c * c) * 0.125
+}.play)
+::
+
+method:: sqrdif
+Square of the difference.
+discussion::
+Return the value of  (a - b)**2. This is more efficient than using
+separate unit generators for each operation.
+code::
+{ (FSinOsc.ar(800) sqrdif: FSinOsc.ar(XLine.kr(200,500,5))) * 0.125 }.play;
+::
+same as :
+code::
+(
+{
+	var a, b, c;
+	a = FSinOsc.ar(800);
+	b = FSinOsc.ar(XLine.kr(200,500,5));
+	c = a - b;
+	(c * c) * 0.125
+}.play)
+::
+
+method:: absdif
+Absolute value of the difference. code:: abs(a - b) ::
+discussion::
+code::
+(
+{ // creates a rhythm
+var mul = 0.2 absdif: FSinOsc.ar(2, 0, 0.5);
+FSinOsc.ar(440, 0, mul);
+}.play;
+)
+::
+
+method:: moddif
+On a circle, there are two distances between two points. This operator returns the smaller value of the two.
+discussion::
+code::
+{ Line.ar(0, 4, 0.01).moddif(0) }.plot;
+(
+{
+var mul = 0.2 moddif: FSinOsc.ar(2, 0, 0.5);
+FSinOsc.ar(440, 0, mul);
+}.play;
+)
+::
+
+method:: thresh
+Thresholding.
+discussion::
+0 when a < b, otherwise a.
+code::
+{ LFNoise0.ar(50, 0.5) thresh: 0.45 }.play // a low-rent gate
+::
+
+method:: amclip
+Two quadrant multiply.
+discussion::
+0  when  b <= 0,  a*b  when  b > 0
+code::
+{ WhiteNoise.ar.amclip(FSinOsc.kr(1,0.2)) }.play; // makes a sine envelope
+::
+
+method:: scaleneg
+Scale negative part of input.
+discussion::
+a*b when a < 0, otherwise a.
+code::
+{ FSinOsc.ar(500).scaleneg(Line.ar(1,-1,4)) }.play;
+::
+
+method:: clip2
+Bilateral clipping.
+discussion::
+clips input wave a to +/- b
+code::
+(
+{
+	var a;
+	a = Line.ar(-2, 2, 0.01);
+	a.clip2
+}.plot
+)
+
+{ FSinOsc.ar(400).clip2(0.2) }.scope; // clipping distortion
+
+{ FSinOsc.ar(1000).clip2(Line.kr(0,1,8)) }.scope;
+::
+
+method:: wrap2
+Bilateral wrapping.
+discussion::
+wraps input wave to +/- b
+code::
+(
+{
+	var a;
+	a = Line.ar(-2, 2, 0.01);
+	a.wrap2
+}.plot
+)
+
+{ FSinOsc.ar(1000).wrap2(Line.kr(0,1.01,8)) }.scope;
+::
+
+method:: fold2
+Bilateral folding.
+discussion::
+folds input wave a to +/- b
+code::
+(
+{
+	var a;
+	a = Line.ar(-2, 2, 0.01);
+	a.fold2
+}.plot
+)
+
+
+{ FSinOsc.ar(1000).fold2(Line.kr(0,1,8)) }.scope;
+::
+
+method:: excess
+Residual of clipping.
+discussion::
+Returns the difference of the original signal and its clipped form: (a - clip2(a,b)).
+code::
+(
+{
+	var a;
+	a = Line.ar(-2, 2, 0.01);
+	a.excess
+}.plot
+)
+
+{ FSinOsc.ar(1000).excess(Line.kr(0,1,8)) }.play;
+::
+
+
+title:: SuperCollider 3 versus SuperCollider 2
+summary:: Design changes between the versions 2 and 3 of SuperCollider
+categories:: Language>SC3 vs SC2
+
+SuperCollider 3 came out in 2002. If you're reading this, the chances that these SC3 vs. SC2 guides are useful to you are practically zero, but we're keeping them here for historical reasons.
+
+There are a number of ways in which SuperCollider 3 is very different from SC2. A discussion of this is organised in the following documents:
+
+definitionList::
+## link::Guides/ClientVsServer:: || Separate language and synthesis apps.
+## link::Guides/SynthDefsVsSynths:: || The use of precompiled SynthDefs as opposed to always compiling on the fly.
+## link::Guides/Spawning:: || The lack of the Spawn and TSpawn UGens and their various convenience classes.
+## link::Guides/Sync-Async:: || The problem of simultaneous synchronous and asynchronous execution.
+## link::Guides/Backwards-Compatibility:: || A discussion some classes and methods which have been added to improve compatibility with SC2 code, and their limitations.
+::
+
+note:: These documents are not intended to be exhaustive tutorials, just an introduction to some of the differences. Close examination of the helpfiles of relevant classes should help to fill in the details. These files may be of some use to beginners as well.::
+
+
+
+title:: Streams
+summary:: Patterns/Streams Help overview
+categories:: Streams-Patterns-Events
+related:: Classes/Stream, Classes/Pattern
+
+section:: Some tutorials
+
+definitionlist::
+## link::Tutorials/A-Practical-Guide/PG_01_Introduction:: || A Practical Guide to Patterns
+::
+
+definitionlist::
+## link::Tutorials/Streams-Patterns-Events1:: || Streams & Routines
+## link::Tutorials/Streams-Patterns-Events2:: || Patterns Introduction
+## link::Tutorials/Streams-Patterns-Events3:: || ListPatterns
+## link::Tutorials/Streams-Patterns-Events4:: || Environment & Event
+## link::Tutorials/Streams-Patterns-Events5:: || Event.default
+## link::Tutorials/Streams-Patterns-Events6:: || Parallel Patterns
+## link::Tutorials/Streams-Patterns-Events7:: || Practical Considerations
+::
+
+definitionlist::
+## link::Classes/Pattern:: || Pattern class helpfile
+::
+
+section:: Specific classes
+
+subsection:: ListPatterns
+
+classtree::ListPattern
+
+subsection:: FilterPatterns
+
+classtree::FilterPattern
+
+subsection:: event stream specific filter patterns
+
+list::
+## link::Classes/Pset::
+## link::Classes/Pfset::
+## link::Classes/Pmul::
+## link::Classes/Padd::
+## link::Classes/Psetp::
+## link::Classes/Pmulp::
+## link::Classes/Paddp::
+## link::Classes/Pfindur::
+::
+
+subsection:: other Patterns
+
+list::
+## link::Classes/Pwhite::
+## link::Classes/Pbrown::
+## link::Classes/Ppatmod::
+## link::Classes/Plazy::
+## link::Classes/Pbind::
+## link::Classes/PstepNadd::
+## link::Classes/PstepNfunc::
+::
+
+subsection:: Streams
+
+list::
+## link::Classes/BinaryOpStream::
+## link::Classes/UnaryOpStream::
+## link::Reference/EventStream::
+## link::Classes/EventStreamPlayer::
+::
+
+
+
+title:: Symbolic Notations
+summary:: Catalog of symbolic notations in SuperCollider
+categories:: Language
+related:: Overviews/Operators, Reference/Syntax-Shortcuts
+
+section:: Arithmetic operators
+
+Math operators apply to many classes, including arrays and other collections.
+
+Using a basic math operator on a Symbol swallows the operation (returns the symbol)
+code::
+\symbol * 5
+symbol
+::
+
+definitionlist::
+## code:: number + number :: || addition
+## code:: number - number :: || subtraction
+## code:: number * number :: || multiplication
+## code:: number / number :: || division
+## code:: number % number :: || modulo
+## code:: number ** number :: || exponentiation
+::
+
+section:: Bitwise arithmetic
+definitionlist::
+## code:: number & number :: || bitwise and
+## code:: number | number :: || bitwise or
+## code:: number << number :: || bitwise left shift
+## code:: number >> number :: || bitwise right shift
+## code:: number +>> number :: || unsigned bitwise right shift
+::
+
+section:: Logical operators
+definitionlist::
+## code:: object == object :: || equivalence
+## code:: object === object :: || identity
+## code:: object != object :: || not equal to
+## code:: object !== object :: || not identical to
+::
+
+Objects may be equivalent but not identical.
+code::
+[1, 2, 3] == [1, 2, 3]
+true
+[1, 2, 3] === [1, 2, 3]
+false       // a and b are two different array instances with the same contents
+
+a = b = [1, 2, 3];
+a === b;
+true        // a and b are the same array instance
+::
+
+definitionlist::
+## code:: number < number :: || comparison (less than)
+## code:: number <= number :: || comparison (less than or equal to)
+## code:: number > number :: || comparison (greater than)
+## code:: number >= number :: || comparison (greater than or equal to)
+::
+definitionlist::
+## code:: boolean && boolean :: || logical And
+## code:: boolean || boolean :: || logical Or
+::
+When a function is the second operand, these operators perform short-circuiting (i.e., the function is executed only when its result would influence the result of the operation). This is recommended for speed.
+
+With code:: and: :: and code:: or: :: second-argument functions will be inlined. If you use code::&&:: or code::||::, no inlining will be done and performance will be slower.
+code::
+a = 1;
+
+a == 1 and: { "second condition".postln; [true, false].choose }
+second condition
+true
+
+a == 1 or: { "second condition".postln; [true, false].choose }
+true
+
+a != 1 and: { "second condition".postln; [true, false].choose }
+false
+
+a != 1 or: { "second condition".postln; [true, false].choose }
+second condition
+true
+::
+In this case, the second condition will cause an error if a is nil, because nil does not understand addition. a.notNil is a safeguard to ensure the second condition makes sense.
+code::
+a = nil;
+a.notNil and: { "second condition".postln; (a = a+1) < 5 }
+false
+
+a = 10;
+a.notNil and: { "second condition".postln; (a = a+1) < 5 }
+second condition
+false
+::
+
+section:: Array and Collection operators
+
+definitionlist::
+## code:: object ++ object :: || concatenation
+## code:: collection +++ collection :: || lamination (see link::Guides/J-concepts-in-SC::)
+## code:: collection @ index :: || collection/array indexing: .at(index) or [index]
+## code:: collection @@ integer :: || collection/array indexing: .wrapAt(int)
+## code:: collection @|@ integer :: || collection/array indexing: .foldAt(int)
+## code:: collection |@| integer :: || collection/array indexing: .clipAt(int)
+::
+
+section:: Set operators
+definitionlist::
+## code:: set & set :: || intersection of two sets
+## code:: set | set :: || union of two sets
+## code:: setA - setB :: || difference of sets (elements of setA not found in setB)
+## code:: set -- set :: || symmetric difference:
+code::
+(setA -- setB) == ((setA - setB) | (setB - setA))
+::
+::
+
+code::
+a = Set[2, 3, 4, 5, 6, 7];
+b = Set[5, 6, 7, 8, 9];
+
+a - b
+Set[ 2, 4, 3 ]
+
+b - a
+Set[ 8, 9 ]
+
+((a-b) | (b-a))
+Set[ 2, 9, 3, 4, 8 ]
+
+a -- b
+Set[ 2, 9, 3, 4, 8 ]
+::
+
+section:: Geometry operators
+definitionlist::
+## code:: number @ number :: || make a link::Classes/Point:: of two numbers
+code::
+x @ y
+// returns:
+Point(x, y)
+::
+## code:: point @ point :: || make a link::Classes/Rect:: of two link::Classes/Point::s
+code::
+Point(left, top) @ Point(right, bottom)
+// returns:
+Rect(left, top, right-left, bottom-top)
+::
+## code:: ugen @ ugen :: || create a Point with two link::Classes/UGen::s
+## code:: rect & rect :: || intersection of two rectangles
+## code:: rect | rect :: || union of two rectangles (returns a Rect whose boundaries exactly encompass both Rects)
+::
+
+section:: IOStream operators
+definitionlist::
+## code:: stream << object :: || represent the object as a string and add to the stream.
+A common usage is with the Post class, to write output to the post window.
+code::
+Post << "Here is a random number: " << 20.rand << ".\n";
+Here is a random number: 13.
+::
+
+## code:: stream <<* collection :: || add each item of the collection to the stream.
+code::
+Post << [0, 1, 2, 3]
+[ 0, 1, 2, 3 ]
+
+Post <<* [0, 1, 2, 3]
+0, 1, 2, 3
+::
+
+## code:: stream <<< object :: || add the object's compile string to the stream.
+code::
+Post <<< "a string"
+"a string"
+::
+## code:: stream <<<* collection :: || add each item's compile string to the stream.
+::
+
+section:: Conditional execution operators
+definitionlist::
+## code:: object ? object :: || nil check (no .value)
+## code:: object ?? function :: || nil check (.value, function is inlined)
+If the object is nil, the second expression's value will be used; otherwise, it will be the first object.
+code::
+a = [nil, 5];
+
+10.do({ (a.choose ? 20.rand).postln });
+10.do({ (a.choose ?? { 20.rand }).postln });
+::
+code:: ?? { } :: is generally recommended. code::?:: always evaluates the second expression, even if its value will not be used.
+code:: ?? :: evaluates the function conditionally (only when needed).
+If the function defines no variables, the function will be inlined for speed.
+
+Especially useful when the absence of an object requires a new object to be created. In this example, it's critical that a new Slider not be created if the object was already passed in.
+code::
+f = { |slider, parent|
+    slider = slider ?? { Slider.new(parent, Rect(0, 0, 100, 20)) };
+    slider.value_(0);
+};
+::
+If the first line inside the function instead read code::
+slider = slider ? Slider.new(parent, Rect(0, 0, 100, 20));
+::
+, a new slider would be created even if it is not needed, or used.
+
+## code:: object !? function :: || execute function if object is not nil.
+code::
+a = [10, nil].choose;
+a !? { "ran func".postln };
+// equivalent of:
+if (a.notNil) { "ran func".postln };
+::
+Used when an operation requires a variable not to be empty.
+code::
+f = { |a| a + 5 };
+f.value
+// error: nil does not understand +
+
+f = { |a| a !? { a+5 } };
+f.value
+nil // no error
+f.value(2)
+7
+::
+::
+
+section:: Miscellaneous operators
+definitionlist::
+## code:: object ! number :: || same as code:: object.dup(number) ::
+code::
+15 ! 5
+[ 15, 15, 15, 15, 15 ]
+::
+If the object is a function, it behaves like Array.fill(number, function).
+code::
+{ 10.rand } ! 5
+[ 8, 9, 3, 8, 0 ]
+::
+## code:: object -> object :: || creates an link::Classes/Association::, used in dictionaries.
+## code:: expression <! expression :: || bypass value of second expression.
+This operator evaluates both expressions, and returns the value of the first.
+code::
+a = 0;
+0
+
+// a is incremented twice, but the return value (1)
+// comes from the first increment (0 + 1)
+(a = a + 1) <! (a = a + 1)
+1
+
+a	// a's value reflects both increments
+2
+::
+
+## code:: function <> function :: || function composition operator.
+This operator returns a new function, which evaluates the second function and passes the result to the first function.
+code::
+f = { |a| a * 5 } <> {|a| a + 2 };
+f.(10);
+60                  // == (10+2) * 5
+::
+An array as argument is passed through the chain:
+code::
+f.([10, 75, 512]);
+[ 60, 385, 2570 ]   // == ([10, 75, 512]+2) * 5
+::
+::
+
+section:: Symbolic notations to define literals/other objects
+definitionlist::
+## code:: $ :: || character prefix: code:: "ABC".at(0) == $A ::
+## code:: '' :: or code:: \ :: || define a literal link::Classes/Symbol:: : code:: 'abc' === \abc ::
+## code:: "" :: || define a literal link::Classes/String:: : code:: "SuperCollider is the best" ::
+## code:: [item, item...] :: || define an link::Classes/Array:: containing given items
+## code:: Set[item, item...] :: || define a link::Classes/Set:: -- any link::Classes/Collection:: class name can be used other than Set
+## code:: #[item, item...] :: || define a literal link::Classes/Array::
+## code:: (a:1, b:2) :: || define an link::Classes/Event:: (same as code:: Event[\a -> 1, \b -> 2] ::)
+## code:: ` :: (backtick or backquote) || define a link::Classes/Ref:: : code:: `1 == Ref(1), `(a+1) == Ref(a+1) ::
+## code:: \ :: || inside a string or symbol, escapes the next character
+code::
+"abc\"def\"ghi"
+abc"def"ghi
+
+'abc\'def\'ghi'
+abc'def'ghi
+::
+definitionlist::
+## code:: \t :: || tab character
+## code:: \n :: || newline character
+## code:: \l :: || linefeed character
+## code:: \r :: || carriage return character
+## code:: \\ :: || \ character
+::
+
+## code:: { } :: || define an open function
+## code:: #{ } :: || define a closed function
+## code:: (_ * 2) :: || define a function code:: { |a| a * 2 } :: (see link::Reference/Partial-Application::)
+::
+
+section:: Argument definition
+definitionlist::
+## code:: |a, b, c| :: || define function/method arguments
+## code:: |a, b ... c| :: || define function/method arguments; arguments after a and b will be placed into c as an array
+## code:: #a, b, c = myArray ::|| assign consecutive elements of myArray to multiple variables
+## code:: #a, b ... c = myArray :: || assign first two elements to a and b; the rest as an array into c
+::
+
+section:: Where f is a function
+definitionlist::
+## code:: f.( ) :: || evaluate the function with the arguments in parentheses
+## code:: f.(*argList) :: || evaluate the function with the arguments in an array
+## code:: f.(anArgName: value) :: || keyword addressing of function or method arguments
+code::
+f = { |a, b| a * b };
+f.(2, 4);
+f.(*[2, 4]);
+f.(a: 2, b: 4);
+::
+## code:: SomeClass.[index] :: || Equivalent to SomeClass.at(index) -- Instr.at is a good example
+## code:: myObject.method(*array) :: || call the method with the arguments in an array
+## code:: obj1 method: obj2 :: || same as code::obj1.method(obj2):: or code::method(obj1, obj2)::.
+This works only with single-argument methods like binary operators.
+::
+
+section:: Class and instance variable access
+
+Inside a class definition (see link::Guides/WritingClasses:: ):
+code::
+{
+    classvar <a,    // Define a class variable with a getter method (for outside access)
+             >b,    // Define a class variable with a setter method
+             <>c;   // Define a class variable with both a getter and setter method
+
+    var      <a,    // Define an instance variable with a getter method (for outside access)
+             >b,    // Define an instance variable with a setter method
+             <>c;   // Define an instance variable with both a getter and setter method
+
+    // methods go here ...
+}
+::
+These notations do not apply to variables defined within methods.
+
+definitionlist::
+## code:: ^someExpression :: || Inside a method definition: return the expression's value to the caller
+## code:: instVar_ { } :: || define a setter for an instance variable
+## code:: myObject.instVar = x; :: || invoke the setter: code:: (myObject.instVar_(x); x) ::
+::
+
+section:: Array series and indexing
+definitionlist::
+## code:: (a..b) :: || produces an array consisting of consecutive integers from a to b
+## code:: (a, b..c) :: || e.g.: (1, 3..9) produces [1, 3, 5, 7, 9]
+## code:: (..b) :: || produces an array 0 through b
+## code:: (a..) :: || not legal (no endpoint given)
+
+## code:: a[i..j] :: || same as code:: a.copySeries(i, j) :: (see link::Classes/ArrayedCollection#-copySeries::)
+## code:: a[i, j..k] :: || e.g.: code:: a[1, 3..9] :: retrieves array elements 1, 3, 5, 7, 9
+## code:: a[..j] :: || same as code:: a.copySeries(0, j) ::
+## code:: a[j..] :: || same as code:: a.copySeries(i, a.size-1) :: (this is OK--Array is finite)
+
+## code:: ~ :: || access an environment variable
+## code:: ~abc :: || compiles to code:: \abc.envirGet ::
+## code:: ~abc = value :: || compiles to code:: \abc.envirPut(value) ::
+::
+
+section:: Adverbs to math operators
+(see link::Reference/Adverbs:: )
+
+e.g.:
+code::
+[1, 2, 3] * [2, 3, 4]
+[ 2, 6, 12 ]
+
+[1, 2, 3] *.t [2, 3, 4]
+[ [ 2, 3, 4 ], [ 4, 6, 8 ], [ 6, 9, 12 ] ]
+::
+definitionlist::
+## code:: .s :: || output length is the shorter of the two arrays
+## code:: .f :: || use folded indexing instead of wrapped indexing
+## code:: .t :: || table-style
+## code:: .x :: || cross (like table, except that the results of each operation are concatenated, not added as another dimension)
+## code:: .0 :: || operator depth (see link::Guides/J-concepts-in-SC:: )
+## code:: .1 :: || etc.
+::
+
+
+
