@@ -1,0 +1,3012 @@
+title:: 00_Introductory tutorial
+summary:: Mark Polishook tutorial
+categories:: Tutorials>Mark_Polishook_tutorial
+related:: Tutorials/Getting-Started/00-Getting-Started-With-SC
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+definitionList::
+## First_steps ||
+list::
+## link::Tutorials/Mark_Polishook_tutorial/01_Startup::
+## link::Tutorials/Mark_Polishook_tutorial/02_Evaluating_code::
+## link::Tutorials/Mark_Polishook_tutorial/03_Comments::
+## link::Tutorials/Mark_Polishook_tutorial/04_Help::
+::
+## Synthesis ||
+list::
+## link::Tutorials/Mark_Polishook_tutorial/05_The_network::
+## link::Tutorials/Mark_Polishook_tutorial/06_Prerequisites::
+## link::Tutorials/Mark_Polishook_tutorial/07_SynthDefs::
+## link::Tutorials/Mark_Polishook_tutorial/08_Rates::
+## link::Tutorials/Mark_Polishook_tutorial/09_Buses::
+## link::Tutorials/Mark_Polishook_tutorial/10_Controls::
+## link::Tutorials/Mark_Polishook_tutorial/11_Test_functions::
+## link::Tutorials/Mark_Polishook_tutorial/12_UnaryOp_synthesis::
+## link::Tutorials/Mark_Polishook_tutorial/13_BinaryOp_synthesis::
+## link::Tutorials/Mark_Polishook_tutorial/14_Subtractive_synthesis::
+## link::Tutorials/Mark_Polishook_tutorial/15_Groups::
+## link::Tutorials/Mark_Polishook_tutorial/16_Playbuf::
+## link::Tutorials/Mark_Polishook_tutorial/17_Delays_reverbs::
+## link::Tutorials/Mark_Polishook_tutorial/18_Frequency_modulation::
+## link::Tutorials/Mark_Polishook_tutorial/19_Scheduling::
+::
+## Debugging ||
+list::
+## link::Tutorials/Mark_Polishook_tutorial/20_Debugging::
+## link::Tutorials/Mark_Polishook_tutorial/21_Syntax_errors::
+## link::Tutorials/Mark_Polishook_tutorial/22_Runtime_errors::
+::
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+last revised: August 2, 2004
+
+partly updated: April 13, 2011 while converted to new help system. /f0
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Mark Polishook
+polishoo@cwu.edu
+
+
+
+title:: 01_Startup
+summary:: Mark Polishook tutorial
+categories:: Tutorials>Mark_Polishook_tutorial
+related:: Tutorials/Mark_Polishook_tutorial/00_Introductory_tutorial
+
+section::To begin
+
+Navigate to the folder (the directory) in which SuperCollider resides and double-click on it (the red and white balloon icon). An untitled document with text such as
+
+code::
+init_OSC
+compiling class library..
+	NumPrimitives = 548
+	compiling dir: '/Applications/SuperCollider3/SCClassLibrary'
+	pass 1 done
+	Method Table Size 3091264 bytes
+	Number of Method Selectors 2880
+	Number of Classes 1744
+	Number of Symbols 6926
+	Byte Code Size 129989
+	compiled 299 files in 1.61 seconds
+compile done
+prGetHostByName hostname 127.0.0.1 addr 2130706433
+RESULT = 256
+Class tree inited in 0.09 seconds
+::
+
+appears in the top left of the screen. The document functions as a "Post Window," so-called because SuperCollider uses it to "post" notifications.
+
+section::Two more windows
+
+On the bottom of the screen are two more windows. One is called "localhost server" and the other is "internal server." Click on the "boot" button on the localhost server. The words "localhost" in the black box of the button turn red and the word "Boot" on the button changes to "Quit." More text, such as
+
+code::
+booting 57110
+SC_AudioDriver: numSamples=512, sampleRate=44100.000000
+start   UseSeparateIO?: 0
+PublishPortToRendezvous 0 57110
+SuperCollider 3 server ready..
+notification is on
+::
+
+will print to the post window. The localhost server is now ready to be used. Activate the internal server, if you wish, in the same way.
+
+section::Workspace windows
+
+Open existing SC documents with File->Open... or cmd-o. Use File->New or cmd-n to create new documents.
+
+SuperCollider documents generally have .scd appended to their file names; however, SuperCollider can read and write documents in Rich Text Format (.rtf) and several other formats, as well.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+go to link::Tutorials/Mark_Polishook_tutorial/02_Evaluating_code::
+
+
+title:: 02_Evaluating_code
+summary:: Mark Polishook tutorial
+categories:: Tutorials>Mark_Polishook_tutorial
+related:: Tutorials/Mark_Polishook_tutorial/00_Introductory_tutorial
+
+This document is macOS (SCapp) specific in key commands, though the principles extend to all platforms. See the helpfile link::Reference/KeyboardShortcuts:: for key commands in other editors.
+
+section::Synthesizing sound
+
+To run (evaluate) one line of code, such as
+
+code::
+{ SinOsc.ar([400, 401], 0, 0.1) * Saw.ar([11, 33], 1) * EnvGen.kr(Env.sine(10)) }.play
+::
+
+first make sure that the localhost server is booted. Then put the cursor anywhere on the line (shown above) and press <enter>. If you don't have an enter key, then you can use ctrl-Return, Ctrl-c, fn-Return( on Some Macs), or Shift-Return. The server will synthesize audio and text that looks something like
+
+code::
+Synth("-613784702" : 1000)
+::
+
+will appear in the post window.
+
+Press command-period (cmd-.) to stop synthesis.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+To run more than one line of code, select all the lines and press <enter>.
+
+To help with the selection process, examples with more than one line often are placed in enclosing parentheses. In such cases, select the text by clicking immediately to the right of the top parenthesis or to the left of the bottom parenthesis. Or, with the cursor to the right of the top parenthesis or the left of the bottom one, press cmd-shift-b.
+
+Then press enter (to run the example).
+
+code::
+(
+{
+	RLPF.ar(
+		in: Saw.ar([100, 102], 0.15),
+		freq: Lag.kr(LFNoise0.kr(4, 700, 1100), 0.1),
+		rq: 0.05
+	)
+}.play
+)
+::
+
+The server will synthesize audio and text that looks something like
+
+code::
+Synth("-393573063" : 1000)
+::
+
+will appear in the post window.
+
+Press command-period (cmd-.) to stop synthesis.
+
+section::Scoping sound
+
+To scope whatever it is you're synthesizing (create a graphical display of the waveform):
+
+numberedList::
+## make sure the server is running (press the boot button)
+## evaluate your code as described above.
+
+For example, run
+
+code::
+{ SinOsc.ar([400, 401], 0, 0.5) * Saw.ar([11, 33], 0.5) }.play
+::
+
+## then evaluate
+
+code::
+s.scope(2)
+::
+
+which will produce a window with the title of "stethoscope."
+::
+
+As a shortcut to steps 2 through 4, send the scope message directly to the example.
+
+code::
+{ SinOsc.ar([400, 401], 0, 0.5) * Saw.ar([11, 33], 0.5) }.scope(2)
+::
+
+Press cmd-. to stop sound synthesis.
+
+section::Recording sound
+
+The localhost and the internal server windows have buttons, on the far right, to activate recording. To record, choose the a default server. The button on the default server of your choice initially will say "record" Press it to start recording.
+
+Run the following line of code to see where your sound file was saved...
+
+code::
+thisProcess.platform.recordingsDir;
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+go to link::Tutorials/Mark_Polishook_tutorial/03_Comments::
+
+
+title:: 03_Comments
+summary:: Mark Polishook tutorial
+categories:: Tutorials>Mark_Polishook_tutorial
+related:: Tutorials/Mark_Polishook_tutorial/00_Introductory_tutorial
+
+section::Comments
+
+Comments are descriptive remarks that are meant to be read by humans but ignored by computers. Programmers use comments to annotate how code works or what it does. It's also the case that some find it helpful to write programs by first notating comments and then filling in matching code.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+To write a comment in SuperCollider, either precede text with
+
+code::
+//
+::
+
+as in
+
+code::
+// Everything up to the end of the line is a comment
+::
+
+or place text on one or more lines between
+
+code::
+/* and */
+::
+
+as in
+
+code::
+/*
+
+This
+is
+a
+comment
+
+ */
+::
+
+If (when) evaluated, a comment will return nil, which is the value SuperCollider uses for uninitialized data.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Use Format->Syntax Colorize (or cmd-') to syntax-colorize comments.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+go to link::Tutorials/Mark_Polishook_tutorial/04_Help::
+
+
+title:: 04_Help
+summary:: Mark Polishook tutorial
+categories:: Tutorials>Mark_Polishook_tutorial
+related:: Tutorials/Mark_Polishook_tutorial/00_Introductory_tutorial
+
+section::Help
+
+SuperCollider has a built-in help system. To see the main help page, press cmd-d (without first selecting anything). From that page, click on underlined topics. Another useful document is link::Guides/More-On-Getting-Help::.
+
+In general, there are help files for classes (capitalized words, such as SinOsc, Array, Nil, etc.). Select the name of a class and press Cmd-d. A help file, if one exists, will open.
+
+section::Class definitions, message implementations, and the Find command
+
+To see source code for class definitions, select the name of a class and type cmd-j
+
+To see how a class or classes implement a particular message, select the message name and press cmd-y.
+
+Use the Find and Find Next commands, available through the Edit menu, to search for text in the frontmost document
+
+section::grep
+
+Use grep in the Terminal (in the Applications->Utilities folder) to search for all occurrences of a given word or phrase. For example, to see all documents that use the LFSaw class, evaluate (in the Terminal application)
+
+code::
+grep -r LFSaw /Applications/SuperCollider
+::
+
+Because lines in the terminal application break according to the size of the window and not through schemes that enhance readability, it may be easier to write grep results to a file, as in
+
+code::
+// change the name of the path (the argument after the '>' sign, as appropriate
+grep -r LFSaw /Applications/SuperCollider/ > /Users/yourHomeDirectory/Desktop/grep_results
+::
+
+section::Additional sources
+
+The SuperCollider wiki:
+list::
+## http://swiki.hfbk-hamburg.de:8888/MusicTechnology/6
+::
+
+The SuperCollider users mailing list archive:
+list::
+## http://www.listarc.bham.ac.uk/marchives/sc-users/
+::
+
+The SuperCollider user or developer lists (or both).
+
+list::
+## http://www.beast.bham.ac.uk/research/sc_mailing_lists.shtml
+::
+
+David Cottle has a large course on sound synthesis based around SC3.
+
+A course by Nick Collins:
+
+list::
+## http://www.informatics.sussex.ac.uk/users/nc81/courses/cm1/workshop.html
+::
+
+The pseudonym tutorial:
+
+list::
+## http://www.psi-o.net/pseudonym/
+::
+
+The MAT tutorial (UC-Santa Barbara) tutorial:
+
+list::
+## http://www.mat.ucsb.edu/~sc/
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+go to link::Tutorials/Mark_Polishook_tutorial/05_The_network::
+
+
+title:: 05_The_network
+summary:: Mark Polishook tutorial
+categories:: Tutorials>Mark_Polishook_tutorial
+related:: Tutorials/Mark_Polishook_tutorial/00_Introductory_tutorial
+
+section::Networks and client/server
+
+SuperCollider 3 uses a client/server model to operate across a network. What this means is that users write client programs that ask a server to do something, that is, they request service. Such requests can occur locally on one computer or they can be distributed remotely among two or more computers. Whether the computers are in the same room or separated across the world makes no difference as long as they're connected on a network.
+
+Client programs in SuperCollider typically specify synthesis definition (how a particular sound will be made) and synthesis scheduling (when a particular sound will be made). In turn, a SuperCollider server (or servers) synthesizes audio according to client instructions.
+
+To summarize, clients request; servers respond.
+
+section::Client/server examples
+
+code::
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// EX. 1 - execute each line, one at a time
+// define a synthesis process and make a client request to a server
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// define a server with a name and an address
+s = Server("aServer", NetAddr("127.0.0.1", 56789));		// "localhost" is a synonym for an ip of 												// "127.0.0.1"
+// start the server
+s.boot;
+
+// define a synthesis engine
+SynthDef("sine", { Out.ar(0, SinOsc.ar(440, 0, 0.2)) }).send(s);
+
+// schedule (run) synthesis
+s.sendMsg("s_new", "sine", n = s.nextNodeID, 0, 1);
+
+// stop the synth (delete it)
+s.sendMsg("/n_free", n);
+
+// (optionally) stop the server
+s.quit;
+::
+
+code::
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// EX. 2
+// the same as in above, except on 2 computers across a network
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// define a (remote) server; it represents a computer "somewhere" on the internet"
+// the ip number has to be valid and the server, wherever it is, has to be running
+// servers cannot be booted remotely, eg, a program on one machine can't boot a server on another
+// this example assumes the server on the remote machine was booted from within
+// SuperCollider and not from the terminal
+s = Server("aServer", NetAddr("... an ip number ...", 56789));
+
+// define a synthesis engine ... exactly as in the previous example
+SynthDef("sine", { Out.ar(0, SinOsc.ar(440, 0, 0.2)) }).send(s);
+
+// schedule synthesis ... exactly as in the previous example
+s.sendMsg("s_new", "sine", n = s.nextNodeID, 0, 1);
+
+// stop the synth (delete it)
+s.sendMsg("/n_free", n);
+::
+
+code::
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// EX. 3
+// client/server on one computer vs. client server on two computers
+// the previous examples without comments
+// they're identical except that
+//	the example that runs on one computer explicitly boots the server
+//	the example on 2 computers _assumes the server "somewhere" on the internet is booted
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// on one computer
+s = Server("aServer", NetAddr("localhost", 56789));
+s.boot;
+SynthDef("sine", { Out.ar(0, SinOsc.ar(440, 0, 0.2)) }).send(s);
+s.sendMsg("s_new", "sine", n = s.nextNodeID, 0, 1);
+s.sendMsg("/n_free", n);
+
+vs.
+
+// on two computers ... the server has to have a valid ip address
+s = Server("aServer", NetAddr("... an ip number ...", 56789));
+SynthDef("sine", { Out.ar(0, SinOsc.ar(440, 0, 0.2)) }).send(s);
+s.sendMsg("s_new", "sine", n = s.nextNodeID, 0, 1);
+s.sendMsg("/n_free", n);
+::
+
+section::Localhost and internal servers
+
+The previous examples define server objects. But, for the most part, this isn't necessary as SuperCollider defines two such objects, the localhost and internal servers, at startup. They're represented by windows at the bottom of the screen. Each of the windows has a boot button to start its respective server.
+
+See the link::Guides/ClientVsServer::, link::Classes/Server::, and link::Classes/ServerOptions:: and link::Tutorials/Server_Tutorial:: documents in the SuperCollider help system for further information.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Go to link::Tutorials/Mark_Polishook_tutorial/06_Prerequisites::
+
+
+title:: 06_Prerequisites
+summary:: Mark Polishook tutorial
+categories:: Tutorials>Mark_Polishook_tutorial
+related:: Tutorials/Mark_Polishook_tutorial/00_Introductory_tutorial
+
+We know that SuperCollider applies a client/server model to audio synthesis and processing. Let's focus on synthesis definition. Some things to consider:
+
+section::DSP
+
+First, we require knowledge of digital signal processing. A reference, such as the "Computer Music Tutorial," (MIT Press) can be helpful. A source on the internet is "The Scientist and Engineer's Guide to Digital Signal Processing" at
+
+http://www.dspguide.com/
+
+section::OOP
+
+Second, we need to know how to use the SuperCollider language to express synthesis algorithms. This means learning about object-oriented programming in general and about the grammar and syntax of the SuperCollider language in particular. A book about Smalltalk, the object-oriented computer language that SuperCollider closely resembles, can be helpful. Two books about Smalltalk on the www are
+
+The Art and Science of Smalltalk
+
+http://www.iam.unibe.ch/~ducasse/FreeBooks/Art/artMissing186187Fix1.pdf
+
+and
+
+Smalltalk by Example
+
+http://www.iam.unibe.ch/~ducasse/FreeBooks/ByExample/
+
+The SuperCollider documentation and numerous sites across the internet, such as the swiki at
+
+http://swiki.hfbk-hamburg.de:8888/MusicTechnology/6
+
+explain and show how the SuperCollider language works.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+go to link::Tutorials/Mark_Polishook_tutorial/07_SynthDefs::
+
+
+title:: 07_SynthDefs
+summary:: Mark Polishook tutorial
+categories:: Tutorials>Mark_Polishook_tutorial
+related:: Tutorials/Mark_Polishook_tutorial/00_Introductory_tutorial
+
+section::SynthDefs
+
+Use the SynthDef class to build the engines for synths that will run on the server. The engines, which can be saved to disk and reused, are analogous to presets on commercial hardware and software synthesizers.
+
+When notated as code in client programs, the engines have two essential parts: a name and a function. In the jargon of SuperCollider, the function is called a ugenGraphFunc.
+
+The term ugenGraphFunc derives from the notion of a graph, which is the data structure that SuperCollider uses to organize unit generators. SuperCollider constructs the graph for you from the code it finds in your function which means that don't have to know how a graph works or that it even exists.
+
+If you wish to know more about graphs, visit the Wikipedia at
+
+http://en.wikipedia.org/wiki/Graph_(data_structure)
+
+Or, go to
+
+http://www.nist.gov/dads/HTML/graph.html
+
+section::Template
+
+Here's a template for a synthdef showing that it consists of a name and a ugenGraphFunc
+
+code::
+SynthDef(
+	"aSynthDef",				// the 1st argument is the name
+	{ .... i am a ugenGraphFunc ... }	// the 2nd argument is the ugenGraphFunc
+)
+::
+
+To make the template functional
+
+numberedList::
+## put code into the ugenGraphFunc
+## send a .load message to the synthdef
+::
+
+code::
+(
+SynthDef(
+	"aSynthDef", 				// the name of the synthdef
+	{ 					// the ugenGraphFunc with actual code
+		arg freq;
+		Out.ar(
+			0,
+			SinOsc.ar(freq, 0, 0.1)
+		)
+	}
+).load(s);
+)
+::
+
+section::The .load message and the variable 's'
+
+The .load message writes synthdefs to disk and also sends them to the default server. The default server is defined by SuperCollider at startup time (as the localhost server) at which point it's also assigned to the variable 's'.
+
+section::The .send message and a remote server
+
+On the other hand, .send message,
+
+code::
+SynthDef( .... ).send(s);
+::
+
+instead of a .load message
+
+code::
+SynthDef( .... ).load(s);
+::
+
+is another way to get a synthdef to a server. The .send message, unlike the .load message, doesn't first write the synthdef to disk; instead it just transmits the synthdef directly to the server. This is therefore the message to use to define a synthdef on one computer but send it to another.
+
+code::
+(
+var aServer;
+aServer =
+	Server(
+		"aRemoteServerOnAnotherMachine",
+		NetAddr("... an ip # ...", 57110)	// a server on another computer
+	);
+SynthDef( .... ).send(aServer);
+)
+::
+
+note::
+Since this tutorial was written, another general purpose method was added to SynthDef. It is called strong::.add:: and will be the new recommended standard instead of .load and .send.
+::
+
+section::SynthDef browsers
+
+Use the synthdef browser to examine synthdefs that have been written to disk.
+
+code::
+(
+// a synthdef browser
+SynthDescLib.global.read;
+SynthDescLib.global.browse;
+)
+::
+
+The middle box (in the top row) shows the names of synthdefs. Each name, when selected, causes the other boxes to display the ugens, controls, and inputs and outputs for a particular synthdef.
+
+The box labeled "SynthDef controls" is useful because it shows the arguments that can be passed to a given synthdef.
+
+The browser shows that the synthdef defined above - "aSynthDef" - is composed from four ugens, one control, no inputs, and one output. The four ugens include instances of Control, SinOsc, BinaryOpUGen, and Out classes.
+
+The one control is "freq". A control is an argument that a synth can use when it is created or at any time while it (the synth) exists on the server. The browser also shows that "aSynth" has no inputs (which means that it doesn't use data from audio or control buses) and that it sends one channel of audio out to an audio Bus.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+For further context, see the link::Classes/SynthDef::, link::Classes/In::, link::Classes/Out::, link::Classes/SinOsc::, link::Classes/Control::, link::Classes/BinaryOpUGen:: files in the SuperCollider help system.
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+go to link::Tutorials/Mark_Polishook_tutorial/08_Rates::
+
+
+title:: 08_Rates
+summary:: Mark Polishook tutorial
+categories:: Tutorials>Mark_Polishook_tutorial
+related:: Tutorials/Mark_Polishook_tutorial/00_Introductory_tutorial
+
+section::Audio rate
+
+Ugens to which an .ar message is sent run at the audio rate, by default, at 44,100 samples per second. Send the .ar message to unit generators when they're part of the audio chain that will be heard.
+
+code::
+SinOsc.ar(440, 0, 1);
+::
+
+section::Control rate
+
+Ugens to which a .kr message is appended run at the control rate.
+
+code::
+SinOsc.kr(440, 0, 1);
+::
+
+By default, control rate ugens generate one sample value for every sixty-four sample values made by an audio rate ugen. Control rate ugens thus use fewer resources and are less computationally expensive than their audio rate counterparts.
+
+Use control rate ugens as modulators, that is, as signals that shape an audio signal.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Here, a control rate SinOsc modulates the frequency of the audio rate Pulse wave.
+
+code::
+(
+SynthDef("anExample", {
+	Out.ar(
+		0,
+		Pulse.ar(
+			[220, 221.5] + SinOsc.kr([7, 8], 0, 7), // the control rate conserves CPU cycles
+			0.35,
+			0.02
+		)
+	)
+}).add;
+)
+
+Synth("anExample")
+::
+
+Type command-period (cmd-.) to stop synthesis.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Go to link::Tutorials/Mark_Polishook_tutorial/09_Buses::
+
+
+
+title:: 09_Buses
+summary:: Mark Polishook tutorial
+categories:: Tutorials>Mark_Polishook_tutorial
+related:: Tutorials/Mark_Polishook_tutorial/00_Introductory_tutorial
+
+
+By default, SuperCollider has 1024 buses for audio signals and 16,384 for control signals. The buses, which are items in an array, are what SuperCollider uses to represent audio and control rate data.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+code::
+// the array of audio buses (channels)
+[ channel0, channel1, channel2, channel3, channel4, ... , ..., ..., etc., ... channel127 ]
+
+// the array of control buses (channels)
+[ channel0, channel1, channel2, channel3, channel4, ... , ..., ..., etc., ... channel4095 ]
+::
+
+section::Placing audio into a bus
+
+Use an Out ugen at the audio rate to put data into an audio bus.
+
+code::
+(
+SynthDef("dataForABus", {
+	Out.ar(
+		0,		// write 1 channel of audio into bus 0
+		Saw.ar(100, 0.1)
+	)
+}).add;
+)
+
+Synth("dataForABus");
+::
+
+A SynthDef browser
+
+code::
+(
+SynthDescLib.global.read;
+SynthDescLib.global.browse;
+)
+::
+
+shows 1 channel of output on channel 0.
+
+section::Getting audio from a bus
+
+Send an .ar message to an In ugen to get data from an audio bus.
+
+code::
+(
+SynthDef("dataFromABus", {
+	Out.ar(
+		0,
+		[	// the left channel gets input from an audio bus
+			In.ar(0, 1),
+			SinOsc.ar(440, 0.2)
+		]
+	)
+}).add;
+)
+
+(
+Synth("dataForABus");	// synthesize a sawtooth wave on channel 0
+Synth("dataFromABus");	// pair it with a sine wave on channel 1
+)
+::
+
+section::Control rate buses
+
+Use code::In.kr:: and code::Out.kr:: to read from or write to control buses.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+For additional information, see the link::Classes/Out::, link::Classes/In::, and link::Classes/Bus:: files in the SuperCollider help system.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+go to link::Tutorials/Mark_Polishook_tutorial/10_Controls::
+
+
+title:: 10_Controls
+summary:: Mark Polishook tutorial
+categories:: Tutorials>Mark_Polishook_tutorial
+related:: Tutorials/Mark_Polishook_tutorial/00_Introductory_tutorial
+
+Evaluate
+
+code::
+(
+SynthDescLib.global.read;
+SynthDescLib.global.browse;
+)
+::
+
+and examine the box that lists the controls for each synth.
+
+section::Controls (usually) are arguments
+
+Use controls, which most often are defined as arguments in a ugenGraphFunc, to give information to a synth, either when it is created and/or after it is running. Supply default values to the arguments to make code more readable and to protect against user error (such as forgetting to supply a value to an argument).
+
+code::
+(
+// 3 arguments (controls) with default values
+SynthDef(
+	"withControls",
+	{ arg freq = 440, beatFreq = 1, mul = 0.22;
+	Out.ar(
+		0,
+		SinOsc.ar([freq, freq+beatFreq], 0, mul)
+	)
+}).add;
+)
+
+// items in the array are passed to the controls in Synth when it's created
+z = Synth("withControls", [\freq, 440, \beatFreq, 1, \mul, 0.1]);
+
+// evaluate this line after the synth is running to reset its controls
+z.set(\freq, 700, \beatFreq, 2, \mul, 0.2);
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Write controls names and appropriate values in the array given as an argument to a synth. Control names can be given as symbols (a unique name within the SuperCollider system).
+
+code::
+Synth("withControls", [\freq, 440, \beatFreq, 0.5, \mul, 0.1]);
+::
+
+or as as strings (an array of characters)
+
+code::
+Synth("withControls", ["freq", 440, "beatFreq", 0.5, "mul", 0.1]);
+::
+
+Either way, the pattern is
+
+[ controlName, value, controlName, value, controlName, value].
+
+See the link::Classes/Symbol:: and link::Classes/String:: files in the SuperCollider help system.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+A third way to pass controls to a synth is as
+
+code::
+Synth("withControls", [0, 440, 1, 1, 2, 0.1]);
+::
+
+In this case, the pattern is
+
+[ controlIndex, value, controlIndex, value, controlIndex].
+
+section::To adjust a control
+
+Use the code::.set:: message to change the value of a control while a synth is running.
+
+code::
+(
+SynthDef("resetMyControls", { arg freq = 440, mul = 0.22;
+	Out.ar(
+		0,
+		SinOsc.ar([freq, freq+1], 0, mul)
+	)
+}).add;
+)
+
+~aSynth = Synth("resetMyControls", [\freq, 440, \mul, 0.06]);
+~aSynth.set(\freq, 600, \mul, 0.25);
+::
+
+section::Environment variables
+
+The '~' character before aSynth in the previous example defines an environment variable. An advantage to using an environment variable is that it doesn't have to be declared explicitly, as in
+
+code::
+var aSynth; // variables without the '~' MUST first be declared!!
+::
+
+More precisely, the ~ character puts a variable named 'aSynth' into an instance of an object known as the currentEnvironment. For further information, see the link::Classes/Environment:: document in the SuperCollider help system.
+
+In this usage, ~aSynth behaves like a global variable in other programming languages. By the strict definition, it isn't precisely emphasis::global::, but it may be used as such in SuperCollider.
+
+section::Lag times
+
+Use an array of lag times to state how long it takes to glide smoothly from one control value to another. Write the lag times in an array and place it in the synthdef after the ugenGraphFunc, as in
+
+code::
+(
+SynthDef("controlsWithLags", { arg freq1 = 440, freq2 = 443, mul = 0.12;
+	Out.ar(
+		0,
+		SinOsc.ar([freq1, freq2], 0, mul)
+	)
+}, [4, 5]).add;
+)
+
+~aSynth = Synth("controlsWithLags", [\freq1, 550, \freq2, 344, \mul, 0.1]);
+~aSynth.set(\freq1, 600, \freq2, 701, \mul, 0.05);
+::
+
+section::SynthDef templates
+
+The array of lagtimes means that the synthdef template with two components (discussed in link::Tutorials/Mark_Polishook_tutorial/07_SynthDefs::)
+
+code::
+// a template for a synthdef with two components
+SynthDef(
+	"aSynth",				// 1st argument is a name
+	{ .... i am a ugenGraphFunc ... }	// 2nd argument is a ugenGraphFunc
+)
+::
+
+can be revised to include three components.
+
+code::
+// a re-defined template for a synthdef _with an array of lagtimes
+// the class definition for the lagtime array calls it 'rates'
+SynthDef(
+	"aSynth",				// name
+	{ .... i am a ugenGraphFunc ... },	// ugenGraphFunc
+	[ ... lagTimes ... ]			// rates
+)
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+go to link::Tutorials/Mark_Polishook_tutorial/11_Test_functions::
+
+
+title:: 11_Test_functions
+summary:: Mark Polishook tutorial
+categories:: Tutorials>Mark_Polishook_tutorial
+related:: Tutorials/Mark_Polishook_tutorial/00_Introductory_tutorial
+
+section::Functions and .scope messages
+
+An easy way to audition synthesis processes is to test them within a function. To do this, append a .scope or a .play message to a function. The .scope message, which works only with the internal server, displays a visual representation of a sound wave.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Boot (turn on) the server
+
+code::
+s.boot;
+::
+
+Run this example, and look at the scope window.
+
+code::
+// test a synthesis process in a function
+(
+	{
+		SinOsc.ar([440.067, 441.013], 0, 1)
+		*
+		SinOsc.ar([111, 109], 0, 0.2)
+	}.scope;
+)
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Code can be transfered from a test function into a synthdef. In the following example, the code from the function (above) is the second argument to the Out ugen.
+
+code::
+(
+SynthDef("ringMod", {
+	Out.ar(
+		0,
+		SinOsc.ar([440.067, 441.013], 0, 1)
+		*
+		SinOsc.ar([111, 109], 0, 0.2)
+	)
+}).add;
+)
+
+Synth("ringMod")
+::
+
+section::Multi-channel expansion
+
+Expand a ugen to two channels with an array in any of the argument (control) slots.
+
+code::
+{ Saw.ar([500, 933], 0.1) }.scope;
+::
+
+Another (longer) way to write the same thing is
+
+code::
+{ [ Saw.ar(500, 0.1), Saw.ar(933, 0.1)] }.scope;
+::
+
+Expand a ugen to three channels by adding values to the array.
+
+code::
+{ Saw.ar([500, 933, 2033], 0.1) }.scope;
+
+// 4 channels
+
+{ Saw.ar([500, 933, 2033, 895], 0.1) }.scope;
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+go to link::Tutorials/Mark_Polishook_tutorial/12_UnaryOp_synthesis::
+
+
+title:: 12_UnaryOp_synthesis
+summary:: Mark Polishook tutorial
+categories:: Tutorials>Mark_Polishook_tutorial
+related:: Tutorials/Mark_Polishook_tutorial/00_Introductory_tutorial
+
+section::Unary messages
+
+Some synthesis processes can be initiated with a unary message (a message with no arguments).
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+For example, compare
+
+code::
+{ SinOsc.ar(500, 0, 0.5) }.scope;
+::
+
+to
+
+code::
+{ SinOsc.ar(500, 0, 0.5).distort }.scope;
+::
+
+The .distort message modulates the SinOsc to create more partials.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Q: Where does the .distort message come from?
+
+A: It's defined in the AbstractFunction class. The UGen class is a subclass of the AbstractFunction class. The idea is that all classes inherit methods defined in their superclasses; all ugens thus inherit from AbstractFunction).
+
+Compare
+
+code::
+{ SinOsc.ar(500, 0, 0.5) }.scope;
+::
+
+to
+
+code::
+// .cubed is a unary operation
+{ SinOsc.ar(500, 0, 0.5).cubed }.scope;
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+go to link::Tutorials/Mark_Polishook_tutorial/13_BinaryOp_synthesis::
+
+
+title:: 13_BinaryOp_synthesis
+summary:: Mark Polishook tutorial
+categories:: Tutorials>Mark_Polishook_tutorial
+related:: Tutorials/Mark_Polishook_tutorial/00_Introductory_tutorial
+
+section::Binary messages
+
+The pattern for a binary message is
+
+table::
+## RECEIVER || OPERATOR || OPERAND
+::
+
+For example
+
+code::
+2 * 3
+::
+
+is a receiver (the object to which a message is sent), a binary operator, and an operand.
+
+section::Mixing = addition
+
+Use addition (a binary operation) to mix two or more ugens.
+
+code::
+(
+	// mix 2 sawtooth waves
+	{
+		Saw.ar(500, 0.05)	// receiver
+		+			// operator
+		Saw.ar(600, 0.06)	// operand
+	}.scope;
+)
+
+
+(
+// mix 3 unit generators.
+	{
+		Saw.ar(500, 0.05)	// receiver
+		+			// operator
+		Saw.ar(600, 0.06)	// operand
+						// when evaluated produce
+						// a BinaryOpUGen
+						// this BinaryOpUGen is then a receiver for an
+		+				// addition operator followed by
+		Saw.ar(700, 0.07)		// an operand
+	}.scope;
+)
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Rewrite the previous example with the Mix ugen.
+
+code::
+(
+{
+	Mix.ar(
+		// the ugens that will be mixed go into an array
+		[
+			Saw.ar(500, 0.05),
+			Saw.ar(600, 0.06),
+			Saw.ar(700, 0.06)
+		]
+	)
+}.scope
+)
+::
+
+Or use Mix.arFill to create the same result.
+
+code::
+{ Mix.arFill(3, { arg i; Saw.ar(500 + (i * 100), 0.05) }) }.scope;
+::
+
+Every time the function is evaluated, the argument i is incremented. So i equals 0 the first time the function is evaluated, i equals 1 the second time, i equals 2, the third time, and so on.
+
+section::Scaling = multiplication
+
+Apply an envelope, in the form of a low-frequency sine wave, to a WhiteNoise generator.
+
+code::
+{ WhiteNoise.ar(0.1) * SinOsc.kr(1, 1) }.scope;
+
+(
+	// scaling and mixing
+	// ... imitates a train?
+	{
+		(WhiteNoise.ar(0.1) * SinOsc.kr(1, 1))
+		+
+		(BrownNoise.ar(0.1) * SinOsc.kr(2, 1))
+
+	}.scope;
+)
+::
+
+section::Envelopes
+
+Dynamically modulate any parameter in a ugen (such as frequency, phase, or amplitude) with an envelope.
+
+code::
+// modulate amplitude
+{ SinOsc.ar(440, 0, 0.1) * EnvGen.kr(Env.sine(1), doneAction: Done.freeSelf) }.scope;
+::
+
+Setting the doneAction argument (control) to 2 insures that after the envelope reaches its endpoint, SuperCollider will release the memory it used for the instances of the SinOsc and the EnvGen.
+
+section::Keyword arguments
+
+Keywords make code easier to read and they allow arguments to be presented in any order. Here, the doneAction and the timeScale arguments are expressed in keyword style.
+
+code::
+(
+SynthDef("timeScale", { arg ts = 1;
+	Out.ar(
+		0,
+		SinOsc.ar(440, 0, 0.4)
+		*
+		EnvGen.kr(
+			Env.sine(1),
+			doneAction: Done.freeSelf,
+			timeScale: ts	// scale the duration of an envelope
+		)
+	)
+}).add;
+)
+
+Synth("timeScale", [\ts, 0.1]); // timeScale controls the duration of the envelope
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+code::
+// scale the duration of the envelope for every new synth
+(
+r = Routine({
+	loop({
+		Synth("timeScale", [\ts, 0.01.rrand(0.3)]);
+		0.5.wait;
+	})
+});
+)
+r.play
+::
+
+section::Additive Synthesis
+
+Additive synthesis is as its name says. Components are added (mixed) together.
+
+code::
+(
+{	// evaluate the function 12 times
+	var n = 12;
+	Mix.arFill(
+		n,
+		{
+			SinOsc.ar(
+				[67.0.rrand(2000), 67.0.rrand(2000)],
+				0,
+				n.reciprocal * 0.75
+			)
+		}
+	)
+	*
+	EnvGen.kr(Env.perc(11, 6), doneAction: Done.freeSelf)
+}.scope
+)
+::
+
+section::Envelopes
+
+The promise of additive synthesis is that one can add sine waves to create any sound that can be imagined.
+
+The problem of additive synthesis is that each and every sine wave and their envelopes have to be specified explicitly.
+
+Create nuanced textures by scaling sine waves with envelopes and then mixing the result.
+
+code::
+(
+{	var n = 12;
+
+	Mix.arFill(
+			n,						// generate n sine waves
+			{
+			SinOsc.ar(					// each with a possible frequency between
+				[67.0.rrand(2000), 67.0.rrand(2000)],	// low.rrand(high) ... floating point values
+				0,
+				n.reciprocal				// scale the amplitude of each sine wave
+									// according to the value of n
+			)
+			*
+			EnvGen.kr(					// put an envelope on each of the sine waves
+				Env.sine(2.0.rrand(17)),
+				doneAction: Done.none 				// deallocate envelopes only when the
+									// entire sound is complete (why?)
+			)
+		}
+	)
+	*								// put an envelope over the whole patch
+	EnvGen.kr(
+		Env.perc(11, 6),
+		doneAction: Done.freeSelf,
+		levelScale: 0.75
+	)
+
+}.scope
+)
+::
+
+(Or use the link::Classes/Klang:: ugen to produce a similar effect).
+
+section::Ring modulation
+
+Multiply two UGens.
+
+code::
+{ SinOsc.ar(440, 0, 0.571) * SinOsc.kr(880) }.scope
+
+// use an lfo to modulate the amplitude of the modulator
+(
+	{
+		SinOsc.ar(440, 0, 0.571)
+		*
+		(SinOsc.kr(880)				// wrap the modulator and the lfo in parenthese
+		* 					// why ... ?
+		SinOsc.kr([6.99, 8.01].reciprocal)
+		)
+	}.scope
+)
+::
+
+section::Amplitude modulation
+
+Multiply two UGens and restrict the value of the modulator to positive values (use the .abs message to calculate 'absolute' value) to create what Charles Dodge calls "classic" amplitude modulation.
+
+code::
+// use an lfo to modulate the amplitude of the modulator
+(
+	{
+		SinOsc.ar(440, 0, 0.571)
+		*
+		(SinOsc.kr(880).abs			// wrap the modulator and the lfo in parenthese
+		* 					// why ... ?
+		SinOsc.kr([6.99, 8.01].reciprocal)
+		)
+	}.scope
+)
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Compare "classic" amplitude modulation and ring modulation
+
+code::
+// "classic"
+{ SinOsc.ar(440, 0, 0.571) * SinOsc.kr(880).abs }.scope
+
+// "ring"
+// ... what's the difference?
+{ SinOsc.ar(440, 0, 0.571) * SinOsc.kr(880) }.scope
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+go to link::Tutorials/Mark_Polishook_tutorial/14_Subtractive_synthesis::
+
+
+title:: 14_Subtractive_synthesis
+summary:: Mark Polishook tutorial
+categories:: Tutorials>Mark_Polishook_tutorial
+related:: Tutorials/Mark_Polishook_tutorial/00_Introductory_tutorial
+
+section::Filtering
+
+The basic idea of subtractive synthesis is similar to making coffee: something goes through a filter to remove unwanted components from the final product.
+
+section::The .dumpClassSubtree message
+
+Get a list of ugen filters in SuperCollider 3, by sending the .dumpClassSubtree message to the Filter class, as in
+
+code::
+Filter.dumpClassSubtree;
+::
+
+( code::Object.dumpClassSubtree:: prints all SuperCollider classes)
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+classtree::Filter
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Use LPF, a low-pass filter to subtract high-frequency content from an input source.
+
+code::
+(
+SynthDef("subtractive", { arg out;
+	Out.ar(
+		out,
+		LPF.ar(
+			Pulse.ar(440, 0.5, 0.1),	// the source to be filtered
+			Line.kr(8000, 660, 6)		// control the filter frequency with a line
+		)
+	)
+}).add;
+)
+
+Synth("subtractive")
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+RLPF, a resonant low-pass filter, removes high-frequency content and emphasizes the cutoff frequency.
+
+code::
+(
+SynthDef("passLowFreqs2", { arg out;
+	Out.ar(
+		out,
+		RLPF.ar(
+			Saw.ar([220, 221] + LFNoise0.kr(1, 100, 200), 0.2),
+			[LFNoise0.kr(4, 600, 2400), LFNoise0.kr(3, 600, 2400)],
+			0.1
+		)
+	)
+}).add;
+)
+
+Synth("passLowFreqs2")
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Resonz is a very, very, very strong filter. Use it to emphasize a frequency band.
+
+Transform noise into pitch with a sharp cutoff.
+
+code::
+(
+SynthDef("noiseToPitch", { arg out = 0, mul = 1;
+	Out.ar(
+		out,
+		Resonz.ar(
+			WhiteNoise.ar(mul),
+			LFNoise0.kr(4, 110, 660),
+			[0.005, 0.005]
+		)
+	)
+}).add;
+)
+
+(
+// activate left and right channels
+Synth("noiseToPitch", [\out, 0, \mul, 1]);
+Synth("noiseToPitch", [\out, 1, \mul, 1]);
+)
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+go to link::Tutorials/Mark_Polishook_tutorial/15_Groups::
+
+
+title:: 15_Groups
+summary:: Mark Polishook tutorial
+categories:: Tutorials>Mark_Polishook_tutorial
+related:: Tutorials/Mark_Polishook_tutorial/00_Introductory_tutorial
+
+The simplest synthesis processes use a single ugen.
+
+code::
+{ Saw.ar(500, 0.1) }.scope;
+::
+
+or
+
+code::
+{ Formlet.ar(Saw.ar(22), 400, 0.01, 0.11, 0.022) }.scope
+::
+
+Most of the SuperCollider help documents for the UGens show other such examples.
+
+link::Browse#UGens::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Many synthesis processes, because they use more than a few ugens, are often best divided into component parts. This can make code modular, reusable, and easier to read.
+
+The link::Classes/Group:: class, which is the means to specify a collection of nodes, provides a mechanism through which to control several synths at once.
+
+section::Groups are linked lists
+
+The important technical feature of groups is that the nodes they contain are items in a linked list. A linked list is a data structure that makes it easy to order and reorder nodes. The first item in a linked list is the "head" and the last item is the "tail."
+
+Groups, through their head and tail mechanisms, allow synths to be placed in order so one synth verifiably executes before another, eg, the head synth runs before the tail synth. The ability to order synths is essential when sending source audio through an effect, such as a reverb or a filter.
+
+Another feature of groups is they allow synths to receive messages from a single point of control, eg, one message to the group goes to all of nodes that belong to the group.
+
+section::Nodes, linked lists, trees
+
+See the link::Reference/Server-Architecture:: document for a definition of a node in SuperCollider or look to the Wikipedia for a general discussion of nodes, linked lists, and trees.
+
+list::
+## http://en.wikipedia.org/wiki/Node
+## http://en.wikipedia.org/wiki/Linked_list
+## http://en.wikipedia.org/wiki/Tree_data_structure
+::
+
+section::RootNode and default_group
+
+By default, the localhost and internal servers each boot with two predefined groups: the link::Classes/RootNode:: and the link::Reference/default_group:: (see their help files). To see this, start the localhost server and then evaluate
+
+code::
+s.queryAllNodes;
+::
+
+The next two lines
+
+code::
+Group(0)
+        Group(1)
+::
+
+will appear in the transcript window.
+
+Group(0) is the rootnode group and Group(1) is the default_group. Group(1) is indented to show that it branches from Group(0).
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+New synths are attached by default to the head of the default_group.
+
+code::
+// 1st, evaluate a synthdef
+(
+SynthDef("ringModulation", {
+	Out.ar(
+		0,
+		Mix.ar(
+			SinOsc.ar([440.067, 441.013], 0, 1)
+			*
+			SinOsc.ar([111, 109], 0, 0.2)
+		)
+	)
+}).add;
+)
+
+// 2nd, make a synth
+(
+Synth("ringModulation");
+)
+
+// 3rd, tell the server to list its nodes
+(
+s.queryAllNodes;
+)
+::
+
+code::
+Group(0)
+        Group(1)
+                Synth 1003
+::
+
+will appear in the transcript window. It shows Group(0) as the rootnode, Group(1) as the branching default_node and Synth 1003 (or some such number) as a leaf attached to the default_node.
+
+code::
+Rootnode - Group(0)
+	  |
+	  |
+default_node - Group(1)
+      /
+     /
+Synth 1003
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+An example with two synths.
+
+code::
+// 1st, evaluate a synthdef
+(
+SynthDef("pitchFromNoise", { arg out = 0;
+	Out.ar(
+		out,
+		Resonz.ar(
+			WhiteNoise.ar(15),
+			LFNoise0.kr(2, 110, 660),
+			0.005
+		)
+	)
+}).add;
+)
+
+// 2nd, make 2 synths
+(
+Synth("ringModulation");
+Synth("pitchFromNoise", [\out, 1]);
+)
+
+// 3rd, tell the server to list its nodes
+(
+s.queryAllNodes;
+)
+::
+
+The printout in the transcript window
+
+code::
+Group(0)
+        Group(1)
+                Synth 1005
+                Synth 1004
+::
+
+shows that Group(0) is the rootnode and Group(1) is the default_node.
+
+Synth 1005 and 1004 (or similar such numbers) are leaves attached to the default_node. Synth 1005 is first in the list because of the way nodes are attached, by default, to the head of a list: Synth 1004, the "ringModulation" synth, was evaluated first and attached to the head of Group(1). Then Synth 1005, the "pitchFromNoise"s synth, was evaluated and placed at the head of the list (in front of Synth 1004).
+
+code::
+	Rootnode - Group(0)
+	  |
+	  |
+ default_node - Group(1)
+      /     \
+     /       \
+Synth 1005  Synth 1004
+(head)	    (tail)
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+It's the responsibility of the user to make sure that nodes on the server are ordered properly. For this reason, the two synths below must be evaluated in the order in which they're given - because the first synth is source material for the second synth, a filter that processes its input.
+
+code::
+(
+SynthDef("firstNode-source", {
+	Out.ar(
+		0,
+		Saw.ar([200, 201], 0.05)
+	)
+}).add;
+
+SynthDef("secondNode-filter", {
+	ReplaceOut.ar(
+		0,
+		LPF.ar(
+			In.ar(0, 2),
+			Lag.kr(
+				LFNoise0.kr([4, 4.001], 500, 1000),
+				0.1
+			)
+		)
+	)
+}).add;
+)
+
+// evaluate "secondNode-filter" first
+// "firstNode-source" will go at the head of default_node
+(
+Synth("secondNode-filter");
+Synth("firstNode-source");
+)
+
+(
+s.queryAllNodes;
+)
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Or, use .head and .tail messages to attach the nodes to the default_group).
+
+code::
+(
+Synth.head(s, "firstNode-source");
+Synth.tail(s, "secondNode-filter");
+)
+
+(
+s.queryAllNodes;
+)
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Or, assign the synths to groups.
+
+code::
+(
+~source = Group.head(s);	// attach the group to the head of the default_node
+~effect = Group.tail(s);	// attach the group to the tail of the default_node
+)
+
+(
+// add the synths to the appropriate groups
+Synth.head(~effect, "secondNode-filter");
+Synth.head(~source, "firstNode-source");
+)
+::
+
+The idea is that the groups are attached first to the default_group in the desired order. The synths can then be evaluated in any order as long as they're attached to the appropriate group.
+
+code::
+// run the code to see a diagram of the nodes
+(
+s.queryAllNodes;
+)
+::
+
+code::
+	Rootnode
+	  |
+	  |
+ default_node
+      /\
+     /  \
+Group    Group
+  |        |
+  |        |
+Synth    Synth
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Set a control for all of the synths in a group.
+
+code::
+// each of the synthdefs below has a control for amplitude (mul)
+(
+// build 3 synthdefs and a group
+SynthDef("synthNumber1", { arg mul = 0.2;
+	Out.ar(
+		0,
+		BrownNoise.ar(mul) * LFNoise0.kr([1, 1.01])
+	)
+	}, [0.1]).add;
+SynthDef("synthNumber2", { arg mul = 0.2;
+	Out.ar(
+		0,
+		WhiteNoise.ar(mul) * LFNoise1.kr([2.99, 3])
+	)
+	}, [0.1]).add;
+SynthDef("synthNumber3", { arg mul = 0.2;
+	Out.ar(
+		0,
+		PinkNoise.ar(mul) * LFNoise2.kr([0.79, 0.67])
+	)
+}, [0.1]).add;
+)
+
+(
+// make a group
+~myGroup = Group.new;
+)
+
+(
+// attach 3 synths
+Synth.head(~myGroup, "synthNumber1");
+Synth.head(~myGroup, "synthNumber2");
+Synth.head(~myGroup, "synthNumber3");
+)
+
+// set the \mul control of each of the 3 synths in the group
+~myGroup.set(\mul, 0.01.rrand(0.2))
+
+// execute to see a diagram of the nodes
+(
+s.queryAllNodes;
+)
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+go to link::Tutorials/Mark_Polishook_tutorial/16_Playbuf::
+
+
+title:: 16_Playbuf
+summary:: Mark Polishook tutorial
+categories:: Tutorials>Mark_Polishook_tutorial
+related:: Tutorials/Mark_Polishook_tutorial/00_Introductory_tutorial
+
+Breaking synthesis processes into parts that accomplish small well-defined tasks encourages modular design and component reuse (the oop mantra).
+
+code::
+(
+// read a soundfile from disk
+b = Buffer.read(s, Platform.resourceDir +/+ "sounds/a11wlk01.wav");
+
+// a samplePlayer in mono ... one channel only
+SynthDef("aMonoSamplePlayer", { arg bus = 0, bufnum = 0, rateScale = 1;
+	Out.ar(
+		bus,
+		PlayBuf.ar(
+			1,
+			bufnum,
+			BufRateScale.kr(bufnum) * rateScale
+		)
+		*
+		EnvGen.kr(Env.sine(BufDur.kr(bufnum)))
+	)
+}).add;
+)
+
+(
+// test the synthdef ... does it work? (yes, it's fine. it plays on the left channel)
+Synth("aMonoSamplePlayer", [\bus, 0, \bufNum, b]);
+)
+
+
+(
+// a simple example of component reuse ... use the \bus argument to assign synths built from
+// the same synthdef to different channels
+// in this case, play a 1-channel soundfile on 2 channels
+// a different playback rate for each channel makes the effect more obvious
+Synth("aMonoSamplePlayer", [\bus, 0, \bufNum, b, \rateScale, 0.99]);
+Synth("aMonoSamplePlayer", [\bus, 1, \bufNum, b, \rateScale, 1.01]);
+)
+::
+
+section::Information
+
+The BufRateScale and the BufDur ugens, as shown in the previous example, control the rate at which PlayBuf plays the soundfile and the length of the envelope applied to the playbuf.
+
+BufRateScale and BufDur are of a family of ugens that inherit from InfoUGenBase or BufInfoUGenBase.
+
+To see the complete list of such ugens, evaluate
+
+code::
+InfoUGenBase.dumpClassSubtree;
+::
+
+It returns
+
+code::
+InfoUGenBase
+[
+  NumRunningSynths
+  NumBuffers
+  ControlDur
+  NumControlBuses
+  SubsampleOffset
+  RadiansPerSample
+  SampleDur
+  ControlRate
+  NumInputBuses
+  NumAudioBuses
+  SampleRate
+  NumOutputBuses
+]
+InfoUGenBase
+::
+
+Evaluate
+
+code::
+BufInfoUGenBase.dumpClassSubtree;
+::
+
+and it returns
+
+code::
+BufInfoUGenBase
+[
+  BufChannels
+  BufSampleRate
+  BufRateScale
+  BufFrames
+  BufDur
+  BufSamples
+]
+BufInfoUGenBase
+::
+
+section::Loop a sample
+
+The next example uses three synthsdefs to make a chain. The first synthdef is a sample player that loops through a buffer. The second synthdef ring modulates its input. The third synthdef applies a lowpass filter.
+
+code::
+(
+// read a soundfile
+b = Buffer.read(s, Platform.resourceDir +/+ "sounds/a11wlk01.wav");
+
+// define a sample player that will loop over a soundfile
+SynthDef("aLoopingSamplePlayer", { arg outBus = 0, bufnum = 0, rateScale = 1, mul = 1;
+	Out.ar(
+		outBus,
+		PlayBuf.ar(
+			1,
+			bufnum,
+			BufRateScale.kr(bufnum) * rateScale + LFNoise1.kr(2.reciprocal, 0.05),
+			loop: 1	// play the soundfile over and over without stopping
+		)
+		*
+		mul
+	)
+}).add;
+
+// apply amplitude modulation to an audio source
+SynthDef("ampMod", { arg inBus = 0, outBus = 0, modFreq = 1;
+	Out.ar(
+		outBus,
+		[	// In.ar ugen reads from an audio bus
+			In.ar(inBus, 1) * SinOsc.kr(modFreq),
+			In.ar(inBus, 1) * SinOsc.kr(modFreq - 0.02)
+		]
+	)
+}).add;
+
+// apply a low pass filter to an audio source
+SynthDef("aLowPassFilter", { arg inBus = 0, outBus = 0, freq = 300, freqDev = 50, boost = 1;
+	Out.ar(
+		outBus,
+		RLPF.ar(
+			In.ar(inBus, 2),
+			Lag.kr(LFNoise0.kr(1, freqDev, freq), 1),
+			0.2
+		)
+		*
+		boost
+		*
+		LFPulse.kr(1, [0.25, 0.75], [0.5, 0.45])
+		+
+		In.ar(inBus, 2)
+	)
+}).add;
+)
+
+// define 2 groups, 1 for source material and the other for effects
+(
+~source = Group.head(s);
+~effect = Group.tail(~s);
+)
+
+(
+// add the samplePlayer to the source group
+~theSource = Synth.head(
+	~source,
+	"aLoopingSamplePlayer", [\outBus, 3, \bufNum, b, \rateScale, 1, \mul, 0.051]);
+// add an amplitude modulation synth to the head of the effects group
+~fx1 = Synth.head(
+	~effect,
+	"ampMod", [\inBus, 3, \outBus, 5, \modFreq, 1]);
+// add filtering to the tail of the effects group
+~fx2 = Synth.tail(
+	~effect,
+	"aLowPassFilter", [\inBus, 5, \outBus, 0, \boost, 5])
+)
+
+// examine the nodes
+(
+s.queryAllNodes;
+)
+::
+
+code::
+// a diagram
+
+    RootNode
+	|
+  default_node
+      /\
+     /  \
+~source  ~effects	// ~source and ~effects are groups
+ |        |      \
+ |        |       \
+ synth    synth    synth
+::
+
+code::
+// Changing argument (control) values effects timbre
+(
+ ~theSource.set(\rateScale, 0.95.rrand(1.05), \mul, 0.051.rrand(0.07));
+ ~fx1.set(\modFreq, 800.0.rrand(1200));
+ ~fx2.set(\freq, 500.rrand(700), \freqDev, 180.rrand(210), \boost, 7);
+)
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+go to link::Tutorials/Mark_Polishook_tutorial/17_Delays_reverbs::
+
+
+title:: 17_Delays_reverbs
+summary:: Mark Polishook tutorial
+categories:: Tutorials>Mark_Polishook_tutorial
+related:: Tutorials/Mark_Polishook_tutorial/00_Introductory_tutorial
+
+section::Time-based filters
+
+The Delay, Comb, and Allpass family of ugens create time-based effects to give a sense of location and space.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+code::
+// 2 synthdefs - the 1st to make grains and the 2nd to delay them
+
+// the synthdef that makes the grains is on the left channel
+// the synthdef that delays the grains is on the right channel
+(
+SynthDef("someGrains", { arg centerFreq = 777, freqDev = 200, grainFreq = 2;
+	var gate;
+	gate = Impulse.kr(grainFreq);
+	Out.ar(
+		0,
+		SinOsc.ar(
+			LFNoise0.kr(4, freqDev, centerFreq),
+			0,
+			EnvGen.kr(Env.sine(0.1), gate, 0.1)
+		)
+	)
+}).add;
+
+SynthDef("aDelay", { arg delay = 0.25;
+	Out.ar(
+		1,
+		DelayN.ar(
+			In.ar(0, 1),
+			delay,
+			delay
+		)
+	)
+}).add;
+)
+
+////////////////////////////////////////////////
+// test the grains ... and then turn them off
+// ... they're all on the left channel ... good!
+Synth("someGrains");
+////////////////////////////////////////////////
+
+// make 2 groups, the 1st for sources and the 2nd for effects
+(
+~source = Group.head(s);
+~effects = Group.tail(s);
+)
+
+// place grains into the delay ... source is on the left and delayed source is on the right
+(
+Synth.head(~source, "someGrains");
+Synth.head(~effects, "aDelay");
+)
+::
+
+section::Feedback filters
+
+Comb and Allpass filters are examples of ugens that feed some of their output back into their input. Allpass filters change the phase of signals passed through them. For this reason, they're useful even though don't seem to differ much from comb filters.
+
+code::
+/////////////////////////////////////////////////////////////////////////////////////////
+// TURN ON THE INTERNAL SERVER!!
+// first a comb filter and then an allpass with (with the same parameters) - compare them
+/////////////////////////////////////////////////////////////////////////////////////////
+
+// comb example
+(
+{
+	CombN.ar(
+		SinOsc.ar(500.rrand(1000), 0, 0.2) * Line.kr(1, 0, 0.1),
+		0.3,
+		0.25,
+		6
+	)
+}.scope;
+)
+
+// allpass example - not much difference from the comb example
+(
+{
+	AllpassN.ar(
+		SinOsc.ar(500.rrand(1000), 0, 0.2) * Line.kr(1, 0, 0.1),
+		0.3,
+		0.25,
+		6
+	)
+}.scope;
+)
+::
+
+code::
+/////////////////////////////////////////////////////////////////////////////////////////
+//
+// first a comb example and then an allpass
+// both examples have the same parameters
+// the 2 examples have relatively short delay times ... 0.1 seconds
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+// comb
+(
+{
+	CombN.ar(
+		SinOsc.ar(500.rrand(1000), 0, 0.2) * Line.kr(1, 0, 0.1),
+		0.1,
+		0.025,
+		6
+	)
+}.scope;
+)
+
+// allpass ... what's the difference between this example and the comb filter?
+(
+{
+	AllpassN.ar(
+		SinOsc.ar(500.rrand(1000), 0, 0.2) * Line.kr(1, 0, 0.1),
+		0.1,
+		0.025,
+		6
+	)
+}.scope
+)
+::
+
+section::Reverberation
+
+The next example is by James McCartney. It comes from the emphasis::Why Supercollider 2.0?:: document that was part of the SuperCollider2 distribution.
+
+The example is more or less a Schroeder reverb - a signal passed through a parallel bank of comb filters which then pass through a series of allpass filters.
+
+code::
+(
+{
+var s, z, y;
+	// 10 voices of a random sine percussion sound :
+s = Mix.ar(Array.fill(10, { Resonz.ar(Dust.ar(0.2, 50), 200 + 3000.0.rand, 0.003)}) );
+	// reverb predelay time :
+z = DelayN.ar(s, 0.048);
+	// 7 length modulated comb delays in parallel :
+y = Mix.ar(Array.fill(7,{ CombL.ar(z, 0.1, LFNoise1.kr(0.1.rand, 0.04, 0.05), 15) }));
+	// two parallel chains of 4 allpass delays (8 total) :
+4.do({ y = AllpassN.ar(y, 0.050, [0.050.rand, 0.050.rand], 1) });
+	// add original sound to reverb and play it :
+s+(0.2*y)
+}.scope
+)
+::
+
+section::Components
+
+The following shows one way to divide the JMC example into components.
+
+code::
+(
+SynthDef("filteredDust", {
+	Out.ar(
+		2,
+		Mix.arFill(10, { Resonz.ar(Dust.ar(0.2, 50), Rand(200, 3200), 0.003) })
+	)
+}).add;
+
+SynthDef("preDelay", {
+	ReplaceOut.ar(
+		4,
+		DelayN.ar(In.ar(2, 1), 0.048, 0.048)
+	)
+}).add;
+
+SynthDef("combs", {
+	ReplaceOut.ar(
+		6,
+		Mix.arFill(7, { CombL.ar(In.ar(4, 1), 0.1, LFNoise1.kr(Rand(0, 0.1), 0.04, 0.05), 15) })
+	)
+}).add;
+
+SynthDef("allpass", { arg gain = 0.2;
+	var source;
+	source = In.ar(6, 1);
+	4.do({ source = AllpassN.ar(source, 0.050, [Rand(0, 0.05), Rand(0, 0.05)], 1) });
+	ReplaceOut.ar(
+		8,
+		source * gain
+	)
+}).add;
+
+SynthDef("theMixer", { arg gain = 1;
+	ReplaceOut.ar(
+		0,
+		Mix.ar([In.ar(2, 1), In.ar(8, 2)]) * gain
+	)
+}).add;
+)
+
+// as each line is executed, it becomes the tail node. the result is that
+// "filteredDust" is the first node and  "theMixer" is the last node ...
+// ... exactly what we need
+(
+Synth.tail(s, "filteredDust");
+Synth.tail(s, "preDelay");
+Synth.tail(s, "combs");
+Synth.tail(s, "allpass");
+Synth.tail(s, "theMixer");
+)
+
+(
+s.queryAllNodes;
+)
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Or, use groups to control the order of execution.
+
+code::
+(
+~source = Group.tail(s);
+~proc1 = Group.tail(s);
+~proc2 = Group.tail(s);
+~proc3 = Group.tail(s);
+~final = Group.tail(s);
+)
+
+// the nodes, below, are assigned to the groups, as ordered above,
+(
+Synth.head(~final, "theMixer");
+Synth.head(~proc3, "allpass");
+Synth.head(~proc2, "combs");
+Synth.head(~proc1, "preDelay");
+Synth.head(~source, "filteredDust");
+)
+
+(
+s.queryAllNodes;
+)
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+For context, here, below, is the complete text of the strong::01 Why SuperCollider:: document (by James McCartney) from the SuperCollider 2 distribution.
+
+section::Why SuperCollider 2.0?
+
+SuperCollider version 2.0 is a new programming language. strong::Why invent a new language and not use an existing language?:: Computer music composition is a specification problem. Both sound synthesis and the composition of sounds are complex problems and demand a language which is highly expressive in order to deal with that complexity. Real time signal processing is a problem demanding an efficient implementation with bounded time operations.
+There was no language combining the features I wanted and needed for doing digital music synthesis. The SuperCollider language is most like Smalltalk. Everything is an object. It has class objects, methods, dynamic typing, full closures, default arguments, variable length argument lists, multiple assignment, etc. The implementation provides fast, constant time method lookup, real time garbage collection, and stack allocation of most function contexts while maintaining full closure semantics.
+The SuperCollider virtual machine is designed so that it can be run at interrupt level. There was no other language readily available that was high level, real time and capable of running at interrupt level.
+
+SuperCollider version 1.0 was completely rewritten to make it both more expressive and more efficient. This required rethinking the implementation in light of the experience of the first version. It is my opinion that the new version has benefitted significantly from this rethink. It is not simply version 1.0 with more features.
+
+strong::Why use a text based language rather than a graphical language? ::
+There are at least two answers to this. strong::Dynamism:: : Most graphical synthesis environments use statically allocated unit generators. In SuperCollider, the user can create structures which spawn events dynamically and in a nested fashion. Patches can be built dynamically and parameterized not just by floating point numbers from a static score, but by other graphs of unit generators as well. Or you can construct patches algorithmically on the fly. This kind of fluidity is not possible in a language with statically allocated unit generators.
+strong::Brevity:: : In SuperCollider, symmetries in a patch can be exploited by either multichannel expansion or programmatic patch building. For example, the following short program generates a patch of 49 unit generators. In a graphical program this might require a significant amount of time and space to wire up. Another advantage is that the size of the patch below can be easily expanded or contracted just by changing a few constants.
+
+code::
+(
+{
+	// 10 voices of a random sine percussion sound :
+s = Mix.ar(Array.fill(10, { Resonz.ar(Dust.ar(0.2, 50), 200 + 3000.0.rand, 0.003)}) );
+	// reverb predelay time :
+z = DelayN.ar(s, 0.048);
+	// 7 length modulated comb delays in parallel :
+y = Mix.ar(Array.fill(7,{ CombL.ar(z, 0.1, LFNoise1.kr(0.1.rand, 0.04, 0.05), 15) }));
+	// two parallel chains of 4 allpass delays (8 total) :
+4.do({ y = AllpassN.ar(y, 0.050, [0.050.rand, 0.050.rand], 1) });
+	// add original sound to reverb and play it :
+s+(0.2*y)
+}.play )
+::
+
+Graphical synthesis environments are becoming a dime a dozen. It seems like a new one is announced every month. None of them have the dynamic flexibility of SuperCollider's complete programming environment. Look through the SuperCollider help files and examples and see for yourself.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+go to link::Tutorials/Mark_Polishook_tutorial/18_Frequency_modulation::
+
+
+title:: 18_Frequency_modulation
+summary:: Mark Polishook tutorial
+categories:: Tutorials>Mark_Polishook_tutorial
+related:: Tutorials/Mark_Polishook_tutorial/00_Introductory_tutorial
+
+section::Carriers and modulators
+
+In its simplest form, frequency modulation (FM) synthesis - famous since the Yamaha DX7 of the 1980's - uses one oscillator to modulate the frequency of another. The modulating oscillator in FM synthesis usually runs at the audio rate and its amplitude often is shaped by an envelope or other controller, such as a low frequency oscillator.
+
+code::
+(
+SynthDef("fm1", { arg bus = 0, freq = 440, carPartial = 1, modPartial = 1, index = 3, mul = 0.05;
+
+	// index values usually are between 0 and 24
+	// carPartial :: modPartial => car/mod ratio
+
+	var mod;
+	var car;
+
+	mod = SinOsc.ar(
+		freq * modPartial,
+		0,
+		freq * index * LFNoise1.kr(5.reciprocal).abs
+	);
+
+	car = SinOsc.ar(
+		(freq * carPartial) + mod,
+		0,
+		mul
+	);
+
+	Out.ar(
+		bus,
+		car
+	)
+}).add;
+)
+
+(
+Synth("fm1", [\bus, 0, \freq, 440, \carPartial, 1, \modPartial, 2.4]);
+Synth("fm1", [\bus, 1, \freq, 442, \carPartial, 1, \modPartial, 2.401]);
+)
+
+(
+s.queryAllNodes;
+)
+::
+
+section::FM synthesis and reverb
+
+code::
+// ... a reverb adapted from the "01 Why SuperCollider document" in the SC2 distribution
+(
+SynthDef("preDelay", { arg inbus = 2;
+	ReplaceOut.ar(
+		4,
+		DelayN.ar(In.ar(inbus, 1), 0.048, 0.048)
+	)
+}).add;
+
+SynthDef("combs", {
+	ReplaceOut.ar(
+		6,
+		Mix.arFill(7, { CombL.ar(In.ar(4, 1), 0.1, LFNoise1.kr(Rand(0, 0.1), 0.04, 0.05), 15) })
+	)
+}).add;
+
+SynthDef("allpass", { arg gain = 0.2;
+	var source;
+	source = In.ar(6, 1);
+	4.do({ source = AllpassN.ar(source, 0.050, [Rand(0, 0.05), Rand(0, 0.05)], 1) });
+	ReplaceOut.ar(
+		8,
+		source * gain
+	)
+}).add;
+
+SynthDef("theMixer", { arg gain = 1;
+	ReplaceOut.ar(
+		0,
+		Mix.ar([In.ar(2, 1), In.ar(8, 2)]) * gain
+	)
+}).add;
+)
+
+(
+Synth("fm1", [\bus, 2, \freq, 440, \carPartial, 1, \modPartial, 1.99, \mul, 0.071]);
+Synth("fm1", [\bus, 2, \freq, 442, \carPartial, 1, \modPartial, 2.401, \mul, 0.071]);
+Synth.tail(s, "preDelay");
+Synth.tail(s, "combs");
+Synth.tail(s, "allpass");
+Synth.tail(s, "theMixer", [\gain, 0.64]);
+)
+
+(
+s.queryAllNodes;
+)
+::
+
+section::Components
+
+Dividing the "fm" synth def into two pieces, a synthdef for a modulator and a synthdef for the carrier, gives more functionality - carrier signals can shaped by two or more modulators.
+
+code::
+(
+SynthDef("carrier", { arg inbus = 2, outbus = 0, freq = 440, carPartial = 1, index = 3, mul = 0.2;
+
+	// index values usually are between 0 and 24
+	// carPartial :: modPartial => car/mod ratio
+
+	var mod;
+	var car;
+
+	mod = In.ar(inbus, 1);
+
+	Out.ar(
+		outbus,
+		SinOsc.ar((freq * carPartial) + mod, 0, mul);
+	)
+}).add;
+
+SynthDef("modulator", { arg outbus = 2, freq, modPartial = 1, index = 3;
+	Out.ar(
+		outbus,
+		SinOsc.ar(freq * modPartial, 0, freq)
+		*
+		LFNoise1.kr(Rand(3, 6).reciprocal).abs
+		*
+		index
+	)
+}).add;
+)
+
+(
+var freq = 440;
+// modulators for the left channel
+Synth.head(s, "modulator", [\outbus, 2, \freq, freq, \modPartial, 0.649, \index, 2]);
+Synth.head(s, "modulator", [\outbus, 2, \freq, freq, \modPartial, 1.683, \index, 2.31]);
+
+// modulators for the right channel
+Synth.head(s, "modulator", [\outbus, 4, \freq, freq, \modPartial, 0.729, \index, 1.43]);
+Synth.head(s, "modulator", [\outbus, 4, \freq, freq, \modPartial, 2.19, \index, 1.76]);
+
+// left and right channel carriers
+Synth.tail(s, "carrier", [\inbus, 2, \outbus, 0, \freq, freq, \carPartial, 1]);
+Synth.tail(s, "carrier", [\inbus, 4, \outbus, 1, \freq, freq, \carPartial, 0.97]);
+)
+
+(
+s.queryAllNodes;
+)
+::
+
+section::Reverberation and frequency modulation
+
+code::
+(
+var freq;
+// generate a random base frequency for the carriers and the modulators
+freq = 330.0.rrand(500);
+
+// modulators for the left channel
+Synth.head(s, "modulator", [\outbus, 60, \freq, freq, \modPartial, 0.649, \index, 2]);
+Synth.head(s, "modulator", [\outbus, 60, \freq, freq, \modPartial, 1.683, \index, 2.31]);
+
+// modulators for the right channel
+Synth.head(s, "modulator", [\outbus, 62, \freq, freq, \modPartial, 1.11, \index, 1.43]);
+Synth.head(s, "modulator", [\outbus, 62, \freq, freq, \modPartial, 0.729, \index, 1.76]);
+
+// left and right channel carriers
+Synth.tail(s, "carrier", [\inbus, 60, \outbus, 100, \freq, freq, \carPartial, 1]);
+Synth.tail(s, "carrier", [\inbus, 62, \outbus, 100, \freq, freq+1, \carPartial, 2.91]);
+
+Synth.tail(s, "preDelay", [\inbus, 100]);
+Synth.tail(s, "combs");
+Synth.tail(s, "allpass");
+Synth.tail(s, "theMixer", [\gain, 0.2]);
+)
+
+(
+s.queryAllNodes;
+)
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+go to link::Tutorials/Mark_Polishook_tutorial/19_Scheduling::
+
+
+title:: 19_Scheduling
+summary:: Mark Polishook tutorial
+categories:: Tutorials>Mark_Polishook_tutorial
+related:: Tutorials/Mark_Polishook_tutorial/00_Introductory_tutorial
+
+section::Routines and clocks
+
+Use clocks to create automated, algorithmic scheduling. Among the things that clocks "play" are routines, tasks, and patterns.
+
+To see how a clock "plays" a routine, first examine how a function works in a routine.
+
+The first argument (and usually the only argument) to a routine is a function.
+
+code::
+// template for a routine
+Routine({ ".... code within curly braces is a function .... "});
+::
+
+A .yield message to an expression in a function (in a routine) returns a value.
+
+code::
+r = Routine({ "hello, world".yield.postln });
+
+// to evaluate a routine, send a .next message
+// it will "hand over" the value of the expression to which the .yield message is attached
+r.next;
+::
+
+Evaluate (again)
+
+code::
+r.next;
+::
+
+The routine above returns nil when its evaluated a second time. This is because once a routine "yields" and if there's no additional code after the .yield message, the routine is finished, over, and done - unless it receives a reset message. Then it can start over again.
+
+code::
+r.next;		// returns nil
+r.reset;	// reset the routine
+r.next;		// it works!
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+code::
+(
+r = Routine({
+	"hello, world".yield;
+	"what a world".yield;
+	"i am a world".yield;
+});
+)
+::
+
+The first three .next messages return a string. The fourth .next message returns nil.
+
+code::
+r.next;	// returns a string
+r.next;	// returns a string
+r.next;	// returns a string
+r.next;	// returns nil
+::
+
+Reset the routine.
+
+code::
+r.reset;
+
+r.next;
+r.next;
+r.next;
+r.next;
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Use a .do message in a routine to make a loop.
+
+code::
+(
+r = Routine({
+
+	// setup code
+	var array;
+	array = [ "hello, world", "what a world", "i am a world" ];
+
+	// the loop
+	3.do({ array.choose.yield })
+
+});
+)
+::
+
+Evaluate the routine one more time than the loop in the routine allows.
+
+code::
+4.do({ r.next.postln });
+::
+
+The routine returned three strings followed by nil.
+
+section::Scheduling routines
+
+Rewrite the routine so that it includes a .wait message.
+
+code::
+(
+r = Routine({
+
+	var array;
+	array = [ "hello, world", "what a world", "i am a world" ];
+
+	3.do({
+		1.wait; 		// pause for 1 second
+		array.choose.postln;
+	})
+
+});
+)
+::
+
+Then "play" the routine, eg, send it a .play message.
+
+code::
+r.play;
+::
+
+Append a .reset message to the routine so that it can start over.
+
+code::
+r.reset.play;
+::
+
+section::Clocks and the convenience of .play
+
+When a routine receives a .play message, control (of the routine) is redirected to a clock. The clock uses the receiver of the .wait message as a unit of time to schedule ("play") the routine.
+
+SuperCollider has three clocks, each of which has a help file.
+
+code::
+SystemClock		// the most accurate
+AppClock		// for use with GUIs
+TempoClock		// to schedule in beats
+::
+
+The .play message is a convenience that allows one to write
+
+code::
+r.reset.play;		// reset the routine before playing it
+::
+
+instead of
+
+code::
+SystemClock.play(r)
+::
+
+section::Scheduling synths with routines
+
+Enclose synths within routines. It's often the case that the synthdef used by the synth in routines should have an envelope with a doneAction parameter set to 2 (to deallocate the memory needed for the synth after its envelope has finished playing).
+
+code::
+(
+// DEFINE A SYNTHDEF
+SynthDef("fm2", {
+	arg bus = 0, freq = 440, carPartial = 1, modPartial = 1, index = 3, mul = 0.2, ts = 1;
+
+	// index values usually are between 0 and 24
+	// carPartial :: modPartial => car/mod ratio
+
+	var mod;
+	var car;
+
+	mod = SinOsc.ar(
+		freq * modPartial,
+		0,
+		freq * index * LFNoise1.kr(5.reciprocal).abs
+	);
+
+	car = SinOsc.ar(
+		(freq * carPartial) + mod,
+		0,
+		mul
+	);
+
+	Out.ar(
+		bus,
+		car * EnvGen.kr(Env.sine(1), doneAction: Done.freeSelf, timeScale: ts)
+	)
+}).add;
+)
+
+(
+// DEFINE A ROUTINE
+r = Routine({
+
+	12.do({
+		Synth(
+			"fm2",
+			[
+				\bus, 2.rand, \freq, 400.0.rrand(1200),
+				\carPartial, 0.5.rrand(2), \ts, 0.5.rrand(11)
+			]
+		);
+		s.queryAllNodes;
+		"".postln.postln.postln.postln.postln;
+		2.wait;
+	})
+});
+)
+
+// PLAY THE ROUTINE
+r.reset.play;
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Process synths spawned in a routine through effects that run outside of the routine.
+
+code::
+(
+// DEFINE A SYNTHDEF
+SynthDef("echoplex", {
+	ReplaceOut.ar(
+		0,
+		CombN.ar(
+			In.ar(0, 1),
+			0.35,
+			[Rand(0.05, 0.3), Rand(0.05, 0.3)],
+			// generate random values every time a synth is created
+			7,
+			0.5
+		)
+	)
+}).add;
+
+// DEFINE GROUPS TO CONTROL ORDER-OF-EXECUTION
+// attach a ~source group to the head of the rootnode and
+// an ~effects group to the tail of the rootenode
+~source = Group.head(s);
+~effect = Group.tail(s);
+
+// DEFINE A ROUTINE
+r = Routine({
+
+	// loop is the same as inf.do, eg, create an infinite loop that runs forever
+	loop({
+		Synth.head(	// attach the synth to the head of the ~source group
+			~source,
+			"fm2",
+			[
+				\outbus, 0, \freq, 400.0.rrand(1200), \modPartial, 0.3.rrand(2.0),
+				\carPartial, 0.5.rrand(11), \ts, 0.1.rrand(0.2)]
+		);
+		s.queryAllNodes;
+		2.wait;
+	})
+});
+
+// TURN ON EFFECTS
+Synth.head(~effect, "echoplex");
+Synth.tail(~effect, "echoplex");
+)
+// PLAY THE ROUTINE
+r.reset.play;
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+go to link::Tutorials/Mark_Polishook_tutorial/20_Debugging::
+
+
+title:: 20_Debugging
+summary:: Mark Polishook tutorial
+categories:: Tutorials>Mark_Polishook_tutorial
+related:: Tutorials/Mark_Polishook_tutorial/00_Introductory_tutorial
+
+section::My code doesn't work!
+
+Code doesn't always run as one might hope. In such cases, SuperCollider sometimes tells you why and sometimes it doesn't. When SuperCollider does supply information, it's usually to describe either a syntax or a runtime error.
+
+When SuperCollider doesn't give information, it's often because the code works but not as expected. Example of this are synths (nodes) that execute in the wrong order (a source placed after, instead of before, an effect) and adding instead of multiplying (biasing an amplitude instead of scaling it).
+
+For context, here are links that describe debugging (fixing errors in code) in languages other than SuperCollider.
+
+list::
+## http://www.elanus.net/book/debugging.html
+## http://www.javaworld.com/javaworld/jw-07-1996/jw-07-javascript.html
+## http://heather.cs.ucdavis.edu/~matloff/UnixAndC/CLanguage/Debug.html
+::
+
+go to link::Tutorials/Mark_Polishook_tutorial/21_Syntax_errors::
+
+
+title:: 21_Syntax_errors
+summary:: Mark Polishook tutorial
+categories:: Tutorials>Mark_Polishook_tutorial
+related:: Tutorials/Mark_Polishook_tutorial/00_Introductory_tutorial
+
+section::Syntax and grammar
+
+Before it actually runs a program, SuperCollider examines the code to ensure that syntax and grammar are correct. For example, are all variable names and/or keywords spelled correctly in a program? Are statements terminated by semi-colons?
+
+If syntax or grammar errors are found, SuperCollider writes a notification to the post window. Such messages are descriptive but terse.
+
+code::
+* ERROR: Parse error
+   in file 'selected text'
+   line 1 char 2 :
+  4,
+-----------------------------------
+* ERROR: Command line parse failed
+nil
+::
+
+section::Common errors
+
+numberedList::
+## the name of a class or a variable is misspelled
+## a variable is used before being declared
+## a parenthesis or a square or curly brace is missing or used in the wrong context
+## a required comma or semicolon is missing or used improperly
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Two helpful commands in the SuperCollider Edit menu:
+
+numberedList::
+## "Go to Line ..." transports you to the line number of your choice. Use this when an error message identifies the line number on which a problem occurred.
+
+## "Find" searches for words or phrases. Use "Find" to locate code that has been identified in error messages or to replace all instances of an improperly spelled word.
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+go to link::Tutorials/Mark_Polishook_tutorial/22_Runtime_errors::
+
+
+title:: 22_Runtime_errors
+summary:: Mark Polishook tutorial
+categories:: Tutorials>Mark_Polishook_tutorial
+related:: Tutorials/Mark_Polishook_tutorial/00_Introductory_tutorial
+
+section::Runtime errors
+
+Runtime errors occur while a program is executing.
+
+section::Common errors
+
+numberedList::
+## an object receives a message which it doesn't understand
+## a binary operation (addition, subtraction, multiplication, etc.) can't be performed
+## a value other than true or false appears in a conditional (boolean) test
+## a file can't be opened (a primitive fails)
+::
+
+section::Object doesn't understand
+
+In the case of
+
+code::
+3.createRuntimeError
+::
+
+SuperCollider prints a four-part error notification to the post window. The parts of the notification are ERROR, RECEIVER, ARGS, and CALL STACK, as in
+
+code::
+ERROR: Message 'createRuntimeError' not understood.
+RECEIVER:
+   Integer 3
+ARGS:
+Instance of Array {    (057E7560, gc=01, fmt=01, flg=11, set=00)
+  indexed slots [0]
+}
+CALL STACK:
+	DoesNotUnderstandError-reportError
+		arg this = <instance of DoesNotUnderstandError>
+	Nil-handleError
+		arg this = nil
+		arg error = <instance of DoesNotUnderstandError>
+	Object-throw
+		arg this = <instance of DoesNotUnderstandError>
+	Object-doesNotUnderstand
+		arg this = 3
+		arg selector = 'createRuntimeError'
+		arg args = [*0]
+	< closed FunctionDef >  (no arguments or variables)
+	Interpreter-interpretPrintCmdLine
+		arg this = <instance of Interpreter>
+		var res = nil
+		var func = <instance of Function>
+	Process-interpretPrintCmdLine
+		arg this = <instance of Main>
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+The ERROR section explains what went wrong. The RECEIVER section names the class of the object to which the message was sent. The ARGS section says how many arguments were included in the message. Read the CALL STACK from the bottom to the top to see where the error happened. Reading from bottom to top means going from
+
+code::
+Process-interpretPrintCmdLine
+::
+
+to
+
+code::
+Interpreter-interpretPrintCmdLine
+::
+
+to
+
+code::
+Object-doesNotUnderstand
+::
+
+to
+
+code::
+Object-throw
+::
+
+to
+
+code::
+Nil-handleError
+::
+
+to
+
+code::
+DoesNotUnderstandError-reportError
+::
+
+which is the first line in the stack.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+code::
+DoesNotUnderstandError-reportError
+::
+
+is the mechanism that prints the error notification to the post window. Select it and press cmd-j to see how it works (how it prints the notification).
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Execute
+
+code::
+$a * $b
+::
+
+to create another runtime error message.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+The ERROR, RECEIVER, ARGS, and CALL STACK headers in the post window explain the problem: Instances of class Char have no knowledge of multiplication.
+
+code::
+ERROR: Message '*' not understood.
+RECEIVER:
+   Character 97 'a'
+ARGS:
+Instance of Array {    (067F5470, gc=C4, fmt=01, flg=00, set=01)
+  indexed slots [1]
+      0 : Character 98 'b'
+}
+CALL STACK:
+	DoesNotUnderstandError-reportError
+		arg this = <instance of DoesNotUnderstandError>
+	Nil-handleError
+		arg this = nil
+		arg error = <instance of DoesNotUnderstandError>
+	Object-throw
+		arg this = <instance of DoesNotUnderstandError>
+	Object-doesNotUnderstand
+		arg this = $a
+		arg selector = '*'
+		arg args = [*1]
+	< closed FunctionDef >  (no arguments or variables)
+	Interpreter-interpretPrintCmdLine
+		arg this = <instance of Interpreter>
+		var res = nil
+		var func = <instance of Function>
+	Process-interpretPrintCmdLine
+		arg this = <instance of Main>
+::
+
+section::Uninitialized variable (binary operation fails)
+
+Here, the variable a is initialized to an integer and the variable b isn't initialized. Multiplying a (the integer 10) by b (nil, the value that SuperCollider uses for uninitialized data) will create a runtime error.
+
+code::
+(
+var a = 10;	// a is declared and initialized
+var b;		// b declared but not initialized, so it defaults to nil
+
+t = Task({
+
+	4.do({ arg item, i;
+
+		if(i != 3)
+			{ i.postln } 		// print the value of i if it doesn't equal 3
+			{ (a * b).postln };	// when i equals 3, do a * b
+						// ... which is a problem if b is nil
+		1.wait;
+
+	})
+
+});
+t.start;
+)
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+The printout shows the code ran successfully until the index, i, reached 3, which is when a * b happened. The ERROR, RECEIVER, ARGS, and CALL STACK headers describe the problem.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+code::
+a Task
+0
+1
+2
+ERROR: binary operator '*' failed.
+RECEIVER:
+   nil
+ARGS:
+Instance of Array {    (067D92B0, gc=CC, fmt=01, flg=00, set=01)
+  indexed slots [2]
+      0 : Integer 10
+      1 : nil
+}
+CALL STACK:
+	DoesNotUnderstandError-reportError
+		arg this = <instance of BinaryOpFailureError>
+	Nil-handleError
+		arg this = nil
+		arg error = <instance of BinaryOpFailureError>
+	Object-throw
+		arg this = <instance of BinaryOpFailureError>
+	Object-performBinaryOpOnSomething
+		arg this = nil
+		arg aSelector = '*'
+		arg thing = 10
+		arg adverb = nil
+	Integer-*
+		arg this = 10
+		arg aNumber = nil
+		arg adverb = nil
+	< FunctionDef in closed FunctionDef >
+		arg item = 3
+		arg i = 3
+	Integer-do
+		arg this = 4
+		arg function = <instance of Function>
+		var i = 3
+	< FunctionDef in closed FunctionDef >  (no arguments or variables)
+	Routine-prStart
+		arg this = <instance of Routine>
+		arg inval = 758.000000
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+section::True, false, or other
+
+A value other than true or false in a boolean test, as in
+
+code::
+if(x=4) { "this is ok"};
+::
+
+produces
+
+code::
+ERROR: Non Boolean in test.
+RECEIVER:
+   Integer 4
+CALL STACK:
+	MethodError-reportError
+		arg this = <instance of MustBeBooleanError>
+	Nil-handleError
+		arg this = nil
+		arg error = <instance of MustBeBooleanError>
+	Object-throw
+		arg this = <instance of MustBeBooleanError>
+	Object-mustBeBoolean
+		arg this = 4
+	< closed FunctionDef >  (no arguments or variables)
+	Interpreter-interpretPrintCmdLine
+		arg this = <instance of Interpreter>
+		var res = nil
+		var func = <instance of Function>
+	Process-interpretPrintCmdLine
+		arg this = <instance of Main>
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Correcting the test clause fixes the problem.
+
+code::
+if(x==4) { "this is ok"};
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+section::Primitive fails
+
+Asking for the length of a non-existent file creates a runtime error. The notification shows what went wrong (a C code primitive failed).
+
+code::
+f = File("i_don't_exist", "r");
+f.length;
+
+ERROR: Primitive '_FileLength' failed.
+Failed.
+RECEIVER:
+Instance of File {    (067D9970, gc=C4, fmt=00, flg=00, set=01)
+  instance variables [1]
+    fileptr : nil
+}
+CALL STACK:
+	MethodError-reportError
+		arg this = <instance of PrimitiveFailedError>
+	Nil-handleError
+		arg this = nil
+		arg error = <instance of PrimitiveFailedError>
+	Object-throw
+		arg this = <instance of PrimitiveFailedError>
+	Object-primitiveFailed
+		arg this = <instance of File>
+	File-length
+		arg this = <instance of File>
+	< closed FunctionDef >  (no arguments or variables)
+	Interpreter-interpretPrintCmdLine
+		arg this = <instance of Interpreter>
+		var res = nil
+		var func = <instance of Function>
+	Process-interpretPrintCmdLine
+		arg this = <instance of Main>
+::
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+

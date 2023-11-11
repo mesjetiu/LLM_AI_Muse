@@ -1,0 +1,2969 @@
+title:: audio_rate_mapping
+summary:: audio mapping in ProxySpace
+categories:: JITLib>Tutorials
+
+code::
+// todo. expand(numChannels) message
+
+p = ProxySpace.push(s.boot);
+p.fadeTime = 3;
+// some filters
+~f1 = { |a_in=#[0,0], freq=500, dt=0.01| Ringz.ar(a_in, freq, dt) };
+~f2 = { |a_in=#[0,0], dt=0.1| CombL.ar(a_in, 0.5, dt, 15 * dt) };
+~f3 = { |a_in=#[0,0], freq=30| a_in * LFSaw.ar(freq.neg).max(0) };
+
+// some sources
+~x1 = { LFPulse.kr(SinOsc.kr(0.2).exprange(2, 200)) * PinkNoise.ar(0.5.dup) };
+~x2 = { Dust.ar(SinOsc.kr(0.2, [0, pi]).exprange(2, 2000)) };
+
+// the output
+~out.play;
+~out = { |a_in=#[0,0]| a_in };
+
+// some mappings by hand:
+~out.mapn(\a_in, ~x1);
+~out.xmapn(\a_in, ~x2);
+
+~out.xmapn(\a_in, ~f1); ~f1.xmapn(\a_in, ~x1);
+~out.xmapn(\a_in, ~f2); ~f2.xmapn(\a_in, ~x1);
+~out.xmapn(\a_in, ~f2); ~f2.xmapn(\a_in, ~x1);
+~f2.xset(\dt, 0.01);
+
+~mx1 = { MouseX.kr(0.0001, 1, 1) };
+~f2.xmap(\dt, ~mx1);
+
+~out.xmapn(\a_in, ~f3); ~f3.xmapn(\a_in, ~f2); ~f2.xmapn(\a_in, ~x1);
+// this should maybe be:
+// ~f2 --(\a_in)--> ~f3 --(\a_in)--> ~out
+
+~mx1 = { LFNoise1.kr(0.1).exprange(0.0001, 1) };
+~mF = { ~mx1.kr.linexp(0, 1, 1, 10000) };
+~f3.xmap(\freq, ~mF);
+
+~f1.mapn(\a_in, ~x2);
+~f2.xmapn(\a_in, ~f1);
+
+~f1.xmapn(\freq, ~mF, \dt, ~mx1);
+
+~x2 = { Impulse.ar(SinOsc.kr(0.2, [0, pi]).exprange(2, 200)) };
+~x1 = { Saw.ar(20, 0.5.dup) * ~x2.ar };
+~out = ~x1;
+
+
+// possible schema:
+/*
+
+px.map knows always already the number of channels of a proxy, so can decide whether
+to use map or mapn. (map always would mean flat mapping).
+
+px.mapn could do tricky things like:
+px.mapn(\a_in2, [mono1, mono2])
+px.mapn(\a_in2, stereo) would still work
+px.mapn(\a_in2, [stereo, mono]) could use the first of the stereo chans and the mono
+how to get at the second arg of the stereo in? or it could mix/wrap.
+--> px.mapn([\a_inx, \a_iny], stereo)
+
+px.mapn(\a_in, stereo) would take the first of the stereo channels
+px.map(\a_in, stereo) would use the first of the stereo channels
+px.mapn(\a_in, [mono, mono]) would use the first channel
+
+mappings could be saved as is and if the proxy rebuilds with a different channel size, it would unfold?
+
+
+*/
+::
+
+
+title:: basic_live_coding_techniques
+summary:: basic live coding techniques
+categories:: JITLib>Tutorials, Tutorials>JITLib
+
+basic live coding techniques ("object style") without the use of JITLib
+
+more to come..
+
+using a simple environment. this looks just like ProxySpace, but works differently. for the difference, see link::Tutorials/JITLib/jitlib_basic_concepts_01:: and link::Tutorials/JITLib/jitlib_basic_concepts_02::.
+
+code::
+d = (); // create a new environment
+d.push; // push it to current
+
+// this synthdef can be changed on the fly, but the synth will
+// not change from this. use expression [1] for replacing a given synth
+(
+SynthDef(\x, { |out, freq = 440|
+	Out.ar(out,
+		Ringz.ar(Dust.ar(40), freq, 0.1)
+	)
+}).send(s)
+)
+
+// send a first synth:
+~s1 = Synth(\x);
+
+// [1]
+// now you can play around with these lines, as well as with the synth def above
+~s1 = Synth.replace(~s1, \x, [\freq, 3000]);
+~s1.set(\freq, 4000);
+
+// add a bus:
+
+~b1 = Bus.control(s);
+~b1.set(350);
+~s1.map(\freq, ~b1);
+
+// set the bus to different values:
+
+~b1.set(100);
+~b1.xline(800, 5);
+
+~s3 = { Out.kr(~b1, MouseX.kr(300, 900, 1)) }; // add some mouse control on the fly
+~s3.free; // remove it again.
+
+
+
+// finish:
+
+~b1.free;
+d.clear;
+d.pop;
+::
+
+
+title:: jitlib_asCompileString
+summary:: asCompileString in JITLib
+categories:: JITLib>Tutorials
+
+code::
+{ 10 + 6 * ~harry }.asCompileString;
+::
+
+Many objects understand strong::.storeOn::, which a way to post their string that is needed to reproduce them by compilation. Sometimes one wants to store a certain configuration of a proxy space, which can be done
+if all functions used are closed functions.
+
+code::
+// an example how ProxySpace can document its current state:
+
+p = ProxySpace.push(s);
+
+
+(
+~ctl1 = {
+	var z = 1;
+	4.do { |i| z = z * SinOsc.kr(i.sqrt, i+[0,0.2]) };
+	z
+};
+
+~ctl2[0] = { LFNoise2.kr([20,20],20) };
+~ctl2[1] = {
+	LFNoise2.kr([20,20],20) * LFNoise0.kr([20,20],20)
+};
+
+~out = {
+	SinOsc.ar(~freq.kr, 0, 0.1)
+};
+
+~freq[0] = { ~ctl1.kr(2) + ~ctl2.kr(2) + 400 };
+~freq[5] = ~ctl1.wrap2(~ctl2) * ~ctl1 / (~ctl2 + ~ctl1);
+
+~pat = Pbind(\freq, Pfunc({ 1.2.rand }));
+~z = 9;
+~out.set(\freq, 760, \ffreq, 20);
+)
+
+p.asCompileString;
+
+// the document message creates a new document which it posts the code into
+
+p.document;		// document everything
+p.document([\out]); 	// document all dependants of ~out
+p.document([\ctl1]);	// document all dependants of ~ctl1
+::
+
+Ndefs and NodeProxies can also store their full state as a code string:
+code::
+// Ndef with source
+Ndef(\x, { Saw.ar(\freq.kr(234), 0.1) });
+Ndef(\x).asCode;
+// returns:
+"Ndef('x', { Saw.ar(\freq.kr(234), 0.1) });
+"
+
+// Ndef with source and settings
+Ndef(\a,  { Saw.ar(\freq.kr, 0.1) }).set(\freq, 123);
+Ndef(\a).asCode;
+// returns:
+"(
+Ndef('a', { Saw.ar(\freq.kr, 0.1) });
+Ndef('a').set('freq', 123);
+);
+"
+
+// anonymous nodeproxy - returns example code with interpreter variable "a = ..."
+z = NodeProxy.new.source = { DC.ar };
+z.asCode
+// returns:
+"a = NodeProxy.new.source_({ DC.ar });"
+
+// nodeproxy  in a pushed proxyspace, which is also playing
+p = ProxySpace.push(s);
+~x = { Saw.ar(\freq.kr(234), 0.1) };
+~x.play;
+~x.asCode;
+// returns code that assumes there is a pushed proxyspace:
+"(
+~x = { Saw.ar(\freq.kr(234), 0.1) };
+~x.play;
+);
+"
+~x.end.clear;
+p.pop; p.clear;
+::
+
+
+title:: jitlib_basic_concepts_01
+summary:: some placeholders in SuperCollider
+categories:: JITLib>Tutorials, Tutorials>JITLib
+related:: Overviews/JITLib, Tutorials/JITLib/jitlib_basic_concepts_02
+
+This helpfile explains some basic concepts of interactive programming with SuperCollider and proxy space.
+
+section::What is a proxy?
+
+A proxy is a place holder that is often used to operate on something that does not yet exist. For example, an emphasis::OutputProxy:: is used to represent multiple outputs of a ugen, even if only one ugen is created eventually. Any object can have proxy behaviour (it may delegate function calls to different objects for example) but specially functions and references can be used as operands while they keep their referential quality.
+
+See also: link::Classes/OutputProxy::, link::Classes/Function::, link::Classes/Ref::
+
+Further reading: link::Classes/NodeProxy::, link::Classes/ProxySpace::, link::Classes/Ndef::
+
+subsection::using a Ref as a proxy
+
+code::
+// reference example
+
+// create a new Ref object
+y = `(nil);
+
+// you can start to calculate with y, even if its value is not yet given:
+z = y + 10; // returns a function
+
+// now the source can be set:
+y.value = 34;
+
+// the function z can be evaluated now.
+z.value
+
+
+// the same without a reference does not work:
+
+y = nil; // empty y first
+
+z = y + 10; // this fails.
+
+// also an array does not provide this referentiality:
+
+y = [nil]; // array with nil as element
+
+z = y + 10; // this fails.
+
+// an environment without sufficient defaults has the same problem:
+
+currentEnvironment.postln; // anEnvironment
+~x; // access the environment: there is nothing stored: nil
+~x = 9; // store something
+~x; 	// now 9 is stored
+~x + 100; // calculate with it
+
+currentEnvironment.postln; // the value is stored in the environment
+
+~y + ~x; // cause an error: ~y is nil.
+~y = -90; // set ~y
+
+~y + ~x; // this works.
+::
+
+subsection::using a Function as a proxy
+
+code::
+// a function can serve the same purpose
+
+y = nil; // empty y first
+z = { y } + 10;	// this does not fail, instead it creates a new function, which
+		// does not fail when evaluating it after y is set to 34.
+
+y = 34;
+z.value;
+::
+
+see also client side proxies like link::Classes/Tdef::, link::Classes/Pdefn::, link::Classes/Pdef::, link::Classes/Fdef::
+
+section::NodeProxy, ProxySpace, Ndef
+
+For interactive programming it can be useful to be able to use something before it is there - it makes evaluation order more flexible and allows to postpone decisions to a later moment. Some preparations have to be done usually - like above, a reference has to be created. In other situations this sort of preparation is not enough, for example if one wants to apply mathematical operations on signals of running processes on the server.
+
+note:: Wherever examples are given with Ndef, they apply to ProxySpace and NodeProxy: code::Ndef(\x, 5);:: is the same as:  code:: ~x = 5;:: in ProxySpace, and code::a = NodeProxy.new; a.source = 5;::::
+
+code::
+// boot the server
+s.boot;
+
+// two proxies on a server. calculation rate is audio rate, number of channels is 2
+y = NodeProxy.audio(s, 2);
+z = NodeProxy.audio(s, 2);
+
+// use them in calculation
+z.play;
+z.source = y.sin * 0.2;
+
+
+// set its source now.
+y.source = { Saw.ar([300, 301], 4*pi) };
+
+// the source can be of various type, one of them would be a number:
+y.source = 0.0;
+
+// post the source
+y.source;
+
+// end them, free their bus number
+y.clear;
+z.clear;
+::
+
+In order to provide a simple way of creating node proxies, a proxy space can be used.
+So the above reads like this:
+
+code::
+p = ProxySpace.push(s.boot); // store proxy space in p so it can be accessed easily.
+~z.play;
+
+
+~z = ~y.sin * 0.2;
+
+
+~y = { Saw.ar([300, 301], 4*pi) };
+
+
+// clear the space (all proxies)
+p.clear;
+
+// move out of the proxyspace.
+p.pop;
+::
+
+Another, very common way to access node proxies is link::Classes/Ndef:: (this is the same as the above, just written with Ndef):
+
+code::
+Ndef(\z).play;
+
+Ndef(\z, Ndef(\y).sin * 0.2);
+
+Ndef(\y, { Saw.ar([300, 301], 4 * pi) });
+
+Ndef.clear;
+::
+
+The class Ndef uses link::Classes/ProxySpace:: internally to store its place holders.
+
+
+Further reading: link::Classes/NodeProxy::, link::Classes/ProxySpace::, link::Classes/Ndef::
+
+next: link::Tutorials/JITLib/jitlib_basic_concepts_02::
+
+
+title:: jitlib_basic_concepts_02
+summary:: proxy space - basic concepts
+categories:: JITLib>Tutorials, Tutorials>JITLib
+related:: Overviews/JITLib, Tutorials/JITLib/jitlib_basic_concepts_01, Tutorials/JITLib/jitlib_basic_concepts_03
+
+external structure of the node proxy, referencing in proxyspace and environments.
+
+This document covers:
+
+list::
+## link::#a) normal environment lookup#a) normal environment lookup::
+## link::#b) a proxyspace as an environment#b) a proxyspace as an environment::
+## link::#c) using the proxyspace to change processes on the fly#c) using the proxyspace to change processes on the fly::
+## link::#d) when are the node proxies initialized?#d) when are the node proxies initialized?::
+## link::#e) moving out of the proxy space#e) moving out of the proxy space::
+## link::#f) using ProxySpace together with other Environments#f) using ProxySpace together with other Environments::
+::
+
+section::a) normal environment lookup
+
+code::
+currentEnvironment.postln; // anEnvironment (if not, you haven't left it from last helppage..)
+
+~a; // access the environment: there is nothing stored: nil
+~a = 9; // store something
+~a; 	// now 9 is stored
+~a + 100; // calculate with it
+
+currentEnvironment.postln; // the value is stored in the environment
+
+~b + ~a; // cause an error: ~b is nil.
+~b = -90; // set ~b
+
+~b + ~a; // now this works.
+
+// note that you can always access environments (or ProxySpaces) from outside as well:
+
+x = currentEnvironment;
+x[\a] + x[\b] // equivalent to ~b + ~a
+
+// or, if "know" is true, you can access named things with message-like syntax:
+x.know = true;
+x.a + x.b;
+::
+
+further readings: link::Classes/Environment::
+
+section::b) a proxyspace as an environment
+
+one can replace the current environment with a special type of environment, a ProxySpace. this environment represents processes that play audio on a server.
+
+code::
+p = ProxySpace.new(s);	// create a new environment, store it in variable p for now.
+p.push;			// push it, so i becomes the current environment.
+currentEnvironment.postln;
+currentEnvironment === p; // and they are identical.
+
+~x;		// accessing creates a NodeProxy (uninitialized) automatically.
+~x + ~y;	// this works immediately, because the lookup does not return nil,
+		// but a placeholder (proxy) instead
+
+p.postln;	// now there are two empty placeholders in the environment.
+::
+
+section::c) using the proxyspace to change processes on the fly
+
+code::
+// boot the server
+s.boot;
+
+
+// as soon as a sound function (or any compatible input) is assigned to a proxy
+// this sound plays on its own private bus (so it is not audible yet.)
+(
+~x = {
+	RLPF.ar(Impulse.ar(4) * 5, [850, 950], 0.2)
+}
+)
+
+// the proxy has been initialized by its first assignment.
+// it plays at audio rate (because we have assigned an audio rate ugen function)
+// and it has two channels (because the function has stereo output)
+
+~x.index;	// a nodeproxy owns a private bus, so its signal can be used in diverse ways.
+		// what is the proxy bus's index? this posts the index to the postwindow
+		// before it was .ir(nil), now it is initialized to .ar(2)
+
+~x.bus // what is the proxy's bus?
+
+
+~x.play;	// now listen to it. a monitor is created (see Monitor) that plays the signal
+		// onto a public bus - by default, this is bus 0, the first audio output bus.
+		// This monitoring function is independent of the proxy itself.
+		// for further info see: jitlib_basic_concepts_03 (part c)
+
+
+
+// the sound function can be changed at any time:
+(
+~x = {
+	RLPF.ar(Impulse.ar([5, 7]) * 5, [1450, 1234], 0.2)
+}
+)
+
+// You can tune a sound function to your liking very easily
+// by replacing it with little (or big) variations:
+
+		// filter freqs higher:
+~x = {	RLPF.ar(Impulse.ar([5, 7]) * 5, [1800, 2000], 0.2) }
+
+		// same pulse ratio (5/8), different pulse tempo:
+~x = {	RLPF.ar(Impulse.ar([5, 8] * 3.2) * 5, [1800, 2000], 0.2) }
+
+		// different filter:
+~x = {	Ringz.ar(Impulse.ar([5, 8] * 3.2), [1800, 2000], 0.05) }
+
+// and if you set the proxy's fadeTime, you can create little
+// textures by hand:
+
+~x.fadeTime = 3;
+		// different filter freqs every time:
+~x = {	Ringz.ar(Impulse.ar([5, 8] * rrand(0.5, 1.5)) * 0.5, ({ exprand(200, 4000) } ! 2), 0.05) }
+
+
+
+// here is another proxy:
+~y = { Pan2.ar(Dust.ar(20), 0) };
+
+~y.bus; // it has two channels, just as the ~x., but it plays on another (private) bus.
+
+// note that ~y is not audible directly,
+// but it can be used like a UGen in any other proxy:
+(
+~x = {
+	RLPF.ar(~y.ar * 8, [1450, 1234], 0.2)
+}
+)
+
+// when the proxy changes, the result changes dynamically:
+
+~y = { Impulse.ar(MouseX.kr(2, 18, 1)) * [1, 1] };
+
+~y = { PinkNoise.ar(MouseX.kr(0, 0.2) * [1, 1]) };
+
+~y = { Impulse.ar([MouseX.kr(2, 18, 1), MouseY.kr(2, 18, 1)]) };
+
+
+
+// stop listening. the proxies run in the background.
+
+~x.stop;
+
+~y.bus; // ~y is playing on a different bus ...
+~x.bus; // than ~x.
+
+// we can also listen to ~y directly:
+~y.play;
+
+// to remove a proxy source, nil can be used:
+
+~y = nil;
+
+// stop listening
+~y.stop;
+::
+
+further readings: link::Tutorials/JITLib/proxyspace_examples::, link::Classes/Bus::, link::Classes/AbstractFunction::
+
+section::d) when are the node proxies initialized?
+
+By default, bus initialization of a node proxy happens as soon as it is used for the first time. Later inputs are adjusted to this bus, as far as it is possible.
+
+code::
+~z2 = { LFNoise0.kr([1, 2, 3, 4]) }; // a four channel control rate proxy
+~z2.bus.postln;
+
+~z100 = 0.5;	// a constant value creates a single channel control rate proxy.
+~z100.bus.postln;
+
+~z34.ar(3) 		// the first access (with a numChannels argument) allocates the bus
+~z34.bus.postln;	// a 3 channel audio proxy
+
+// these initializations can be removed by using clear:
+~z34.clear;
+~z34.bus.postln;
+::
+
+This initialisation happens whenever the proxy is first used. Later, the proxy can be accessed with other rate/numChannels combinations as needed (rates are converted, numChannels are extended by wrapping, sources with too many channels are wrapped).
+
+code::
+~u.play(0, 2);	// initialize 2 audio channels (default). 0 is the output bus number.
+		// if the proxy is not initialized, play defaults to 2 channels.
+		// here it is explicitly given only to make it more clear.
+~u = { PinkNoise.ar(0.2) }; // use only one
+~u.numChannels;	// 2 channels
+~u.clear; // ... or clear it.
+
+// if evaluated the other way round, only one channel is used:
+
+~u = { PinkNoise.ar(0.2) };	// initialize 1 audio channel
+~u.play(0, 2);			// play 2 channels: the 1 channel is expanded into 2.
+				// numChannels of .play defaults to the proxy's numChannels.
+				// here it is explicitly given, so to expand the channels
+~u.numChannels;	// 1 channel
+~u.clear;
+::
+
+note::In sc3.7, you can dynamically adjust the rate and numChannels using the link::Classes/NodeProxy#-mold:: message, and the proxy can also be set to dynamically adjust to the input (link::Classes/NodeProxy#-reshaping::).::
+
+code::
+~u.mold(1); // reshape to mono.
+::
+
+It can be useful to explicitly initialize proxies that use variable type inputs:
+
+code::
+~b.kr(8); ~c.ar;	// explicit initialisation
+p.postln;		// post the whole proxy space
+::
+
+section::e) moving out of the proxy space
+
+code::
+// play the audio:
+~x.play;
+
+~x = { PinkNoise.ar(0.5) };
+
+// p is the proxy space:
+p.postln;
+
+// to end all processes in p, use end:
+p.end(2) // 2 seconds fade out.
+
+// to remove all processes and return their bus indices to the bus allocator, use clear:
+p.clear;
+
+currentEnvironment.postln;
+
+// restore original environment:
+
+p.pop;
+
+currentEnvironment.postln;
+
+~a + ~b; // the old values are still here.
+
+p === currentEnvironment; // this is not the case anymore.
+
+// remove the content, so the garbage collector can release their memory.
+p.clear;
+
+// note that if you use this kind of accessing scheme, the objects are not garbage collected
+// until the keys are set to nil. This is a common mistake when using normal environments.
+
+// clear all in the normal environment:
+
+currentEnvironment.clear;
+::
+
+section::f) using ProxySpace together with other Environments
+
+using proxy space as an access scheme for node proxies can get in the way of the normal use of environments as pseudo variables. Here are some ways to cope with this.
+
+code::
+//////////////	EnvirDocument is currently unavailable ////////////
+//// if you want to keep using the current environment as usual, you can restrict the
+//// scope of proxyspace to one document (note: this is mac-only currently)
+//
+//EnvirDocument(p, "proxyspace");	// to test this, check for currentEnvironment here
+//					// and in the envir document.
+
+// you can also access the proxy space and the proxies in it indirectly:
+p[\x].play;
+p[\x] = { SinOsc.ar(450, 0, 0.1) };
+
+// or: when the proxyspace is pushed, you can use a normal environment indirectly:
+p.push;
+d = ();
+d[\buffer1] = Buffer.alloc(s, 1024);
+d.use { ~buffer1.postln; ~zz = 81; }; // for more than one access to the environment, use .use
+
+
+// to access the inner environment of proxy space directly,
+// e.g. to check whether a proxy exists, one can use .envir:
+
+p.envir.postln;
+p.envir[\x].postln;	// a proxy with this name exists
+p.envir[\nono].postln;	// there is no proxy with this name.
+
+// p[\nono].postln;	// this access would have created a new proxy called \nono.
+::
+
+previous: link::Tutorials/JITLib/jitlib_basic_concepts_01:: next: link::Tutorials/JITLib/jitlib_basic_concepts_03::
+
+
+
+title:: jitlib_basic_concepts_03
+summary:: proxyspace - basic concepts
+categories:: JITLib>Tutorials, Tutorials>JITLib
+related:: Overviews/JITLib, Tutorials/JITLib/jitlib_basic_concepts_02, Tutorials/JITLib/jitlib_basic_concepts_04
+
+internal structure of the node proxy, node order and the parameter context
+
+list::
+## link::#a) NodeProxy slots#a) slots::
+## link::#b) fade time#b) fadeTime::
+## link::#c) play/stop, send/free, pause/resume#c) play/stop, send/release, pause/resume, clear::
+## link::#d) The parameter context#d) the parameter context::
+::
+
+A NodeProxy has two internal contexts in which the objects are inserted: The group, which is on the server, and the nodeMap, which is a client side parameter context. As the group can contain an order of synths, there is a client side representation, in which the source objects are stored (see link::Classes/Order::).
+
+code::
+// make new space
+p = ProxySpace.push(s.boot);
+~z.play; ~y.ar; // explicitly initialize proxies
+::
+
+section::a) NodeProxy slots
+
+One node proxy can hold several objects in an execution order. The index can be any positive integer.
+
+code::
+// the initial slot (0) is used when assigning directly.
+// ~y is still unused, we will add it later.
+
+~z = (~y * pi).sin * 0.1 * { LFSaw.kr(LFNoise1.kr(0.1 ! 3).sum * -18).max(0.2) };
+
+// other slot numbers are accessed by positive integers:
+
+~y[1] = { Saw.ar([400, 401.3], 0.4) };
+~y[0] = { Saw.ar([300, 301], 0.4) };
+
+// to remove one of them, nil is used:
+
+~y[0] = nil;
+
+// what is to be found at index 1?
+~y.objects[1] // a playing interface
+~y.objects[1].source.postcs // the function that was put in.
+~y.objects.postcs 	// this returns objects in the slots.
+~y.source.postcs	// this returns the function in slot 0 only.
+::
+
+multiple assignment
+
+code::
+// the function is assigned to the slots from 1 to 4
+~z[1..4] = { SinOsc.ar(exprand(300, 600), 0, LFTri.kr({exprand(1, 3)} ! 3).sum.max(0)) * 0.1 };
+
+
+// the function is assigned to the slots 1, 2 and 3 (subsequent)
+~z[1..] = [ {SinOsc.ar(440) * 0.1 }, { SinOsc.ar(870) * 0.08 }, { SinOsc.ar(770) * 0.04 }];
+
+// if no slot is given, all other slots are emptied
+~z = { OnePole.ar(Saw.ar([400, 401.3], 0.3), 0.95) };
+
+~z.end;
+~y.end;
+::
+
+section::b) fade time
+
+code::
+// setting the fadeTime will allow cross fades.
+// in case of an audio rate proxy the fade is pseudo-gaussian
+// in case of a control rate proxy it is linear.
+
+~z.play;
+
+~z.fadeTime = 5.0; // 5 seconds
+~z = { max(SinOsc.ar([300, 301]), Saw.ar([304, 304.3])) * 0.1 };
+~z = { max(SinOsc.ar(ExpRand(300, 600)), Saw.ar([304, 304.3])) * 0.1 };
+
+// the fadeTime can be set effectively at any time
+~z.fadeTime = 0.2;
+~z = { max(SinOsc.ar(ExpRand(3, 160)), Saw.ar([304, 304.3])) * 0.1 };
+::
+
+note::
+the fadeTime is also used for the operations xset and xmap. (see below)
+::
+
+section::c) play/stop, send/free, pause/resume
+
+there are a couple of messages a NodeProxy understands that are related to play, stop etc. Here is what they do.
+
+subsection::play/stop
+
+this pair of messages is related to the monitoring function of the proxy. play starts monitoring, stop ends the monitoring. emphasis::if the proxy group is playing:: (this can be tested with .isPlaying), play will not affect the proxie's internal behaviour in any way. Only if it is not playing (e.g because one has freed the group by cmd-period) it starts the synths/objects in the proxy. Stop never affects the internal state of the proxy.
+
+code::
+// first hit cmd-period.
+~z = { max(SinOsc.ar(ExpRand(3, 160)), Saw.ar([304, 304.3])) * 0.1 };
+~z.play;		// monitor the proxy
+~z.stop;		// note that now the proxy is still playing, but only in private
+~z.isPlaying;		// is the group playing? yes.
+~z.monitor.isPlaying;	// is the monitor playing? no.
+::
+
+You can pass a vol argument to play to adjust the monitor volume without affecting the proxy internal bus volume.
+
+code::
+~z.play(vol:0.3);
+// while playing you can set the volume also:
+~z.vol = 0.8;
+::
+
+subsection::send / release
+
+this pair of messages controls the synths within the proxy. It does not affect the monitoring (see above). send starts a new synth, release releases the synth. strong::send:: by default releases the last synth. if the synth frees itself (doneAction 2) strong::spawn:: can be used.
+
+code::
+// first hit cmd-period.
+~z.play; // monitor. this starts also the synth, if the group wasn't playing.
+
+~z = { SinOsc.ar(ExpRand(20, 660) ! 2) * Saw.ar(ExpRand(200, 960) ! 2) * 0.1 };
+
+~z.release; // release the synth. the current fadeTime is used for fade out
+
+~z.send; // send a new synth. the current fadeTime is used for fade in
+
+~z.send; // send another synth, release the old
+
+~z.release;
+
+~z.stop;
+
+~z.play; // monitor. as the group was still playing, this does _not_ start the proxy.
+::
+
+in order to free the synths and the group together, strong::free:: is used:
+
+code::
+~z.free; // this does also not affect the monitoring.
+~z.play; // monitor. as the group was not playing, this starts the proxy.
+::
+
+in order to free the synths and the group, stop playback, strong::end:: is used.
+
+code::
+~z.end(3); // end in 3 sec
+::
+
+in order to rebuild the synthdef on the server, use strong::rebuild::. this is of course far less efficient than emphasis::send::, but it can make sense; e.g. the synthdef has random elements. UGens like Rand(300, 400) create new random values on every send, while client-side random functions like exprand(1, 1.3) only get built once; to force new decisions with these, one can use strong::rebuild::.
+
+code::
+(
+~z = {
+	Splay.ar(
+		SinOsc.ar(Rand(300,400) + ({exprand(1, 1.3)} ! rrand(1, 9)))
+		* LFCub.ar({exprand(30, 900)} ! rrand(1, 9))
+		* LFSaw.kr({exprand(1.0, 8.0)} ! rrand(1, 9)).max(0)
+		* 0.1
+	)
+};
+)
+
+~z.play;
+~z.rebuild;
+~z.send;	// send just creates a new synth - new freq, all else remains the same
+~z.rebuild;	// rebuild the synthdef, re-decide numbers of oscs
+~z.end;
+::
+
+subsection::pause / resume
+
+when paused, a node proxy still stays active, but every synth that is started is paused until the proxy is resumed again.
+
+code::
+~z.play;
+
+~z.pause; // pause the synth.
+
+~z = { SinOsc.ar({ExpRand(300, 660)} ! 2) * 0.1 };	// you can add a new function,
+							// which is paused.
+
+~z.resume; // resume playing.
+::
+
+Note that pause/resume causes clicks with audio rate proxies, which do not happen when pauseing control rate proxies.
+
+subsection::clear
+
+clear removes all synths, the group, the monitor and releases the bus number.
+
+code::
+~z.clear;
+~z.bus;		// no bus
+~z.isNeutral;	// not initialized.
+::
+
+note that when other processes use the nodeproxy these are not notified. So clearing has to be done with regard to this.
+
+section::d) The parameter context
+
+what happens to function arguments?
+
+code::
+~y.play;
+~y = { arg freq=500; SinOsc.ar(freq * [1, 1.1]) * 0.1 };
+::
+
+now the argument 'freq' is a control in the synth (just like in SynthDef) which you can change by the strong::'set':: message.
+
+code::
+~y.set(\freq, 440);
+
+// unlike in synths, this context is kept and applied to every new synth:
+
+~y = { arg freq=500; Formant.ar(50, freq * [1, 1.1], 70) * 0.1 };
+::
+
+the message strong::xset:: is a variant of set, to crossfade the change using the current fadeTime:
+
+code::
+~y.fadeTime = 3;
+~y.xset(\freq, 600);
+
+// the same context is applied to all slots:
+
+~y[2] = { arg freq=500; SinOsc.ar(freq * [1, 1.1]) * LFPulse.kr(Rand(1, 3)) * 0.1 };
+~y.xset(\freq, 300);
+::
+
+the parameter context also can keep bus mappings. a control can be mapped to any emphasis::control proxy:: :
+
+code::
+~c = { MouseX.kr(300, 800, 1) };
+~y.map(\freq, ~c);
+
+// also here the context is kept:
+
+~y = { arg freq=500; Formant.ar(4, freq * [1, 1.1], 70) * 0.1 };
+::
+
+the message strong::xmap:: is a variant of map, to crossfade the change using the current fadeTime:
+
+code::
+~y.set(\freq, 440);
+~y.xmap(\freq, ~c);
+::
+
+to remove a setting or a mapping, use unmap / unset.
+
+code::
+~y.unmap;
+::
+
+also multichannel controls can be mapped to a multichannel proxy using strong::map:: :
+
+code::
+~c2 = { [MouseX.kr(300, 800, 1), MouseY.kr(300, 800, 1)] };
+~y = { arg freq=#[440, 550]; SinOsc.ar(freq) * SinOsc.ar(freq + 3) * 0.05 };
+~y.map(\freq, ~c2);
+::
+
+the parameter context can be examined:
+
+code::
+~y.nodeMap;
+
+// apart from the parameters explicitly set,
+// it contains the bus index and the fadeTime
+
+// for more information, see NodeMap
+
+
+p.clear(8); // clear the whole proxy space, in 8 secs.
+::
+
+previous: link::Tutorials/JITLib/jitlib_basic_concepts_02:: next: link::Tutorials/JITLib/jitlib_basic_concepts_04::
+
+
+title:: jitlib_basic_concepts_04
+summary:: Timing in NodeProxy
+categories:: JITLib>Tutorials, Tutorials>JITLib
+related:: Overviews/JITLib, Tutorials/JITLib/jitlib_basic_concepts_03
+
+Changes that happen to NodeProxy, most importantly setting its source, are normally done
+whenever the put method is called (or, in ProxySpace, the assignment operation = ).
+Sometimes it is desirable to time these changes relative to a clock.
+
+list::
+## link::#a) clock#a) clock::
+## link::#b) quant and offset#b) quant and offset::
+## link::#c) connecting client and server tempo#c) client and server tempo::
+## link::#d) sample accurate output#d) sample accurate output::
+::
+
+section::a) clock
+
+generally, every node proxy can have its own time base, usually a tempo clock. the clock is responsible for the timing of insertion of new functions, per default at the next beat of the clock.
+
+code::
+p = ProxySpace.push(s.boot);
+~x.play; ~y.play;
+
+// these two synths are started at the time when they are inserted:
+~x = { Ringz.ar(Impulse.ar(1), 400, 0.05).dup };
+~y = { Ringz.ar(Impulse.ar(1), 600, 0.05).dup };
+
+// adding a common clock:
+~x.clock = TempoClock.default; ~x.quant = 1.0;
+~y.clock = TempoClock.default; ~y.quant = 1.0;
+
+// now they are in sync
+~x = { Ringz.ar(Impulse.ar(1), 400, 0.05).dup };
+~y = { Ringz.ar(Impulse.ar(1), 600, 0.05).dup };
+
+// for simplicity, one can provide a clock and a quant for a whole proxy space:
+
+p.clock = TempoClock.default; p.quant = 1.0;
+~y = { Ringz.ar(Impulse.ar(1), 800, 0.05).dup };
+
+~z.play;
+~z = { Ringz.ar(Impulse.ar(1), [500, 514], 0.8).dup * 0.1};
+~z = { Ringz.ar(Impulse.ar(1), exprand(300, 400 ! 2), 1.8).dup * 0.1 };
+~z = { Ringz.ar(Impulse.ar(2), exprand(300, 3400 ! 2), 0.08).dup * 0.2 };
+~z.end;
+
+p.clear; // clear all.
+::
+
+subsection::sequence of events
+
+When inserting a new function into the proxy, the synthdef is built, sent to the server who sends back a message when it has completed. Then the proxy waits for the next beat to start the synth. When using node proxies with patterns, the patterns are played using the clock as a scheduler.
+
+section::b) quant and offset
+
+In order to be able to control the offset/quant point of insertion, the 'quant' instance variable can be used, which can be either a number or an array of the form [quant, offset], just like in pattern.play(quant).
+
+code::
+~z.play; ~y.play;
+~z = { Ringz.ar(Impulse.ar(2), exprand(300, 3400 ! 2), 0.08).dup * 0.2 };
+~y.quant = [1, 0.3]; // offset of 0.3, quant of 1.0
+~y = { Ringz.ar(Impulse.ar(1), 600, 0.05).dup };
+~y.quant = [2, 1/3]; // offset of 1/3, quant of 2.0
+~y = { Ringz.ar(Impulse.ar(0.5), 600, 0.05).dup };
+::
+
+quant and offset scheduling is used for the following operations:
+strong::play::, strong::put::, strong::removeAt::, strong::setNodeMap::, strong::wakeUp::, strong::rebuild:: (and the rebuild operations lag, setRates, bus_). For more information about quantisation in SC, see link::Classes/Quant::.
+
+section::c) connecting client and server tempo
+
+a ProxySpace has the method link::Classes/ProxySpace#-makeTempoClock::, which creates an instance of link::Classes/TempoBusClock:: together with a node proxy (~tempo) which it keeps in sync.
+
+code::
+p.makeTempoClock(2.0); // create a new tempoclock with 2 beats/sec
+~y.play; ~x.play;
+~y.quant = 1; // set the quant back to 1 and the offset to 0
+~y = { Ringz.ar(Impulse.ar(~tempo.kr), 600, 0.05).dup }; // impulse uses tempo
+~x = Pbind(\instrument, \default, \freq, Pseq([300, 400], inf)); // pattern uses tempoclock
+
+p.clock.tempo = 1.0; // set the tempo to 1
+p.clock.tempo = 2.2; // set the tempo to 2.2
+
+~x.free;
+~y.free;
+::
+
+section::d) sample accurate output
+
+for efficiency, NodeProxy uses a normal Out UGen for writing to its bus. If sample accurate playback is needed (link::Classes/OffsetOut::), the ProxySynthDef class variable link::Classes/ProxySynthDef#-sampleAccurate:: can be set to true. Note that for audio through from external sources, this creates a delay for up to one block (e.g. about 1 ms.)
+
+code::
+// example
+
+ProxySynthDef.sampleAccurate = false;
+
+~x.play;
+
+// the grain frees itself
+~x = { SinOsc.ar(800) * EnvGen.ar(Env.perc(0.001, 0.03, 0.4), doneAction: Done.freeSelf) };
+
+
+// jittery tone.
+(
+r = Routine {
+	loop {
+		200.do { arg i;
+			~x.spawn;
+			(0.005).wait;
+		};
+		1.wait;
+	}
+}.play;
+)
+
+ProxySynthDef.sampleAccurate = true;
+
+// steady tone, because sample accurate.
+
+~x.rebuild;
+
+r.stop;
+
+p.clear; // remove all.
+::
+
+previous: link::Tutorials/JITLib/jitlib_basic_concepts_03::
+
+
+title:: jitlib_efficiency
+summary:: Efficient coding with NodeProxy
+categories:: JITLib>Tutorials, Tutorials>JITLib
+related:: Overviews/JITLib
+
+link::Classes/NodeProxy:: (and, in disguise link::Classes/ProxySpace::) represent "pronouns", placeholders for all kinds of sound producing objects that are able to write to a specific bus on the server.
+
+To prepare such an object for playing, different objects require different things, some very little, some more. As working with the placeholders does not show directly which actions are very efficient and which ones are not, it is shown here more in detail.
+
+This is also important if you want to automate certain processes (e.g. for control by an external interface or a task) - some things (a) are not meant to be used in certain ways and better solutions should be used instead then, others are much more efficient (b, c).
+
+code::
+a = NodeProxy.audio;
+ProxySpace.push;
+
+a.source = ... is equivalent to ~a = ...
+a.add(...) a.put(0,...) a[0] = ... ~a[0] = ... are equivalent in cpu load.
+::
+
+section::a) rebuild and send: manual rate
+
+the following code requires a rebuild and send of a link::Classes/SynthDef:: and is thus most cpu-expensive. though fine for slower use (esp.hand-use) for automatisation it is better to build a synthdef and assign it.
+
+code::
+~a = { someUGenFunction };
+~a = Patch(instrname, args);
+~a = SynthDef(\name, { someUGenFunction });
+
+
+// the same applies to rebuilding the graphs:
+~a.rebuild
+
+// this rebuild is also used when setting one of the following properties:
+server, bus, setRates
+::
+
+section::b) starting synths and tasks
+
+the following code sends commands to the server to start synths, which is load mainly on the server and depends on the characteristics of the synthdef:
+
+code::
+~a = \synthDefName; // the synthdef is already on the server
+~a = Pbind(\instrument, name, \freq, ...);
+~a = Routine({ loop({ s.sendMsg("/s_new", name, ...)}) });
+
+~a.refresh; ~a.wakeUp; // waking up a stopped proxy does not require a resend
+::
+
+these resend the synth with new properties
+
+code::
+~a.send(...)	// directly sends a message. the mapping bundle of the proxy is cached
+~a.sendAll(...)
+
+		// for the following the bundle is recalculated if a new key is assigned.
+		// if you use the same key with a different value, the bundle is modified
+
+~a.xset(...) ~a.xmap(...)
+~a.nodeMap_(a map)
+~a.fadeToMap(a map)
+
+// synthdefs for these things are on the server already.
+
+~a.gate, ~a.env, ~a.line, ~a.xline
+
+// some more calculations have to be made on client side, so if automated, it is better to use
+// the above or a lag in the synth.
+
+~a.lineAt(key), ~a.xlineAt(key)
+::
+
+section::c) sending messages to running synths
+
+for these the least calculation has to be done
+
+code::
+~a.set(\freq, 400, \dt, 0.2); ~a.unset(\freq); // if running the bundle will be recalculated
+~a.map(\freq, ~lfo); ~a.unmap(\freq);
+~a.fadeTime = 2;
+~a.gateAt(key)
+
+// for avoiding bundle recalculation you can directly talk to the group.
+// this setting will not be kept when you exchange the synth
+~a.group.set(\freq, 500);
+::
+
+section::switching audio
+
+(this can now be done with map!)
+
+todo: rewrite this part.
+
+control rate sources can be easily and efficiently switched using strong::map:: or strong::xmap::. here is an example of how already running audio rate inputs can be switched. it is about as efficient as (b) - first example (setting a defname). it works only for 1 or 2 channels right now.
+
+code::
+(
+s.boot;
+p = ProxySpace.push(s);
+)
+
+
+
+~out.play;
+
+~s1 = { Blip.ar(Rand(32,15), 100, 0.5) };
+~s2 = { SinOsc.ar(740, 0, 0.1) };
+~s3 = { Pulse.ar(140, 0.2, 0.1) };
+
+
+~out = { Pan2.ar(~mix.ar(1), MouseX.kr(-1,1)) };
+
+~mix.read(~s1);
+~mix.read(~s2);
+~mix.read(~s3);
+
+//resetting the source stops reading
+~mix = \default;
+
+//now you can also crossfade audio efficiently:
+~mix.fadeTime = 1.5;
+
+~mix.read(~s1);
+~mix.read(~s2);
+~mix.read(~s3);
+
+// automation:
+(
+t = Task({
+	var dt;
+	loop({
+		dt = rrand(0.01, 0.3);
+		~mix.fadeTime = dt;
+		~mix.read([~s1, ~s2, ~s3].choose);
+		dt.wait;
+	});
+});
+)
+
+t.play(SystemClock);
+
+
+// change the sources meanwhile:
+~s1 = { Blip.ar(105, 100, 0.2) };
+~s2 = { SinOsc.ar(350, 0, 0.1) };
+~s3 = { Pulse.ar(60, 0.2, 0.1) };
+
+~freq = { MouseX.kr(200, 600, 2) };
+
+~s1 = { Blip.ar(~freq.kr * 0.3, 10, 0.2) };
+~s2 = { SinOsc.ar(~freq.kr, 0, 0.1) };
+~s3 = { Pulse.ar(~freq.kr * 0.2, 0.2, 0.1) };
+
+
+t.stop;
+
+// note that when restarting ~out, the inputs have to be woken up.
+// to avoid this, you can add the inputs to the mix nodeMap parents:
+
+~mix.nodeMap.parents.putAll( (s1: ~s1, s2: ~s2, s3: ~s3) );
+
+// also the task can be added to the proxy:
+(
+~mix.task = Routine({
+	loop({
+		~mix.fadeTime = rrand(0.01, 0.1);
+		~mix.read([~s1, ~s2, ~s3].choose);
+		[0.2, 0.4].choose.wait;
+	});
+});
+)
+::
+
+
+title:: jitlib_fading
+summary:: Fade envelope generation and crossfading
+categories:: JITLib>Tutorials, Tutorials>JITLib
+related:: Overviews/JITLib
+
+link::Classes/NodeProxy:: ( link::Classes/ProxySynthDef:: ) looks for inner envelopes in your definition function to find out whether a fade envelope is needed or not. In case there is no other inner possibility of freeing the synth, either
+
+list::
+## link::#a)_automatic_fade_envelope_generation#a):: a fade envelope is created (audio / control rate output)
+## link::#b)_automatic_free_instead_of_crossfade#b):: the synth is freed directly with no fading (scalar output or doneAction 1)
+
+## link::#c)_custom_fade_envelope#c):: if you provide a gate arg and a doneAction 2 to your ugenGraph function, this is supposed to be a fade envelope for the synth
+
+## link::#d)_synthdef_name_assignment#d):: if a synthdef name is used, case link::#c)_custom_fade_envelope#c):: is supposed
+::
+
+... so in most cases, there is not much to worry about, just these two points ar important, if one wants to use a self releasing synth or a different out ugen:
+
+list::
+## link::#e)_own_free_responsibility#e):: own responsibility: if the function creates a ugengraph that can be freed by trigger or other things, it waits for this action instead of the node proxy freeing the synth.
+
+## link::#f)_own_output_responsibility#f):: own out channel with 'out' arg: the control ugen with the name 'out' is set to the output channel number of the proxy.
+::
+
+code::
+p = ProxySpace.push(s.boot);
+
+~out.play;
+
+// note that you can use this functionality also when using ProxySynthDef directly:
+
+d = ProxySynthDef("test", { arg freq=440; SinOsc.ar(freq) }).send(s);
+s.sendMsg("/s_new", "test", 1980, 1, 1, \freq, 340);
+s.sendMsg("/n_set", 1980, \freq, 240);
+s.sendMsg("/n_set", 1980, \fadeTime, 4);
+s.sendMsg("/n_set", 1980, \gate, 0);
+::
+
+section::a) automatic fade envelope generation
+
+code::
+// no inner envelope and audio / control rate output
+(
+~out = { PinkNoise.ar([1,1]*0.1) };
+)
+
+(
+~kout = { PinkNoise.kr([1,1]*0.1) };
+)
+::
+
+section::b) automatic free instead of crossfade
+
+code::
+// inner envelope that cannot free the synth, the synth is freed when a new
+// function is assigned.
+(
+~out = { arg t_trig; EnvGen.kr(Env.asr, t_trig) * PinkNoise.ar([1,1]) };
+)
+~out.group.set(\t_trig, 1);
+
+(
+~out = { arg t_trig; EnvGen.kr(Env.asr, t_trig) * SinOsc.ar([1,1]*400) };
+)
+~out.group.set(\t_trig, 1);
+
+
+// for a scalar output also no fade env is created, but the synth is freed (without fading)
+(
+~out = { Out.ar(0, SinOsc.ar(Rand(440,550),0,0.2)) };
+)
+::
+
+section::c) custom fade envelope
+
+code::
+// when a gate arg is provided, and the env can free the synth, this envelope
+// is supposed to be the fade envelope for the synth: no extra fade env is created.
+
+~out = { arg gate=1; EnvGen.kr(Env.asr, gate, doneAction: Done.freeSelf) * 0.2 * SinOsc.ar([1,1]*Rand(440,550)) };
+
+
+// if you want to use the proxy's fadeTime, you should provide a fadeTime argument:
+
+~out = { arg gate=1, fadeTime = 0.1; EnvGen.kr(Env.asr(fadeTime, 1, fadeTime), gate, doneAction: Done.freeSelf) * 0.2 * SinOsc.ar([1,1] * Rand(440, 550)) };
+::
+
+
+
+section::d) SynthDef name assignment
+
+code::
+// if a symbol is used as input, the defname of a def on the server is supposed
+// to represent a SynthDef that has a gate, an out input and can free itself.
+(
+~out = \default;
+)
+
+// this is the minimal requirement arguments for such a use (similar to Pbind)
+(
+SynthDef("test", { arg gate=1, out;
+	Out.ar(out, Formant.ar(300, 200, 10) * EnvGen.kr(Env.asr, gate, doneAction: Done.freeSelf))
+}).send(s);
+)
+
+// you can also provide a fadeTime arg, which is set by the proxy:
+(
+SynthDef("test", { arg gate=1, out, fadeTime=1;
+	Out.ar(out,
+		Formant.ar(Rand(20,40), 600, 10, 0.2)
+		* EnvGen.kr(Env.asr(fadeTime,1,fadeTime), gate, doneAction: Done.freeSelf)
+	)
+}).send(s);
+)
+
+~out = \test;
+~out.fadeTime = 3;
+::
+
+note::
+the strong::number of channels:: is your own responsibility when using symbols, as a symbol carries no channel information! (in all other cases the number of channels is wrapped or expanded to fit the proxy)
+::
+
+code::
+// if the synthdef has a fixed duration envelope, it won't use the proxy's fadeTime
+(
+SynthDef("test", { arg gate=1, out;
+	Out.ar(out,
+		Formant.ar(Rand(20,40), 600, 10, 0.6)
+		* EnvGen.kr(Env.perc, gate, doneAction: Done.freeSelf)
+	)
+}).send(s);
+)
+
+~out = \test;
+::
+
+section::e) own free responsibility
+
+code::
+//inner envelope that can free the synth, no extra fade env is created:
+(
+~out = { arg t_trig; EnvGen.kr(Env.asr, t_trig, doneAction: Done.freeSelf) * PinkNoise.ar([1,1]) };
+)
+~out.group.set(\t_trig, 1); //end it
+
+~out.send; //start a new synth
+~out.group.set(\t_trig, 1); //end it again
+
+
+// if there is a ugen that can free the synth, no extra fade env is created either,
+// but it supposes the synth frees itself, so if a new function is assigned it does
+// not get freed.
+(
+~out = { arg t_trig;
+	FreeSelf.kr(t_trig);
+	PinkNoise.ar([1,1]*0.3);
+};
+)
+~out.group.set(\t_trig, 1);
+::
+
+section::f) own output responsibility
+
+code::
+// the arg name 'out' can be used to output through the right channel.
+// of course with this one can get problems due to a wrong number of channels
+// or deliberate hacks.
+
+//left speaker
+(
+~out = { arg out;
+	OffsetOut.ar(out, Impulse.ar(10,0,0.1))
+}
+)
+
+//both speakers
+(
+~out = { arg out;
+	OffsetOut.ar(out, Impulse.ar([10, 10],0,0.1))
+}
+)
+
+//this plays out into another adjacent bus: this is a possible source of confusion.
+(
+~out = { arg out;
+	OffsetOut.ar(out, Impulse.ar([10, 10, 10],0,0.1))
+}
+)
+::
+
+
+title:: jitlib_networking
+summary:: networked programming
+categories:: JITLib>Tutorials, Tutorials>JITLib
+related:: Overviews/JITLib
+
+emphasis::please note any problems, I'll try to add solutions here.::
+
+section::1) using ProxySpace with more than one client, with separate bus spaces
+
+note::
+if only one client is using a remote server, only step (a) and step (d) are relevant. The clientID argument can be left out then.
+::
+
+subsection::before you start
+
+remember to synchronize your system clocks. This can be done by:
+definitionList::
+## in macOS || SystemPreferences>Date&Time: set emphasis::"Set Date & Time automatically":: to true.
+## in Linux || set the ntp clock
+::
+a local time server is better than the apple time server. if you cannot sync the time, you can set the server latency to code::nil::. This will break the pattern's functionality though.
+
+
+subsection::a) boot the (remote) server and create a local model
+
+code::
+s = Server("serverName", NetAddr(hostname, port));
+s.options.maxLogins = 16; // or the maximum number of participants in the network
+s.boot; // you cannot directly boot a remote server instance, but this initializes everything that is needed
+::
+definitionList::
+## serverName || can be any name
+## hostname || is an ip address, or if you have a name resolution, a network name
+## port || the port on which the server is listening. default is 57110
+::
+see link::Classes/Server::
+
+subsection::b) from each client, initialize the default node and set notify to true:
+
+code::
+s.boot; // this will initialize the tree and start notification
+
+// if needed, a server window can be created:
+s.makeWindow;
+::
+
+
+subsection::c) now create a ProxySpace from the server:
+
+code::
+p = ProxySpace.push(s);
+::
+
+
+
+title:: ProxySpace examples
+summary:: Some ProxySpace examples
+categories:: JITLib>Tutorials, Tutorials>JITLib
+related:: Overviews/JITLib, Classes/ProxySpace
+
+section::main examples
+
+subsection::preparing the environment
+
+code::
+(
+s.boot;
+p = ProxySpace.push(s);
+)
+::
+
+subsection::playing and monitoring
+
+code::
+// play some output to the hardware busses, this could be any audio rate key.
+~out.play;
+
+~out = { SinOsc.ar([400, 408] * 0.8, 0, 0.2) };
+
+
+// replacing the node. the crossfade envelope is created internally.
+~out = { SinOsc.ar([443, 600 - Rand(0,200)], 0, 0.2) };
+~out = { Resonz.ar(Saw.ar(40 + [0,0.2], 1), [1200, 1600], 0.1) + SinOsc.ar(60 * [1,1.1],0,0.2) };
+~out = { Pan2.ar(PinkNoise.ar(0.1), LFClipNoise.kr(2)) };
+::
+
+subsection::setting the node controls
+
+code::
+~out = { arg rate = 2; Pan2.ar(PinkNoise.ar(0.1), LFClipNoise.kr(rate)) };
+~out.set(\rate, 30);
+~out = { arg rate = 2; Pan2.ar(Dust.ar(2000, 0.2), LFClipNoise.kr(rate)) };
+~out.set(\rate, 2);
+::
+
+subsection::referencing between proxies
+
+code::
+~lfo = { LFNoise2.kr(30, 300, 500) };
+~out = { SinOsc.ar(~lfo.kr, 0, 0.15) };
+~out = { SinOsc.ar(~lfo.kr * [1, 1.2], 0, 0.1) * Pulse.ar(~lfo.kr * [0.1, 0.125], 0.5) };
+~lfo = { LFNoise1.kr(30, 40) + SinOsc.kr(0.1, 0, 200, 500) };
+~out = { SinOsc.ar(~lfo.kr * [1, 1.2], 0, 0.1) };
+~lfo = 410;
+::
+
+subsection::math
+
+code::
+// unary operators
+~lfo2 = { SinOsc.kr(0.5, 0, 600, 100) };
+~lfo = ~lfo2.abs;
+~lfo2 = { SinOsc.kr(1.3, 0, 600, 100) };
+
+// binary operators
+~lfo3 = { LFTri.kr(0.5, 0, 80, 300) };
+~lfo = ~lfo2 + ~lfo3;
+~lfo = ~lfo3;
+~lfo = (~lfo3 / 50).sin * 200 + 500 * { LFTri.kr(~lfo.kr * 0.0015, 0, 0.1 * ~lfo3.kr / 90, 1) };
+~lfo3 = { Mix(~lfo2.kr * [1, 1.2]) };
+
+currentEnvironment.free; // free all node proxies
+~out.stop; // free the playback synth.
+::
+
+subsection::waking up a network of proxies
+
+code::
+// hit cmd-. to stop all nodes
+// start again
+~out.play;
+::
+
+subsection::feeding back
+
+(one buffer size delay)
+
+code::
+~out = { SinOsc.ar([220, 330], ~out.ar(2).reverse * LFNoise2.kr(0.5, 4pi), 0.4) };
+
+// there is no immediacy: hear the buffer size cycle
+~out = { Impulse.ar(1 ! 2) + (~out.ar(2) * 0.99) };
+
+
+
+// SuperCollider 'differential equations'
+
+~out = { SinOsc.ar(Slope.ar(~out.ar) * MouseX.kr(1000, 18000, 1)) * 0.1 + SinOsc.ar(100, 0, 0.1) };
+
+(
+~out = { var z, zz;
+	z = Slope.ar(~out.ar);
+	zz = Slope.ar(z);
+	SinOsc.ar(Rand(300,410), z) *
+	SinOsc.ar(zz * 410)
+	* 0.1 + Decay2.ar(Pan2.ar(Dust.ar(600), MouseX.kr(-1,1)), 0.01, 0.05);
+}
+)
+::
+
+subsection::multiple control
+
+code::
+(
+~out = { arg freqOffest;
+	var ctl;
+	ctl = Control.names(\array).kr(Array.rand(8, 400, 1000));
+	Pan2.ar(Mix(SinOsc.ar(ctl + freqOffest, 0, 0.1 / 8)), LFNoise0.kr(2))
+};
+)
+
+~out.setn(\array, Array.exprand(8, 400, 2000));
+~out.set(\freqOffest, rrand(300,200));
+~out.map(\freqOffest, ~lfo);
+
+// a simpler short form for this is:
+(
+~out = { arg freqOffest=0, array = #[ 997, 777, 506, 553, 731, 891, 925, 580 ];
+	Pan2.ar(Mix(SinOsc.ar(array + freqOffest, 0, 0.1 / 8)), LFNoise0.kr(2))
+};
+)
+::
+
+subsection::mixing
+
+code::
+~out1 = { SinOsc.ar(600, 0, 0.1) };
+~out2 = { SinOsc.ar(500, 0, 0.1) };
+~out3 = { SinOsc.ar(400, 0, 0.1) };
+~out = ~out2 + ~out1 + ~out3;
+
+~out = ~out1 + ~out2;
+~out = ~out1;
+
+// another way is:
+~out = { SinOsc.ar(600, 0, 0.1) };
+~out.add({ SinOsc.ar(500, 0, 0.1) });
+~out.add({ SinOsc.ar(400, 0, 0.1) });
+
+// or with direct access:
+~out[1] = { SinOsc.ar(500 * 1.2, 0, 0.1) };
+~out[2] = { SinOsc.ar(400 * 1.2, 0, 0.1) };
+::
+
+subsection::restoring / erasing
+
+code::
+~out.free; // this frees the group, not the play synth x
+~out.send; // resends all synths
+~out.free;
+~out.send(nil, 1); // this sends at index 1 only
+~out.send;
+
+// removing:
+~out.removeLast;
+~out.removeAt(0);
+
+// cleaning up, freeing the bus:
+~out.clear; // this neutralizes the proxy, and frees its bus
+::
+
+for more on the proxy slots see: link::Tutorials/JITLib/jitlib_basic_concepts_03::
+
+subsection::garbage collecting
+
+code::
+// often there are proxies playing that are not used anymore - this is good,
+// because they might be used again at any time.
+// this shows how to free unused proxies, such as ~out1, ~out2.
+
+~out.play;
+~out = { Pan2.ar(SinOsc.ar(~lfo.kr, 0, 0.2), sin(~lfo.kr / 10)) }; // ~lfo is kept, as its parents.
+~lfo = { LFNoise2.kr(3, 160, 400) };
+
+p.keysValuesDo { arg key, proxy; [key, proxy.isPlaying].postln };
+p.reduce; // all monitoring proxies (in this case ~out) are kept running.
+// equivalent: p.reduce(to: [~out]);
+p.keysValuesDo { arg key, proxy; [key, proxy.isPlaying].postln };
+
+// to remove everything else:
+p.postln;
+p.clean; // all monitoring proxies (in this case ~out) are kept.
+p.postln;
+
+// after ~out is stopped, it is removed, too:
+~out.stop; // stop monitor
+p.clean;
+p.postln; // empty space.
+::
+
+subsection::execution order
+
+code::
+// you can .play .kr or .ar also a name that is not yet used.
+// the rate is guessed as far as possible. on this topic see also: [the_lazy_proxy]
+
+~myOut.play; // play some key (audio rate is assumed)
+
+// the rate is determined from the first access:
+// like this ~lfo becomes control rate
+
+~myOut = { SinOsc.ar(~freq.kr * 2, 0, 0.1) };
+~freq = 900;
+~freq = { SinOsc.kr(115, 0, 70, 220) }
+
+~myOut = { SinOsc.ar(~otherFreq.ar * 2, 0, 0.1) };
+~otherFreq = { SinOsc.ar(115, 0, 70, 220) };
+
+currentEnvironment.clear; // clear every proxy in this environment and remove them. (same: p.clear)
+::
+
+subsection::setting the xfade time
+
+code::
+~out.play;
+
+~out.fadeTime = 4;
+~out = { SinOsc.ar(Rand(800, 300.0) * [1,1.1], 0, 0.1) };
+~out = { SinOsc.ar(Rand(800, 300.0) * [1,1.1], 0, 0.1) };
+~out.fadeTime = 0.01;
+~out = { SinOsc.ar(Rand(800, 300.0) * [1,1.1], 0, 0.1) };
+~out = { SinOsc.ar(Rand(800, 300.0) * [1,1.1], 0, 0.1) };
+
+~out.free(3);	// release the synths and the group with a given fadeTime without changing proxy time
+~out.stop;	// stop monitor
+::
+
+subsection::setting and mapping arguments
+
+code::
+~out.play;
+
+~out = { arg freq=500, ffreq=120; SinOsc.ar(freq*[1,1.1], SinOsc.ar(ffreq, 0, pi), 0.2) };
+~out.set(\freq, 400 + 100.rand2);
+~out.set(\freq, 400 + 100.rand2);
+~out.set(\ffreq, 30 + 20.rand2);
+~out.unset(\freq, \ffreq);	// remove the setting
+~out.set(\ffreq, 30 + 10.rand2, \freq, 500 + 200.rand2);
+
+
+// argument settings and mappings are applied to every new function
+~out = { arg freq=100, ffreq=20; SinOsc.ar(freq, SinOsc.ar(SinOsc.ar(ffreq)*ffreq, 0, pi), 0.2) };
+
+// mapping to other proxies
+~lfo = { SinOsc.kr(0.3, 0, 80, 100) };
+~out.map(\ffreq, ~lfo);
+
+~out = { arg freq=300, ffreq=20; Pulse.ar(freq * [1, 1.1] + SinOsc.ar(ffreq, 0, freq), 0.3, 0.1) };
+~out = { arg freq=300, ffreq=20; BPF.ar(LFSaw.ar(ffreq * [1, 1.1], 0, 1), freq, 0.2) };
+
+~lfo = { FSinOsc.kr(0.3, 0, 30, 200) + FSinOsc.kr(10, 0, 10) };
+~out = { arg freq=300, ffreq=20; SinOsc.ar(freq*[1,1.1], SinOsc.ar(ffreq, 0, pi), 0.1) };
+
+
+// crossfaded setting and mapping: fadeTime is used
+~out.fadeTime = 2;
+~out.xset(\freq, 9000);
+~out.xset(\freq, rrand(400, 700));
+
+~lfo = { FSinOsc.kr(0.1, 0, 30, 100) };
+~lfo2 = { LFClipNoise.kr(3, 100, 200) };
+~lfo3 = StreamKrDur(Pseq([Prand([530, 600],1), 700, 400, 800, 500].scramble, inf) / 3, 0.2);
+
+~out.xmap(\ffreq, ~lfo2);
+~out.xmap(\ffreq, ~lfo);
+~out.xmap(\ffreq, ~lfo3);
+
+// argument rates: just like a synthdef has input 'rates' (like \ir or \tr), a nodeproxy control
+// can be given a rate. this rate is used for each function passed into the proxy.
+
+// trigger inputs
+~out = { arg trig, dt=1; Decay2.kr(trig, 0.01, dt) * Mix(SinOsc.ar(7000 * [1.2, 1.3, 0.2])) }
+~out.setRates(\trig, \tr);
+
+// set the group, so the node proxy does not store the new value
+~out.group.set(\trig, 0.1, \dt, 0.1);
+~out.group.set(\trig, 0.4, \dt, 0.31);
+~out.group.set(\trig, 0.13, \dt, 2);
+
+// lagging controls:
+~out.lag(\xfreq, 1); // equivalent to ~out.setRates(\xfreq, 1);
+(
+~out = { arg trig, dt=1, xfreq=700;
+	Decay2.kr(trig, 0.01, dt) * Mix(SinOsc.ar(xfreq * [1.2, 1.3, 0.2]))
+};
+)
+~out.group.set(\trig, 0.1, \dt, 1, \xfreq, rrand(2000,9000));
+~out.group.set(\trig, 0.1, \dt, 0.5, \xfreq, rrand(2000,9000));
+~out.group.set(\trig, 0.1, \dt, 1, \xfreq, rrand(2000,9000));
+
+// changing the lag, the synth is reconstructed with the new lag:
+
+~out.lag(\xfreq, 0.01);
+~out.group.set(\trig, 0.1, \dt, 1, \xfreq, rrand(2000,9000));
+~out.group.set(\trig, 0.1, \dt, 1, \xfreq, rrand(2000,9000));
+~out.group.set(\trig, 0.1, \dt, 1, \xfreq, rrand(2000,9000));
+
+// removing the trig rate:
+~out.setRates(\trig, nil);
+
+// note that the same works with the i_ and the t_ arguments, just as it does in SynthDef
+::
+
+section::other possible inputs
+
+subsection::using a synthdef as input
+
+for a more systematic overview see: link::Tutorials/JITLib/jitlib_fading::
+
+code::
+// you have the responsibility for the right number of channels and output rate
+// you have to supply an 'out' argument so it can be mapped to the right channel.
+
+~out.play;
+~out = SynthDef("w", { arg out=0; Out.ar(out,SinOsc.ar([Rand(430, 600), 600], 0, 0.2)) });
+~out = SynthDef("w", { arg out=0; Out.ar(out,SinOsc.ar([Rand(430, 600), 500], 0, 0.2)) });
+
+
+// if you supply a gate it fades in and out. evaluate this several times
+(
+~out = SynthDef("w", { arg out=0, gate=1.0, fadeTime = 0.1;
+	Out.ar(out,
+		SinOsc.ar([Rand(430, 800), Rand(430, 800)], 0, 0.2)
+			* EnvGen.kr(Env.asr(fadeTime, 1, fadeTime), gate, doneAction: Done.freeSelf)
+	)
+	});
+)
+
+// once the SynthDef is sent, it can be assigned by name.
+// using this method, a gate argument should be
+// provided that releases the synth. (doneAction: Done.freeSelf)
+// this is very efficient, as the def is on the server already.
+
+// if the synth def is in the synthdesc lib (.add) its gate is detected.
+
+(
+SynthDef("staub", { arg out, gate=1, fadeTime = 0.1;
+	Out.ar(out,
+		Ringz.ar(Dust.ar(15), Rand(1, 3) * 3000*[1,1], 0.001)
+		* EnvGen.kr(Env.asr(fadeTime, 1, fadeTime), gate, doneAction: Done.freeSelf)
+	)
+}).add;
+)
+
+~out = \staub;
+
+
+
+// if you supply an envelope that frees itself, no bundle is sent to free it
+(
+~out = SynthDef("w", { arg out, lfo, f0=430;
+	Out.ar(out,
+		SinOsc.ar([Rand(f0, 800), Rand(f0, 800)]+lfo, 0, 0.2)
+			* EnvGen.kr(Env.perc(0.01, 0.03), doneAction: Done.freeSelf)
+	)
+	});
+)
+
+~out.spawn;
+~out.spawn([\f0, 5000]);
+fork { 5.do { ~out.spawn([\f0, 5000 + 1000.0.rand]); 0.1.wait; } }
+
+
+// when the synth description in the SynthDescLib is found for the symbol,
+// the proxy can determine whether to release or to free the synth.
+// so if there is no 'gate' arg provided and the def has a desc, the synth is
+// freed and not released.
+
+(
+SynthDef("staub", { arg out;
+	Out.ar(out, Ringz.ar(WhiteNoise.ar(0.01), 1000 * [1,1], 0.001))
+}).add; // store the synth def so it is added to the SynthDescLib
+)
+
+
+~out = \staub;
+~out = \staub;	// watching the synth count shows that the old synth is freed.
+~out = 0;	// now out plays continuous stream of zero.
+~out = nil;	// removes object and stops it.
+::
+
+subsection::using patterns
+
+code::
+// example
+
+(
+SynthDef(\who, { arg amp=0.1, freq=440, detune=0, gate=1, out=0, ffreq=800;
+	var env;
+	env = Env.asr(0.01, amp, 0.5);
+	Out.ar(out, Pan2.ar(
+		Formant.ar(freq + detune, ffreq, 30, EnvGen.kr(env, gate, doneAction: Done.freeSelf)), Rand(-1.0, 1.0))
+	)
+}).add;
+
+)
+
+~out.play;
+
+
+~out = Pbind(\instrument, \who, \freq, [600, 601], \ffreq, 800, \legato, 0.02);
+
+
+// embed a control node proxy into an event pattern:
+// this does not work for indirect assignment as \degree, \midinote, etc.,
+// because there is calculations in the event! if needed, these can be done in the SynthDef.
+
+~lfo = { SinOsc.kr(2, 0, 400, 700) };
+~out = Pbind(\instrument, \who, \freq, 500, \ffreq, ~lfo, \legato, 0.02);
+
+~lfo = { SinOsc.kr(SinOsc.kr(0.2, Rand(0,pi), 10, 10), 0, 400, 700) };
+
+~lfo = { LFNoise1.kr(5, 1300, 1500) };
+~lfo = { MouseX.kr(100, 5500, 1) };
+
+(
+~out = Pbind(
+		\instrument, \who,
+		\freq, Pseq([500, 380, 300],inf),
+		\legato, 0.1,
+		\ffreq, Pseq([~lfo, 100, ~lfo, 100, 300, 550], inf), // use it in a pattern
+		\dur, Pseq([1, 0.5, 0.75, 0.125]*0.4, inf)
+	);
+)
+
+// note that when you use a proxy within a non-event pattern it gets embedded as an object,
+// so this functionality is still standard
+
+// works only with control rate proxies. multichannel control rate proxies cause
+// multichannel expansion of the events:
+
+~lfoStereo = { LFNoise1.kr([1, 1], 1300, 1500) }; // 2 channel control rate proxy
+~out = Pbind(\instrument, \who, \ffreq, ~lfoStereo, \legato, 0.02).trace;
+~lfoStereo = { [MouseX.kr(100, 15500, 1), SinOsc.kr(SinOsc.kr(0.2, 0, 10, 10), 0, 400, 700)] }
+
+// btw: setting the clock will cause the pattern to sync:
+p.clock = TempoClock.default;
+p.clock.tempo = 2.0;
+p.clock.tempo = 1.0
+
+
+// patterns also crossfade, if an \amp arg is defined in the synthdef:
+// (evaluate a couple of times)
+~out.fadeTime = 3.0;
+(
+~out = Pbind(
+		\instrument, \who,
+		\freq, Pshuf([500, 380, 200, 510, 390, 300, 300],inf) * rrand(1.0, 2.0),
+		\legato, 0.1,
+		\ffreq, Pshuf([~lfo, 100, ~lfo, 100, 300, 550], inf),
+		\dur, 0.125 * [1, 2, 3, 2/3].choose
+	);
+)
+::
+
+subsection::using instruments and players
+
+note::
+for the following to work you will need to have the strong::cruciallib:: quark installed.
+::
+
+code::
+// pause and resume do not work yet.
+
+
+// store an instrument
+(
+Instr(\test,
+	{ arg dens=520, ffreq=7000; Ringz.ar(Dust.ar(dens, [1,1] * 0.1), ffreq, 0.02) }
+	);
+)
+
+~out = Patch(\test, [10, rrand(5000, 8000)]);
+~out.fadeTime = 3;
+
+
+(
+~out = InstrSpawner({ arg freq=1900,env,pan;
+	Pan2.ar(SinOsc.ar(freq, 0.5pi, 0.3) * EnvGen.kr(env, doneAction: Done.freeSelf), pan)
+},[
+	Prand([1500, 700, 800, 3000] + 170.rand2, inf),
+	Env.perc(0.002,0.01),
+	Prand([-1,1],inf)
+],0.125)
+)
+
+~out.clear;
+
+
+
+// does not work (yet).
+//~out.set(\dens, 120);
+//~out.xset(\dens, 1030);
+//~out.unmap(\ffreq);
+//~out.set(\ffreq, 500);
+::
+
+section::client side routines
+
+subsection::spawning
+
+code::
+~out.play;
+~out.awake = false; // allow sound object assignment without immediate sending
+
+// putting an synthdef into the node proxy without playing it right away
+// the synthdef has an envelope that frees by itself.
+(
+~out = SynthDef("a", { arg out=0, freq=800, pmf=1.0, pan;
+		var env, u;
+		env = EnvGen.kr(Env.perc(0.001, 0.04, 0.4),doneAction: Done.freeSelf); // envelope
+		u = SinOsc.ar(freq * Rand(0.9, 1.1), SinOsc.ar(pmf, 0, pi), env);
+		Out.ar(out, Pan2.ar(u, pan))
+	})
+);
+
+
+// create a task to repeatedly send grains
+(
+t = Task.new({
+	loop({
+		// starts a synth with the current synthdef at index 0
+		~out.spawn([\pmf, [1, 20, 300].choose, \pan, [0, -1, 1].choose]);
+		[0.1, 0.01, 0.25].choose.wait;
+	})
+});
+)
+
+t.start;
+t.stop;
+t.start;
+
+// note: if you want to avoid using interpreter variables (single letter, like "t"),
+// you can use Tdef for this. (see Tdef.help)
+
+// set some argument
+~out.set(\freq, 300);
+~out.set(\freq, 600);
+~out.map(\freq, ~lfo);
+~lfo = { SinOsc.kr(0.1, 0, 3000, 4000) };
+~lfo = { SinOsc.kr(0.1, 0, 600, 700) };
+~lfo.add({ Trig.kr(Dust.kr(1), 0.1) * 3000 });
+~lfo = 300;
+
+// change the definition while going along
+(
+~out = SynthDef("a", { arg out, freq=800;
+		var env;
+		env = EnvGen.kr(Env.perc(0.01, 0.1, 0.3),doneAction: Done.freeSelf);
+		Out.ar(out, Pulse.ar(freq * Rand([0.9,0.9], 1.1), 0.5, env) )
+	});
+)
+
+
+t.stop;
+~out.awake = true; // don't forget this
+// free all synths in this current ProxySpace
+currentEnvironment.clear;
+::
+
+subsection::granular synthesis: efficient code
+
+see also link::Tutorials/JITLib/jitlib_efficiency::
+
+code::
+~out.play;
+
+(
+SynthDef("grain", { arg i_out = 0, pan;
+	var env;
+	env = EnvGen.kr(Env.perc(0.001, 0.003, 0.2),doneAction: Done.freeSelf);
+	Out.ar(i_out, Pan2.ar(FSinOsc.ar(Rand(1000,10000)), pan) * env)
+}).send(s);
+)
+
+// a target for the grains
+~someInput.ar(2); // initialize to 2 channels audio
+~out = ~someInput;
+
+(
+t = Task({
+	loop({
+		s.sendMsg("/s_new","grain",-1,0,0,
+			\i_out, ~someInput.index, // returns the bus index of the proxy
+			\pan, [1, 1, -1].choose * 0.2
+		);
+		[0.01, 0.02].choose.wait;
+	})
+});
+)
+t.play;
+
+// different filters;
+
+~out.fadeTime = 1.0;
+
+~out = { BPF.ar(~someInput.ar, MouseX.kr(100, 18000, 1), 0.1) };
+
+~out = { CombL.ar(~someInput.ar * (LFNoise0.ar(2) > 0), 0.2, 0.2, MouseX.kr(0.1, 5, 1)) };
+
+~out = { RLPF.ar(~someInput.ar, LFNoise1.kr(3, 1000, 1040), 0.05) };
+
+
+t.stop;
+
+
+// end
+
+~out.stop;
+currentEnvironment.clear;
+ProxySpace.pop; // restore original environment
+::
+
+subsection::using multiple proxyspaces
+
+can be done while the server is not running: with p.wakeUp or p.play
+
+the environment can be played back.
+
+code::
+// quit server:
+
+s.quit;
+
+
+// create two proxyspaces without a running server
+(
+p = ProxySpace(s);
+q = ProxySpace(s);
+
+p.use({
+	~out = { Resonz.ar(~in.ar, ~freq.kr, 0.01) };
+	~in = { WhiteNoise.ar(0.5) };
+	~freq = { LFNoise2.kr(1, 1000, 2000) };
+});
+
+q.use({
+	~in = { Dust.ar(20, 0.1) };
+	~out = { Resonz.ar(~in.ar * 450, ~freq.kr, 0.005) };
+	~freq = { LFNoise2.kr(1, 400, 2000) };
+});
+)
+
+(
+// wait for the booted server
+s.waitForBoot({
+	// play the proxy at \out
+	p.play(\out);
+	q.play; // out is the default output
+});
+)
+::
+
+subsection::external access
+
+code::
+q[\in][1] = { Impulse.ar(2, 0, 0.5) }; // adding a synth at index 1
+
+// equivalent to
+q.at(\in).put(1, { Impulse.ar(7, 0, 0.5) });
+::
+
+subsection::connecting two spaces
+
+(must be on one server)
+
+code::
+(
+q.use({
+	~freq = 100 + p[\freq] / 2;
+})
+)
+::
+
+subsection::recording output
+
+(see also: link::Classes/RecNodeProxy::)
+
+code::
+r = p.record(\out, "proxySpace.aiff");
+
+// start recording
+r.unpause;
+
+// pause recording
+r.pause;
+
+// stop recording
+r.close;
+::
+
+subsection::push/pop
+
+code::
+// make p the currentEnvironment
+p.push;
+
+~freq = 700;
+~freq = 400;
+~freq = { p.kr(\freq) + LFNoise1.kr(1, 200, 300) % 400 }; // feedback
+~freq = 400;
+
+p.pop; // restore environment
+
+
+// make y the currentEnvironment
+q.push;
+
+~freq = 1000;
+~in = { WhiteNoise.ar(0.01) };
+
+q.pop; // restore environment
+
+q.clear;
+p.clear;
+::
+
+section::some more topics
+
+subsection::nodeproxy with numbers as input
+
+code::
+p = ProxySpace.push(s.boot);
+
+
+~out = { SinOsc.ar(~a.kr * Rand(1, 2), 0, 0.1) };
+~out.play;
+
+~a = 900;
+
+// these add up:
+~a[0] = 440;
+~a[1] = 220;
+~a[2] = 20;
+
+~a.fadeTime = 2;
+
+~a[0] = 300; // now there is a crossfade.
+~a[1] = { SinOsc.kr(5, 0, 20) };
+~a[2] = { SinOsc.kr(30, 0, 145) };
+
+
+
+// internally a numerical input is approximately replaced by:
+// (pseudocode)
+SynthDef("name", { arg out, fadeTime;
+	Out.kr(out,
+		Control.kr(Array.fill(proxy.numChannels, { the number }))
+			* EnvGate.new(fadeTime:fadeTime)
+	)
+});
+::
+
+
+title:: recursive_phrasing
+summary:: Recursive phrases and granular composite sounds
+categories:: JITLib>Tutorials
+related:: Overviews/JITLib, Classes/Pdef, Classes/PlazyEnvirN
+
+Pdef can be used as a global storage for event patterns. Here a way is provided by which these definitions can be used as an instrument that consists of several events (a emphasis::phrase::), such as a cloud of short grains. Furthermore, this scheme can be applied recursively, so that structures like a cloud of clouds can be constructed.
+
+When the event type code::\phrase:: is passed in, the event looks for a pattern in code::Pdef.all:: if it can find a definition.
+list::
+## if it finds one it plays this pattern in the context of the outer pattern's event.
+## if there is no definition to be found there, it uses a link::Classes/SynthDef:: with this name, if present.
+::
+
+When passing a emphasis::function:: to Pdef it creates a PlazyEnvirN internally. Its function is evaluated in the context of the input event (see link::Classes/PlazyEnvirN::) which should return a pattern or a stream. Note that this doesn't allow the usual access of the outer environment from within the function.
+
+code::
+(
+s.boot;
+
+SynthDef(\pgrain,
+	{ arg out = 0, freq=800, sustain=0.001, amp=0.5, pan = 0;
+		var window;
+		window = Env.sine(sustain, amp * AmpCompA.kr(freq));
+		Out.ar(out,
+			Pan2.ar(
+				SinOsc.ar(freq),
+				pan
+			) * EnvGen.ar(window, doneAction: Done.freeSelf)
+		)
+	}
+).add;
+
+SynthDef(\noiseGrain,
+	{ arg out = 0, freq=800, sustain=0.001, amp=0.5, pan = 0;
+		var window;
+		window = Env.perc(0.002, sustain, amp * AmpCompA.kr(freq));
+		Out.ar(out,
+			Pan2.ar(
+				Ringz.ar(PinkNoise.ar(0.1), freq, 2.6),
+				pan
+			) * EnvGen.ar(window, doneAction: Done.freeSelf)
+		)
+	}
+).add;
+
+
+
+Pdef(\sweep, { arg sustain=1, n=8, freq=440, ratio=0.1;
+	Pbind(
+		\instrument, \pgrain,
+		\dur, sustain.value / n,
+		\freq, Pseq((1..n)) * ratio + 1 * freq.value // freq is a function, has to be evaluated
+	)
+});
+Pdef(\sweep2, { arg sustain=1, n=8, freq=440, ratio=0.1;
+	Pbind(
+		\instrument, \noiseGrain,
+		\dur, sustain.value / n, // sustain is also a function, has to be evaluated
+		\freq, Pseq((1..n).scramble) * ratio + 1 * freq.value,
+		\recursionLevel, 2
+	)
+});
+Pdef(\sweep3, { arg freq=440;
+	Pbind(
+		\type, \phrase,
+		\instrument, \sweep,
+		\freq, Pfunc({ rrand(0.8, 1.3) }) * freq.value,
+		\dur, 0.3,
+		\legato, 1.3,
+		\n, 5
+	)
+});
+)
+
+
+
+
+// the pattern that is found in Pdef.all (or your own defined library) is truncated in time
+// using the sustain provided by the outer pattern.
+(
+Pbind(
+	\type, \phrase, // phrase event from global library
+	\instrument, \sweep,
+	\n, 15,
+	\degree, Pseq([0, 4, 6, 3], inf),
+	\sustain, Pseq([1.3, 0.2, 0.4],inf)
+).play
+)
+
+// multichannel expansion is propagated into the subpatterns
+(
+Pbind(
+	\type, \phrase, // phrase event from global library
+	\instrument, \sweep,
+	\n, 15,
+	\degree, Pseq([0, 0, 6, 3], inf) + Prand([0, [0, 3], [0, 5], [0, 15]], inf),
+	\ratio, Prand([ 0.1, 0.1, [0.1, -0.1] ], inf)
+).play
+)
+
+// various instruments and synthdefs can be used on the same level
+(
+Pbind(
+	\type, \phrase,
+	\instrument, Pseq([\sweep, \default, \sweep2, \sweep3, \pgrain, \pgrain], inf),
+	\degree, Pseq([0, 3, 2], inf),
+	\dur, Pseq([1, 0.5], inf) * 0.7,
+	\n, Pseq([4, 6, 25, 10], inf),
+	\ratio, Prand([0.03, 0.1, 0.4, -0.1],inf) + Pseq([0, 0, [0, 0.02]], inf),
+	\legato, Pseq(#[0.5, 1, 0.5, 0.1, 0.1],inf)
+).play;
+)
+
+
+//////// of course also a patten can be used directly in a Pdef
+
+(
+Pdef(\sweep,
+	Pbind(
+		\instrument, Pseq([\pgrain, \noiseGrain],inf),
+		\dur, Pseq([1, 2, 1, 3, 1, 4, 1, 5]) * 0.05,
+		\legato, Prand([0.5, 0.5, 3],inf)
+	)
+)
+)
+
+// play directly, embedded in stream (see Pdef.help)
+
+Pn(Pdef(\sweep), 2).play;
+Pdef(\sweep).fork; // play without changing player state (see Pdef.help)
+
+
+// play within a pattern
+(
+Pbind(
+	\type, \phrase,
+	\instrument, \sweep,
+	\degree, Pseq([0, 1b, 4, 2, 3, 1b], inf),
+	\pan, Pfunc(#{ 1.0.rand2 })
+).play
+)
+
+
+
+//////// recursion examples //////////
+
+// the given pattern can be recursively applied to itself
+// resulting in selfsimilar sound structures, like lindenmeyer systems (see also Prewrite)
+// special care is taken so that no infinite loops can happen.
+// just like with non recursive phrasing, new values override old values,
+// any values that are not provided within the pattern definition
+// are passed in from the outer event.
+
+
+
+(
+Pdef(\sweep, { arg dur=1, n=4, freq=440, ratio=0.3;
+	Pbind(
+		\instrument, \pgrain,
+		\dur, dur.value / n,	// now dur is dependant on outer dur.
+		\freq, Pseries(1, 1, inf) * ratio + 1 * freq.value % 17000
+	)
+});
+)
+
+
+// no recursion
+(
+	Pbind(
+		\type, \phrase,
+		\instrument, \sweep,
+		\degree, Pseq((0..5),inf)
+	).play;
+)
+
+// no recursion, with legato > 1.0 and varying notes
+// note how subpatterns are truncated to note length
+// provided by outer pattern (in this case determined by legato)
+(
+	Pbind(
+		\type, \phrase,
+		\instrument, \sweep,
+		\degree, Pseq((0..5),inf),
+		\legato, Pseq([1.2, 2.8, 0.3], inf)
+	).play;
+)
+
+// to block the proliferation of \legato into the phrase, set \transparency to 0
+(
+	Pbind(
+		\type, \phrase,
+		\instrument, \sweep,
+		\transparency, 0,
+		\degree, Pseq((0..5),inf),
+		\legato, Pseq([1.2, 2.8, 0.3], inf)
+	).play;
+)
+
+
+// recursion over one level
+(
+	Pbind(
+		\type, \phrase,
+		\instrument, \sweep,
+		\degree, Pseq([0, 1, 2, 3], inf),
+		\recursionLevel, 1
+	).play
+)
+
+// recursion over one level: legato is recursively applied
+(
+	Pbind(
+		\type, \phrase,
+		\instrument, \sweep,
+		\degree, Pseq([0, 1, 2, 3], inf),
+		\legato, Pseq([0.5, 1, 1.5, 1.8], inf),
+		\recursionLevel, 1
+	).play
+)
+
+// to block the proliferation of properties such as \legato and \degree
+// into the phrase, set \transparency to 0.
+(
+	Pbind(
+		\type, \phrase,
+		\instrument, \sweep,
+		\degree, Pseq([0, 1, 2, 3], inf),
+		\legato, Pseq([0.5, 1, 1.5, 1.8], inf),
+		\recursionLevel, 1,
+		\transparency, 0
+	).play
+)
+
+// recursion over 3 levels: legato is recursively applied
+(
+	Pbind(
+		\type, \phrase,
+		\instrument, \sweep,
+		\degree, 1,
+		\legato, Pseq([0.5, 1, 1.3], inf),
+		\recursionLevel, 3,
+		\n, 3
+	).play
+)
+
+// to block the proliferation of \legato into the phrase, set \transparency to a level at which
+// to stop passing the value.
+(
+	Pbind(
+		\type, \phrase,
+		\instrument, \sweep,
+		\degree, 1,
+		\legato, Pseq([0.5, 1, 2.3], inf),
+		\recursionLevel, 3,
+		\n, 3,
+		\transparency, Pdup(8, Prand([0, 1, 2], inf))
+	).play
+)
+
+
+
+// to modify this recursion, assign values explicitly:
+(
+Pdef(\sweep, { arg dur=1, n=4, ratio=0.5, freq=440;
+	var legato;
+	freq = freq.value;
+	legato = freq % 200 / 200 * 3 + 0.2;
+	Pbind(
+		\instrument, \pgrain,
+		\dur, dur.value / n,
+		\legato, legato,
+		\freq, Pseq((1..n) * ratio + 1 * freq)
+	)
+});
+)
+
+// recursion over one level: degree is assigned to each phrase,
+// because freq is calculated internally and overrides degree on the second level
+(
+	Pbind(
+		\type, \phrase,
+		\instrument, \sweep,
+		\degree, Pseq((0..10),inf),
+		\recursionLevel, 1
+	).play
+)
+
+
+
+// recursion over two levels
+(
+Pbind(
+	\type, \phrase,
+	\instrument, \sweep,
+	\degree, 0,
+	\recursionLevel, 2
+).play
+)
+
+// recursion over three levels with variable number of grains
+(
+Pbind(
+	\type, \phrase,
+	\instrument, \sweep,
+	\degree, -5,
+	\n, Pseq([1, 2, 3],inf),
+	\recursionLevel, 3
+).play
+)
+
+
+// "zoom" in
+TempoClock.default.tempo = 0.2;
+TempoClock.default.tempo = 1.0;
+
+
+// recursion over variable levels
+(
+Pbind(
+	\type, \phrase,
+	\instrument, \sweep,
+	\n, Prand([2, 7, 3], inf),
+	\degree, -5,
+	\recursionLevel, Prand([0, 1, 2],inf)
+).play
+)
+
+
+
+// replace the frequency based pattern with a degree based pattern
+(
+Pdef(\sweep, { arg sustain=1, n=8, degree=0, ratio=1;
+	Pbind(
+		\instrument, \pgrain,
+		\dur, sustain.value / n,
+		\degree, Pseq((1..n)) * ratio + 1 + degree.value
+	)
+});
+)
+
+
+// woozy
+(
+Pbind(
+	\type, \phrase,
+	\instrument, \sweep,
+	\n, Prand([2, 4, 3, 8], inf),
+	\degree, Pseq([-5, 0, -2], inf),
+	\legato, Pseq([1.4, 0.5, 2], inf),
+	\scale, #[0, 2, 5, 7, 10],
+	\recursionLevel, Prand([0, 1, 2],inf)
+).play
+)
+
+
+(
+Pbind(
+	\type, \phrase,
+	\instrument, \sweep,
+	\synthDef, Prand([\pgrain, \default, \noiseGrain],inf),
+	\n, Prand([2, 4, 3, 8], inf),
+	\degree, Pseq([-5, 0, -2], inf),
+	\recursionLevel, Prand([0, 1],inf)
+).play
+)
+
+
+// use a different parent event in the inner pattern
+(
+e = Event.default;
+e.use { ~sustain = { 2.0.exprand(0.05) } };
+Pdef(\sweep, { arg sustain=1, n=8, degree=0, ratio=1;
+	Pbind(
+		\parent, e, // replace by some other event
+		\instrument, \pgrain,
+		\dur, sustain.value / n,
+		\degree, Pseq((1..n)) * ratio + 1 + degree.value
+	)
+});
+)
+
+
+(
+Pbind(
+	\type, \phrase,
+	\instrument, \sweep,
+	\n, Prand([2, 4, 3, 8], inf),
+	\degree, Pseq([-5, 0, -2], inf),
+	\recursionLevel, Prand([0, 1],inf)
+).play
+)
+
+
+// pass in a pattern from outside
+
+(
+Pdef(\sweep, { arg sustain=1, n=8, degree=0, ratio=1;
+	n = n.value;
+	Pbind(
+		\instrument, \pgrain,
+		\dur, sustain.value / n,
+		\degree, Pseq([ 1, 2, 3, 4, 5 ] * ratio + 1 + degree.value) )
+});
+)
+
+
+(
+Pbind(
+	\type, \phrase,
+	\instrument, \sweep,
+	\n, { Pshuf([2, 4, 3, 8, 16, 32], inf) }, // use a function to insulate from embedInStream
+	\degree, Pseq([-5, 0, -2], inf),
+	\recursionLevel, Prand([0, 1],inf)
+).play
+)
+
+
+
+
+// recursion inside the pattern definition
+
+(
+Pdef(\sweep2, { arg sustain=1, n=2, degree=0, ratio=1;
+	Pbind(
+		\type, \phrase,
+		\instrument, \sweep,
+		\dur, sustain.value / n,
+		\degree, Pseq((1..5).scramble * ratio + 1 + degree.value),
+		\recursionLevel, 2
+	)
+});
+)
+
+(
+Pbind(
+	\type, \phrase,
+	\instrument, \sweep2,
+	\n, 3,
+	\degree, Pseq([-5, 0, -2], inf)
+).play
+)
+
+
+// instruments do not crossfade while they play (to make phrasing more efficient).
+
+
+(
+Pbind(
+	\type, \phrase,
+	\instrument, \sweep,
+	\n, 3,
+	\degree, Pseq([0, 2b, 3, 4], inf),
+	\dur, 2,
+	\legato, 2
+).play
+)
+
+// change pattern definition while playing:
+(
+Pdef(\sweep,
+	Pbind(
+		\instrument, \pgrain,
+		\dur, exprand(0.01, 0.1),
+		\legato, rrand(0.01, 2.0),
+		\octave, rrand(5, 7)
+	)
+)
+)
+
+
+// koch "snowflake"
+(
+Pdef(\koch, { arg dur=1, freq=440;
+	Pbind(
+		\dur, dur.value / 3,
+		\freq, freq.value * Pseq([1, 1.2, 1])
+	)
+});
+)
+
+(
+	Pbind(
+		\type, \phrase,
+		\instrument, \koch,
+		\synthDef, \pgrain,
+		\dur, 9,
+		\recursionLevel, 2,
+		\legato, 1.1
+	).play
+)
+
+(
+	Pbind(
+		\type, \phrase,
+		\instrument, \koch,
+		\synthDef, \pgrain,
+		\dur, 9,
+		\recursionLevel, 4,
+		\legato, 1.1
+	).play
+)
+
+(
+Pdef(\koch, { arg dur=1, degree=0;
+	Pbind(
+		\dur, dur.value / 3,
+		\degree, degree + Pseq([0, 2, 0])
+	)
+});
+)
+
+
+
+
+
+// soundfile example
+
+
+(
+SynthDef(\play_from_to, { arg out, bufnum, from=0.0, to=1.0, sustain=1.0;
+	var env;
+	env = EnvGen.ar(Env.linen(0.01, sustain, 0.01), 1, doneAction: Done.freeSelf);
+	Out.ar(out,
+		BufRd.ar(1, bufnum,
+			Line.ar(from, to, sustain) * BufFrames.kr(bufnum)
+		) * env
+	)
+
+
+}).add;
+)
+
+b = Buffer.read(s, Platform.resourceDir +/+ "sounds/a11wlk01.wav")
+
+(
+Pdef(\poch, { arg sustain=1.0, from=0.0, to=1.0, n=3;
+		var step;
+		sustain = sustain.value;
+		step = (to - from) / n;
+		Pbind(
+			\instrument, \play_from_to,
+			\from, Pseries(from, step, n),
+			\to, Pseries(from, step, n) + step,
+			\legato, 1.0,
+			\dur, sustain / n
+		)
+})
+)
+
+// this plays it straight
+(
+Pbind(
+	\type, \phrase,
+	\instrument, \poch,
+	\recursionLevel, 3,
+	\from, 0,
+	\to, 1,
+	\dur, 3,
+	\bufnum, b
+).play
+)
+
+// now turn round every middle part of every middle part
+(
+Pdef(\poch, { arg sustain=1.0, from=0.0, to=1.0, n=3;
+	var step, f, t, i;
+	sustain = sustain.value;
+	step = (to - from) / n;
+	f = Array.series(n, from, step) +.t [0.0, step];
+	i = n div: 2;
+	f[i] = f[i].reverse;
+	Pbind(
+		\instrument, \play_from_to,
+		[\from, \to], Pseq(f),
+		\legato, 1.0,
+		\dur, sustain / n
+	)
+})
+)
+
+
+// varying recursion
+(
+Pbind(
+	\type, \phrase,
+	\instrument, \poch,
+	\recursionLevel, Prand([0, 1, 2, 3], inf),
+	\from, 0,
+	\to, Prand([-1, 1], inf),
+	\dur, 3,
+	\n, Prand([1, 2, 3], inf),
+	\bufnum, b,
+	\amp, 0.2
+).play
+)
+::
+
+
+title:: the_lazy_proxy
+summary:: the lazy proxy
+categories:: JITLib>Tutorials
+related:: Overviews/JITLib, Classes/NodeProxy, Classes/ProxySpace
+
+The class link::Classes/NodeProxy:: (and link::Classes/BusPlug::) uses a lazy evaluation scheme to derive its appropriate rate and numChannels from the first meaningful input that is assigned to it. see link::Classes/NodeProxy:: and link::Classes/ProxySpace:: helpfiles for basic info. So as long as the source is not set, the proxy is strong::neutral:: :
+
+code::
+p = ProxySpace.push;
+~x.isNeutral;
+::
+
+as soon as the first time the source is set, it derives its bus arguments from that input
+
+code::
+~x = { Array.fill(14, { SinOsc.kr(1.0.rand, 0, 100) }) }; //~x is now 14 channels control rate
+~x;
+::
+
+in order to reset these properties, clear is used:
+
+code::
+~x.clear;
+//note that no other proxy should be reading from ~x when this is done:
+//for simplicity nodeproxy currently does not care for its children, only for its parents.
+::
+
+for a quick initialisation, also code::defineBus:: can be used:
+
+code::
+~x.defineBus(\control, 5);
+// or in another way:
+~x.kr(5)
+::
+
+the properties are also set when some other proxy reads from it:
+
+code::
+~x = { LFPulse.kr * ~b.kr(7) }; //the first arg to kr / ar is the default number of channels
+::
+
+if no number of channels is passed in, the default value is used:
+
+code::
+~test.ar; // 2
+~krtest.kr; // 1
+::
+
+the default can be set in the class NodeProxy:
+
+code::
+NodeProxy.defaultNumAudio = 3;
+NodeProxy.defaultNumControl = 13;
+
+~test3.ar; // 3
+~krtest3.kr; // 13
+
+// set them back:
+NodeProxy.defaultNumAudio = 2;
+NodeProxy.defaultNumControl = 1;
+::
+
+also if a proxy is used as a map source, control rate is assumed:
+
+code::
+~u;
+~x.map(\zzz, ~u);
+~u;
+::
+
+when unary or binary operations are performed, the highest rate / numChannels is used to initialize all uninitialized proxies:
+
+code::
+~x.clear;
+~x.defineBus(\control, 5);
+~x = ~e + ~f;
+
+~x.clear; ~e.clear; ~f.clear;
+~e.defineBus(\audio, 1);
+~x = ~e + ~f.squared + ~r;
+~x;
+
+~x.clear; ~e.clear; ~f.clear;
+~e.defineBus(\audio, 3);
+~x = ~e;
+::
+
+if a rate-1 proxy is used as rate-2 input, the rate is converted and the channels are expanded in the usual multichannel expansion pattern:
+
+code::
+~f.defineBus(\control);
+~f.ar(2);
+
+~f.defineBus(\audio);
+~f.kr(2);
+
+// if the number of channels passed in is less, it only uses the first n channels
+~f.defineBus(\audio, 8);
+~f.ar(2);
+::
+
+an offset can be passed in as second argument to ar/kr
+
+code::
+//modulate offset:
+p = ProxySpace.push(s.boot);
+
+~out.play;
+~src = { SinOsc.ar(Array.rand(5, 400, 500.0), SinOsc.ar(Array.exprand(5, 2.1, 500.0)), 0.1) };
+~out = { ~src.ar(1, MouseX.kr(0, 5)) };
+~out = { Mix(~src.ar(3, MouseX.kr(0, 5))) }; //the wrapping offset is moved accordingly
+::
+
+
