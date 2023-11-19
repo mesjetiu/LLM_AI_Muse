@@ -1,0 +1,25 @@
+d1 $ stack [
+  sound "noise*3" # speed (slow 2 $ sine*4),
+  sound "glitch" # crush 10 # pan sine
+] -- 12s
+
+d2 $ sound "feel*4" # lpf (slow 3 $ range 200 800 sine) # lpq 0.2 -- 10s
+
+d3 $ sound "drum*2" # speed (scale 0.5 2 $ saw) # room 0.4 # orbit 1 -- 8s
+
+d4 $ stack [
+  sound "bass:0*3" # up (slow 4 $ sine*7) # gain 1.2,
+  sound "snare" # nudge "<0.1 0.2>" # room 0.5
+] -- 15s
+
+d5 $ sound "tabla*2" # squiz 3 # cutoff (range 300 5000 $ slow 2 saw) -- 7s
+
+d6 $ sound "arpy" # delay 0.3 # delayfb 0.6 # speed (scale 0.75 1.25 $ slow 5 sine) -- 9s
+
+d7 $ sound "gab*2" # gain 0.9 # cutoff (scale 200 3000 $ slow 3 cosine) -- 11s
+
+d8 $ sound "metal*4" # room 0.3 # lpf (range 400 2000 $ slow 2 sine) -- 13s
+
+d9 $ sound "juno*2" # speed (scale 0.5 1.5 $ slow 2 triangle) # crush 8 -- 14s
+
+d10 $ sound "silence" -- 5s
