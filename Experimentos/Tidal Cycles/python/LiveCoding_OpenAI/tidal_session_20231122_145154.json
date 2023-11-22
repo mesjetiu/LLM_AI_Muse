@@ -1,0 +1,52 @@
+[
+  {
+    "user": {
+      "role": "user",
+      "content": "Comienza la sesión. Dame el primer patrón."
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ sound \"gamelan*8\" # speed (slow 4 $ sine) # cut 1"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d2 $ sound \"arpy*6\" # speed (slow 6 $ sine) # vowel \"o\" # room 0.9 # size 0.8 # cut 1"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d3 $ sound \"feel*4\" # pan (slow 2 $ sine) # delay 0.8 # delaytime 0.5 # delayfeedback 0.7 # crush 3 # cut 1"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d4 $ sound \"space*3\" # speed (slow 8 $ rand) # lpf (slow 5 $ range 200 1200 $ saw) # gain 0.7 # cut 1"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d5 $ s \"can:7*16\" # up (irand 12) # n (iter 4 $ palindrome [0,2,3,5,7]) # room 0.7 # size 0.5 # orbit 3"
+    }
+  }
+]

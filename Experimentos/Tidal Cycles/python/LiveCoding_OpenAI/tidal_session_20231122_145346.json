@@ -1,0 +1,42 @@
+[
+  {
+    "user": {
+      "role": "user",
+      "content": "Comienza la sesión. Dame el primer patrón."
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ slow 4 $ s \"gtr\" # cut 1 # speed (slow 2 $ sine) # delay 0.7 # delaytime 0.5 # delayfeedback 0.8"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ stack [\n  n (slow 3 $ run 7) # s \"arpy\" # cut 1 # pan (sine),\n  s \"feel*4\" # speed (0.5) # room 1 # size 0.8 # lpf 800,\n  slow 2 $ s \"rash\" # speed \"-1 0.7\" # gain 0.6 # hpf 2000\n] # orbit 1"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ s \"space\" # room 1.5 # size 0.9 # orbit 1\nd2 $ s \"metal*8\" # gain (range 0.3 0.5 $ slow 6 sine) # pan (slow 2 $ sine) # speed (1.5)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ slow 5 $ s \"harp*3\" # delay 0.8 # delaytime (range 0.2 0.5 $ slow 3 sine) # delayfeedback 0.75 # speed (0.8) # lpf (range 400 800 $ slow 2 sine)"
+    }
+  }
+]

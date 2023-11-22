@@ -1,0 +1,52 @@
+[
+  {
+    "user": {
+      "role": "user",
+      "content": "Comienza la sesión. Dame el primer patrón."
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ slow 4 $ s \"arpy*8\" # speed (slow 2 $ sine) # cutoff (scale 3000 8000 $ slow 3 sine)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d2 $ s \"gabba*4\" # unit \"c\" # cut 1 # room 0.3 # size 0.8 # speed (0.5 - (saw * 0.1))"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d3 $ n (run 7) # sound \"bass\" # attack 1 # release 3 # speed (1/3) # cutoff (sinewave1 * 5000 + 200) # resonance (saw * 0.5)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d4 $ s \"pad*16\" # pan (slow 5 $ sine) # speed (0.5 * (cosine + 1)) # delay 0.5 # delaytime (slow 8 $ scale 0.01 0.2 sine) # delayfeedback 0.8 # lpf (800 * (sinewave1 + 1))"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d5 $ slow 6 $ s \"feel*3\" # gain (slow 2 $ range 0.3 0.6 saw) # cut 1 # speed (slow 4 $ sine * 0.2 + 0.5) # lpf (slow 3 $ range 400 2000 $ rand)"
+    }
+  }
+]

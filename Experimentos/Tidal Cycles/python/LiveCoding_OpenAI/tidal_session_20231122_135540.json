@@ -1,0 +1,42 @@
+[
+  {
+    "user": {
+      "role": "user",
+      "content": "Comienza la sesión. Dame el primer patrón."
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "```haskell\nd1 $ slow 4 $ sound \"drone*8\" # speed (slow 2 $ sine) # cutoff (range 400 800 $ slow 3 $ sine)\n```"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "```haskell\nd2 $ sound \"feel*6\" # pan (saw) # gain (0.7) # delay 0.5 # delayt (1/16) # delayfb 0.4\n```"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "```haskell\nd3 $ stack [\n  s \"arpy*4\" # accelerate (slow 3 $ sine) # room 0.7,\n  s \"gamelan*7\" # speed (slow 4 $ range 0.75 1.25 $ rand) # cutoff (slow 2 $ range 200 600 $ rand)\n] # gain 0.6 # reverb 0.8\n```"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "```haskell\nd4 $ jux (rev) $ s \"glass*5\" # speed (slow 5 $ rand) # shape 0.8 # lpf (range 500 2000 $ slow 2 $ sine) # gain 0.5\n```"
+    }
+  }
+]

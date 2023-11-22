@@ -1,0 +1,102 @@
+[
+  {
+    "user": {
+      "role": "user",
+      "content": "Comienza la sesión. Dame el primer patrón."
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ sound \"bd*4\" # pan (sine * 0.5)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d2 $ slow 2 $ sound \"hh*8 [sn cp] cp*4\" # speed (slow 3 $ saw)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d3 $ sound \"arpy*8\" # cutoff (scale 70 90 $ sine) # resonance (scale 0.2 0.8 $ sine)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d4 $ every 3 (density 0.5) $ sound \"bass3*2\" # n (irand 8)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ jux (rev) $ stut 4 0.5 0.25 $ sound \"bd:2*4\" # cut 1"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d2 $ struct \"t*8\" $ sound \"[~ sn:2]*2\" # gain \"<0.8 0.5 0.9>\""
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d3 $ degradeBy 0.3 $ sound \"arpy*16\" # delay 0.1 # delaytime 0.05 # delayfeedback 0.8"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d4 $ sound \"bass2:1(3,8)\" # n (\"<0 2 4 7>\" + \"<12 14>\") # lpf (range 200 8000 $ slow 2 sine)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ sound \"hoover*4\" # gain \"<0.6 0.8>\" # up (slow 4 $ run 8)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d2 $ striate 16 $ sound \"breaks125*2\" # speed \"<1 -1>\""
+    }
+  }
+]

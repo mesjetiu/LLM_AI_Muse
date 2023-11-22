@@ -1,0 +1,52 @@
+[
+  {
+    "user": {
+      "role": "user",
+      "content": "Comienza la sesión. Dame el primer patrón."
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ sound \"gabba\" # speed (slow 2 $ sine) # cut 1"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d2 $ sound \"arpy*8\" # pan (slow 6 $ saw) # room 1 # size 0.8"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ s \"feel*4\" # speed (0.5 + (0.5 * sinOsc ar 0 0.25)) # vowel \"o\""
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d3 $ degradeBy 0.5 $ sound \"pad*3\" # up (slow 3 $ choose [0,2,4,7]) # lpf (slow 4 $ sine * 800 + 200)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d2 $ sound \"space\" # gain 0.7 # cut 1 # delay 0.8 # delaytime (slow 2 $ rand) # delayfeedback 0.7"
+    }
+  }
+]

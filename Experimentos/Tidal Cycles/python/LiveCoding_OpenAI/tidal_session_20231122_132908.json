@@ -1,0 +1,52 @@
+[
+  {
+    "user": {
+      "role": "user",
+      "content": "Comienza la sesión. Dame el primer patrón."
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ slow 4 $ sound \"pad*4\" # cut 1 # lpf 500 # room 0.7 # size 0.5"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d2 $ s \"arpy*8\" # speed (slow 2 $ sine) # pan (slow 3 $ sine) # delay 0.8 # delayfb 0.65 # delayt 0.5 # lpf (slow 2 $ range 400 800 $ rand)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d3 $ stack [every 3 (slow 2) $ sound \"gamelan*6\", every 4 (fast 2) $ sound \"bell*8\"] # gain 0.8 # room 1 # sz 0.8 # cutoff (slow 5 $ sine * 3000 + 400)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d4 $ degradeBy (slow 5 $ sine) $ sound \"feel*16\" # speed (scale 0.5 2 $ slow 2 $ saw) # reverb 0.6"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ s \"hc*16\" # up (choose [0,12,24,36]) # room 1 # size 0.9 # orbit 1"
+    }
+  }
+]

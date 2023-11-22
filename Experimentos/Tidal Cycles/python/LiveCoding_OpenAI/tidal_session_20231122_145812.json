@@ -1,0 +1,52 @@
+[
+  {
+    "user": {
+      "role": "user",
+      "content": "Comienza la sesión. Dame el primer patrón."
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ slow 4 $ s \"arpy*8\" # speed (slow 2 $ sine) # cut 1 # room 0.7 # size 0.8"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d2 $ s \"feel*6\" # pan (slow 3 $ sine) # speed (0.5 - (saw * 0.2)) # delay 0.8 # delaytime 0.2 # delayfeedback 0.7"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d3 $ s \"gtr*4\" # up (irand 12) # delay 0.5 # delaytime 1 # delayfeedback 0.4 # lpf (slow 5 $ range 400 800 sine)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ s \"newnotes*8\" # n (scale [0,2,3,5,7] $ slow 6 sine) # speed (range 0.75 1.25 $ slow 3 saw) # room 1 # size 0.9 # orbit 1"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d2 $ stack [\r\n     s \"bell*4\" # n (run 5) # speed (slow 4 $ range 0.9 1.1 sine),\r\n     s \"bass2*2\" # speed (0.5 + (slow 2 $ sine * 0.1)) # cut 1 # lpf (800)\r\n   ] # room 0.9 # size 0.8 # orbit 2"
+    }
+  }
+]

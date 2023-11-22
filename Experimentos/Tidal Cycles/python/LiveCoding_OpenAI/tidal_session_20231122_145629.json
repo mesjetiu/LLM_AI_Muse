@@ -1,0 +1,52 @@
+[
+  {
+    "user": {
+      "role": "user",
+      "content": "Comienza la sesión. Dame el primer patrón."
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ slow 4 $ struct \"t(3,8)\" $ sound \"arpy\" # speed \"0.1\" # delay \"0.5\" # delaytime \"0.8\" # delayfeedback \"0.7\""
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d2 $ every 3 (hurry 2) $ jux (rev) $ sound \"pad <c4 f4 a4>\" # cut 1 # lpf (slow 2 sine * 2000 + 500) # gain \"0.7\""
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d3 $ weave 5 (sound \"bass\") (|+| speed \"0.75\") $ chop 16 $ (# pan sine1) $ slow 3 $ sound \"feel*4\" # gain \"0.6\" # room \"0.8\" # size \"0.6\""
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d4 $ off 0.75 (|+| n \"<12 7 19>\") $ degradeBy 0.3 $ sound \"koto\" # unit \"c\" # speed \"0.125\" # room \"1\" # size \"0.9\" # orbit \"1\""
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d5 $ iter 4 $ stack [slow 2 $ sound \"seashore\" # gain \"0.6\", sound \"wind\" # speed \"-0.2\" # gain \"0.4\"] # lpf (slow 6 $ sine * 800 + 200) # reverb '0.75'"
+    }
+  }
+]

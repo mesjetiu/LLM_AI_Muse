@@ -1,0 +1,42 @@
+[
+  {
+    "user": {
+      "role": "user",
+      "content": "Comienza la sesión. Dame el primer patrón."
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ slow 4 $ s \"arpy*8\" # speed (range 0.1 0.5 $ slow 10 sine) # cutoff (slow 2 $ sine * 5000 + 5500)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d2 $ s \"gabba*16\" # unit \"c\" # speed (slow 8 $ rand) # cut 1 # delay 0.8 # delaytime (1/16) # delayfeedback 0.7"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d3 $ slow 6 $ s \"feel*12\" # room 0.7 # size 0.8 # speed (slow 2 $ range 0.1 2 $ rand) # lpf (range 200 800 $ slow 3 sine)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d4 $ n (run 8) # s \"sev\" # delay 0.5 # delaytime (1/32) # delayfeedback 0.65 # speed (slow 4 $ sine * 2 + 3) # lpf (slow 5 $ sine * 1200 + 1300)"
+    }
+  }
+]

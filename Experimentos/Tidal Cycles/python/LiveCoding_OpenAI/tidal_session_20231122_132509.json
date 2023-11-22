@@ -1,0 +1,102 @@
+[
+  {
+    "user": {
+      "role": "user",
+      "content": "Comienza la sesión. Dame el primer patrón."
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ sound \"arpy*8\" # speed (slow 2 $ sine) # pan sine"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d2 $ sound \"gab*4\" # up (slow 4 $ range 0 12 sine) # pan (slow 2 $ saw) # room 1 # size 0.8"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d3 $ sound \"feel*6\" # cut 1 # delay 0.8 # delaytime (1/16) # delayfeedback 0.7 # lpf (slow 2 $ range 400 8000 $ rand)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ s \"supermandolin*4\" # n (run 8) # gain 0.6 # room 0.4 # size 0.2 # orbit 1"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d4 $ s \"bass2:1*3\" # n (iter 4 $ palindrome [0,3,5,7]) # speed (slow 2 $ choose [0.5,1,1.5]) # vowel \"o\" # orbit 2"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d2 $ degradeBy 0.3 $ jux (rev) $ sound \"can:7*5\" # speed (slow 3 $ rand) # pan (slow 1.5 $ sinewave1)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d3 $ stack [\n  s \"metal*2\" # n (irand 5) # room 0.7 # size 0.6,\n  s \"bottle*3\" # speed (slow 5 $ rand) # cut 1\n] # orbit 3"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ weave' 8 (slow 2 saw) [sound \"pluck*3\", sound \"harp*4\", sound \"gtr*2\"] # room 0.5 # orbit 1 # cut 1"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d2 $ s \"sev:8*6\" # gain 0.7 # pan (range 0 1 slow 3 sine) # lpf (range 200 2000 $ slow 2 tri) # hpf (range 500 50 $ slow 1.5 saw)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d4 $ every 3 (density 0.5) $ s \"gamelan*4\" # n (run 7) # speed (slow 4 $ sinewave1) # cut 1"
+    }
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "user": {
+      "role": "user",
+      "content": "Comienza la sesión. Dame el primer patrón."
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ slow 4 $ s \"arpy*8\" # speed (slow 2 $ sine) # cut 1 # room 0.5 # size 0.8"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d2 $ sound \"gabba*16\" # pan (sinewave1) # speed (0.5 - (rand * 0.1)) # delay 0.8 # delaytime 0.04 # delayfeedback 0.7"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d3 $ s \"pad*4\" # up (slow 6 $ choose [0, 7, 12]) # room 0.7 # size 0.9 # lpf (slow 2 $ sine * 800 + 500)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d2 $ degradeBy 0.3 $ s \"gabba*8\" # pan (slow 2 $ sine) # speed (0.75 - (slow 5 $ rand)) # delay 0.6 # delaytime (1/6) # delayfeedback 0.5"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d4 $ s \"feel*3\" # up (scale [0, 2, 3, 5, 7, 9] $ slow 10 $ saw) # speed (slow 4 $ sine * 0.5 + 0.5) # room 1 # size 0.9 # orbit 1"
+    }
+  }
+]

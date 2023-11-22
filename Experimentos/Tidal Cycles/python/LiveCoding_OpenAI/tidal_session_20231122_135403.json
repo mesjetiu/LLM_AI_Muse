@@ -1,0 +1,52 @@
+[
+  {
+    "user": {
+      "role": "user",
+      "content": "Comienza la sesión. Dame el primer patrón."
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "```haskell\nd1 $ s \"gabba*4\" # speed (slow 2 $ sine) # cut 1\n```"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "```haskell\nd1 $ slow 4 $ s \"pad*8\" # speed (range 0.5 2 $ rand) # pan (sine)\n```"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "```haskell\nd1 $ s \"arpy*8\" # speed (slow 6 $ saw) # cut 1 # pan (slow 2 $ sine) # room 0.8 # size 0.9\n```"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "```haskell\nd1 $ stack [s \"arpy:7*4\" # speed (slow 4 $ sine), s \"voices*6\" # speed (0.5 - (slow 2 $ tri)) # vowel \"o\"] # reverb 0.7 # delay 0.3 # delaytime 1\n```"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "```haskell\nd1 $ jux (rev) $ s \"arpy*8, [~ arpy], [~ arpy arpy], [~ ~ arpy]\" # speed (scale 0.2 0.8 $ slow 3 $ rand) # cut 1 # delay 0.4 # delaytime (slow 2 $ sine)\n```"
+    }
+  }
+]
