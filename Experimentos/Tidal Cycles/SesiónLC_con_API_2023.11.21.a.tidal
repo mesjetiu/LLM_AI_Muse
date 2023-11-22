@@ -1,0 +1,48 @@
+-- Sesión de live coding con API de GPT-4: https://platform.openai.com/playground/p/nSYrdY1uUYn7cCAJtwTevXXR?model=gpt-4-1106-preview&mode=chat
+-- Prompt de Systema: 
+-- Eres un experto en Live Coding utilizando Tidal Cycles. Cada vez que se te pida, debes devolver una sentencia de Tidal. Una sentencia puede ser una sola línea o un conjunto de líneas dentro de un bloque. Para el Live Coding, responderás con una única sentencia que continúe el contexto proporcionado por la conversación. Si un usuario reporta un error en tu sentencia, debes corregirla.
+-- Crea patrones, ritmos, texturas, planos sonoros y espacializaciones experimentales. Utiliza siempre la sintaxis correcta de Tidal y no incluyas texto o comentarios, ya que no serán procesados. Utiliza varios patrones al tiempo que modificarás recurrentemente.
+-- Se premiará la imaginación, patrónes atípicos, texturas sin explorar, etc. No se espera de ti la reproducción de códigos típicos.
+-- Devuelve cada vez un patrón de una sola línea. Si es un patrón complejo, ponlo igualmente en una sola línea, no en varias.
+-- Si da error, no intentes corregirlo. Haz otra cosa completamente diferente. No hay tiempo  para depurar bugs en live coding.
+
+-- Importante: GPT-4, y Tokens: 1024.
+
+
+d1 $ sound "bd sd" # speed (sine + saw * 3)
+
+d2 $ s "hh*4 [sn cp] cp*2" # pan (slow 2 $ sine) # room 0.5 # size 0.7
+
+d3 $ n (irand 8) # sound "pluck" # gain (rand * 0.5 + 0.5) # up (rand * 7)
+
+d4 $ sound "arpy*8" # cut 1 # delay 0.1 # delayt (1/16) # delayfb 0.5 # lpf (slow 10 $ range 500 5000 $ sine)
+
+d5 $ struct "t*8" $ sound "bass3" # gain "[0.6 0.8]*4" # n (slow 2 $ run 7) # cut 1
+
+d6 $ stack [jux rev $ sound "drum*4", sound "metal*2(3,8)" # hcutoff (slow 4 $ sine * 8000 + 8500)] # gain 0.9
+
+d7 $ every 3 (fast 2) $ sound "jvbass*16" # n (iter 4 $ slow 2 $ range 3 5 sine) # lpq 0.2
+
+d8 $ stutWith 4 0.1 (0.02*) $ sound "[rim:2 [~ rim]*3, hh*5]" # room 1 # sz 0.2
+
+d4 $ degradeBy 0.3 $ sound "arpy*8" # cut 1 # delay 0.15 # delayt (1/16) # delayfb 0.5 # lpf (slow 5 $ range 500 3000 $ sine)
+
+d3 $ n (scale "minor" $ slow 3 $ sine) # sound "pluck" # gain (slow 4 $ saw * 0.5 + 0.5) # up (slow 2 $ choose [0, 12, 7, 5])
+
+d2 $ s "hh*5 [sn cp] cp*3" # pan (slow 4 $ saw) # room 0.6 # size 0.5 # crush 4
+
+d1 $ sound "bd sd" # speed (sine + saw * 2) # vowel "[a e i o u]*2"
+
+d5 $ jux (iter 3) $ struct "t*16" $ sound "bass3" # gain "[0.7 0.85]*2" # n (slow 4 $ run 12) # cut 1 # shape 0.4
+
+d3 $ weave 8 (pan sine) $ sound "pluck*8" # n (run 7 + ((slow 2 $ range 0 12) <~ saw)) # gain (slow 4 $ range 0.3 0.7 saw) # up (choose [0, 2, 4, 7, 9])
+
+d5 $ struct "t(3,8)" $ sound "bass(5,8)" # gain "[0.6 0.8]*4" # n (slow 2 $ run 4) # cut 1 # shape 0.5
+
+d6 $ id $ sound "arpy*4" # n ((run 8) + ((slow 16 $ sine) * 4)) # room 0.7 # size 0.5 # lpf (slow 8 $ range 1000 5000 $ rand)
+
+d2 $ linger 0.1 $ s "hh*4 [sn cp] cp*2" # pan (slow 2 $ sine) # room 0.4 # size 0.6
+
+d8 $ silence
+
+hush
