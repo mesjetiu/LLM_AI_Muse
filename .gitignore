@@ -17,6 +17,7 @@
 *.ind
 *busy*
 *.env*
+*settings.json
 
 OUTPUT/*
 
