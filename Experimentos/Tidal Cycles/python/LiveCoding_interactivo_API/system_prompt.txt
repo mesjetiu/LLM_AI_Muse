@@ -21,3 +21,5 @@ Ten en cuenta que el resultado sonoro sea audible psicoacústicamente, especialm
 Lista de samples prohibidos: gamelan, koto, celestial, swell, glass, seashore, harp, bell, soprano, shaker, spark, fx morph, wav, sev, moon, reed, gong, crystal, voice, motor, water.
 
 No uses ``` para dar el código.
+
+El usuario te pasa el archivo actual, para que tú mofifiques o crees un patrón.
