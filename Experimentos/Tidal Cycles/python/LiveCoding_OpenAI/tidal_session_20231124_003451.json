@@ -1,0 +1,82 @@
+[
+  {
+    "user": {
+      "role": "user",
+      "content": "Comienza la sesión. Dame el primer patrón."
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ slow 2 $ sound \"pad*4\" # cut 1 # legato 1.5 # lpf 500 # resonance 0.2"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ slow 4 $ sound \"arpy*8\" # n (run 8) # speed \"0.5 0.75 1 -1\" # delay 0.8 # delaytime 0.4 # delayfeedback 0.7"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ s \"feel*3\" # pan (slow 3 $ sine) # room 0.8 # size 0.9 # gain 0.7 # speed (slow 2 $ choose [0.9, 1.1, 0.8, 1.2])"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ degradeBy 0.7 $ jux (rev) $ sound \"glass*6 [~ glass]*2\" # speed \"0.5 0.6 0.7 0.8\" # cut 1 # up \"<0 2 4 5>\" # gain 0.9"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ stack [\n  every 3 (fast 2) $ sound \"bass(3,8)\" # speed \"0.1\" # room 1,\n  every 4 (striate 16) $ sound \"~ saw*2\" # lpf (slow 4 $ range 400 800 sine) # gain 0.6\n] # orbit 1"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ weave 4 (sound \"[~ spec]*8\") (pan <$> sine) # gain \"<0.5 0.7 0.6>\" # room 0.7 # size 0.8 # pitch \"12 -7 19 31\""
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ stutWith 3 (1/16) (\\x -> x # up (irand 24)) $ sound \"gtr*4\" # speed (slow 8 $ sine) # delay 0.5 # delaytime 0.25 # delayfeedback 0.4"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ linger 0.8 $ sound \"can*6\" # n (run 8) # lpq (slow 2 $ range 200 800 $ sine) # hpf (slow 1 $ range 500 2000 $ saw) # gain \"<0.6 0.8>\""
+    }
+  }
+]

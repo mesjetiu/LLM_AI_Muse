@@ -1,0 +1,122 @@
+[
+  {
+    "user": {
+      "role": "user",
+      "content": "Comienza la sesión. Dame el primer patrón."
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ slow 4 $ sound \"feel*6\" # speed (slow 4 $ sine) # cut 1 # legato 1.5"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ sound \"[~ feel:2*3, ~ ~ feel:3*2]\" # speed (segment 8 $ range 0.5 2 $ slow 6 sine) # pan (slow 2 $ sine)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ jux (rev) $ sound \"arpy*4\" # up (slow 3 $ choose [0,5,7,12]) # room 1 # size 0.8 # orbit 1"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ degradeBy 0.6 $ struct \"t*8\" $ sound \"gtr\" # speed (0.5 - (0.1 * (sinewave1))) # delay 0.8 # delaytime 0.5 # delayfeedback 0.6"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ slow 2 $ sound \"[[~ pad], [pad*3 ~ pad*2]]\" # speed (slow 8 $ sine) # lpf (range 200 5000 $ slow 3 sine) # hpf (range 500 2000 $ slow 2 sine)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ sometimesBy 0.3 (# speed \"<0.75 1.0 1.25>\") $ sound \"[~ pluck]\" # pan (slow 5 $ sine) # reverb 0.7 # room 0.9"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ stack [\n  iter 4 $ sound \"moog*2\" # cutoff (slow 10 $ range 400 800 $ rand),\n  sound \"bass3:1*8\" # speed (0.5 + (slow 12 $ sine)) # vowel \"o\"\n] # gain 0.8"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ weave' 5 sinewave1 (sound \"[can:2, [~ can]]\") # speed (range 0.25 4 $ slow 5 saw) # lpf (slow 2 $ range 300 2000 sine) # hpf (slow 4 $ range 800 1600 sine) # gain 0.9"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ slowspread ($) [jux (|+| speed \"-0.2\"), id] $ sound \"co*6\" # pan (slow 3 $ sine) # speed (const 0.3) # delay 0.5 # delaytime 0.2 # delayfeedback 0.7"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ every 3 (hurry 2) $ sound \"seashore*4 [~ seashore]\" # cut 1 # speed (sinewave1 * 0.2 + 0.7) # room 0.2 # sz 0.6"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ stack [\n  n (run 8) # sound \"bass\" # speed (0.75 ** slow 3 sine),\n  sound \"[~ birds]*6\" # pan (slow 2 $ saw)\n] # reverb 0.6 # room 0.8"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ sound \"fx*16\" # speed (slow 8 $ sine) # cut 1 # room 1 # size (slow 4 $ range 0.2 0.7 sine)"
+    }
+  }
+]

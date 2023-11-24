@@ -1,0 +1,42 @@
+[
+  {
+    "user": {
+      "role": "user",
+      "content": "Comienza la sesión. Dame el primer patrón."
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "```\nd1 $ slowly 1.25 $ n (slow 5 $ run 8 + irand 4) # sound \"pluck\" # room 0.3 # sz 0.9\n```"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "```\nd2 $ degradeBy 0.2 $ s \"arpy*8\" # speed 0.9 # delay 0.5 # delayt 0.65 # delayfb 0.6 # lpf (slow 6 $ sine*1200) # lpf 800\n```"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "```\nd1 $ n (off 0.75 ((+ 12) . (* 2)) $ scalex \"minor\" \"0 2 3 +4\" 1 $ slow 13 $ run 8) # sound \"kalimba\" # gain 0.9 # bandf 500\n```"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "```\nd2 $ every 4 (density 2) $ degradeBy 0.3 $ n \"0 ~ 1 ~ 2\" # sound \"gong*5\" # speed \"0.75 0.8\" # room 0.5\n```"
+    }
+  }
+]

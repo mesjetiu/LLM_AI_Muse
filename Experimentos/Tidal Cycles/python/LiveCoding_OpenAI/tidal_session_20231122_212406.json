@@ -1,0 +1,52 @@
+[
+  {
+    "user": {
+      "role": "user",
+      "content": "Comienza la sesión. Dame el primer patrón."
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ slow 4 $ s \"arpy*8\" # speed (slow 2 $ sine) # room 1 # size 0.8"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d2 $ s \"bass*4\" # n (slow 3 $ run 8) # up (slow 4 $ choose [-12, 7, 19]) # cut 1 # lpf (slow 2 $ range 400 800 sine) # gain 0.7"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d3 $ s \"feel*6\" # speed (scale 0.5 2 $ saw) # pan (slow 2 $ sine) # gain 0.5 # delay 0.8 # delaytime 0.4 # delayfeedback 0.7"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d4 $ s \"[~ pad]*8\" # up (randslow 5 $ scale oct maj) # sustain 3 # room 0.9 # size 0.95 # orbit 2"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d5 $ loopAt 1 $ striate 16 $ s \"voice*2\" # grain 4 # up (slow 6 $ rand) # pan (slow 1 $ sine) # gain 0.6"
+    }
+  }
+]

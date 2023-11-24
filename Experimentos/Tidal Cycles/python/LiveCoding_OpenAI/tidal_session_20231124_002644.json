@@ -1,0 +1,52 @@
+[
+  {
+    "user": {
+      "role": "user",
+      "content": "Comienza la sesión. Dame el primer patrón."
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ slow 3 $ s \"arpy\" # cut 1 # speed (slow 2 $ sine)  # gain 0.7 # room 0.8 # size 0.9 "
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d2 $ s \"superpiano\" # up (irand 4) # gain 0.6 # lpf (slow 5 $ range 400 800 sine) # reverb 0.4"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d3 $ s \"feel*6\" # up (choose [0,7,12]) # gain 0.5 # speed (0.5 ~>) # delay 0.8 # delaytime (1/6) # delayfeedback 0.5"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d4 $ s \"gtr\" # begin (slow 4 $ sine) # end (slow 2 $ cos) # speed (slow 3 $ range 0.75 1.5 sine) # cut 3 # gain 0.45 # room 1 # size 0.9"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d5 $ s \"harp\" # n (run 7) # gain (slow 6 $ range 0.3 0.6 $ rand) # pan (slow 2 $ saw) # speed (scale 0.5 2 $ rand)"
+    }
+  }
+]

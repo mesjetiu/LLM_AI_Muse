@@ -1,0 +1,7 @@
+d1 $ slow 6 $ s "arpy*16" # speed (slow 4 $ sine) # cutoff (slow 3 $ range 70 90 sine)
+
+d3 $ s "gtr*1" # delay 0.9 # delaytime (1/16) # delayfeedback 0.8
+    # up (slow 8 $ choose [0, 7, 12])
+    # lpf (slow 5 $ range 500 2000 $ rand) -- run
+
+hush

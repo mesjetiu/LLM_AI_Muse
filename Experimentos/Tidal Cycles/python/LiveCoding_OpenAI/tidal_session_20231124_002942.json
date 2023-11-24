@@ -1,0 +1,202 @@
+[
+  {
+    "user": {
+      "role": "user",
+      "content": "Comienza la sesión. Dame el primer patrón."
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ slow 4 $ s \"arpy*8\" # speed (slow 2 $ sine) # cut 1 # delay 0.7 # delayt 0.5 # delayfb 0.8 # lpf 500 # room 1 # sz 0.9"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d2 $ stack [every 4 (rev) $ s \"gtr*6\" # pan (slow 8 $ sine), s \"feel*4\" # speed (rand -0.5 0.5) # pan (fast 2 $ saw)] # room 0.8 # sz 0.7 # lpf 600"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d3 $ s \"pad*16\" # up (slow 8 $ scale [0,2,4,7] \"minor\") # cut 1 # gain 0.6 # lpf (slow 6 $ range 200 800 $ sine) # hpf (slow 4 $ range 500 100 $ sine)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d4 $ s \"space*8\" # n (iter 4 $ run 16) # speed (0.5 - (0.1 * (slow 3 $ sin))) # gain (slow 5 $ range 0.3 0.6 $ rand) # room 0.8 # sz 0.95"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d5 $ s \"seashore*4\" # cut 1 # delay 0.6 # delayt (irand 1 2) # delayfb 0.5 # speed (slow 2 $ range 0.75 1.25 $ rand) # pan (slow 2 $ sine)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d6 $ every 6 (jux (|* speed 0.5)) $ s \"[~ celestial]*3\" # speed (slow 5 $ sine) # gain (slow 7 $ range 0.2 0.4 $ sine) # room 0.9 # sz 1 # lpf (slow 2 $ range 400 800 $ sine)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ degradeBy 0.7 $ s \"marimba*12\" # up (run 7) # speed (slow 7 $ scale 0.8 1.2 $ rand) # gain (slow 3 $ range 0.4 0.9 $ saw) # room 1 # sz 0.8 # hpf (slow 5 $ range 300 600 $ sine)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d2 $ every 3 (slow 2) $ s \"bottle*8\" # up (choose [0,2,4,5,7]) # speed (0.5 + (slow 4 $ range 0 0.2 $ saw)) # gain (slow 2 $ range 0.5 0.7 $ sine) # room 1 # sz 0.5 # delay 0.4 # delayt 0.25 # delayfb 0.3 # lpf (slow 2 $ range 600 1200 $ sine)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d3 $ weave 5 (pan saw) $ sound \"[mash, [~ sine], [feel:3 feel:4], [~ ~ ~ sine]]*4\" # speed (slow 6 $ sin) # gain (slow 2 $ range 0.2 0.5 $ rand) # room 0.6 # sz 1 # hpf (slow 3 $ range 200 400 $ sine)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d4 $ stutWith 3 (1/16) (|* gain 0.8) $ s \"newnotes*8 [~ newnotes*3]\" # n (run 8) # speed (slow 2 $ range (-0.2) 0.3 $ rand) # room 1 # sz 1 # lpf (slow 4 $ range 400 700 $ sin) # hpf 300 # pan (slow 2 $ saw)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d5 $ scramble 2 $ s \"[ambi_choir, ambi_drone]*2\" # speed (0.75 + (0.25 * (slow 3 $ sin))) # gain (slow 4 $ range 0.3 0.6 $ rand) # cut 1 # room 0.7 # sz 0.6 # pan (slow 6 $ range (-1) 1 $ rand)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d6 $ jux (rev) $ every 4 (iter 3) $ s \"pluck*6\" # up (irand 12) # speed (slow 2 $ range 0.2 2 $ rand) # cut 1 # gain (slow 5 $ range 0.3 0.5 $ sine) # lpf (slow 3 $ range 300 1000 $ sine) # hpf (slow 2 $ range 100 500 $ sine) # pan (slow 1 $ sine)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ every 5 (density 0.75) $ s \"[~ orient, can:3*2 ~]*4\" # speed (slow 10 $ sin) # room 0.9 # sz 1 # gain (slow 8 $ range 0.4 0.9 $ sine) # pan (slow 3 $ sine)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d2 $ degradeBy 0.5 $ s \"gamelan*4\" # n (irand 5) # speed (slow 6 $ sine) # gain (slow 4 $ range 0.3 0.6 $ rand) # pan (slow 5 $ range (-1) 1 $ sine) # room 1 # sz 0.8 # delay 0.5 # delayfb 0.7 # lpf (slow 2 $ range 500 1000 $ sine)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d3 $ juxBy 0.5 (|+ n 7) $ s \"glass*8\" # n (iter 3 $ run 8) # speed (slow 2 $ range 0.5 1.5 $ rand) # gain (slow 3 $ range 0.2 0.4 $ sine) # room 0.7 # sz 0.9 # pan (slow 2 $ sine) # hpf (slow 4 $ range 300 700 $ sine)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d4 $ every 6 (slow 2) $ s \"harp*3\" # n (run 7) # speed (const 0.9) # gain (slow 7 $ range 0.3 0.7 $ rand) # lpf (slow 3 $ range 500 1000 $ sine) # hpf (slow 2 $ range 100 500 $ sine) # room 0.8 # sz 0.85 # pan (slow 2 $ saw)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d5 $ s \"sitar*6\" # n (scaleP (slow 3 $ sine) \"minorPentatonic\") # speed (slow 7 $ range 0.75 1.25 $ rand) # gain (slow 5 $ range 0.4 0.7 $ sine) # room 1 # sz 0.5 # pan (slow 4 $ triangle) # delay 0.7 # delayt 0.3 # delayfb 0.4 # lpf (slow 2 $ range 400 600 $ sine)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ every 4 (jux (scramble 2)) $ s \"swell*5\" # speed (slow 4 $ choose [0.9, 0.95, 1, 1.05]) # gain (slow 6 $ range 0.3 0.5 $ rand) # lpf (slow 3 $ range 200 700 $ sine) # hpf (slow 5 $ range 100 300 $ sine) # room 0.9 # sz 0.8 # pan (slow 2 $ sine)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d2 $ weave 4 (pan (slow 2 sine)) $ s \"[~ drum, [can:2 ~], [voices*3 ~], [metal ~ ~]]\" # speed (slow 5 $ range 0.5 1.5 $ rand) # gain (slow 7 $ range 0.2 0.6 $ sine) # room 0.75 # sz 0.85 # hpf (slow 3 $ range 400 700 $ sine)"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d3 $ linger 4 $ s \"[jungbass, ~ ~ snick]*8\" # cut 1 # speed (slow 2 $ saw) # gain (slow 5 $ range 0.3 0.7 $ rand) # room 1 # sz 0.6 # pan (slow 3 $ range (-1) 1 $ sine) # lpf (slow 4 $ range 300 600 $ sine)"
+    }
+  }
+]

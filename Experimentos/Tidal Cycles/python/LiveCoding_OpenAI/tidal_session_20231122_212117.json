@@ -1,0 +1,12 @@
+[
+  {
+    "user": {
+      "role": "user",
+      "content": "Comienza la sesión. Dame el primer patrón."
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "d1 $ slow 4 $ s \"feel*8\" # speed (slow 2 $ sine) # room 0.5 # size 0.8"
+    }
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "user": {
+      "role": "user",
+      "content": "Comienza la sesión. Dame el primer patrón."
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "```\nd1 $ slow 6 $ s \"arpy*8\" # speed (slow 4 $ sine) # cutoff (slow 3 $ range 70 90 sine)\n```"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "```\nd2 $ stack [\n  s \"pad*6\" # pan (slow 2 $ sine),\n  s \"feel*4\" # speed (1.5 - (slow 2 $ sine)) # cutoff (range 60 120 $ slow 2 $ saw)\n] # room 0.7 # size 0.8\n```"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "```\nd3 $ s \"gtr*4\" # delay 0.9 # delaytime (1/16) # delayfeedback 0.8\n    # up (slow 8 $ choose [0, 7, 12])\n    # lpf (slow 5 $ range 500 2000 $ rand)\n```"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "```\nd4 $ s \"seashore*3\" # speed (slow 2 $ range 0.9 1.1 sine)\n    # pan (slow 1 $ sine)\n    # gain 0.8 # room 1 # size 0.6 # orbit 1\n```"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "```\nd1 $ s \"harp*8\" # n (run 8 + ((slow 8 $ sine) * 12)) # cut 1\n    # delay 0.75 # delaytime (1/32) # delayfeedback 0.65\n    # lpf (slow 2 $ range 400 800 sine) # gain 0.9\n```"
+    }
+  }
+]

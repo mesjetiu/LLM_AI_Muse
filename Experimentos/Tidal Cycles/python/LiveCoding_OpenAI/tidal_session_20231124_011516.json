@@ -1,0 +1,62 @@
+[
+  {
+    "user": {
+      "role": "user",
+      "content": "Comienza la sesión. Dame el primer patrón."
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "```d1 $ slow 5 $ s \"bd hc\" # speed \"0.8 1.3\" # cut \"-1 2 3\"```"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "```d2 $ n \"[0, 4, 7]\" # s \"arpy\" # room 0.5 # shape 0.4```"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "```d3 $ chop 4 $ sound \"numbers:1*8\" # speed \"0.7\" # crush 3```"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "```d4 $ s \"gab*8\" # speed (scale 0.1 1.5 $ sine) # gain \"0.7 0.9\"```"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "```d5 $ n \"gab*4\" # sound \"cp*4\" # pan (saw)```"
+    }
+  },
+  {
+    "user": {
+      "role": "user",
+      "content": "Dame el siguiente patrón o modificación de uno existente"
+    },
+    "assistant": {
+      "role": "assistant",
+      "content": "```d1 $ sound \"bd sn:2*4\" # reverb 3 # lpf 1200```"
+    }
+  }
+]
