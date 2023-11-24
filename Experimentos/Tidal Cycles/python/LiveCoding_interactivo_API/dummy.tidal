@@ -3,3 +3,14 @@ d2 $ sound "kick:3"
 d1 $ sound "cpu:0 cpu:2 cpu:4 cpu:6 cpu:0 cpu:2 cpu:6 cpu:8"
 
 d3 $ n "0 1 [5 5 5] 4" # sound "drum"
+
+d4 $ sound "cpu:0 cpu:2 cpu:4 cpu:6 cpu:0 cpu:2 cpu:6 cpu:8 cpu:9"
+
+jkjkj
+
+jj
+
+
+hola
+
+hush

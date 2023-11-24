@@ -64,8 +64,21 @@ def segment_into_patterns(content):
 
     return patterns
 
+# Función para identificar y almacenar comandos no-patrón
+
+
+def segment_into_commands(content, patterns):
+    commands = set()
+    for line in content.split('\n'):
+        clean_line = line.split('--')[0].strip()
+        if not clean_line or clean_line in patterns.values():
+            continue
+        commands.add(clean_line)
+    return commands
+
 
 original_patterns = segment_into_patterns(original_content)
+original_commands = segment_into_commands(original_content, original_patterns)
 
 # Handler para evento de modificación de archivos
 
@@ -75,7 +88,7 @@ class MyHandler(FileSystemEventHandler):
         self.last_modified = time.time()
 
     def on_modified(self, event):
-        global original_patterns
+        global original_patterns, original_commands
         # Debounce para evitar múltiples disparos por guardar rápidamente
         if time.time() - self.last_modified < 1:
             return
@@ -84,16 +97,23 @@ class MyHandler(FileSystemEventHandler):
             with open(event.src_path, 'r') as file:
                 new_content = file.read()
             new_patterns = segment_into_patterns(new_content)
+            new_commands = segment_into_commands(new_content, new_patterns)
 
-            # Comparar y mostrar diferencias
+            # Ejecutar patrones modificados
             for pattern in new_patterns:
                 if pattern not in original_patterns or new_patterns[pattern] != original_patterns[pattern]:
                     run_tidal_command(new_patterns[pattern])
-                    print(
-                        f"Tidal: {pattern}\n{new_patterns[pattern]}")
+                    print(f"Tidal: {pattern}\n{new_patterns[pattern]}")
 
-            # Actualizar contenido original
+            # Ejecutar comandos nuevos y eliminar los antiguos
+            for command in new_commands - original_commands:
+                run_tidal_command(command)
+                print(f"Tidal command executed: {command}")
+            for command in original_commands - new_commands:
+                print(f"Tidal command removed: {command}")
+
             original_patterns = new_patterns
+            original_commands = new_commands
 
         self.last_modified = time.time()
 
