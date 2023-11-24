@@ -1,22 +1,5 @@
+d2 $ sound "kick:3"
 
+d1 $ sound "cpu:0 cpu:2 cpu:4 cpu:6 cpu:0 cpu:2 cpu:6 cpu:8"
 
-d1 $ sound "hi lo [hi hi] lo" -- hola
-
-
-d2 $ sound "hi lo hi"
-
-hjhjh
-d3 $ sound "hi  gjihh i u j ji ji"
---45hhh
-hhhhhh
-hhh
-fffhhh
-jjjjjjjjggg
-jkjkj
-jkjhhhhhhjjjjj
-sdfsdfhhh
-fff
-hjhjhhhhggggjjffff
-sdf
-
-d4 $ sound
+d3 $ n "0 1 [5 5 5] 4" # sound "drum"

@@ -12,6 +12,30 @@ nombre_archivo_tidal = 'dummy.tidal'
 # Crear el cliente de OpenAI
 client = OpenAI(api_key=API_KEY)
 
+# Iniciar GHCi con el proceso de TidalCycles
+try:
+    process = subprocess.Popen(["ghci"], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE, text=True, bufsize=1, universal_newlines=True)
+except Exception as e:
+    print(f"Error al iniciar GHCi: {e}")
+    exit(1)
+
+# Función para enviar un comando a TidalCycles a través de GHCi
+
+
+def run_tidal_command(command):
+    try:
+        print("Enviando comando a TidalCycles:", command)
+        process.stdin.write(command + "\n")
+        process.stdin.flush()
+    except Exception as e:
+        print(f"Error al enviar comando a TidalCycles: {e}")
+
+
+# Inicializar TidalCycles
+run_tidal_command(":script /usr/share/haskell-tidal/BootTidal.hs")
+time.sleep(5)  # Esperar a que TidalCycles se inicialice
+
 # Leer y almacenar la versión inicial del archivo de Tidal
 with open(nombre_archivo_tidal, 'r') as file:
     original_content = file.read()
@@ -57,7 +81,6 @@ class MyHandler(FileSystemEventHandler):
             return
 
         if event.src_path.endswith(".tidal"):
-            print(f"Archivo modificado: {event.src_path}")
             with open(event.src_path, 'r') as file:
                 new_content = file.read()
             new_patterns = segment_into_patterns(new_content)
@@ -65,8 +88,9 @@ class MyHandler(FileSystemEventHandler):
             # Comparar y mostrar diferencias
             for pattern in new_patterns:
                 if pattern not in original_patterns or new_patterns[pattern] != original_patterns[pattern]:
+                    run_tidal_command(new_patterns[pattern])
                     print(
-                        f"Patrón modificado: {pattern}\n{new_patterns[pattern]}")
+                        f"Tidal: {pattern}\n{new_patterns[pattern]}")
 
             # Actualizar contenido original
             original_patterns = new_patterns
