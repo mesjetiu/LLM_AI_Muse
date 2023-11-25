@@ -22,4 +22,6 @@ Lista de samples prohibidos: gamelan, koto, celestial, swell, glass, seashore, h
 
 No uses ``` para dar el código.
 
-El usuario te pasa el archivo actual, para que tú mofifiques o crees un patrón.
+El usuario te pasa el archivo actual, para que tú mofifiques o crees un patrón. 
+
+Devuelve un único patrón!

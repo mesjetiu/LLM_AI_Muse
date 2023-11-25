@@ -8,22 +8,23 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from threading import Thread
 
-nombre_archivo_tidal = 'dummy.tidal'
+nombre_archivo_tidal = './dummy.tidal'
 
 api_call_in_progress = False
+api_response_pending = None
 
 # Crear el cliente de OpenAI
 client = OpenAI(api_key=API_KEY)
 
 # Definir parámetros para las consultas a la API
-model = "gpt-4-1106-preview"
+model = "gpt-4-1106-preview"  # "gpt-3.5-turbo"  #
 temperature = 1
 max_tokens = 512
 top_p = 1
 frequency_penalty = 0
 presence_penalty = 0
-wait_time = 15  # Tiempo de espera mínimo entre llamadas a la API
-iterations = 5  # Número de iteraciones
+wait_time_before_api = 15  # Tiempo de espera mínimo antes de llamar a la API
+wait_time_after_api = 30  # Tiempo de espera mínimo tras llamadas a la API
 
 # Leer el mensaje del sistema desde un archivo externo
 with open('system_prompt.txt', 'r') as file:
@@ -37,7 +38,7 @@ messages = [
     },
     {
         "role": "user",
-        "content": "Comienza la sesión. Dame el primer patrón."
+        "content": ""
     }
 ]
 
@@ -63,7 +64,7 @@ def run_tidal_command(command):
 
 # Inicializar TidalCycles
 run_tidal_command(":script /usr/share/haskell-tidal/BootTidal.hs")
-time.sleep(5)  # Esperar a que TidalCycles se inicialice
+# time.sleep(5)  # Esperar a que TidalCycles se inicialice
 
 # Leer y almacenar la versión inicial del archivo de Tidal
 with open(nombre_archivo_tidal, 'r') as file:
@@ -113,7 +114,9 @@ original_commands = segment_into_commands(original_content, original_patterns)
 def consult_openai_api(content):
     global api_call_in_progress
     api_call_in_progress = True  # Se inicia una consulta a la API
+    time.sleep(wait_time_before_api)
     try:
+        print("Consultando API de OpenAI...")
         # Realizar consulta al modelo
         # Actualizar el mensaje del usuario con el contenido actual del archivo
         messages[1]["content"] = content
@@ -129,10 +132,13 @@ def consult_openai_api(content):
 
         # Extraer el mensaje de respuesta de la API
         tidal_command = response.choices[0].message.content
-        print(f"Respuesta de la API: {tidal_command}")
+        # print(f"Respuesta de la API: {tidal_command}")
+
+        global api_response_pending
+        api_response_pending = response.choices[0].message.content
 
         # Esperar el tiempo establecido
-        time.sleep(wait_time)
+        time.sleep(wait_time_after_api)
 
     except Exception as e:
         print(f"Error en la llamada a la API de OpenAI: {e}")
@@ -148,7 +154,7 @@ class MyHandler(FileSystemEventHandler):
         self.last_modified = time.time()
 
     def on_modified(self, event):
-        global original_patterns, original_commands
+        global original_patterns, original_commands, api_response_pending
         # Debounce para evitar múltiples disparos por guardar rápidamente
         if time.time() - self.last_modified < 1:
             return
@@ -180,6 +186,15 @@ class MyHandler(FileSystemEventHandler):
 
             original_patterns = new_patterns
             original_commands = new_commands
+
+            if api_response_pending:
+                time.sleep(0.2)
+                with open(nombre_archivo_tidal, 'a') as file:
+                    file.write('\n\n')
+                    file.write(api_response_pending)
+                api_response_pending = None
+            else:
+                print("No hay respuesta de la API pendiente para escribir")
 
         self.last_modified = time.time()
 
