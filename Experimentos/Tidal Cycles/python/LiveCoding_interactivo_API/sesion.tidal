@@ -1,9 +1,0 @@
-hush
-
-d1 $ sound "bd*2" 
-
-
-set api off
-
-
-quit script

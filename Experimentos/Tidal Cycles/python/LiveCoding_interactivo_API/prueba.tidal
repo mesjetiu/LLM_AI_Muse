@@ -1,0 +1,95 @@
+d1 $ sound "hi:7*3 snare!2"
+
+d1 $ n "~ 5*2 [2*2 2] 6*2" # s "hi" # room 0.5 # sz 0.5 # pan sine
+
+d1 $ "clap [numbers:1 numbers:2 numbers:3]/3"
+
+d1 $ n "[0 1 2 3]/4 [1 2*2 3*3 4*4]/4" # s "clap numbers" # room "[0 1 0]/3 0" # size 0.5
+
+d2 $ s "[bd sd, rs hi rs lo]" # gain 0.8
+
+d3 $ n "{2 3 4 5, 0 1}" # s "alphabet" # gain 0.5 # pan 0
+
+d4 $ n "[~6~7~8~9, ~0 ~1]" # s "alphabet" # gain 0.5 # pan 1
+
+d5 $ s "sd . mt mt . lt lt lt . arpy:0"
+
+d6 $ n "[0 1 2 3 4 5 6 7 8 9]/3" # s "arpy"
+
+unsolo 6
+
+unsolo 5
+
+unmute 1
+
+hush
+
+d1 $ n "<0 1 2 3> <1 2*2 3*3 4*4>" # s "clap numbers" # room "<0 1 0> 0" # size 0.5
+
+
+
+------------------------
+
+
+
+d1 $ sound "kick snare snare"
+
+d1 $ s "kick snare!2"
+
+
+d1 $ sound "kick [snare snare]"
+
+d1 $ s "kick snare*2"
+
+d1 $ n "s s*2" # s "kick snare"
+
+
+d1 $ sound "kick snare kick snare kick snare"
+
+d1 $ s "[kick snare]*3"
+
+
+
+d1 $ n "0 [1 2 3]/3" # sound "cpu2"
+
+d1 $ n "0 <1 2 3>" # s "cpu2"
+
+
+d1 $ n "[0 0 2] [4 5 6 7] [4 1] [0 3 0 3]" # sound "cpu2"
+
+d1 $ n "0!2 2 . 4 5 6 7 . 4 1 . [0 3]!2" # s "cpu2" # vowel "<a e i o u p>"
+
+
+d1 $ n "[0 1, 2 3 4]" # sound "alphabet"
+
+-- There's another way of getting subsequences to align, using { } instead of [ ]:
+d1 $ n "{0 1, 2 3 4}" # sound "alphabet"
+
+hush
+
+d1 $ sound "kick snare kick snare kick snare clap"
+
+d1 $ s "[kick snare]!3 clap"
+
+
+d1 $ sound "[kick snare kick snare kick snare] clap"
+
+d1 $ s "[kick snare]*3 clap"
+
+
+d1 $ sound "bd sd sd sd bd [sd sd sd]"
+
+d1 $ s "bd sd!3 bd sd*3"
+
+
+d1 $ s "cpu2*9" # vowel "<a e i o u>" # (speed "1 2 3 4 5 6 5 6 5") # pan sine
+
+d1 $  n "0 1 0 [2 4] 2 ~ 1*2 3" # s "cpu" # squiz "4 1 0 3"
+
+d1 $ n "0 1 2 3 4 5 6 7 " # s "alphabet" # squiz (sine*20+10) # gain 0.8--(slow 4 $ sine)
+
+d1 $ n "<0 1 2 3 4 5 6 7 8 9 10>" # s "kurt"
+
+d1 $ slow 3 $ n "<0 1 2 3 4 5 6 7>(7,13)" # s "kurt" # squiz (slow 5 $ sine*10+5) # room 1  # sz 0.98 # pan (slow 6 $ sine)
+
+hush

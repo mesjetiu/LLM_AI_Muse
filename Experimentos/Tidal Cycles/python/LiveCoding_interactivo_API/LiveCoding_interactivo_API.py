@@ -1,5 +1,7 @@
 import subprocess
 import time
+import datetime
+import os
 import sys
 from openai import OpenAI
 from apikey import API_KEY  # Importa la clave desde apikey.py
@@ -7,8 +9,18 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from threading import Thread
 
-nombre_archivo_tidal = 'sesion.tidal'
+# Obtén la fecha y hora actual
+current_datetime = datetime.datetime.now()
 
+# Formatea la fecha y hora para el nombre del archivo
+formatted_datetime = current_datetime.strftime("%Y.%m.%d_%H%M")
+nombre_archivo_tidal = f"tidal_session_{formatted_datetime}.tidal"
+
+# Crear el archivo si no existe
+if not os.path.exists(nombre_archivo_tidal):
+    open(nombre_archivo_tidal, 'w').close()
+
+# Variables para controlar el estado de la API
 api_call_in_progress = False
 api_response_pending = None
 api_enabled = False  # O True, dependiendo del estado inicial deseado
