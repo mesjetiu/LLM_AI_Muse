@@ -23,7 +23,7 @@ max_tokens = 512
 top_p = 1
 frequency_penalty = 0
 presence_penalty = 0
-wait_time_before_api = 15  # Tiempo de espera mínimo antes de llamar a la API
+wait_time_before_api = 1500  # Tiempo de espera mínimo antes de llamar a la API
 wait_time_after_api = 30  # Tiempo de espera mínimo tras llamadas a la API
 
 # Leer el mensaje del sistema desde un archivo externo
@@ -55,8 +55,10 @@ except Exception as e:
 
 def run_tidal_command(command):
     try:
-        print("Enviando comando a TidalCycles:", command)
-        process.stdin.write(command + "\n")
+        # Unir todas las líneas del patrón en una sola cadena
+        full_command = ' '.join(command.split('\n'))
+        print("Enviando comando a TidalCycles:", full_command)
+        process.stdin.write(full_command + "\n")
         process.stdin.flush()
     except Exception as e:
         print(f"Error al enviar comando a TidalCycles: {e}")
@@ -94,21 +96,32 @@ def segment_into_patterns(content):
 
     return patterns
 
+
 # Función para identificar y almacenar comandos no-patrón
 
-
-def segment_into_commands(content, patterns):
+def segment_into_commands(content):
     commands = set()
-    for line in content.split('\n'):
+    lines = content.split('\n')
+    for i, line in enumerate(lines):
+        # Eliminar comentarios y espacios en blanco
         clean_line = line.split('--')[0].strip()
-        if not clean_line or clean_line in patterns.values():
+        if not clean_line:
             continue
-        commands.add(clean_line)
+
+        # Comprobar si la línea es un comando (no comienza con 'dn')
+        if not (clean_line.startswith('d') and clean_line[1].isdigit() and ' $' in clean_line):
+            # Comprobar si la línea está rodeada por líneas vacías o comentarios
+            prev_line = lines[i - 1].split('--')[0].strip() if i > 0 else ''
+            next_line = lines[i +
+                              1].split('--')[0].strip() if i < len(lines) - 1 else ''
+            if not prev_line and not next_line:
+                commands.add(clean_line)
+
     return commands
 
 
 original_patterns = segment_into_patterns(original_content)
-original_commands = segment_into_commands(original_content, original_patterns)
+original_commands = segment_into_commands(original_content)
 
 
 def consult_openai_api(content):
@@ -163,13 +176,13 @@ class MyHandler(FileSystemEventHandler):
             with open(event.src_path, 'r') as file:
                 new_content = file.read()
             new_patterns = segment_into_patterns(new_content)
-            new_commands = segment_into_commands(new_content, new_patterns)
+            new_commands = segment_into_commands(new_content)
 
             # Ejecutar patrones modificados
             for pattern in new_patterns:
                 if pattern not in original_patterns or new_patterns[pattern] != original_patterns[pattern]:
+                    print(f"Patrón completo a enviar: {new_patterns[pattern]}")
                     run_tidal_command(new_patterns[pattern])
-                    print(f"Tidal: {pattern}\n{new_patterns[pattern]}")
 
             # Si no hay una llamada a la API en curso, lanzar un nuevo hilo para la consulta
             if not api_call_in_progress:
