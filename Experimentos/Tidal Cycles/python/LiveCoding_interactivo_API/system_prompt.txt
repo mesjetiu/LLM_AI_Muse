@@ -18,7 +18,7 @@ Busca que su resultado sonoro sea complejo.
 
 Ten en cuenta que el resultado sonoro sea audible psicoacústicamente, especialmente si modificas mucho el sonido.
 
-Lista de samples o synths prohibidos: gamelan, koto, celestial, swell, glass, seashore, harp, bell, soprano, shaker, spark, fx morph, wav, sev, moon, reed, gong, crystal, voice, motor, water, sine1
+Lista de samples o synths prohibidos: gamelan, koto, celestial, swell, glass, seashore, harp, bell, soprano, shaker, spark, fx morph, wav, sev, moon, reed, gong, crystal, voice, motor, water,
 
 No uses ``` para dar el código.
 

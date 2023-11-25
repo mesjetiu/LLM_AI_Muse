@@ -1,8 +1,7 @@
 import subprocess
 import time
+import sys
 from openai import OpenAI
-import json
-import datetime
 from apikey import API_KEY  # Importa la clave desde apikey.py
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
@@ -112,6 +111,20 @@ def set_api_on_off_command(new_state):
     print(f"API: {api_enabled}")
 
 
+# def quit_script_command(new_state):
+#     if new_state == "script":
+#         print("Terminando la ejecución del script...")
+#         observer.stop()
+#         observer.join()
+#         try:
+#             # Enviar un comando de salida a GHCi si es necesario
+#             # Por ejemplo: process.stdin.write(":quit\n")
+#             process.terminate()
+#         except Exception as e:
+#             print(f"Error al cerrar GHCi: {e}")
+#         sys.exit()
+
+
 def api_on_command():
     global api_enabled
     api_enabled = True
@@ -177,6 +190,7 @@ def set_wait_time_after_api_command(new_wait_time):
 # Actualización del diccionario de comandos
 command_handlers = {
     "set api": set_api_on_off_command,
+    # "quit": quit_script_command,
     "set model": set_model_command,
     "set temperature": set_temperature_command,
     "set max tokens": set_max_tokens_command,
@@ -288,15 +302,19 @@ class MyHandler(FileSystemEventHandler):
                 command_args = command_parts[-1] if len(
                     command_parts) > 1 else None
 
-                if command_key in command_handlers:
-                    command_handlers[command_key](
-                        command_args) if command_args else command_handlers[command_key]()
+                # Verificar primero si el comando completo es conocido
+                if command in command_handlers:
+                    command_handlers[command]()
+                # Luego verificar si la clave sin el último argumento es un comando conocido
+                elif command_key in command_handlers and command_args:
+                    command_handlers[command_key](command_args)
                 else:
+                    # Enviar a GHCi si no es un comando reconocido
                     run_tidal_command(command)
                     print(f"Tidal command executed: {command}")
 
             for command in original_commands - new_commands:
-                if ' '.join(command.split()[:-1]) not in command_handlers:
+                if command not in command_handlers and ' '.join(command.split()[:-1]) not in command_handlers:
                     print(f"Tidal command removed: {command}")
 
             original_patterns = new_patterns
