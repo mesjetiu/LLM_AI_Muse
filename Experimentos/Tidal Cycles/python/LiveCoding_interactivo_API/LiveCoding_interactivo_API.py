@@ -12,6 +12,7 @@ nombre_archivo_tidal = 'sesion.tidal'
 
 api_call_in_progress = False
 api_response_pending = None
+api_enabled = False  # O True, dependiendo del estado inicial deseado
 
 # Crear el cliente de OpenAI
 client = OpenAI(api_key=API_KEY)
@@ -23,7 +24,7 @@ max_tokens = 512
 top_p = 1
 frequency_penalty = 0
 presence_penalty = 0
-wait_time_before_api = 15  # Tiempo de espera mínimo antes de llamar a la API
+wait_time_before_api = 10  # Tiempo de espera mínimo antes de llamar a la API
 wait_time_after_api = 30  # Tiempo de espera mínimo tras llamadas a la API
 
 # Leer el mensaje del sistema desde un archivo externo
@@ -96,6 +97,26 @@ def segment_into_patterns(content):
             patterns[current_pattern] += '\n' + clean_line
 
     return patterns
+
+
+def api_on_command():
+    global api_enabled
+    api_enabled = True
+    print("API activada.")
+
+
+def api_off_command():
+    global api_enabled
+    api_enabled = False
+    print("API desactivada.")
+
+
+# Diccionario de comandos
+command_handlers = {
+    "api on": api_on_command,
+    "api off": api_off_command,
+    # Aquí puedes añadir más comandos en el futuro
+}
 
 
 # Función para identificar y almacenar comandos no-patrón
@@ -186,17 +207,21 @@ class MyHandler(FileSystemEventHandler):
                     run_tidal_command(new_patterns[pattern])
 
             # Si no hay una llamada a la API en curso, lanzar un nuevo hilo para la consulta
-            if not api_call_in_progress:
+            if not api_call_in_progress and api_enabled:
                 api_thread = Thread(
                     target=consult_openai_api, args=(new_content,))
                 api_thread.start()
 
             # Ejecutar comandos nuevos y eliminar los antiguos
             for command in new_commands - original_commands:
-                run_tidal_command(command)
-                print(f"Tidal command executed: {command}")
+                if command in command_handlers:
+                    command_handlers[command]()
+                else:
+                    run_tidal_command(command)
+                    print(f"Tidal command executed: {command}")
             for command in original_commands - new_commands:
-                print(f"Tidal command removed: {command}")
+                if command not in command_handlers:
+                    print(f"Tidal command removed: {command}")
 
             original_patterns = new_patterns
             original_commands = new_commands
