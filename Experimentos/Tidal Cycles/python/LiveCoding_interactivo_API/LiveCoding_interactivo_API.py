@@ -99,6 +99,19 @@ def segment_into_patterns(content):
     return patterns
 
 
+def set_api_on_off_command(new_state):
+    global api_enabled
+    if new_state == "on":
+        api_enabled = True
+        print("API activada.")
+    elif new_state == "off":
+        api_enabled = False
+        print("API desactivada.")
+    else:
+        print("Comando no reconocido. Introduce 'set api on' o 'set api off'.")
+    print(f"API: {api_enabled}")
+
+
 def api_on_command():
     global api_enabled
     api_enabled = True
@@ -111,11 +124,67 @@ def api_off_command():
     print("API desactivada.")
 
 
-# Diccionario de comandos
+def set_model_command(new_model):
+    global model
+    model = new_model.strip()
+    print(f"Modelo cambiado a {model}.")
+
+
+def set_temperature_command(new_temperature):
+    global temperature
+    temperature = float(new_temperature.strip())
+    print(f"Temperatura cambiada a {temperature}.")
+
+
+def set_max_tokens_command(new_max_tokens):
+    global max_tokens
+    max_tokens = int(new_max_tokens.strip())
+    print(f"Max tokens cambiado a {max_tokens}.")
+
+
+def set_top_p_command(new_top_p):
+    global top_p
+    top_p = float(new_top_p.strip())
+    print(f"Top P cambiado a {top_p}.")
+
+
+def set_frequency_penalty_command(new_frequency_penalty):
+    global frequency_penalty
+    frequency_penalty = float(new_frequency_penalty.strip())
+    print(f"Penalización de frecuencia cambiada a {frequency_penalty}.")
+
+
+def set_presence_penalty_command(new_presence_penalty):
+    global presence_penalty
+    presence_penalty = float(new_presence_penalty.strip())
+    print(f"Penalización de presencia cambiada a {presence_penalty}.")
+
+
+def set_wait_time_before_api_command(new_wait_time):
+    global wait_time_before_api
+    wait_time_before_api = int(new_wait_time.strip())
+    print(
+        f"Tiempo de espera antes de la API cambiado a {wait_time_before_api} segundos.")
+
+
+def set_wait_time_after_api_command(new_wait_time):
+    global wait_time_after_api
+    wait_time_after_api = int(new_wait_time.strip())
+    print(
+        f"Tiempo de espera después de la API cambiado a {wait_time_after_api} segundos.")
+
+
+# Actualización del diccionario de comandos
 command_handlers = {
-    "api on": api_on_command,
-    "api off": api_off_command,
-    # Aquí puedes añadir más comandos en el futuro
+    "set api": set_api_on_off_command,
+    "set model": set_model_command,
+    "set temperature": set_temperature_command,
+    "set max tokens": set_max_tokens_command,
+    "set top p": set_top_p_command,
+    "set frequency penalty": set_frequency_penalty_command,
+    "set presence penalty": set_presence_penalty_command,
+    "set wait time before api": set_wait_time_before_api_command,
+    "set wait time after api": set_wait_time_after_api_command
 }
 
 
@@ -214,13 +283,26 @@ class MyHandler(FileSystemEventHandler):
 
             # Ejecutar comandos nuevos y eliminar los antiguos
             for command in new_commands - original_commands:
-                if command in command_handlers:
-                    command_handlers[command]()
+                command_parts = command.split()
+                # Todo menos la última palabra
+                command_key = ' '.join(command_parts[:-1])
+                # Solo la última palabra o None si no hay
+                command_args = command_parts[-1] if len(
+                    command_parts) > 1 else None
+
+                if command_key in command_handlers:
+                    if command_args:
+                        # Pasar argumentos si existen
+                        command_handlers[command_key](command_args)
+                    else:
+                        # Llamar sin argumentos
+                        command_handlers[command_key]()
                 else:
                     run_tidal_command(command)
                     print(f"Tidal command executed: {command}")
+
             for command in original_commands - new_commands:
-                if command not in command_handlers:
+                if ' '.join(command.split()[:-1]) not in command_handlers:
                     print(f"Tidal command removed: {command}")
 
             original_patterns = new_patterns
