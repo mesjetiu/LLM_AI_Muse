@@ -1,16 +1,18 @@
 
 
 
-d1 $ sound "hh*5" # gain 1.5
+d1 $ sound "hh*5" # gain 1.2
 
 
 d3 $ stack [
-  sound "bd*15",
-  s "bd*6",
-  n "0 1 2 3" # sound "numbers" |<| n "4 5"
+  sound "bd",
+  s "bd*3",
+  n "0 1 2 3 4 5 6 7" # sound "numbers" |<| n "4 5"
 ] 
 
 
-d3 $ sound "cpu2*16"
+d3 $ sound "cpu2*4"
+
+--d3 $ silence
 
 hush

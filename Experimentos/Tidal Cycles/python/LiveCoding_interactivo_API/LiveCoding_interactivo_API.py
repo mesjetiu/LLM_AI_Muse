@@ -89,7 +89,8 @@ def segment_into_patterns(content):
             continue
 
         if clean_line.startswith('d') and clean_line[1].isdigit() and ' $' in clean_line:
-            current_pattern = clean_line.split(' $')[0]
+            # Utilizar toda la línea del patrón como clave
+            current_pattern = clean_line
             patterns[current_pattern] = clean_line
         elif current_pattern:
             patterns[current_pattern] += '\n' + clean_line
