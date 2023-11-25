@@ -8,7 +8,7 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from threading import Thread
 
-nombre_archivo_tidal = './dummy.tidal'
+nombre_archivo_tidal = 'sesion.tidal'
 
 api_call_in_progress = False
 api_response_pending = None
@@ -23,7 +23,7 @@ max_tokens = 512
 top_p = 1
 frequency_penalty = 0
 presence_penalty = 0
-wait_time_before_api = 1500  # Tiempo de espera mínimo antes de llamar a la API
+wait_time_before_api = 15  # Tiempo de espera mínimo antes de llamar a la API
 wait_time_after_api = 30  # Tiempo de espera mínimo tras llamadas a la API
 
 # Leer el mensaje del sistema desde un archivo externo
@@ -205,7 +205,8 @@ class MyHandler(FileSystemEventHandler):
                 time.sleep(0.2)
                 with open(nombre_archivo_tidal, 'a') as file:
                     file.write('\n\n')
-                    file.write(api_response_pending)
+                    # Añade comentario con el nombre del modelo
+                    file.write(api_response_pending + f" -- {model}\n")
                 api_response_pending = None
             else:
                 print("No hay respuesta de la API pendiente para escribir")

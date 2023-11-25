@@ -1,0 +1,57 @@
+
+
+
+d1 $ sound "hh*2" # gain 1.2
+
+
+d3 $ stack [
+  sound "bd",
+  s "bd*3",
+  n "0 1 2 4 5 6 7" # sound "numbers" |<| n "4 5"
+] 
+
+
+d3 $ sound "cpu2*6"
+
+--d3 $ silence
+
+
+d2 $ slow 1 $ loopAt 4 $ striate 24 $ sound "feel*9" # speed "-1 0.5 1.3" # room 0.8 # size 0.9 # gain 0.7
+
+
+d1 $ slow sine $ s "arpy*10" # gain 0.5
+
+
+d2 $ striate 13 $ sound "feel:7*8"
+
+d2 $ striate' 16 0.5 $ sound "feel:7*8" # up "<0 12 -7>" # speed (slow 2 "<0.75 1 -0.5>") -- gpt-4-1106-preview
+
+--crea acordes, gpt
+
+hush
+
+
+
+
+
+
+d4 $ grain 8 (choose [4,8,12]) $ sound "feel*16" # up (slow 6 $ scale "<c d f g a>" "0 4 5 -3") # speed (slow 3 $ sine1) # room 1 # size 0.8 # gain 0.75 -- gpt-4-1106-preview
+
+--transforma este, que no funciona. quiero acordes. simplifica.
+
+
+d4 $ grain 4 (choose [8,12]) $ sound "arpy*16" # n (run 8) # up (slow 4 $ scale "minor" "0 3 -5 7") # room 1 # size 0.8 # gain 0.6 -- gpt-4-1106-preview
+
+--no funciona. quiero acordes nada más... con ritmo. no te compliques. sencillo
+
+
+d4 $ s "superpiano" # n (slow 2 $ irand 16) # delay 0.5 # delaytime (choose [0.25,0.5,0.75]) # delayfeedback 0.4 # gain 1.5 -- gpt-4-1106-preview
+
+
+d4 $ slow 4 $ n "[0,4,7]/2" # s "superpiano" # gain 0.9 # room 0.6 # size 0.7 -- gpt-4-1106-preview
+
+
+
+
+
+d4 $ degradeBy 0.2 $ s "superpiano" # n "[0, 2, 4, 5, 7, 9, 11]/4" # gain 0.8 # room 0.4 # size 0.6 -- gpt-4-1106-preview
