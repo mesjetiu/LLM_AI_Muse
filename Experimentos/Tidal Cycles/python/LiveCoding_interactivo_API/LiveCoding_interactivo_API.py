@@ -284,19 +284,13 @@ class MyHandler(FileSystemEventHandler):
             # Ejecutar comandos nuevos y eliminar los antiguos
             for command in new_commands - original_commands:
                 command_parts = command.split()
-                # Todo menos la última palabra
                 command_key = ' '.join(command_parts[:-1])
-                # Solo la última palabra o None si no hay
                 command_args = command_parts[-1] if len(
                     command_parts) > 1 else None
 
                 if command_key in command_handlers:
-                    if command_args:
-                        # Pasar argumentos si existen
-                        command_handlers[command_key](command_args)
-                    else:
-                        # Llamar sin argumentos
-                        command_handlers[command_key]()
+                    command_handlers[command_key](
+                        command_args) if command_args else command_handlers[command_key]()
                 else:
                     run_tidal_command(command)
                     print(f"Tidal command executed: {command}")
