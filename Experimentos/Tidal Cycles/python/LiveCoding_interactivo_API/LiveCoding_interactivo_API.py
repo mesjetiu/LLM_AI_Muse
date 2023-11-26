@@ -78,21 +78,36 @@ messages = [
     }
 ]
 
+
+def iniciar_ghci():
+    # Iniciar GHCi con el proceso de TidalCycles
+    try:
+        process = subprocess.Popen(["ghci"], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE, text=True, bufsize=1, universal_newlines=True)
+    except Exception as e:
+        print(f"Error al iniciar GHCi: {e}")
+        sys.exit(1)
+
+    return process
+
+
+def iniciar_supercollider():
+    # Iniciar sclang con el proceso de SuperCollider
+    try:
+        process_SC = subprocess.Popen(["sclang"], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                                      stderr=subprocess.PIPE, text=True, bufsize=1, universal_newlines=True)
+    except Exception as e:
+        print(f"Error al iniciar SuperCollider: {e}")
+        sys.exit(1)
+
+    return process_SC
+
+
 # Iniciar GHCi con el proceso de TidalCycles
-try:
-    process = subprocess.Popen(["ghci"], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE, text=True, bufsize=1, universal_newlines=True)
-except Exception as e:
-    print(f"Error al iniciar GHCi: {e}")
-    exit(1)
+process = iniciar_ghci()
 
 # Iniciar sclang con el proceso de SuperCollider
-try:
-    process_SC = subprocess.Popen(["sclang"], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                                  stderr=subprocess.PIPE, text=True, bufsize=1, universal_newlines=True)
-except Exception as e:
-    print(f"Error al iniciar SuperCollider: {e}")
-    exit(1)
+process_SC = iniciar_supercollider()
 
 # Función para registrar un comando en el archivo de log
 
@@ -122,6 +137,15 @@ def run_tidal_command(command):
     except Exception as e:
         print(f"Error al enviar comando a TidalCycles: {e}")
 
+# Función para enviar un comando a SuperCollider a través de sclang
+
+
+def run_sclang_command(command):
+    global process_SC
+    print("Enviando comando a SuperCollider:", command)
+    process_SC.stdin.write(command + "\n")
+    process_SC.stdin.flush()
+
 
 # Inicializar TidalCycles
 run_tidal_command(f":script {boot_tidal_path}")
@@ -148,6 +172,34 @@ def set_api_on_off_command(new_state):
 def quit_script_command():
     global running
     running = False
+
+
+def restart_command(service):
+    global process, process_SC
+    if service == "ghci":
+        if process is not None:
+            # Terminar el proceso existente
+            process.terminate()
+            process.wait()  # Espera a que el proceso termine completamente
+            process = iniciar_ghci()
+            # Inicializar TidalCycles
+            run_tidal_command(f":script {boot_tidal_path}")
+            # time.sleep(5)  # Esperar a que TidalCycles se inicialice
+
+    elif service == "sclang":
+        run_sclang_command("thisProcess.shutdown;\n")
+        run_sclang_command("0.exit;\n")
+        # Espera hasta que sclang termine
+        while process_SC.poll() is None:
+            # Espera un breve momento antes de verificar de nuevo
+            time.sleep(0.1)
+
+        process_SC.stdin.close()
+        process_SC.terminate()
+        process_SC = iniciar_supercollider()
+    else:
+        print("Comando no reconocido. Introduce 'restart ghci' o 'restart sclang'.")
+    print(f"Proceso {service} reiniciado.")
 
 
 def api_on_command():
@@ -216,6 +268,7 @@ def set_wait_time_after_api_command(new_wait_time):
 command_handlers = {
     "set api": set_api_on_off_command,
     "quit": quit_script_command,
+    "restart": restart_command,
     "set model": set_model_command,
     "set temperature": set_temperature_command,
     "set max tokens": set_max_tokens_command,
@@ -401,5 +454,11 @@ except KeyboardInterrupt:
 observer.stop()
 observer.join()
 # Cerrar el proceso de SuperCollider
+run_sclang_command("thisProcess.shutdown;\n")
+run_sclang_command("0.exit;\n")
+# Espera hasta que sclang termine
+while process_SC.poll() is None:
+    # Espera un breve momento antes de verificar de nuevo
+    time.sleep(0.1)
 process_SC.stdin.close()
 process_SC.terminate()
