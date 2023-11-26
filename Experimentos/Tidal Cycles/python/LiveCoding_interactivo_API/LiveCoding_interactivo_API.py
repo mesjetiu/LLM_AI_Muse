@@ -9,6 +9,23 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from threading import Thread
 
+system_prompt_file = 'system_prompt_2.txt'
+
+# Variables para controlar el estado de la API
+api_call_in_progress = False
+api_response_pending = None
+api_enabled = False  # O True, dependiendo del estado inicial deseado
+
+# Definir parámetros para las consultas a la API
+model = "gpt-4-1106-preview"  # "gpt-3.5-turbo"  #
+temperature = 1
+max_tokens = 256
+top_p = 1
+frequency_penalty = 0
+presence_penalty = 0
+wait_time_before_api = 0  # Tiempo de espera mínimo antes de llamar a la API
+wait_time_after_api = 60  # Tiempo de espera mínimo tras llamadas a la API
+
 # Obtén la fecha y hora actual
 current_datetime = datetime.datetime.now()
 
@@ -26,26 +43,11 @@ open(log_filename, 'w').close()  # Crea el archivo si no existe
 
 last_command_time = datetime.datetime.now()
 
-# Variables para controlar el estado de la API
-api_call_in_progress = False
-api_response_pending = None
-api_enabled = False  # O True, dependiendo del estado inicial deseado
-
 # Crear el cliente de OpenAI
 client = OpenAI(api_key=API_KEY)
 
-# Definir parámetros para las consultas a la API
-model = "gpt-4-1106-preview"  # "gpt-3.5-turbo"  #
-temperature = 1
-max_tokens = 512
-top_p = 1
-frequency_penalty = 0
-presence_penalty = 0
-wait_time_before_api = 0  # Tiempo de espera mínimo antes de llamar a la API
-wait_time_after_api = 10  # Tiempo de espera mínimo tras llamadas a la API
-
 # Leer el mensaje del sistema desde un archivo externo
-with open('system_prompt.txt', 'r') as file:
+with open(system_prompt_file, 'r') as file:
     system_prompt = file.read()
 
 # Mensajes iniciales para la conversación con OpenAI
@@ -103,31 +105,6 @@ run_tidal_command(":script /usr/share/haskell-tidal/BootTidal.hs")
 # Leer y almacenar la versión inicial del archivo de Tidal
 with open(nombre_archivo_tidal, 'r') as file:
     original_content = file.read()
-
-# Función para dividir el contenido en patrones
-
-
-def segment_into_patterns(content):
-    patterns = {}
-    current_pattern = None
-    for line in content.split('\n'):
-        # Separar comentarios del código del patrón
-        pattern_part, _, comment_part = line.partition('--')
-        clean_line = pattern_part.strip()
-
-        # Ignorar líneas completamente vacías y finalizar el patrón actual
-        if not clean_line:
-            current_pattern = None
-            continue
-
-        if clean_line.startswith('d') and clean_line[1].isdigit() and ' $' in clean_line:
-            # Utilizar toda la línea del patrón como clave
-            current_pattern = clean_line
-            patterns[current_pattern] = clean_line
-        elif current_pattern:
-            patterns[current_pattern] += '\n' + clean_line
-
-    return patterns
 
 
 def set_api_on_off_command(new_state):
@@ -233,8 +210,33 @@ command_handlers = {
     "set wait time after api": set_wait_time_after_api_command
 }
 
+# Función para dividir el contenido en patrones
+
+
+def segment_into_patterns(content):
+    patterns = {}
+    current_pattern = None
+    for line in content.split('\n'):
+        # Separar comentarios del código del patrón
+        pattern_part, _, comment_part = line.partition('--')
+        clean_line = pattern_part.strip()
+
+        # Ignorar líneas completamente vacías y finalizar el patrón actual
+        if not clean_line:
+            current_pattern = None
+            continue
+
+        if clean_line.startswith('d') and clean_line[1].isdigit() and ' $' in clean_line:
+            # Utilizar toda la línea del patrón como clave
+            current_pattern = clean_line
+            patterns[current_pattern] = clean_line
+        elif current_pattern:
+            patterns[current_pattern] += '\n' + clean_line
+
+    return patterns
 
 # Función para identificar y almacenar comandos no-patrón
+
 
 def segment_into_commands(content):
     commands = set()
@@ -282,7 +284,7 @@ def consult_openai_api(content):
 
         # Extraer el mensaje de respuesta de la API
         tidal_command = response.choices[0].message.content
-        # print(f"Respuesta de la API: {tidal_command}")
+        print(f"Respuesta de la API: {tidal_command}")
 
         global api_response_pending
         api_response_pending = response.choices[0].message.content
@@ -306,7 +308,7 @@ class MyHandler(FileSystemEventHandler):
     def on_modified(self, event):
         global original_patterns, original_commands, api_response_pending
         # Debounce para evitar múltiples disparos por guardar rápidamente
-        if time.time() - self.last_modified < 1:
+        if time.time() - self.last_modified < 0.1:
             return
 
         if event.src_path.endswith(".tidal"):
@@ -318,7 +320,7 @@ class MyHandler(FileSystemEventHandler):
             # Ejecutar patrones modificados
             for pattern in new_patterns:
                 if pattern not in original_patterns or new_patterns[pattern] != original_patterns[pattern]:
-                    print(f"Patrón completo a enviar: {new_patterns[pattern]}")
+                    # print(f"Patrón completo a enviar: {new_patterns[pattern]}")
                     run_tidal_command(new_patterns[pattern])
 
             # Si no hay una llamada a la API en curso, lanzar un nuevo hilo para la consulta
@@ -343,11 +345,11 @@ class MyHandler(FileSystemEventHandler):
                 else:
                     # Enviar a GHCi si no es un comando reconocido
                     run_tidal_command(command)
-                    print(f"Tidal command executed: {command}")
+                    # print(f"Comando Tidal ejecutado: {command}")
 
-            for command in original_commands - new_commands:
-                if command not in command_handlers and ' '.join(command.split()[:-1]) not in command_handlers:
-                    print(f"Tidal command removed: {command}")
+            # for command in original_commands - new_commands:
+            #     if command not in command_handlers and ' '.join(command.split()[:-1]) not in command_handlers:
+            #         print(f"Tidal command removed: {command}")
 
             original_patterns = new_patterns
             original_commands = new_commands
@@ -359,8 +361,8 @@ class MyHandler(FileSystemEventHandler):
                     # Añade comentario con el nombre del modelo
                     file.write(api_response_pending + f" -- {model}\n")
                 api_response_pending = None
-            else:
-                print("No hay respuesta de la API pendiente para escribir")
+            # else:
+            #     print("No hay respuesta de la API pendiente para escribir")
 
         self.last_modified = time.time()
 
