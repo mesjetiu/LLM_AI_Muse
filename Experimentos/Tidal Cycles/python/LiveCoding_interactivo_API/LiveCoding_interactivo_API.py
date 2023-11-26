@@ -20,6 +20,12 @@ nombre_archivo_tidal = f"tidal_session_{formatted_datetime}.tidal"
 if not os.path.exists(nombre_archivo_tidal):
     open(nombre_archivo_tidal, 'w').close()
 
+# Crear un archivo de log
+log_filename = f"tidal_log_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.tidal"
+open(log_filename, 'w').close()  # Crea el archivo si no existe
+
+last_command_time = datetime.datetime.now()
+
 # Variables para controlar el estado de la API
 api_call_in_progress = False
 api_response_pending = None
@@ -35,8 +41,8 @@ max_tokens = 512
 top_p = 1
 frequency_penalty = 0
 presence_penalty = 0
-wait_time_before_api = 10  # Tiempo de espera mínimo antes de llamar a la API
-wait_time_after_api = 30  # Tiempo de espera mínimo tras llamadas a la API
+wait_time_before_api = 0  # Tiempo de espera mínimo antes de llamar a la API
+wait_time_after_api = 10  # Tiempo de espera mínimo tras llamadas a la API
 
 # Leer el mensaje del sistema desde un archivo externo
 with open('system_prompt.txt', 'r') as file:
@@ -62,6 +68,19 @@ except Exception as e:
     print(f"Error al iniciar GHCi: {e}")
     exit(1)
 
+
+# Función para registrar un comando en el archivo de log
+def log_command(command):
+    global last_command_time
+    current_time = datetime.datetime.now()
+    duration = int((current_time - last_command_time).total_seconds())
+    with open(log_filename, 'a') as log_file:
+        if duration > 0:
+            log_file.write(f"{command} -- {duration} segundos\n")
+        else:
+            log_file.write(f"{command}\n")
+    last_command_time = current_time
+
 # Función para enviar un comando a TidalCycles a través de GHCi
 
 
@@ -72,6 +91,7 @@ def run_tidal_command(command):
         print("Enviando comando a TidalCycles:", full_command)
         process.stdin.write(full_command + "\n")
         process.stdin.flush()
+        log_command(full_command)
     except Exception as e:
         print(f"Error al enviar comando a TidalCycles: {e}")
 
