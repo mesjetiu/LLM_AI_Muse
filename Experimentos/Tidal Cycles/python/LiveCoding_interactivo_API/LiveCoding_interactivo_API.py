@@ -86,8 +86,17 @@ except Exception as e:
     print(f"Error al iniciar GHCi: {e}")
     exit(1)
 
+# Iniciar sclang con el proceso de SuperCollider
+try:
+    process_SC = subprocess.Popen(["sclang"], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                                  stderr=subprocess.PIPE, text=True, bufsize=1, universal_newlines=True)
+except Exception as e:
+    print(f"Error al iniciar SuperCollider: {e}")
+    exit(1)
 
 # Función para registrar un comando en el archivo de log
+
+
 def log_command(command):
     global last_command_time
     current_time = datetime.datetime.now()
@@ -318,7 +327,8 @@ class MyHandler(FileSystemEventHandler):
         if time.time() - self.last_modified < 0.1:
             return
 
-        if event.src_path.endswith(".tidal"):
+        # comprobar que el path es el de la sesión de tidal actual
+        if os.path.basename(event.src_path) == nombre_archivo_tidal:
             with open(event.src_path, 'r') as file:
                 new_content = file.read()
             new_patterns = segment_into_patterns(new_content)
@@ -390,3 +400,6 @@ except KeyboardInterrupt:
 
 observer.stop()
 observer.join()
+# Cerrar el proceso de SuperCollider
+process_SC.stdin.close()
+process_SC.terminate()
