@@ -23,5 +23,6 @@ OUTPUT/*
 
 útiles/*
 TFM/LaTeX/capitulos/bibliografia.tex
-*apikey.py
+*apikey.*
 *__pycache__*
+Experimentos/Tidal Cycles/python/LiveCoding_interactivo_API/apikey.txt
