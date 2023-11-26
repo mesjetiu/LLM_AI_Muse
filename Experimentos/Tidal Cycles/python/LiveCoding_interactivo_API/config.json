@@ -1,0 +1,14 @@
+{
+    "boot_tidal_path": "/usr/share/haskell-tidal/BootTidal.hs",
+    "api_enabled": false,
+    "api_key_file": "apikey.txt",
+    "system_prompt_file": "system_prompt_2.txt",
+    "model": "gpt-4-1106-preview",
+    "temperature": 1,
+    "max_tokens": 512,
+    "top_p": 1,
+    "frequency_penalty": 0,
+    "presence_penalty": 0,
+    "wait_time_before_api": 10,
+    "wait_time_after_api": 30
+}

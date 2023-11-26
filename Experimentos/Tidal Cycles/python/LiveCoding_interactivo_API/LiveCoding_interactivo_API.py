@@ -3,28 +3,42 @@ import time
 import datetime
 import os
 import sys
+import json
 from openai import OpenAI
-from apikey import API_KEY  # Importa la clave desde apikey.py
+# from apikey import API_KEY  # Importa la clave desde apikey.py
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from threading import Thread
 
-system_prompt_file = 'system_prompt_2.txt'
-
 # Variables para controlar el estado de la API
 api_call_in_progress = False
 api_response_pending = None
-api_enabled = False  # O True, dependiendo del estado inicial deseado
 
-# Definir parámetros para las consultas a la API
-model = "gpt-4-1106-preview"  # "gpt-3.5-turbo"  #
-temperature = 1
-max_tokens = 256
-top_p = 1
-frequency_penalty = 0
-presence_penalty = 0
-wait_time_before_api = 0  # Tiempo de espera mínimo antes de llamar a la API
-wait_time_after_api = 60  # Tiempo de espera mínimo tras llamadas a la API
+config = None
+API_KEY = None
+
+# Leer el archivo de configuración
+with open('config.json', 'r') as config_file:
+    config = json.load(config_file)
+
+# Asignar variables desde el archivo de configuración
+boot_tidal_path = config['boot_tidal_path']
+api_enabled = config['api_enabled']
+api_key_file = config['api_key_file']
+model = config['model']
+temperature = config['temperature']
+max_tokens = config['max_tokens']
+top_p = config['top_p']
+frequency_penalty = config['frequency_penalty']
+presence_penalty = config['presence_penalty']
+wait_time_before_api = config['wait_time_before_api']
+wait_time_after_api = config['wait_time_after_api']
+system_prompt_file = config['system_prompt_file']
+
+# Leer la clave API del archivo especificado
+with open(api_key_file, 'r') as api_file:
+    API_KEY = api_file.read().strip()
+
 
 # Obtén la fecha y hora actual
 current_datetime = datetime.datetime.now()
@@ -99,7 +113,7 @@ def run_tidal_command(command):
 
 
 # Inicializar TidalCycles
-run_tidal_command(":script /usr/share/haskell-tidal/BootTidal.hs")
+run_tidal_command(f":script {boot_tidal_path}")
 # time.sleep(5)  # Esperar a que TidalCycles se inicialice
 
 # Leer y almacenar la versión inicial del archivo de Tidal
