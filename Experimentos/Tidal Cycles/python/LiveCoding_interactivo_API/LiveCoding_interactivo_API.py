@@ -10,6 +10,8 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from threading import Thread
 
+running = True  # Condición de ejecución del script
+
 # Variables para controlar el estado de la API
 api_call_in_progress = False
 api_response_pending = None
@@ -134,18 +136,9 @@ def set_api_on_off_command(new_state):
     print(f"API: {api_enabled}")
 
 
-# def quit_script_command(new_state):
-#     if new_state == "script":
-#         print("Terminando la ejecución del script...")
-#         observer.stop()
-#         observer.join()
-#         try:
-#             # Enviar un comando de salida a GHCi si es necesario
-#             # Por ejemplo: process.stdin.write(":quit\n")
-#             process.terminate()
-#         except Exception as e:
-#             print(f"Error al cerrar GHCi: {e}")
-#         sys.exit()
+def quit_script_command():
+    global running
+    running = False
 
 
 def api_on_command():
@@ -213,7 +206,7 @@ def set_wait_time_after_api_command(new_wait_time):
 # Actualización del diccionario de comandos
 command_handlers = {
     "set api": set_api_on_off_command,
-    # "quit": quit_script_command,
+    "quit": quit_script_command,
     "set model": set_model_command,
     "set temperature": set_temperature_command,
     "set max tokens": set_max_tokens_command,
@@ -387,12 +380,13 @@ observer = Observer()
 observer.schedule(event_handler, path='./', recursive=False)
 observer.start()
 
-# Resto del script para interactuar con GHCi y la API de OpenAI
 
-# Detener el observador al terminar
+# Bucle de ejecución
 try:
-    while True:
+    while running:
         time.sleep(1)
 except KeyboardInterrupt:
-    observer.stop()
+    running = False
+
+observer.stop()
 observer.join()
