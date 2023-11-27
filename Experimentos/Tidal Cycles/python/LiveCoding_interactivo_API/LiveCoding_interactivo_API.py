@@ -379,6 +379,12 @@ class MyHandler(FileSystemEventHandler):
             # Actualizar los bloques procesados
             self.processed_blocks = new_blocks
 
+            # Si no hay una llamada a la API en curso, lanzar un nuevo hilo para la consulta
+            if not api_call_in_progress and api_enabled:
+                api_thread = Thread(
+                    target=consult_openai_api, args=(new_content,))
+                api_thread.start()
+
             if api_response_pending:
                 time.sleep(0.2)
                 with open(nombre_archivo_tidal, 'a') as file:
