@@ -1,8 +1,10 @@
 {
+    "mode_tidal_supercollider": "tidal",
+    "create_log_file": true,
     "boot_tidal_path": "/usr/share/haskell-tidal/BootTidal.hs",
     "api_enabled": false,
     "api_key_file": "apikey.txt",
-    "system_prompt_file": "system_prompt_2.txt",
+    "system_prompt_file": "./prompts/system_prompt_2.txt",
     "model": "gpt-4-1106-preview",
     "temperature": 1,
     "max_tokens": 512,

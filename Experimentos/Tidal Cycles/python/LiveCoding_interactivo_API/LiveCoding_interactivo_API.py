@@ -17,7 +17,7 @@ running = True  # Condición de ejecución del script
 api_call_in_progress = False
 api_response_pending = None
 
-config = None
+config = None  # Almacenar la configuración del archivo config.json
 API_KEY = None
 
 # Leer el archivo de configuración
@@ -25,6 +25,8 @@ with open('config.json', 'r') as config_file:
     config = json.load(config_file)
 
 # Asignar variables desde el archivo de configuración
+mode_tidal_supercollider = config['mode_tidal_supercollider']
+create_log_file = config['create_log_file']
 boot_tidal_path = config['boot_tidal_path']
 api_enabled = config['api_enabled']
 api_key_file = config['api_key_file']
@@ -43,25 +45,34 @@ with open(api_key_file, 'r') as api_file:
     API_KEY = api_file.read().strip()
 
 
+# Adaptar comportamiento al modo modo "tidal" o modo "supercollider"
+extension = None
+comentario = None
+if mode_tidal_supercollider == "tidal":
+    extension = ".tidal"
+    comentario = "--"
+elif mode_tidal_supercollider == "supercollider":
+    extension = ".scd"
+    comentario = "//"
+
 # Obtén la fecha y hora actual
 current_datetime = datetime.datetime.now()
 
 # Formatea la fecha y hora para el nombre del archivo
 formatted_datetime = current_datetime.strftime("%Y.%m.%d_%H%M")
-# nombre_archivo_tidal = f"tidal_session_{formatted_datetime}.tidal"
-nombre_archivo_sc = f"sc_session_{formatted_datetime}.scd"
+nombre_archivo = f"sc_session_{formatted_datetime}{extension}"
 
 # Crear el archivo si no existe
-# if not os.path.exists(nombre_archivo_tidal):
-#     open(nombre_archivo_tidal, 'w').close()
+if not os.path.exists(nombre_archivo):
+    open(nombre_archivo, 'w').close()
 
-if not os.path.exists(nombre_archivo_sc):
-    open(nombre_archivo_sc, 'w').close()
+if not os.path.exists(nombre_archivo):
+    open(nombre_archivo, 'w').close()
 
 # Crear un archivo de log
-# log_filename = f"tidal_log_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.tidal"
-log_filename = f"sc_log_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.scd"
-open(log_filename, 'w').close()  # Crea el archivo si no existe
+if create_log_file:
+    log_filename = f"sc_log_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}{extension}"
+    open(log_filename, 'w').close()  # Crea el archivo si no existe
 
 last_command_time = datetime.datetime.now()
 
@@ -109,14 +120,17 @@ def iniciar_supercollider():
     return process_SC
 
 
-# Iniciar GHCi con el proceso de TidalCycles
-# process = iniciar_ghci()
-
 # Iniciar sclang con el proceso de SuperCollider
 process_SC = iniciar_supercollider()
 
-# Función para registrar un comando en el archivo de log
+# Iniciar GHCi con el proceso de TidalCycles o usar el proceso de SuperCollider
+if mode_tidal_supercollider == "tidal":
+    process = iniciar_ghci()
+else:
+    process = process_SC
 
+
+# Función para registrar un comando en el archivo de log
 
 def log_command(command):
     global last_command_time
@@ -124,7 +138,7 @@ def log_command(command):
     duration = int((current_time - last_command_time).total_seconds())
     with open(log_filename, 'a') as log_file:
         if duration > 0:
-            log_file.write(f"{command} -- {duration} segundos\n")
+            log_file.write(f"{command} {comentario} {duration} segundos\n")
         else:
             log_file.write(f"{command}\n")
     last_command_time = current_time
@@ -140,7 +154,8 @@ def run_tidal_command(command):
         full_command = ' '.join(command.split('\n'))
         process.stdin.write(full_command + "\n")
         process.stdin.flush()
-        log_command(full_command)
+        if create_log_file:
+            log_command(full_command)
     except Exception as e:
         print(f"Error al enviar comando a TidalCycles: {e}")
 
@@ -149,22 +164,25 @@ def run_tidal_command(command):
 
 def run_sclang_command(command):
     global process_SC
-    print("Enviando comando a SuperCollider:", command)
-    full_command = ' '.join(command.split('\n'))
-    process_SC.stdin.write(full_command + "\n")
-    process_SC.stdin.flush()
+    try:
+        print("Enviando comando a SuperCollider:", command)
+        # Unir todas las líneas del patrón en una sola cadena
+        full_command = ' '.join(command.split('\n'))
+        process_SC.stdin.write(full_command + "\n")
+        process_SC.stdin.flush()
+        if create_log_file:
+            log_command(full_command)
+    except Exception as e:
+        print(f"Error al enviar comando a SuperCollider: {e}")
 
 
 # Inicializar TidalCycles
-# run_tidal_command(f":script {boot_tidal_path}")
-# time.sleep(5)  # Esperar a que TidalCycles se inicialice
+if mode_tidal_supercollider == "tidal":
+    run_tidal_command(f":script {boot_tidal_path}")
 
-# Leer y almacenar la versión inicial del archivo de Tidal
-# with open(nombre_archivo_tidal, 'r') as file:
-#     original_content = file.read()
-
-with open(nombre_archivo_sc, 'r') as file:
-    original_content_SC = file.read()
+# Leer y almacenar la versión inicial del archivo
+with open(nombre_archivo, 'r') as file:
+    original_content = file.read()
 
 
 def set_api_on_off_command(new_state):
@@ -195,7 +213,9 @@ def restart_command(service):
             process = iniciar_ghci()
             # Inicializar TidalCycles
             run_tidal_command(f":script {boot_tidal_path}")
-            # time.sleep(5)  # Esperar a que TidalCycles se inicialice
+            print(f"Proceso GHCI reiniciado.")
+        else:
+            print("No se puede reiniciar el proceso. GHCI no se ha iniciado previamente.")
 
     elif service == "sclang":
         run_sclang_command("thisProcess.shutdown;\n")
@@ -208,9 +228,9 @@ def restart_command(service):
         process_SC.stdin.close()
         process_SC.terminate()
         process_SC = iniciar_supercollider()
+        print(f"Proceso sclang reiniciado.")
     else:
         print("Comando no reconocido. Introduce 'restart ghci' o 'restart sclang'.")
-    print(f"Proceso {service} reiniciado.")
 
 
 def api_on_command():
@@ -299,7 +319,7 @@ def segment_into_blocks(content):
     current_block = []
     for line in lines:
         # Eliminar comentarios y espacios en blanco
-        clean_line = line.split('--')[0].strip()
+        clean_line = line.split(comentario)[0].strip()
         if not clean_line:
             if current_block:
                 blocks.add('\n'.join(current_block))
@@ -365,7 +385,7 @@ class MyHandler(FileSystemEventHandler):
             return
 
         # == nombre_archivo_tidal:
-        if os.path.basename(event.src_path) == nombre_archivo_sc:
+        if os.path.basename(event.src_path) == nombre_archivo:
             with open(event.src_path, 'r') as file:
                 new_content = file.read()
             new_blocks = segment_into_blocks(new_content)
@@ -382,10 +402,11 @@ class MyHandler(FileSystemEventHandler):
                 elif block_key in command_handlers and block_args:
                     command_handlers[block_key](block_args)
                 else:
-                    # Enviar a GHCi si no es un comando reconocido
-                    # run_tidal_command(block)
-                    run_sclang_command(block)
-                    # print(f"Comando Tidal ejecutado: {command}")
+                    # Enviar a motor de sonido si no es un comando reconocido
+                    if mode_tidal_supercollider == "tidal":
+                        run_tidal_command(block)
+                    elif mode_tidal_supercollider == "supercollider":
+                        run_sclang_command(block)
 
             # Actualizar los bloques procesados
             self.processed_blocks = new_blocks
@@ -399,9 +420,10 @@ class MyHandler(FileSystemEventHandler):
             if api_response_pending:
                 time.sleep(0.2)
                 # with open(nombre_archivo_tidal, 'a') as file:
-                with open(nombre_archivo_sc, 'a') as file:
+                with open(nombre_archivo, 'a') as file:
                     file.write('\n\n')
-                    file.write(api_response_pending + f" -- {model}\n")
+                    file.write(api_response_pending +
+                               f" {comentario} {model}\n")
                 api_response_pending = None
 
         self.last_modified = time.time()
