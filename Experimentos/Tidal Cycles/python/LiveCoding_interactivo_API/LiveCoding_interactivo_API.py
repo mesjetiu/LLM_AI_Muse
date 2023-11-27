@@ -10,41 +10,6 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from threading import Thread
 
-# Prueba!!
-
-
-def segment_into_blocks(content):
-    blocks = set()
-    lines = content.split('\n')
-    current_block = []
-    for line in lines:
-        clean_line = line.split('--')[0].strip()
-        if not clean_line:
-            if current_block:
-                blocks.add('\n'.join(current_block))
-                current_block = []
-            continue
-        current_block.append(line)
-
-    if current_block:
-        blocks.add('\n'.join(current_block))
-    return blocks
-
-
-# Después de leer el archivo
-with open('tidal.tidal', 'r') as file:
-    new_content = file.read()
-
-# Llamar a la función y almacenar los bloques
-new_blocks = segment_into_blocks(new_content)
-
-# Imprimir los bloques para depuración
-print("Bloques identificados:")
-for block in new_blocks:
-    print("----- Inicio de Bloque -----")
-    print(block)
-    print("----- Fin de Bloque -----\n")
-# Fin prueba.......
 
 running = True  # Condición de ejecución del script
 
@@ -316,57 +281,26 @@ command_handlers = {
     "set wait time after api": set_wait_time_after_api_command
 }
 
-# Función para dividir el contenido en patrones
+# Función para dividir el contenido en bloques
 
 
-def segment_into_patterns(content):
-    patterns = {}
-    current_pattern = None
-    for line in content.split('\n'):
-        # Separar comentarios del código del patrón
-        pattern_part, _, comment_part = line.partition('--')
-        clean_line = pattern_part.strip()
-
-        # Ignorar líneas completamente vacías y finalizar el patrón actual
-        if not clean_line:
-            current_pattern = None
-            continue
-
-        if clean_line.startswith('d') and clean_line[1].isdigit() and ' $' in clean_line:
-            # Utilizar toda la línea del patrón como clave
-            current_pattern = clean_line
-            patterns[current_pattern] = clean_line
-        elif current_pattern:
-            patterns[current_pattern] += '\n' + clean_line
-
-    return patterns
-
-# Función para identificar y almacenar comandos no-patrón
-
-
-def segment_into_commands(content):
-    commands = set()
+def segment_into_blocks(content):
+    blocks = set()
     lines = content.split('\n')
-    for i, line in enumerate(lines):
+    current_block = []
+    for line in lines:
         # Eliminar comentarios y espacios en blanco
         clean_line = line.split('--')[0].strip()
         if not clean_line:
+            if current_block:
+                blocks.add('\n'.join(current_block))
+                current_block = []
             continue
+        current_block.append(clean_line)
 
-        # Comprobar si la línea es un comando (no comienza con 'dn')
-        if not (clean_line.startswith('d') and clean_line[1].isdigit() and ' $' in clean_line):
-            # Comprobar si la línea está rodeada por líneas vacías o comentarios
-            prev_line = lines[i - 1].split('--')[0].strip() if i > 0 else ''
-            next_line = lines[i +
-                              1].split('--')[0].strip() if i < len(lines) - 1 else ''
-            if not prev_line and not next_line:
-                commands.add(clean_line)
-
-    return commands
-
-
-original_patterns = segment_into_patterns(original_content)
-original_commands = segment_into_commands(original_content)
+    if current_block:
+        blocks.add('\n'.join(current_block))
+    return blocks
 
 
 def consult_openai_api(content):
@@ -406,70 +340,51 @@ def consult_openai_api(content):
 
 # Handler para evento de modificación de archivos
 
+# Diccionario global para almacenar los bloques previos
+# processed_blocks = set()
+
 
 class MyHandler(FileSystemEventHandler):
     def __init__(self):
         self.last_modified = time.time()
+        self.processed_blocks = set()
 
     def on_modified(self, event):
-        global original_patterns, original_commands, api_response_pending
-        # Debounce para evitar múltiples disparos por guardar rápidamente
+        global api_call_in_progress, api_response_pending, command_handlers, processed_blocks
+
         if time.time() - self.last_modified < 0.1:
             return
 
-        # comprobar que el path es el de la sesión de tidal actual
         if os.path.basename(event.src_path) == nombre_archivo_tidal:
             with open(event.src_path, 'r') as file:
                 new_content = file.read()
-            new_patterns = segment_into_patterns(new_content)
-            new_commands = segment_into_commands(new_content)
+            new_blocks = segment_into_blocks(new_content)
 
-            # Ejecutar patrones modificados
-            for pattern in new_patterns:
-                if pattern not in original_patterns or new_patterns[pattern] != original_patterns[pattern]:
-                    # print(f"Patrón completo a enviar: {new_patterns[pattern]}")
-                    run_tidal_command(new_patterns[pattern])
-
-            # Si no hay una llamada a la API en curso, lanzar un nuevo hilo para la consulta
-            if not api_call_in_progress and api_enabled:
-                api_thread = Thread(
-                    target=consult_openai_api, args=(new_content,))
-                api_thread.start()
-
-            # Ejecutar comandos nuevos y eliminar los antiguos
-            for command in new_commands - original_commands:
-                command_parts = command.split()
-                command_key = ' '.join(command_parts[:-1])
-                command_args = command_parts[-1] if len(
-                    command_parts) > 1 else None
+            # Procesar solo los bloques nuevos o modificados
+            for block in new_blocks - self.processed_blocks:
+                block_key = ' '.join(block.split('\n')[0].split()[:-1])
+                block_args = block.split('\n')[0].split()[-1]
 
                 # Verificar primero si el comando completo es conocido
-                if command in command_handlers:
-                    command_handlers[command]()
+                if block in command_handlers:
+                    command_handlers[block]()
                 # Luego verificar si la clave sin el último argumento es un comando conocido
-                elif command_key in command_handlers and command_args:
-                    command_handlers[command_key](command_args)
+                elif block_key in command_handlers and block_args:
+                    command_handlers[block_key](block_args)
                 else:
                     # Enviar a GHCi si no es un comando reconocido
-                    run_tidal_command(command)
+                    run_tidal_command(block)
                     # print(f"Comando Tidal ejecutado: {command}")
 
-            # for command in original_commands - new_commands:
-            #     if command not in command_handlers and ' '.join(command.split()[:-1]) not in command_handlers:
-            #         print(f"Tidal command removed: {command}")
-
-            original_patterns = new_patterns
-            original_commands = new_commands
+            # Actualizar los bloques procesados
+            self.processed_blocks = new_blocks
 
             if api_response_pending:
                 time.sleep(0.2)
                 with open(nombre_archivo_tidal, 'a') as file:
                     file.write('\n\n')
-                    # Añade comentario con el nombre del modelo
                     file.write(api_response_pending + f" -- {model}\n")
                 api_response_pending = None
-            # else:
-            #     print("No hay respuesta de la API pendiente para escribir")
 
         self.last_modified = time.time()
 
