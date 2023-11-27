@@ -127,6 +127,7 @@ def log_command(command):
 
 
 def run_tidal_command(command):
+    global process
     try:
         # Unir todas las líneas del patrón en una sola cadena
         full_command = ' '.join(command.split('\n'))
@@ -142,7 +143,7 @@ def run_tidal_command(command):
 
 def run_sclang_command(command):
     global process_SC
-    print("Enviando comando a SuperCollider:", command)
+    # print("Enviando comando a SuperCollider:", command)
     process_SC.stdin.write(command + "\n")
     process_SC.stdin.flush()
 
