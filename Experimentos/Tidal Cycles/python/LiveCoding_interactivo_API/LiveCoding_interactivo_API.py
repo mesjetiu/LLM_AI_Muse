@@ -10,6 +10,42 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from threading import Thread
 
+# Prueba!!
+
+
+def segment_into_blocks(content):
+    blocks = set()
+    lines = content.split('\n')
+    current_block = []
+    for line in lines:
+        clean_line = line.split('--')[0].strip()
+        if not clean_line:
+            if current_block:
+                blocks.add('\n'.join(current_block))
+                current_block = []
+            continue
+        current_block.append(line)
+
+    if current_block:
+        blocks.add('\n'.join(current_block))
+    return blocks
+
+
+# Después de leer el archivo
+with open('tidal.tidal', 'r') as file:
+    new_content = file.read()
+
+# Llamar a la función y almacenar los bloques
+new_blocks = segment_into_blocks(new_content)
+
+# Imprimir los bloques para depuración
+print("Bloques identificados:")
+for block in new_blocks:
+    print("----- Inicio de Bloque -----")
+    print(block)
+    print("----- Fin de Bloque -----\n")
+# Fin prueba.......
+
 running = True  # Condición de ejecución del script
 
 # Variables para controlar el estado de la API
