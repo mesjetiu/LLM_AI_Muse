@@ -4,7 +4,7 @@ import datetime
 from watchdog.observers import Observer
 from file_watcher import MyHandler
 from sound_engine import iniciar_supercollider, iniciar_ghci, run_sclang_command
-from config_manager import cargar_configuracion
+from config_manager import config
 from openai import OpenAI
 
 
@@ -13,8 +13,6 @@ def response_handler(response):
 
 
 def main():
-    # Cargar configuración y otros ajustes iniciales
-    config = cargar_configuracion('config.json')
 
     # Obtén la fecha y hora actual
     current_datetime = datetime.datetime.now()

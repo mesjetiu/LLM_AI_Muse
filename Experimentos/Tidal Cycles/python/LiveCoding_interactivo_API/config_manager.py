@@ -1,5 +1,8 @@
 import json
 
+# Inicializa la variable de configuración global
+config = {}
+
 
 def cargar_configuracion(archivo_config):
     """
@@ -20,14 +23,5 @@ def cargar_configuracion(archivo_config):
         return None
 
 
-def guardar_configuracion(config, archivo_config):
-    """
-    Guarda la configuración actual en un archivo JSON.
-    :param config: Diccionario con la configuración a guardar.
-    :param archivo_config: Ruta del archivo de configuración.
-    """
-    try:
-        with open(archivo_config, 'w') as config_file:
-            json.dump(config, config_file, indent=4)
-    except Exception as e:
-        print(f"Error al guardar la configuración: {e}")
+# Cargar configuración y otros ajustes iniciales
+config = cargar_configuracion('config.json')
