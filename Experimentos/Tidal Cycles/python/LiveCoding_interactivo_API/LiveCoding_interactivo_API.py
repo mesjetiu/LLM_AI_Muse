@@ -27,6 +27,8 @@ with open('config.json', 'r') as config_file:
 # Asignar variables desde el archivo de configuración
 mode_tidal_supercollider = config['mode_tidal_supercollider']
 create_log_file = config['create_log_file']
+ghci_path = config['ghci_path']
+sclang_path = config['sclang_path']
 boot_tidal_path = config['boot_tidal_path']
 api_enabled = config['api_enabled']
 api_key_file = config['api_key_file']
@@ -98,7 +100,7 @@ messages = [
 def iniciar_ghci():
     # Iniciar GHCi con el proceso de TidalCycles
     try:
-        process = subprocess.Popen(["ghci"], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+        process = subprocess.Popen([ghci_path], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE, text=True, bufsize=1, universal_newlines=True)
     except Exception as e:
         print(f"Error al iniciar GHCi: {e}")
@@ -110,7 +112,7 @@ def iniciar_ghci():
 def iniciar_supercollider():
     # Iniciar sclang con el proceso de SuperCollider
     try:
-        process_SC = subprocess.Popen(["sclang"], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+        process_SC = subprocess.Popen([sclang_path], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                       stderr=subprocess.PIPE, text=True, bufsize=1, universal_newlines=True)
     except Exception as e:
         print(f"Error al iniciar SuperCollider: {e}")
