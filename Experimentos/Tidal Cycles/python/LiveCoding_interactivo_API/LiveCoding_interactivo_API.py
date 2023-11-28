@@ -51,9 +51,11 @@ comentario = None
 if mode_tidal_supercollider == "tidal":
     extension = ".tidal"
     comentario = "--"
+    print("Modo TidalCycles")
 elif mode_tidal_supercollider == "supercollider":
     extension = ".scd"
     comentario = "//"
+    print("Modo SuperCollider")
 
 # Obtén la fecha y hora actual
 current_datetime = datetime.datetime.now()
@@ -63,9 +65,6 @@ formatted_datetime = current_datetime.strftime("%Y.%m.%d_%H%M")
 nombre_archivo = f"sc_session_{formatted_datetime}{extension}"
 
 # Crear el archivo si no existe
-if not os.path.exists(nombre_archivo):
-    open(nombre_archivo, 'w').close()
-
 if not os.path.exists(nombre_archivo):
     open(nombre_archivo, 'w').close()
 
@@ -384,7 +383,7 @@ class MyHandler(FileSystemEventHandler):
         if time.time() - self.last_modified < 0.1:
             return
 
-        # == nombre_archivo_tidal:
+        # == nombre_archivo:
         if os.path.basename(event.src_path) == nombre_archivo:
             with open(event.src_path, 'r') as file:
                 new_content = file.read()
