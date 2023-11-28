@@ -147,10 +147,11 @@ def log_command(command):
 # Función para enviar un comando a TidalCycles a través de GHCi
 
 
-def run_tidal_command(command):
+def run_tidal_command(command, verbose=True):
     global process
     try:
-        print("Enviando comando a TidalCycles:", command)
+        if verbose:
+            print("Enviando comando a TidalCycles:", command)
         # Unir todas las líneas del patrón en una sola cadena
         full_command = ' '.join(command.split('\n'))
         process.stdin.write(full_command + "\n")
@@ -163,10 +164,11 @@ def run_tidal_command(command):
 # Función para enviar un comando a SuperCollider a través de sclang
 
 
-def run_sclang_command(command):
+def run_sclang_command(command, verbose=True):
     global process_SC
     try:
-        print("Enviando comando a SuperCollider:", command)
+        if verbose:
+            print("Enviando comando a SuperCollider:", command)
         # Unir todas las líneas del patrón en una sola cadena
         full_command = ' '.join(command.split('\n'))
         process_SC.stdin.write(full_command + "\n")
@@ -447,8 +449,8 @@ except KeyboardInterrupt:
 observer.stop()
 observer.join()
 # Cerrar el proceso de SuperCollider
-run_sclang_command("thisProcess.shutdown;\n")
-run_sclang_command("0.exit;\n")
+run_sclang_command("thisProcess.shutdown;\n", verbose=False)
+run_sclang_command("0.exit;\n", verbose=False)
 # Espera hasta que sclang termine
 while process_SC.poll() is None:
     # Espera un breve momento antes de verificar de nuevo
