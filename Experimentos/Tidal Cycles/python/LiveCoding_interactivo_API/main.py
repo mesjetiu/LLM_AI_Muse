@@ -1,14 +1,57 @@
 import time
+import os
+import datetime
 from watchdog.observers import Observer
-# Importa los módulos adicionales que crearás
 from file_watcher import MyHandler
 from sound_engine import iniciar_supercollider, iniciar_ghci, run_sclang_command
 from config_manager import cargar_configuracion
+from openai import OpenAI
+
+
+def response_handler(response):
+    print("Respuesta de OpenAI:", response)
 
 
 def main():
     # Cargar configuración y otros ajustes iniciales
     config = cargar_configuracion('config.json')
+
+    # Obtén la fecha y hora actual
+    current_datetime = datetime.datetime.now()
+
+    # Formatea la fecha y hora para el nombre del archivo
+    formatted_datetime = current_datetime.strftime("%Y.%m.%d_%H%M")
+    # Suponiendo que el 'extension' depende del modo (tidal o supercollider)
+    extension = ".tidal" if config['mode_tidal_supercollider'] == "tidal" else ".scd"
+    nombre_archivo = f"sc_session_{formatted_datetime}{extension}"
+
+    # Crear el archivo si no existe
+    if not os.path.exists(nombre_archivo):
+        open(nombre_archivo, 'w').close()
+        print(f"Archivo creado: {nombre_archivo}")
+
+    # Leer la clave API del archivo especificado
+    with open(config['api_key_file'], 'r') as api_file:
+        api_key = api_file.read().strip()
+
+    # Crear el cliente de OpenAI
+    client = OpenAI(api_key=api_key)
+
+    # Leer el mensaje del sistema desde un archivo externo
+    with open(config['system_prompt_file'], 'r') as file:
+        system_prompt = file.read()
+
+    # Mensajes iniciales para la conversación con OpenAI
+    messages = [
+        {
+            "role": "system",
+            "content": system_prompt
+        },
+        {
+            "role": "user",
+            "content": ""
+        }
+    ]
 
     # Inicializar procesos de TidalCycles o SuperCollider
     process_SC, process = None, None
@@ -18,7 +61,8 @@ def main():
         process_SC = iniciar_supercollider(config['sclang_path'])
 
     # Configurar y iniciar el observador de archivos
-    event_handler = MyHandler(process, process_SC, config)
+    event_handler = MyHandler(
+        process, process_SC, config, client, messages, response_handler, nombre_archivo)
     observer = Observer()
     observer.schedule(event_handler, path='./', recursive=False)
     observer.start()
