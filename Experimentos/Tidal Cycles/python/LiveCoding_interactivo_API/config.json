@@ -1,5 +1,5 @@
 {
-    "mode_tidal_supercollider": "supercollider",
+    "mode_tidal_supercollider": "tidal",
     "create_log_file": true,
     "ghci_path": "ghci",
     "sclang_path": "sclang",

@@ -54,10 +54,10 @@ def main():
 
     # Inicializar procesos de TidalCycles o SuperCollider
     process_SC, process = None, None
+    # Iniciar el proceso de SuperCollider (se usa en ambos modos)
+    process_SC = iniciar_supercollider(config['sclang_path'])
     if config['mode_tidal_supercollider'] == "tidal":
         process = iniciar_ghci(config['ghci_path'])
-    elif config['mode_tidal_supercollider'] == "supercollider":
-        process_SC = iniciar_supercollider(config['sclang_path'])
 
     # Configurar y iniciar el observador de archivos
     event_handler = MyHandler(
