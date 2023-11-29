@@ -1,4 +1,5 @@
 # command_functions.py
+from program_state import estado_programa
 
 # Aquí podrías importar módulos necesarios si es que alguna función lo requiere
 from config_manager import config
@@ -92,7 +93,6 @@ def set_wait_time_after_api_command(wait_time_after_api, new_wait_time):
     return wait_time_after_api
 
 
-def quit_script_command(running):
-    running = False
+def quit_script_command():
+    estado_programa.stop()
     print("Saliendo del script...")
-    return running

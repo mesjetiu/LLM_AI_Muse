@@ -6,6 +6,7 @@ from file_watcher import MyHandler
 from sound_engine import iniciar_supercollider, iniciar_ghci, run_sclang_command
 from config_manager import config
 from openai import OpenAI
+from program_state import estado_programa
 
 
 def response_handler(response):
@@ -67,7 +68,7 @@ def main():
 
     # Bucle principal
     try:
-        while True:
+        while estado_programa.is_running():
             time.sleep(1)
     except KeyboardInterrupt:
         # Manejo de la señal de salida
