@@ -1,7 +1,5 @@
 # command_functions.py
 from program_state import estado_programa
-
-# Aquí podrías importar módulos necesarios si es que alguna función lo requiere
 from config_manager import config
 
 

@@ -18,11 +18,11 @@ def main():
     # Obtén la fecha y hora actual
     current_datetime = datetime.datetime.now()
 
-    # Formatea la fecha y hora para el nombre del archivo
+    # Formatea la fecha y hora para el nombre del archivo de código
     formatted_datetime = current_datetime.strftime("%Y.%m.%d_%H%M")
-    # Suponiendo que el 'extension' depende del modo (tidal o supercollider)
+    # La 'extension' depende del modo (tidal o supercollider)
     extension = ".tidal" if config['mode_tidal_supercollider'] == "tidal" else ".scd"
-    nombre_archivo = f"sc_session_{formatted_datetime}{extension}"
+    nombre_archivo = f"session_{formatted_datetime}{extension}"
 
     # Crear el archivo si no existe
     if not os.path.exists(nombre_archivo):
@@ -55,7 +55,8 @@ def main():
     # Inicializar procesos de TidalCycles o SuperCollider
     process_SC, process = None, None
     # Iniciar el proceso de SuperCollider (se usa en ambos modos)
-    process_SC = iniciar_supercollider(config['sclang_path'])
+    if config['only_system_commands'] == "false":
+        process_SC = iniciar_supercollider(config['sclang_path'])
     if config['mode_tidal_supercollider'] == "tidal":
         process = iniciar_ghci(config['ghci_path'])
 

@@ -54,8 +54,6 @@ class MyHandler(FileSystemEventHandler):
         if time.time() - self.last_modified < 0.1:
             return
 
-        print("Archivo modificado detectado")
-
         if os.path.basename(event.src_path) == os.path.basename(self.nombre_archivo):
             with open(event.src_path, 'r') as file:
                 new_content = file.read()
@@ -87,7 +85,7 @@ class MyHandler(FileSystemEventHandler):
                 # Luego verificar si la clave sin el último argumento es un comando conocido
                 elif block_key in command_handlers and block_args:
                     command_handlers[block_key](block_args)
-                else:
+                elif self.config['only_system_commands'] == "false":
                     if self.config['mode_tidal_supercollider'] == "tidal":
                         run_tidal_command(self.process, block,
                                           self.config['create_log_file'])
@@ -109,7 +107,7 @@ class MyHandler(FileSystemEventHandler):
             if self.api_response_pending:
                 time.sleep(0.2)
                 with open(self.nombre_archivo, 'a') as file:
-                    file.write('\n\n')
+                    file.write('\n')
                     file.write(self.api_response_pending)
                 self.api_response_pending = None
 
