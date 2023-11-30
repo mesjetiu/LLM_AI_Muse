@@ -5,7 +5,6 @@ from watchdog.observers import Observer
 from file_watcher import MyHandler
 from sound_engine import iniciar_supercollider, iniciar_ghci, run_sclang_command
 from config_manager import config
-from openai import OpenAI
 from program_state import estado_programa
 
 
@@ -29,29 +28,6 @@ def main():
         open(nombre_archivo, 'w').close()
         print(f"Archivo creado: {nombre_archivo}")
 
-    # Leer la clave API del archivo especificado
-    with open(config['api_key_file'], 'r') as api_file:
-        api_key = api_file.read().strip()
-
-    # Crear el cliente de OpenAI
-    client = OpenAI(api_key=api_key)
-
-    # Leer el mensaje del sistema desde un archivo externo
-    with open(config['system_prompt_file'], 'r') as file:
-        system_prompt = file.read()
-
-    # Mensajes iniciales para la conversación con OpenAI
-    messages = [
-        {
-            "role": "system",
-            "content": system_prompt
-        },
-        {
-            "role": "user",
-            "content": ""
-        }
-    ]
-
     # Inicializar procesos de TidalCycles o SuperCollider
     process_SC, process = None, None
     # Iniciar el proceso de SuperCollider (se usa en ambos modos)
@@ -62,7 +38,7 @@ def main():
 
     # Configurar y iniciar el observador de archivos
     event_handler = MyHandler(
-        process, process_SC, config, client, messages, response_handler, nombre_archivo)
+        process, process_SC, config, response_handler, nombre_archivo)
     observer = Observer()
     observer.schedule(event_handler, path='./', recursive=False)
     observer.start()

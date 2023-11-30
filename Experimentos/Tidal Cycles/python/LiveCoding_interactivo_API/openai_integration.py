@@ -1,72 +1,57 @@
 import time
 from openai import OpenAI
 from threading import Thread
+from config_manager import config
 
-# Variables para controlar el estado de la API
-api_call_in_progress = False
-api_response_pending = None
+system_prompt = None
+api_key = None
 
 
-def consult_openai_api(client, model, temperature, max_tokens, top_p, frequency_penalty, presence_penalty, wait_time_before_api, wait_time_after_api, messages, content, response_handler):
-    """
-    Consulta la API de OpenAI y maneja la respuesta.
-    :param client: Cliente de OpenAI.
-    :param model: Modelo de OpenAI a utilizar.
-    :param temperature: Temperatura para las respuestas de la API.
-    :param max_tokens: Máximo número de tokens en la respuesta.
-    :param top_p: Parámetro top_p para la generación de texto.
-    :param frequency_penalty: Penalización por frecuencia de uso de palabras.
-    :param presence_penalty: Penalización por presencia de palabras.
-    :param wait_time_before_api: Tiempo de espera antes de la consulta a la API.
-    :param wait_time_after_api: Tiempo de espera después de la consulta a la API.
-    :param messages: Mensajes para la conversación con la API.
-    :param content: Contenido a enviar a la API.
-    :param response_handler: Función para manejar la respuesta de la API.
-    """
-    global api_call_in_progress, api_response_pending
-    api_call_in_progress = True
-    time.sleep(wait_time_before_api)
+# Leer la clave API del archivo especificado
+with open(config['api_key_file'], 'r') as api_file:
+    api_key = api_file.read().strip()
+
+# Crear el cliente de OpenAI
+client = OpenAI(api_key=api_key)
+
+
+# Leer el mensaje del sistema desde un archivo externo
+with open(config['system_prompt_file'], 'r') as file:
+    system_prompt = file.read()
+
+# Mensajes iniciales para la conversación con OpenAI
+messages = [
+    {
+        "role": "system",
+        "content": system_prompt
+    },
+    {
+        "role": "user",
+        "content": ""
+    }
+]
+
+
+def consult_openai_api(content, api_response, api_call_in_progress):
+    time.sleep(config["wait_time_before_api"])
     try:
         print("Consultando API de OpenAI...")
         messages[1]["content"] = content
         response = client.chat.completions.create(
-            model=model,
+            model=config["model"],
             messages=messages,
-            temperature=temperature,
-            max_tokens=max_tokens,
-            top_p=top_p,
-            frequency_penalty=frequency_penalty,
-            presence_penalty=presence_penalty
+            temperature=config["temperature"],
+            max_tokens=config["max_tokens"],
+            top_p=config["top_p"],
+            frequency_penalty=config["frequency_penalty"],
+            presence_penalty=config["presence_penalty"]
         )
-        api_response_pending = response.choices[0].message.content
-        response_handler(api_response_pending)
+        # Extraer el mensaje de respuesta de la API
+        respuesta = response.choices[0].message.content
+        print(f"Respuesta de la API: {respuesta}")
+        api_response[0] = respuesta
     except Exception as e:
         print(f"Error en la llamada a la API de OpenAI: {e}")
+        api_response[0] = None
     finally:
-        api_call_in_progress = False
-    time.sleep(wait_time_after_api)
-
-
-def start_api_thread(client, model, temperature, max_tokens, top_p, frequency_penalty, presence_penalty, wait_time_before_api, wait_time_after_api, messages, content, response_handler):
-    """
-    Inicia un hilo para consultar la API de OpenAI.
-    :param client: Cliente de OpenAI.
-    :param model: Modelo de OpenAI a utilizar.
-    :param temperature: Temperatura para las respuestas de la API.
-    :param max_tokens: Máximo número de tokens en la respuesta.
-    :param top_p: Parámetro top_p para la generación de texto.
-    :param frequency_penalty: Penalización por frecuencia de uso de palabras.
-    :param presence_penalty: Penalización por presencia de palabras.
-    :param wait_time_before_api: Tiempo de espera antes de la consulta a la API.
-    :param wait_time_after_api: Tiempo de espera después de la consulta a la API.
-    :param messages: Mensajes para la conversación con la API.
-    :param content: Contenido a enviar a la API.
-    :param response_handler: Función para manejar la respuesta de la API.
-    """
-    if not api_call_in_progress:
-        api_thread = Thread(
-            target=consult_openai_api,
-            args=(client, model, temperature, max_tokens, top_p, frequency_penalty, presence_penalty,
-                  wait_time_before_api, wait_time_after_api, messages, content, response_handler)
-        )
-        api_thread.start()
+        api_call_in_progress[0] = False  # Se finaliza la consulta a la API
