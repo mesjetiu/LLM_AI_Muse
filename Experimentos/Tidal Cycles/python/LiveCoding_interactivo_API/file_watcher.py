@@ -18,6 +18,7 @@ from command_functions import (
 )
 import os
 from threading import Thread
+from logger import log_command
 
 
 class MyHandler(FileSystemEventHandler):
@@ -84,13 +85,14 @@ class MyHandler(FileSystemEventHandler):
                 # Luego verificar si la clave sin el último argumento es un comando conocido
                 elif block_key in command_handlers and block_args:
                     command_handlers[block_key](block_args)
-                elif self.config['only_system_commands'] == "false":
+                elif not self.config['only_system_commands']:
                     if self.config['mode_tidal_supercollider'] == "tidal":
                         run_tidal_command(self.process, block,
                                           self.config['create_log_file'])
                     elif self.config['mode_tidal_supercollider'] == "supercollider":
                         run_sclang_command(
                             self.process_SC, block, self.config['create_log_file'])
+                    log_command(block, self.comentario)
 
             # Actualizar los bloques procesados
             self.processed_blocks = new_blocks
@@ -104,7 +106,6 @@ class MyHandler(FileSystemEventHandler):
 
             # Procesar una respuesta pendiente de la API de OpenAI
             if self.api_response_pending[0]:
-                print("escribiendo la respuesta...")
                 time.sleep(0.2)
                 with open(self.nombre_archivo, 'a') as file:
                     file.write('\n')

@@ -1,8 +1,8 @@
 {
     "mode_tidal_supercollider": "tidal",
-    "create_log_file": false,
+    "create_log_file": true,
     "ghci_path": "ghci",
-    "only_system_commands": true,
+    "only_system_commands": false,
     "sclang_path": "sclang",
     "boot_tidal_path": "/usr/share/haskell-tidal/BootTidal.hs",
     "api_enabled": false,

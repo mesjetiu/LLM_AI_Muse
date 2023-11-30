@@ -6,6 +6,7 @@ from file_watcher import MyHandler
 from sound_engine import iniciar_supercollider, iniciar_ghci, run_sclang_command
 from config_manager import config
 from program_state import estado_programa
+from logger import create_log_file
 
 
 def response_handler(response):
@@ -35,6 +36,9 @@ def main():
     process_SC = iniciar_supercollider(config['sclang_path'])
     if config['mode_tidal_supercollider'] == "tidal":
         process = iniciar_ghci(config['ghci_path'])
+
+    # Crear el archivo de log
+    create_log_file()
 
     # Configurar y iniciar el observador de archivos
     event_handler = MyHandler(

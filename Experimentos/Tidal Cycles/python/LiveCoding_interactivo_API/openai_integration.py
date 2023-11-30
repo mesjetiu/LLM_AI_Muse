@@ -46,7 +46,6 @@ def consult_openai_api(content, api_response, api_call_in_progress):
             frequency_penalty=config["frequency_penalty"],
             presence_penalty=config["presence_penalty"]
         )
-        print(config['max_tokens'])
         # Extraer el mensaje de respuesta de la API
         respuesta = response.choices[0].message.content
         print(f"Respuesta de la API: {respuesta}")
