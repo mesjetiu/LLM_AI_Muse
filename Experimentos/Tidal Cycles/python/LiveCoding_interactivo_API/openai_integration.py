@@ -46,6 +46,7 @@ def consult_openai_api(content, api_response, api_call_in_progress):
             frequency_penalty=config["frequency_penalty"],
             presence_penalty=config["presence_penalty"]
         )
+        print(config['max_tokens'])
         # Extraer el mensaje de respuesta de la API
         respuesta = response.choices[0].message.content
         print(f"Respuesta de la API: {respuesta}")
@@ -54,4 +55,5 @@ def consult_openai_api(content, api_response, api_call_in_progress):
         print(f"Error en la llamada a la API de OpenAI: {e}")
         api_response[0] = None
     finally:
+        time.sleep(config["wait_time_after_api"])
         api_call_in_progress[0] = False  # Se finaliza la consulta a la API

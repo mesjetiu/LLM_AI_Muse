@@ -30,7 +30,7 @@ class MyHandler(FileSystemEventHandler):
         self.nombre_archivo = nombre_archivo
         self.processed_blocks = set()
         self.comentario = "--" if config['mode_tidal_supercollider'] == "tidal" else "//"
-        self.api_call_in_progress = False
+        self.api_call_in_progress = [False]
         self.api_response_pending = [None]
 
     def segment_into_blocks(self, content):
@@ -96,8 +96,8 @@ class MyHandler(FileSystemEventHandler):
             self.processed_blocks = new_blocks
 
             # Lógica para manejar las llamadas a la API de OpenAI
-            if not self.api_call_in_progress and self.config['api_enabled']:
-                self.api_call_in_progress = True
+            if not self.api_call_in_progress[0] and self.config['api_enabled']:
+                self.api_call_in_progress[0] = True
                 api_thread = Thread(
                     target=consult_openai_api, args=(new_content, self.api_response_pending, self.api_call_in_progress))
                 api_thread.start()
