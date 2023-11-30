@@ -32,6 +32,15 @@ messages = [
 ]
 
 
+def chat_openai(response):
+    # Se finaliza la consulta a la API
+    return response.choices[0].message.content
+
+
+def asisstant_openai(response):
+    return response.choices[0].text  # a implementar...
+
+
 def consult_openai_api(content, api_response, api_call_in_progress):
     time.sleep(config["wait_time_before_api"])
     try:
@@ -47,7 +56,10 @@ def consult_openai_api(content, api_response, api_call_in_progress):
             presence_penalty=config["presence_penalty"]
         )
         # Extraer el mensaje de respuesta de la API
-        respuesta = response.choices[0].message.content
+        if config["asisstant_mode"]:
+            respuesta = asisstant_openai(response)
+        else:
+            respuesta = chat_openai(response)
         print(f"Respuesta de la API: {respuesta}")
         api_response[0] = respuesta
     except Exception as e:
@@ -55,4 +67,4 @@ def consult_openai_api(content, api_response, api_call_in_progress):
         api_response[0] = None
     finally:
         time.sleep(config["wait_time_after_api"])
-        api_call_in_progress[0] = False  # Se finaliza la consulta a la API
+        api_call_in_progress[0] = False
