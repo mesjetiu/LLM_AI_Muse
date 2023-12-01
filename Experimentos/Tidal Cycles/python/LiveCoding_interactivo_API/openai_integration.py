@@ -1,8 +1,10 @@
 import json
+import os
 import time
 from openai import OpenAI
 from threading import Thread
 from config_manager import config
+from command_functions import quit_script_command
 
 # Funciones de configuración inicial
 
@@ -22,6 +24,34 @@ def crear_cliente_openai(api_key):
 
 # Funciones para manejo de assistant
 
+
+def obtener_retrieval_files():
+    global config
+    directorio = config['assistant_retrieval_folder']
+
+    archivos = []
+    for name in os.listdir(directorio):
+        ruta_completa = os.path.join(directorio, name)
+        if os.path.isfile(ruta_completa):
+            archivos.append(ruta_completa)
+
+    # Comprobar si el directorio está vacío
+    if not archivos:
+        print(f"Error: El directorio '{directorio}' está vacío.")
+        quit_script_command()
+
+    return archivos
+
+
+archivos = obtener_retrieval_files()
+
+if archivos is not None:
+    print(archivos)
+else:
+    print("El programa terminará debido a un error.")
+    quit_script_command()
+
+
 # Función de espera para runs
 
 
@@ -35,11 +65,11 @@ def wait_on_run(run, thread, client):
     return run
 
 
-def crear_assistant(client):
+def crear_assistant(client, instructions):
     return client.beta.assistants.create(
         name="Math Tutor",
-        instructions="Eres un tutor de matemáticas. Ayuda a resolver operaciones en una sola frase.",
-        model="gpt-4-1106-preview",
+        instructions=instructions,
+        model=config["model"],
     )
 
 
@@ -104,7 +134,7 @@ def consult_openai_api(content, api_response, api_call_in_progress):
     try:
         print("Consultando API de OpenAI...")
         if config["bot_mode"] == "assistant":
-            assistant = crear_assistant(client)
+            assistant = crear_assistant(client, system_prompt)
             respuesta = consulta_assistant(client, assistant, content)
         else:
             respuesta = consulta_chat(client, messages, content)
