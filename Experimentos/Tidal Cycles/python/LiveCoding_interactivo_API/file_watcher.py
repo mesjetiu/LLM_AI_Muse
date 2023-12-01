@@ -1,7 +1,7 @@
 import time
 from watchdog.events import FileSystemEventHandler
 from sound_engine import run_tidal_command, run_sclang_command
-from openai_integration import consult_openai_api
+from openai_manager import OpenAIManager
 from command_functions import (
     set_api_on_off_command,
     quit_script_command,
@@ -33,6 +33,7 @@ class MyHandler(FileSystemEventHandler):
         self.comentario = "--" if config['mode_tidal_supercollider'] == "tidal" else "//"
         self.api_call_in_progress = [False]
         self.api_response_pending = [None]
+        self.openai_manager = OpenAIManager()
 
     def segment_into_blocks(self, content):
         blocks = set()
@@ -102,7 +103,7 @@ class MyHandler(FileSystemEventHandler):
             if not self.api_call_in_progress[0] and self.config['api_enabled']:
                 self.api_call_in_progress[0] = True
                 api_thread = Thread(
-                    target=consult_openai_api, args=(new_content, self.api_response_pending, self.api_call_in_progress))
+                    target=self.openai_manager.consult_openai_api, args=(new_content, self.api_response_pending, self.api_call_in_progress))
                 api_thread.start()
 
             # Procesar una respuesta pendiente de la API de OpenAI
