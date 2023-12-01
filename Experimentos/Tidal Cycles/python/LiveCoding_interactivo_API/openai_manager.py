@@ -51,20 +51,22 @@ class OpenAIManager:
 
         return retrieval_files
 
-    def wait_on_run(self, run):
-        while run.status == "queued" or run.status == "in_progress":
-            run = self.client.beta.threads.runs.retrieve(
+    def wait_on_run(self):
+        while True:
+            if self.assistant_run.status not in ["queued", "in_progress"]:
+                break
+
+            self.assistant_run = self.client.beta.threads.runs.retrieve(
                 thread_id=self.assistant_thread.id,
-                run_id=run.id,
+                run_id=self.assistant_run.id,
             )
             time.sleep(0.5)
-        return run
 
     def crear_hilo_assistant(self):
         self.assistant_thread = self.client.beta.threads.create()
 
     def crear_run_assistant(self):
-        self.run = self.client.beta.threads.runs.create(
+        self.assistant_run = self.client.beta.threads.runs.create(
             thread_id=self.assistant_thread.id,
             assistant_id=self.assistant.id,
         )
@@ -75,6 +77,7 @@ class OpenAIManager:
         return self.client.beta.assistants.create(
             name=name,
             instructions=instructions,
+            # instructions="Eres un profesor de matemáticas. Responde en una sola línea", # línea de prueba
             model=config["model"],
         )
 
@@ -98,11 +101,15 @@ class OpenAIManager:
             role="user",
             content=content,
         )
-        run = self.crear_run_assistant()
-        run = self.wait_on_run(run)
+        print("mensaje enviado")
+        self.crear_run_assistant()
+        print("creado run")
+        self.wait_on_run()
+        print("después de run")
         messages = self.client.beta.threads.messages.list(
             thread_id=self.assistant_thread.id, order="asc", after=message.id
         )
+        print("mensajes recibidos")
         value = json.loads(messages.model_dump_json())[
             'data'][0]['content'][0]['text']['value']
         return value
