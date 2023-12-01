@@ -141,4 +141,5 @@ class OpenAIManager:
             print(f"Error en la llamada a la API de OpenAI: {e}")
             api_response[0] = None
         finally:
-            api_call_in_progress[0] = False
+            time.sleep(config["wait_time_after_api"])
+            api_call_in_progress[0] = False  # Se finaliza la consulta a la API
