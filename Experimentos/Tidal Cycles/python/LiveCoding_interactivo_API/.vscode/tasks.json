@@ -1,0 +1,15 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "run main.py",
+            "type": "shell",
+            "command": "/home/carlos/Documentos/Master_en_Investigación_Musical/Experimentos/Tidal Cycles/python/LiveCoding_interactivo_API/.venv/bin/python",
+            "args": ["${workspaceFolder}/main.py"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}

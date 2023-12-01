@@ -1,3 +1,4 @@
+import json
 import time
 from openai import OpenAI
 from threading import Thread
@@ -30,6 +31,78 @@ messages = [
         "content": ""
     }
 ]
+
+
+# Código para assistant_mode (pruebas)
+
+
+def show_json(obj):
+    print(json.loads(obj.model_dump_json()))
+
+
+def wait_on_run(run, thread):
+    while run.status == "queued" or run.status == "in_progress":
+        run = client.beta.threads.runs.retrieve(
+            thread_id=thread.id,
+            run_id=run.id,
+        )
+        time.sleep(0.5)
+    return run
+
+
+# Creamos un assistant
+assistant = client.beta.assistants.create(
+    name="Math Tutor",
+    instructions="Eres un tutor de matemáticas. Ayuda a resolver operaciones en una sola frase.",
+    model="gpt-4-1106-preview",
+)
+
+# Creamos un hilo del assistant, que tendrá toda la conversación con el usuario
+thread = client.beta.threads.create()
+
+message = client.beta.threads.messages.create(
+    thread_id=thread.id,
+    role="user",
+    content="Necesito resolver la ecuación 3x - 11 = 14. Por favor, ayúdame.",
+)
+
+# Un run es una conversación entre el assistant y el usuario, que se ejecuta en un hilo.
+run = client.beta.threads.runs.create(
+    thread_id=thread.id,
+    assistant_id=assistant.id,
+)
+
+# Esperamos a que el run termine en un loop
+run = wait_on_run(run, thread)
+
+# Obtenemos la respuesta del assistant
+messages = client.beta.threads.messages.list(thread_id=thread.id)
+
+# iteramos sobre los mensajes del assistant
+
+message = client.beta.threads.messages.create(
+    thread_id=thread.id, role="user", content="me lo puedes explicar como a un niño de 5?"
+)
+
+run = client.beta.threads.runs.create(
+    thread_id=thread.id,
+    assistant_id=assistant.id,
+)
+
+wait_on_run(run, thread)
+
+# Retrieve all the messages added after our last user message
+messages = client.beta.threads.messages.list(
+    thread_id=thread.id, order="asc", after=message.id
+)
+# show_json(messages)
+
+# Extraemos la respuesta del asistente
+value = json.loads(messages.model_dump_json())[
+    'data'][0]['content'][0]['text']['value']
+print(value)
+
+# fin código assistant_mode (pruebas)-------------------------------------------------------
 
 
 def chat_openai(response):
