@@ -9,11 +9,17 @@ from command_functions import quit_script_command
 
 class OpenAIManager:
     def __init__(self):
+        global config
         self.api_key = self.leer_api_key()
         self.client = self.crear_cliente_openai(self.api_key)
         self.system_prompt = self.leer_system_prompt()
+        self.assistant = None
         self.assistant_thread = None
-        self.retrieval_files = self.obtener_retrieval_files()
+        self.assistant_run = None
+        self.retrieval_files = None
+
+    def show_json(self, obj):
+        print(json.loads(obj.model_dump_json()))
 
     def leer_api_key(self):
         with open(config['api_key_file'], 'r') as api_file:
@@ -28,15 +34,22 @@ class OpenAIManager:
 
     def obtener_retrieval_files(self):
         directorio = config['assistant_retrieval_folder']
-        archivos = []
+        files_names = []
+        retrieval_files = []
         for name in os.listdir(directorio):
             ruta_completa = os.path.join(directorio, name)
             if os.path.isfile(ruta_completa):
-                archivos.append(ruta_completa)
-        if not archivos:
-            print(f"Error: El directorio '{directorio}' está vacío.")
-            quit_script_command()
-        return archivos
+                files_names.append(ruta_completa)
+
+        for file_name in files_names:
+            with open(file_name, "rb") as file_data:
+                retrieval_file = self.client.files.create(
+                    file=file_data,
+                    purpose="assistants",
+                )
+                retrieval_files.append(retrieval_file.id)
+
+        return retrieval_files
 
     def wait_on_run(self, run):
         while run.status == "queued" or run.status == "in_progress":
@@ -47,29 +60,45 @@ class OpenAIManager:
             time.sleep(0.5)
         return run
 
+    def crear_hilo_assistant(self):
+        self.assistant_thread = self.client.beta.threads.create()
+
+    def crear_run_assistant(self):
+        self.run = self.client.beta.threads.runs.create(
+            thread_id=self.assistant_thread.id,
+            assistant_id=self.assistant.id,
+        )
+
     def crear_assistant(self, instructions):
+        name = "SuperCollider Live Coder" if config[
+            "mode_tidal_supercollider"] == "tidal" else "Tidal Cycles Live Coder"
         return self.client.beta.assistants.create(
-            name="Math Tutor",
+            name=name,
             instructions=instructions,
             model=config["model"],
         )
 
-    def crear_hilo_assistant(self):
-        self.assistant_thread = self.client.beta.threads.create()
-
     def consulta_assistant(self, assistant, content):
+        if self.assistant is None:
+            self.assistant = self.crear_assistant(self.system_prompt)
+            print("creado asistente")
         if self.assistant_thread is None:
             self.crear_hilo_assistant()
+            print("creado hilo")
+        if self.retrieval_files is None:
+            self.assistant = self.client.beta.assistants.update(
+                self.assistant.id,
+                tools=[{"type": "retrieval"}],
+                file_ids=self.obtener_retrieval_files(),
+            )
+            self.show_json(self.assistant)
 
         message = self.client.beta.threads.messages.create(
             thread_id=self.assistant_thread.id,
             role="user",
             content=content,
         )
-        run = self.client.beta.threads.runs.create(
-            thread_id=self.assistant_thread.id,
-            assistant_id=assistant.id,
-        )
+        run = self.crear_run_assistant()
         run = self.wait_on_run(run)
         messages = self.client.beta.threads.messages.list(
             thread_id=self.assistant_thread.id, order="asc", after=message.id
@@ -78,8 +107,9 @@ class OpenAIManager:
             'data'][0]['content'][0]['text']['value']
         return value
 
-    def consulta_chat(self, messages, content):
-        messages[1]["content"] = content
+    def consulta_chat(self, content):
+        messages = [{"role": "system", "content": self.system_prompt},
+                    {"role": "user", "content": content}]
         response = self.client.chat.completions.create(
             model=config["model"],
             messages=messages,
@@ -92,16 +122,12 @@ class OpenAIManager:
         return response.choices[0].message.content
 
     def consult_openai_api(self, content, api_response, api_call_in_progress):
-        messages = [{"role": "system", "content": self.system_prompt},
-                    {"role": "user", "content": ""}]
-
         try:
             print("Consultando API de OpenAI...")
             if config["bot_mode"] == "assistant":
-                assistant = self.crear_assistant(self.system_prompt)
-                respuesta = self.consulta_assistant(assistant, content)
+                respuesta = self.consulta_assistant(self.assistant, content)
             elif config["bot_mode"] == "chat":
-                respuesta = self.consulta_chat(messages, content)
+                respuesta = self.consulta_chat(content)
             print(f"Respuesta de la API: {respuesta}")
             api_response[0] = respuesta
         except Exception as e:
@@ -109,8 +135,3 @@ class OpenAIManager:
             api_response[0] = None
         finally:
             api_call_in_progress[0] = False
-
-
-# Uso de la clase
-openai_manager = OpenAIManager()
-# Ejemplo de uso: openai_manager.consult_openai_api(...)
