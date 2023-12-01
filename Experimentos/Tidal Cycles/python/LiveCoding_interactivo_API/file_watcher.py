@@ -92,7 +92,8 @@ class MyHandler(FileSystemEventHandler):
                     elif self.config['mode_tidal_supercollider'] == "supercollider":
                         run_sclang_command(
                             self.process_SC, block, self.config['create_log_file'])
-                    log_command(block, self.comentario)
+                    if self.config['create_log_file']:
+                        log_command(block, self.comentario)
 
             # Actualizar los bloques procesados
             self.processed_blocks = new_blocks
