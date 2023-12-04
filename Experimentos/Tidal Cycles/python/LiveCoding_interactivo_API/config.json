@@ -5,7 +5,7 @@
     "only_system_commands": true,
     "sclang_path": "sclang",
     "boot_tidal_path": "/usr/share/haskell-tidal/BootTidal.hs",
-    "api_enabled": false,
+    "api_enabled": true,
     "bot_mode": "assistant",
     "assistant_retrieval_folder": "./assistants/tidal_livecoding/retrieval_files/",
     "api_key_file": "apikey.txt",
@@ -16,6 +16,6 @@
     "top_p": 1,
     "frequency_penalty": 0,
     "presence_penalty": 0,
-    "wait_time_before_api": 1,
-    "wait_time_after_api": 30
+    "wait_time_before_api": 20,
+    "wait_time_after_api": 20
 }
