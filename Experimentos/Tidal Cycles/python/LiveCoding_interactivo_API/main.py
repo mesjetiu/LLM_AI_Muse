@@ -33,7 +33,8 @@ def main():
     process_SC, process = None, None
     # Iniciar el proceso de SuperCollider (se usa en ambos modos)
 
-    process_SC = iniciar_supercollider(config['sclang_path'])
+    if config['mode_tidal_supercollider'] == "supercollider" or config['supercollider_on'] == True:
+        process_SC = iniciar_supercollider(config['sclang_path'])
     if config['mode_tidal_supercollider'] == "tidal":
         process = iniciar_ghci(config['ghci_path'])
 
