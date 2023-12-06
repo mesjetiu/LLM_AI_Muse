@@ -7,7 +7,7 @@
     "sclang_path": "sclang",
     "boot_tidal_path": "/usr/share/haskell-tidal/BootTidal.hs",
     "api_enabled": false,
-    "bot_mode": "assistant",
+    "bot_mode": "chat",
     "assistant_retrieval_folder": "./assistants/tidal_livecoding/retrieval_files/",
     "api_key_file": "apikey.txt",
     "system_prompt_file": "./assistants/tidal_livecoding/system_prompts/system_prompt_01",
