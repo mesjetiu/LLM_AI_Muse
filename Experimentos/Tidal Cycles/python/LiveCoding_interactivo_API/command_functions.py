@@ -46,6 +46,11 @@ def set_model_command(new_model=None):
     print(f"Modelo cambiado a {config['model']}.")
 
 
+def set_bot_mode_command(new_bot_mode=None):
+    config["bot_mode"] = new_bot_mode.strip()
+    print(f"Bot mode cambiado a {config['bot_mode']}.")
+
+
 def set_temperature_command(new_temperature=None):
     config["temperature"] = float(new_temperature.strip())
     print(f"Temperatura cambiada a {config['temperature']}.")

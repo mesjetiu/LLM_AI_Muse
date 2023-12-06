@@ -13,7 +13,8 @@ from command_functions import (
     set_frequency_penalty_command,
     set_presence_penalty_command,
     set_wait_time_before_api_command,
-    set_wait_time_after_api_command
+    set_wait_time_after_api_command,
+    set_bot_mode_command
     # ... (otros imports de funciones de comando)
 )
 import os
@@ -72,7 +73,8 @@ class MyHandler(FileSystemEventHandler):
                 "set frequency penalty": set_frequency_penalty_command,
                 "set presence penalty": set_presence_penalty_command,
                 "set wait time before api": set_wait_time_before_api_command,
-                "set wait time after api": set_wait_time_after_api_command
+                "set wait time after api": set_wait_time_after_api_command,
+                "set bot mode": set_bot_mode_command
             }
 
             # Procesar solo los bloques nuevos o modificados
