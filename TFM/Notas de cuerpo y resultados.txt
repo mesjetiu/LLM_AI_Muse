@@ -1,0 +1,65 @@
+CUERPO
+
+El estudio reflexivo se expone por orden cronológico del trabajo exploratorio con las diversas herramientas.
+El orden utilizado va de lo fácil a lo difícil. Los resultados de cada etapa determinan la dirección tomada en la siguiente.
+
+1. Dos formas de creación sonora: estática y en vivo.
+	En función del tipo de herramienta, el lenguaje utilizado y el rendimiento del propio LLM en dicho lenguaje. Hablar de los dos lenguajes utilizados, pros, contras y características.
+
+1. Uso de Chatbots para la elaboración de código sonoro.
+	1.1 Utilización del lenguaje natural para el diseño de código
+	1.2 Manejo de los errores y las iteraciones
+	1.3 Interacción humana vs automatización.
+	1.4 Creación de proyectos completos con asitentes LLM.
+
+2. Playground de OpenAI
+	
+	2.1 Banco de pruebas con el control de parámetros.
+	2.2 Experimentación en el diseño de prompts eficientes y eficaces.
+	3.2 Modo chat y modo assistant.
+		3.2.1 Modo chat
+		3.2.2 Modo assistant
+			Potencial del RAG, problemas encontrados, dificultad para estar seguros de su efectividad en el caso del código. En modo playground se muestra útil como copiloto.
+
+
+3. Utilización de la API y programación en Python en entornos de Live-coding.
+	
+	3.1 La programación con las API y el diseño de interfaces
+		Herramientas ya mu pulidas como GitHub Copilot y similares, para la creación de código estático. 
+	3.2 Elección de Tidal Cycles como lenguaje de sampling
+		Lenguaje creado expresamente para live-coding.
+		Gestión de errores "silenciosa"
+ 
+    3.3 Live-coding sin intervención humana
+    3.4 Live-coding con intervención humana
+    	El más productivo e interesante...
+    	
+4. Diseño de herramienta de live-coding con la asistencia de una API.
+	4.1 Flujo de trabajo con el script
+	4.2 Creación humana compartida con la IA
+		Se puede dar más o menos peso a la API durante la sesión, desde solo humano a solo máquina.
+	4.3 Modo chat vs modo Assistant.
+	4.4 
+	
+	
+
+
+
+
+RESULTADOS Y DISCUSIÓN
+
+1. Utilidad de LLMs como "copilotos" de lenguaje y la sintaxis.
+2. Escasa creatividad en términos generales:
+	Posibles causas: Desconexión entre lenguaje y sonido; falta de entrenamiento específico.
+3. Importancia de los conocimientos del elemento humano.
+	
+	
+	
+PERSPECTIVAS
+
+1. Prometedores trabajos en la multimodalidad
+2. Importancia de la creación de entornos de usuario con uso de API
+3. Necesidad de exploración de diversos lenguajes generadores de música
+4. Explorar el influjo de entreamientos personalizados en la creatividad, eficiencia y eficacia.
+5. Necesidad del abaratamiento de los servicios para llegar al gran público
+6. Importancia del código abierto en los ámbitos creativos.
