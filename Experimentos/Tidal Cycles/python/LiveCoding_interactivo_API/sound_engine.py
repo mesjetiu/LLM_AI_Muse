@@ -72,4 +72,4 @@ def run_sclang_command(process_SC, command, verbose=True, create_log_file=False,
         if create_log_file:
             log_command(full_command, comentario)
     except Exception as e:
-        print
+        print(f"Error al enviar comando a sclang: {e}")
