@@ -1,0 +1,25 @@
+-- Patrón impredecible y muy interesante
+
+
+d1 
+    $ degradeBy 0.1
+    $ slow 10 
+    $ n (struct "[t(3,8)]*3 t(5,6) [t(6,7)]*4 t(3,4) t(2,3) t(7,8)"
+        $ slow 3 
+        $ ((fast 3 sine * rand) * (1-(fast 5 tri)) * (1-(fast 45 tri * rand))) *20) 
+            # s "[[rash, cpu] | cpu2 | numbers | [arpy, <hi lo snare>] | [superpiano, [alphabet clap]?]]" 
+            -- # s (choose["[rash, cpu]" , "[cpu2, hc]" ,"numbers" ," [arpy, <hi lo snare>]" , "[superpiano, [alphabet clap]?]"])
+            # speed (slow 7 $ sine*1+0.05) 
+            # legato 10
+            # squiz (slow 20 $ sine*5)
+            # room 1
+            # size 0.8
+            # delay 0.8
+            # delaytime (choose [0.1, 0.5, 1])
+            # delayfb 0.8
+            # pan (range 0 1 rand)
+            # vowel (slow 2.7 "{u o i e a i u a, a e i o u o}")
+
+
+
+hush
