@@ -3,44 +3,52 @@
 \section{Revisión bibliográfica}
 
 \subsection{Objetivos de la revisión}
-Esta revisión tiene como propósito comprender el estado actual de los Modelos de Lenguaje a Gran Escala (LLM) e identificar las mejores prácticas en cuanto a la interacción mediante <<prompting>> en programación informática y composición musical.
+La revisión bibliográfica en este trabajo tiene como propósito comprender el estado actual de los Modelos de Lenguaje a Gran Escala (LLM) e identificar las mejores prácticas en cuanto a la interacción mediante \textit{prompting} en programación informática y composición musical.
 
 \subsection{Fuentes y búsqueda}
-Para llevar a cabo esta revisión, se consultarám diversas bases de datos, revistas especializadas y conferencias de relevancia en el ámbito principalmente de la inteligencia artificial y el \textit{prompting}.
+Para llevar a cabo esta revisión, se consultarám diversas bases de datos, revistas especializadas y conferencias de relevancia en el ámbito principalmente de la inteligencia artificial y el \textit{prompting}. La publicación de artículos científicos en el área de la inteligencia artificial, y, en concreto, de LLM, es diaria, y debido a que la mayoría de estos trabajos han sido publicados durante 2022 y 2023, no cuentan con revisión por pares u otros mecanismos de verificación de las tesis en ellos contenidas. Por esta razón, sus resultados deben ser tomados con cautela y como líneas abiertas de investigación.
 
 \subsection{Selección y evaluación}
-Los criterios utilizados para seleccionar los trabajos incluidos en esta revisión se centraron en la relevancia y actualidad. Se dieron prioridad a trabajos publicados en los últimos meses y aquellos que se centran específicamente en aspectos cruciales de los LLM y la interacción mediante \textit{prompting} y la programación.
+Los criterios utilizados para seleccionar los trabajos incluidos en esta revisión se centraron en la relevancia y actualidad. Se dieron prioridad a trabajos publicados en los últimos meses y aquellos que se centran específicamente en aspectos cruciales de los LLM y la interacción mediante \textit{prompting} y la programación. 
 
 \subsection{Resultados de la revisión}
-Los hallazgos más relevantes de esta revisión serán discutidos en detalle en el capítulo correspondiente al \hyperref[chap:estado_cuestion]{Estado de la cuestión}. No obstante, es importante destacar que existen múltiples enfoques y técnicas para interactuar con los LLM, y que su aplicación en la composición musical aún se encuentra en una fase exploratoria.
+Los hallazgos más relevantes de esta revisión son discutidos en detalle en el capítulo correspondiente al \hyperref[chap:estado_cuestion]{Estado de la cuestión}. No obstante, es importante destacar que existen múltiples enfoques y técnicas para interactuar con los LLM, y que su aplicación en la composición musical aún se encuentra en una fase exploratoria, al no ser un objetivo primordial de los investigadores en el campo de la generación de código. Por otra parte, la mayoría de los trabajos publicados en el área de la música y los modelos generativos se centran en la generación de música como producto final, con una clara proyección comercial, y no en la interacción con los LLM como herramienta de composición. 
 
 \section{Enfoque, alcance y diseño}
 
-El enfoque de esta investigación es mixto, incorporando elementos tanto cualitativos como cuantitativos. 
-
 \subsection{Enfoque}
-Se adopta un \textbf{enfoque mixto} que combina métodos cualitativos y cuantitativos. El componente cualitativo busca profundizar en el hecho artístico y descubrir los procesos creativos que sustentan la interacción con los LLM en la composición musical. Se basa en las descripciones, observaciones y reflexiones sobre las interacciones y respuestas obtenidas. El componente cuantitativo, por otro lado, permite cuantificar y medir aspectos específicos de la investigación, como el número de \textit{prompts} utilizados o el porcentaje de respuestas correctas.
+
+El enfoque de esta investigación es cualitativo, y se centra en la interacción con los LLM como herramienta de composición musical. Se busca comprender y descubrir los procesos creativos que sustentan la interacción con los LLM en la composición musical algorítmica. Aunque nos apoyamos en estudios previos de carácter cuantitativo, especialmente enfocados al campo de la programacion informática, el enfoque de esta investigación busca explorar los modos de interacción entre el compositor y los LLM, y no tanto medir la eficacia de los mismos en la generación de código. 
 
 \subsection{Alcance}
 La investigación tiene un \textbf{alcance exploratorio y descriptivo}. Es exploratoria en la medida en que busca comprender y descubrir la aplicación de los LLM en el contexto de la composición musical algorítmica, un campo que aún no ha sido ampliamente estudiado. Al mismo tiempo, se adopta un enfoque descriptivo para detallar y medir las técnicas y enfoques específicos utilizados en el campo.
 
+Se busca descubrir los procesos creativos que sustentan la interacción con los LLM en la composición musical. Nos basaremos en las descripciones, observaciones y reflexiones sobre las interacciones y respuestas obtenidas. Unido a esto, un elemento clave es la investigación en el campo de las interfaces de usuario, la interacción persona-ordenador y la programación informática, que condiciona de forma conceptual y práctica la interacción con los LLM, y determina el tipo de producto musical que se puede obtener.
+
 \subsection{Diseño}
-El diseño de la investigación es \textbf{no experimental}. Aunque se lleva a cabo una experimentación con diferentes \textit{prompts}, no se realiza una manipulación clara y definida de variables independientes para observar sus efectos en variables dependientes. Sin embargo, el diseño implica un proceso iterativo de experimentación con diferentes \textit{prompts} y análisis de los resultados obtenidos.
+El diseño de la investigación es \textbf{no experimental}. Aunque se lleva a cabo una experimentación con diferentes \textit{prompts}, interfaces y selecciones de parámetros de los LLM, no se realiza una manipulación clara y definida de variables independientes para observar sus efectos en variables dependientes. Sin embargo, el diseño implica un proceso iterativo de experimentación y análisis de los resultados obtenidos.
 
-
-
-\section{Variables}
-Aunque el enfoque es primordialmente cualitativo, se considerarán variables cuantitativas como:
-\begin{itemize}
-    \item Número de prompts utilizados.
-    \item Porcentaje de respuestas correctas según los parámetros definidos.
-    \item Calidad artística del output (evaluación subjetiva).
-\end{itemize}
 
 \section{Desarrollo y aplicación}
 
 \subsection{Herramientas y recursos utilizados}
+
+    \subsubsection{Herramientas de OpenAI}
+
+        \paragraph{ChatGPT}
+
+        \paragraph{Playground}
+
+        \paragraph{API de OpenAI}
+
+    \subsubsection{Python como lenguaje de programación}
+
 Para llevar a cabo la experimentación en esta investigación, se utilizará el modelo GPT-4 proporcionado por OpenAI a través de su API. GPT-4 es, en el momento en que se escribe este texto, el modelo de lenguaje a gran escala más avanzado y potente disponible públicamente. Esta elección garantiza la interacción con una tecnología de vanguardia en el campo del procesamiento del lenguaje natural y el \textit{Deep Learning}. La API de OpenAI permite una interacción flexible y eficiente con el modelo, facilitando la introducción de \textit{prompts} y la recopilación de respuestas en tiempo real.
+
+\subsection{Exploración de posibles interfaces de interacción humano-IA}
+De algún modo, esta será la guia de la investigación. A partir de las posibilidades de interacción con los LLM, ofrecidas principalmente por la API de OpenAI, se explorarán las posibilidades de interacción con los LLM, y se diseñarán \textit{prompts} para interactuar con el modelo de cara a la composición musical por medio de código.
+
+% Seguir revisando por aquí.
 
 \subsection{Experimentación con \textit{prompts}}
 Se realizarán múltiples sesiones de experimentación, en las cuales se introducirán diversos \textit{prompts} tanto de sistema como de usuario para interactuar con el LLM.
