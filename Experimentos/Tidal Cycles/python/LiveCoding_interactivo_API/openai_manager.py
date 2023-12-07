@@ -72,14 +72,25 @@ class OpenAIManager:
         )
 
     def crear_assistant(self, instructions):
+        assistant = None
         name = "SuperCollider Live Coder" if config[
             "mode_tidal_supercollider"] == "tidal" else "Tidal Cycles Live Coder"
-        return self.client.beta.assistants.create(
-            name=name,
-            instructions=instructions,
-            # instructions="Eres un profesor de matemáticas. Responde en una sola línea", # línea de prueba
-            model=config["model"],
-        )
+        if config["assistant_id"]:
+            assistant = self.client.beta.assistants.retrieve(
+                config["assistant_id"])
+        else:
+            assistant = self.client.beta.assistants.create(
+                name=name,
+                instructions=instructions,
+                model=config["model"],
+            )
+            if self.retrieval_files is None:
+                assistant = self.client.beta.assistants.update(
+                    self.assistant.id,
+                    tools=[{"type": "retrieval"}],
+                    file_ids=self.obtener_retrieval_files(),
+                )
+        return assistant
 
     def consulta_assistant(self, assistant, content):
         if self.assistant is None:
@@ -88,12 +99,6 @@ class OpenAIManager:
         if self.assistant_thread is None:
             self.crear_hilo_assistant()
             print("creado hilo")
-        if self.retrieval_files is None:
-            self.assistant = self.client.beta.assistants.update(
-                self.assistant.id,
-                tools=[{"type": "retrieval"}],
-                file_ids=self.obtener_retrieval_files(),
-            )
             self.show_json(self.assistant)
 
         message = self.client.beta.threads.messages.create(
