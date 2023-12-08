@@ -28,14 +28,11 @@ Se busca descubrir los procesos creativos que sustentan la interacción con los 
 \subsection{Diseño}
 El diseño de la investigación es \textbf{no experimental}. Aunque se lleva a cabo una experimentación con diferentes \textit{prompts}, interfaces y selecciones de parámetros de los LLM, no se realiza una manipulación clara y definida de variables independientes para observar sus efectos en variables dependientes. Sin embargo, el diseño implica un proceso iterativo de experimentación y análisis de los resultados obtenidos.
 
-
-\section{Desarrollo y aplicación}
-
-\subsection{Herramientas y recursos utilizados}
+\section{Herramientas y recursos utilizados}
 
 Para llevar a cabo este estudio, se han utilizado los medios informáticos relativos a la inteligencia artificial de los que se disponía especialmente entre septiembre y diciembre de 2023. Por una parte, los servicios ofrecidos por una de las principales empresas de inteligencia artificial en ese momento, OpenAI, y por otra las posibilidades que ofrece la programación con el lenguaje Python. 
 
-    \subsubsection{Herramientas de OpenAI}
+    \subsection{Herramientas de OpenAI}
 
     OpenAI tiene a disposición del público tres importantes herramientas de interacción con sus modelos de lenguaje (entre otros modelos). 
 
@@ -79,7 +76,13 @@ Para llevar a cabo este estudio, se han utilizado los medios informáticos relat
             \label{fig:api}
         \end{figure}
 
-    \subsubsection{Python como lenguaje de programación}
+    \subsection{Python como lenguaje de programación}
+    El uso de la API de OpenAI requiere el uso de un lenguaje de programación. En este caso, se ha utilizado Python, un lenguaje de programación de propósito general, interpretado, de alto nivel y de tipado dinámico. Python es un lenguaje de programación muy popular, y es utilizado por la mayoría de los investigadores en el campo de la inteligencia artificial. Además, es un lenguaje de programación muy flexible, que permite la interacción con la API de OpenAI de forma sencilla y eficiente. La propia OpenAI ofrece una biblioteca de Python para la interacción con su API, que facilita la interacción con los LLM, así como una gran documentación y ejemplos de uso. 
+
+    Debido al amplio uso de Python como lenguaje de \textit{Deep Learning}, muchos de estos códigos se pueden compartir y ejecutar en servidores remotos, lo cual permite un trabajo con un flujo de trabajo distribuido entre varios investigadores. En el caso de el presente estudio,con el fin de realizar una sencilla interacción de la API con los motores de sonido (SuperCollider y Tidal Cycles), se han programado todos los scripts para ser ejecutados en local.
+
+
+\section{Desarrollo y aplicación}
 
 Para llevar a cabo la experimentación en esta investigación, se utilizará el modelo GPT-4 proporcionado por OpenAI a través de su API. GPT-4 es, en el momento en que se escribe este texto, el modelo de lenguaje a gran escala más avanzado y potente disponible públicamente. Esta elección garantiza la interacción con una tecnología de vanguardia en el campo del procesamiento del lenguaje natural y el \textit{Deep Learning}. La API de OpenAI permite una interacción flexible y eficiente con el modelo, facilitando la introducción de \textit{prompts} y la recopilación de respuestas en tiempo real.
 
@@ -99,3 +102,6 @@ Además del análisis cuantitativo, se reflexionará sobre las interacciones, la
 
 \subsection{Comparación y reflexión final}
 Se realizará una reflexión comparativa sobre la influencia de los LLM en el proceso creativo en contraste con creaciones realizadas sin su intervención. También se discutirán las implicaciones, limitaciones y posibles aplicaciones futuras de los descubrimientos de la investigación.
+
+\subsection{Disponibilidad y publicación de los scripts del trabajo}
+Todos los scripts utilizados en este trabajo, así como los \textit{prompts} utilizados y el texto de esta memoria, se encuentran disponibles en el repositorio de GitHub del autor (Véase Anexo \ref{anexo:repositorio}).
