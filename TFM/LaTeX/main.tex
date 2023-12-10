@@ -7,7 +7,7 @@
 \setcounter{secnumdepth}{4}
 
 % ----------- Configuración de idioma y títulos en español -----------
-\usepackage[spanish]{babel}
+\usepackage[spanish,es-tabla]{babel}
 \renewcommand{\shorthandsspanish}{} 
 \addto{\captionsspanish}{\def\chaptername{}}
 \addto\captionsspanish{
@@ -124,7 +124,9 @@
   justification=justified,
   singlelinecheck=false
 }
-\newcommand{\source}[1]{\caption*{\begin{center}\smaller[1] Fuente: #1\end{center}}}
+% \newcommand{\source}[1]{\caption*{\begin{center}\smaller[1] Fuente: #1\end{center}}}
+\newcommand{\source}[1]{\caption*{\centering \smaller \textit{Fuente: #1}}}
+
 
 % ----------- Viudas y huérfanas -----------
 \clubpenalty=20000	% para que no haya líneas viudas en el texto.
