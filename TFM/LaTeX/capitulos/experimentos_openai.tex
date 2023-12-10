@@ -3,4 +3,113 @@
 \section{Componiendo música con GPT-4}
 El estudio llevado acabo en esta investigación se expone a continuación siguiendo el orden cronológico del trabajo exploratorio llevado a cabo con las diversas herramientas que provee OpenAI. Se comienza con la exploración de ChatGPT, el chatbot de OpenAI, para luego pasar al \textit{Playground} y finalmente a la API, que nos posibilita el uso de los modelos en entornos de programación ad hoc que nos permiten la automatización de las tareas de peticiones a la API y procesamiento de los resultados en la generación de música.
 
-\subsection{ChatGPT, el chatbot de OpenAI}
+\subsection{ChatGPT, como banco de pruebas}
+La forma en la que ha dado a conocer al gran público las potencialidades de los modelos de lenguaje ha sido a través de chatbots. Si bien en la actualidad existen muchos chatbots que utilizan modelos de lenguaje, el primero en hacerlo de forma pública fue ChatGPT, de OpenAI, un chatbot que utiliza el modelo GPT-3 y GPT-4, con el cual se pueden mantener conversaciones en lenguaje natural. Si bien en la actualidad cuenta con muchas características que lo convierten en una herramienta dirigida a la productividad en múltiples ámbitos, en un principio, y esencialmente, fue concebido como un chatbot con el que mantener conversaciones.
+
+Como ya se ha señalado, una de sus grandes potencialidades es la de poder ser usado como <<copiloto>> en tareas de programación. En este sentido, se ha usado ChatGPT como banco de pruebas para la una primera exploración de cómo pueden ser usados estos modelos en la creación de música a través del lenguaje del código.
+
+\subsubsection{GPT-4, modelo utilizado en todos los experimentos}
+
+En \ref{sec:llm_asistentes_creacion_codigo_programacion} se ha expuesto el estado del arte de los modelos de lenguaje aplicados a la creación de código, que constituye una de sus más notorias habilidades. Al mismo tiempo, se señaló que el modelo más avanzado en la actualidad es GPT-4, de OpenAI. No obstante, se realizaron pruebas con otros chatbots, como Bart, de Google, o el mismo Github Copilot, modelo este último que ha recibido un \textit{fine tunning} específico para la creación de código con todos los repositorios de Github. Sin embargo, ninguno de estos y otros modelos actuales ha mostrado ni tan siquiera acercarse a la tasa de corrección de GPT-4. La Figura \ref{fig:GPT4_correction_comparation} muestra un ejemplo de la diferencia entre la corrección de GPT-4 y Bart, en el que se puede apreciar cómo el código generado por Bart no se puede ejecutar por numeroros errores sintácticos, mientras que el de GPT-4 es correcto.
+
+
+\begin{figure}[h]
+    \caption[Respuesta de \textit{Bart} y \textit{ChatGPT} a un mismo prompt]{(a) Respuesta de \textit{Bart} y (b) \textit{ChatGPT} a un mismo prompt: <<Haz un código sencillo en SuperCollider, listo para ejecutarse, que ejemplifique una frecuencia modulada>>. El código de \textit{Bart} cuenta con varios errores graves de sintaxis, mientras el de \textit{ChatGPT} es correcto.}
+    \centering
+    \begin{subfigure}{.48\textwidth}
+      \centering
+      \begin{mdframed}
+      \begin{verbatim}
+// Declaramos las variables
+float fm = 440;
+float fms = 100;
+float amp = 0.5; 
+
+// Generamos la señal FM
+SinOsc s = SinOsc(fm);
+s.freq = 
+s.freq * (1 + fms * SinOsc(fms).cos);
+
+// Asignamos la señal a un bus
+Out(s);
+      \end{verbatim}
+      \end{mdframed}
+      \caption{Bart}
+    \end{subfigure}\hfill
+    \begin{subfigure}{.48\textwidth}
+      \centering
+      \begin{mdframed}
+      \begin{verbatim}
+(
+SynthDef(\fmSimple, {
+    |out = 0, freq = 440, 
+    modIndex = 10, modFreqRatio = 1|
+    var modulator = 
+    SinOsc.ar(freq * modFreqRatio) 
+    * modIndex;
+    var carrier = 
+    SinOsc.ar(freq + modulator);
+    Out.ar(out, carrier ! 2);
+}).add;
+)
+
+// Tocar el SynthDef
+(
+Synth(\fmSimple, [
+    \freq, 440,   
+    \modIndex, 20, 
+    \modFreqRatio, 0.5
+]);
+)
+      \end{verbatim}
+      \end{mdframed}
+      \caption{ChatGPT}
+    \end{subfigure}
+
+    \source{Elaboración propia.}
+    \label{fig:GPT4_correction_comparation}
+\end{figure}
+
+
+El otro modelo disponible en ChatGPT, GPT-3.5, si bien es capaz de generar código mejor que el de Bart, no lo hace con la tasa de corrección de GPT-4. En los experimentos realizados estos se pudo comprobar constantemente: una gran parte del código generado en SuperCollider por GPT-3.5 contenía demasiados errores de sintaxis y alucionaciones, lo cual lo convertía en ineficiente para la creación de código musical al lado de GPT-4.
+
+
+\subsection{Tareas en las que se ha probado ChatGPT}
+Por la propia interfaz de chatbot, ChatGPT solo permite una interacción tipo <<diálogo>>. Esto es, el usuario introduce un texto, y el modelo responde a este texto. Esto determina fuertemente el tipo de tareas que con él podemos realizar a la hora de crear código musical. En primer lugar, no es práctico para la creación de código musical en tiempo real, ya que es el usuario quien debe cortar y pegar constantemente téxto desde el IDE al chat y viceversa, lo cual entorpecería el flujo de trabajo. Sin embargo, se ha visto muy útil para las tareas que enumeramos a continuación:
+
+\begin{itemize}
+    \item Crear de esbozos generales de una obra o de un patch simple.
+    \item Crear de snippets simples de código ejecutable.
+    \item Poner a prueba ciertas técnicas de prompting, como \textit{Chain of Thoughts}.
+\end{itemize}
+
+
+No sirve para tiempo real, sino para la creación de proyectos anteriores a su interpretación: es tedioso cortar y pegar todo el tiempo.
+
+Una ventaja de usar chatGPT es su tarifa plana.
+
+----¿Para qué es útil?
+
+Sirve para crear esbozos generales de una obra o de un patch simple
+
+sirve para crear snippets simples de código ejecutable
+
+Puede interpretar los errores y corregir iterativamente.
+
+Sirve para poner a prueba ciertas técnicas de prompting, como Chain of Thoughts (exponer diversas técnicas probadas)
+
+
+----Limitaciones encontradas:
+
+1. llegar a puntos sin salida si se delega en el chat toda la creación del código.
+
+2. Dificultad en manejar proyectos de tamaño medio o grande (100 líneas...) (esto es independiente de la ventana de contexto)
+
+3. Limitación de la ventana de contexto y, por tanto, olvido de las directrices de los primeros prompts. Esto dificulta la escritura de código extenso, incluso teniendo en cuenta su capacidad de crear estructuras generales de piezas.
+
+4. Alucinaciones recurrentes (veremos que este problema ocurre siempre). Esto ocurre mucho más en Bart.
+
+5. Es una caja negra: No podemos controlar los hiperparámetros básicos, ni siquiera saber sus valores. Esto es un problema de cara a una investigación más cuantitativa.
+
+
+----Ejemplos sonoros conseguidos a través de ChatGPT.
