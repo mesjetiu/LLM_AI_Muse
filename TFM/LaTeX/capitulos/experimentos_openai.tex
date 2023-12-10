@@ -17,9 +17,8 @@ En \ref{sec:llm_asistentes_creacion_codigo_programacion} se ha expuesto el estad
     \caption[Respuesta de \textit{Bart} y \textit{ChatGPT} a un mismo prompt]{(a) Respuesta de \textit{Bart} y (b) \textit{ChatGPT} a un mismo prompt: <<Haz un código sencillo en SuperCollider, listo para ejecutarse, que ejemplifique una frecuencia modulada>>. El código de \textit{Bart} cuenta con varios errores graves de sintaxis, mientras el de \textit{ChatGPT} es correcto.}
     \centering
     \begin{subfigure}{.48\textwidth}
-      \centering
-      \begin{mdframed}
-      \begin{verbatim}
+    \centering
+    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
 // Declaramos las variables
 float fm = 440;
 float fms = 100;
@@ -32,18 +31,17 @@ s.freq * (1 + fms * SinOsc(fms).cos);
 
 // Asignamos la señal a un bus
 Out(s);
-      \end{verbatim}
-      \end{mdframed}
-      \caption{Bart}
+    \end{lstlisting}
+    \caption{Bart (con Palm 2)}
     \end{subfigure}\hfill
     \begin{subfigure}{.48\textwidth}
-      \centering
-      \begin{mdframed}
-      \begin{verbatim}
+    \centering
+    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
 (
 SynthDef(\fmSimple, {
     |out = 0, freq = 440, 
-    modIndex = 10, modFreqRatio = 1|
+    modIndex = 10,
+    modFreqRatio = 1|
     var modulator = 
     SinOsc.ar(freq * modFreqRatio) 
     * modIndex;
@@ -61,9 +59,8 @@ Synth(\fmSimple, [
     \modFreqRatio, 0.5
 ]);
 )
-      \end{verbatim}
-      \end{mdframed}
-      \caption{ChatGPT}
+    \end{lstlisting}
+    \caption{ChatGPT (con GPT-4)}
     \end{subfigure}
 
     \source{Elaboración propia.}
