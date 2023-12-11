@@ -1,0 +1,17 @@
+
+
+d1 $ degradeBy 0.5 
+   $ fast 5 
+   $ jux (rev) 
+   $ chop 50 
+   $ sound "drum(4,<4 5 6 7 8 9 10 11 12>)"
+      # n (slow 2 $ "1 2 3 4")
+      # lpf (range 50 1000 (slow 10 $ sine + (rand*0.4)))
+      # lpq 0.5
+      # gain 0.7
+      # room 1
+      # sz 0.97
+      # speed (rand*4+0.5)
+
+
+hush
