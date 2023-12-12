@@ -83,17 +83,21 @@ Por la propia interfaz de chatbot, ChatGPT solo permite una interacción tipo <<
 \subsubsection{Creación de esbozos generales de una obra}
 Una de las tareas más útiles que se ha encontrado para ChatGPT en relación a la composición musical es la de crear esbozos generales de una obra. Esto es, estructuras generales, como la forma temporal, junto con la estructura del código con las clases y funciones que eventualmente se van a usar. Se trata de una planificación previa a la composición de los detalles. En este punto es tentador pensar que chatGPT podría producir la obra completa, pero esta ilusión cae rápidamente al intentarlo, ya que lo  más probable es contrar multitud de errores en el código generado, los cuales provienen de una mala planificación general y no merece la pena depurar. Sin embargo, si el objetivo de una conversación es la crear una estructura general, el resultado puede ser muy satisfactorio.
 
-Para llevar a cabo una tarea así, se ha encontrado conveniente hacer que nuestro prompt pida al LLM realizar una planificación previa de la obra de forma razonada, siguiendo técnicas de prompting como \textit{Chain of Thoughts} (ver sección \ref{sec:llm_tecnicas_prompting}). En este sentido, se ha encontrado que es muy útil que el prompt contenga una serie de indicaciones que guíen al modelo en la creación de la estructura general de la obra. Por otra parte, la mayor parte de las veces que se le ha pedido este tipo de trabajo, lo ha hecho correctamente solo tras iterar ciertas indicaciones en la conversación.  Por ejemplo, en el prompt de la Figura \ref{fig:ChatGPT_esbozo_estructura} se puede ver cómo se le pide al modelo que cree una estructura general de una obra. Su primera respuesta, a pesar de ser correcta desde el punto de vista del lenguaje, no responde en absoluto a la dimensión temporal pedida, que es la esencia de la estructura. Simplemente devolviéndole una pista de lo que se busca, su segunda respuesta se adecua perfectamente a lo pedido originalmente. Ya desde el inicio de los experimentos se ha visto que el <<feedback>> del usuario, experto en la tarea pedida, es fundamental para no fustrar la tarea inmediatamente. Llama, sin embargo, la atención que ChatGPT parece no haber comprendido la esencia de la petición primera, crear una estructura temporal esquemática, y que baste una pista para que la respuesta sea correcta. La respuesta radica en que la iteración es la clave para obtener buenos resultados. Los LLM <<razonan>> mejor en conversaciones, donde pueden ir recibiendo feedback del usuario, que en prompts aislados. La ventana de contexto jugará un papel crucial en este sentido, como se verá más adelante.
+Para llevar a cabo una tarea así, se ha encontrado conveniente hacer que nuestro prompt pida al LLM realizar una planificación previa de la obra de forma razonada, siguiendo técnicas de prompting como \textit{Chain of Thoughts} (ver sección \ref{sec:llm_tecnicas_prompting}). En este sentido, se ha encontrado que es muy útil que el prompt contenga una serie de indicaciones que guíen al modelo en la creación de la estructura general de la obra. Por otra parte, la mayor parte de las veces que se le ha pedido este tipo de trabajo, lo ha hecho correctamente solo tras iterar ciertas indicaciones en la conversación.  Por ejemplo, en el prompt de la Figura \ref{fig:ChatGPT_esbozo_estructura} se puede ver cómo se le pide al modelo que cree una estructura general de una obra. Su primera respuesta, a pesar de ser correcta desde el punto de vista del lenguaje, no responde en absoluto a la dimensión temporal pedida, que es la esencia de la estructura. Simplemente devolviéndole una pista de lo que se busca, su segunda respuesta se adecua perfectamente a lo pedido originalmente. 
+
+Ya desde el inicio de los experimentos se ha visto que el <<feedback>> del usuario experto en la tarea pedida es fundamental para no fustrar la tarea inmediatamente. Sin embargo, llama la atención que ChatGPT no comprenda la esencia de la petición primera, en el ejemplo dado, la de crear una estructura temporal esquemática, y que baste una pista para que la respuesta sea correcta. La respuesta radica en que la iteración es la clave para obtener buenos resultados. Los LLM <<razonan>> mejor en conversaciones, donde pueden ir recibiendo feedback del usuario, que en prompts aislados.
 
 
-\begin{figure}[h]
+\begin{figure}[h!]
     \caption[Conversación con ChatGPT para crear una estructura general de una obra]{Conversación con ChatGPT para crear una estructura general de una obra. El prompt (a) pide al modelo que cree una estructura general de una obra de unos 5 minutos de duración. La respuesta ignora la dimensión temporal pedida, por lo que se le da una pista de lo que se busca. La respuesta al siguiente prompt (b) se adecua perfectamente a lo pedido originalmente.}
     \centering
     \begin{subfigure}{.48\textwidth}
     \centering
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-// Definición de SynthDef para la introducción
-SynthDef(\granularSynth, { |out = 0, freq = 440, dur = 1|
+// Definición de SynthDef 
+para la introducción
+SynthDef(\granularSynth, { 
+    |out = 0, freq = 440, dur = 1|
     // Código para síntesis granular
 }).add;
 
@@ -104,7 +108,7 @@ Pbind(
     \freq, Pexprand(400, 500)
 ).play;
     \end{lstlisting}
-    \caption{Respuesta a Prompt 1: <<Crea la estructura en SuperCollider de una obra de música electroacústica.  La duración ha de ser de unos 5 minutos. El desarrollo temporal ha de ser la de una modificación constante de la textura sonora. Ayúdate de las técnicas de síntesis sonora que sean necesarias en cada caso. El código ha de ser modular. Los detalles se trabajarán después. Interesa un adecuado uso de las clases y placeholders de SuperCollider. Haz primero una planificación razonada.>>}
+    \caption{Respuesta a Prompt 1: <<Crea la estructura en SuperCollider de una obra de música electroacústica.  La duración ha de ser de unos 5 minutos. El desarrollo temporal ha de ser la de una modificación constante de la textura sonora. Ayúdate de las técnicas de síntesis sonora que sean necesarias en cada caso. El código ha de ser modular. Los detalles se trabajarán después. Interesa un adecuado uso de las clases y placeholders de SuperCollider. Haz primero una planificación razonada.>> Nota: se han eliminado los comentarios previos al código de las respuestas.}
     \end{subfigure}\hfill
     \begin{subfigure}{.48\textwidth}
     \centering
@@ -112,30 +116,23 @@ Pbind(
 // Definición de secciones como funciones
 ~introduccion = {
     // Código para la introducción
-    // Ejemplo: Iniciar un SynthDef granular
     "Iniciando introducción".postln;
     // Duración de la introducción
     60.wait;
 };
 
 ~desarrollo = {
-    // Código para el desarrollo
     "Iniciando desarrollo".postln;
-    // Duración del desarrollo
     120.wait;
 };
 
 ~climax = {
-    // Código para el clímax
     "Iniciando clímax".postln;
-    // Duración del clímax
     60.wait;
 };
 
 ~conclusion = {
-    // Código para la conclusión
     "Iniciando conclusión".postln;
-    // Duración de la conclusión
     60.wait;
 };
 
@@ -153,17 +150,26 @@ Routine({
     \label{fig:ChatGPT_esbozo_estructura}
 \end{figure}
 
+Una vez que ChatGPT nos ha provisto de un esqueleto para una obra musical, ¿por qué no continuar la conversación hasta tener todas sus partes completas? Los intentos de crear códigos completos desde cero, paso a paso, han sido casi siempre frustrados en algún punto de la conversación. Llegados a una cierta cantidad de peticiones y respuestas, puede resultar desconcertante el olvido del LLM de ciertos aspectos importantes trabajo realizado hasta el momento y el que queda por completar. 
+
+
+\begin{figure}[h!]
+    \caption[Precisión de GPT-3 en función del tamaño de la ventana de contexto]{Precisión de GPT-3 en función del tamaño de la ventana de contexto. En la gráfica se aprecia cómo la precisión del modelo disminuye hacia el centro de la ventana de contexto. Ello puede se runa limitación en la creación de un proyecto, ya que la parte central de la conversación recordada por el modelo puede resultar minimizada en su importancia.}
+    \centering
+    \includegraphics[width=0.5\textwidth]{./figuras/Precision_LLM_gran_contexto.png}
+    \source{\cite{liuLostMiddleHow2023}}
+    \label{fig:Precision_LLM_gran_contexto}
+\end{figure}
+
+
+Esto se debe a varios factores: En primer lugar, la ventana de contexto definitivamente limita la memoria del LLM (el número de \textit{tokens} que recibe como input para la siguiente respuesta) de forma que los primeros prompts, precisamente en los que se le daban las directrices generales para un obra, quedan fuera de su alcance. Su comportamiento en ese momento es impredecible, y tiende a enfocarse en las últimas tareas como objetivo principal. Y debido a que el usuario desconoce cuál es el valor de esta ventana de contexto, puede arrastrar el proyecto en la conversación hacia un punto sin salida. En segundo lugar, independientemente de la ventana de contexto, y especialmente en las ventanas grandes, se ha visto que los LLM no procesan por igual toda la información. Pueden existir lagunas importantes en el centro de la ventana, tal como demuestran recientes estudios \citep{liuLostMiddleHow2023}, lo cual puede llevar al modelo a alucinar. La Figura \ref{fig:Precision_LLM_gran_contexto} muestra una gráfica con este fenómeno. Por tanto, en una conversación larga dentro de la creación de un proyecto de envergadura el LLM puede sufrir de pérdida absoluta de la parte inicial de la conversación (limitación de la ventana de contexto) y, por otra parte, de pérdida parcial de la parte central de la conversación (limitación de la precisión en el centro de la ventana de contexto). Si a esto le sumamos que el usuario desconoce el valor de la ventana de contexto en el caso de chatGPT, el resultado es que el usuario puede arrastrar el proyecto hacia un punto sin salida, en el que el LLM no recuerda las directrices iniciales y puede alucinar en el centro de la ventana de contexto.
+
+
+
+
 \subsubsection{Creación de snippets sencillos de código}
 
-----¿Para qué es útil?
 
-Sirve para crear esbozos generales de una obra o de un patch simple
-
-sirve para crear snippets simples de código ejecutable
-
-Puede interpretar los errores y corregir iterativamente.
-
-Sirve para poner a prueba ciertas técnicas de prompting, como Chain of Thoughts (exponer diversas técnicas probadas)
 
 
 ----Limitaciones encontradas:
@@ -177,6 +183,8 @@ Sirve para poner a prueba ciertas técnicas de prompting, como Chain of Thoughts
 4. Alucinaciones recurrentes (veremos que este problema ocurre siempre). Esto ocurre mucho más en Bart.
 
 5. Es una caja negra: No podemos controlar los hiperparámetros básicos, ni siquiera saber sus valores. Esto es un problema de cara a una investigación más cuantitativa.
+
+6. No se puede esperar códigos complejos.
 
 
 ----Ejemplos sonoros conseguidos a través de ChatGPT.
