@@ -1,6 +1,6 @@
 % Aquí se expondrá todo lo investigado con OpenAI y los modelos de lenguaje.
 
-\section{Componiendo música con GPT-4}
+\section{Componiendo música con la asistencia de GPT-4}
 El estudio llevado acabo en esta investigación se expone a continuación siguiendo el orden cronológico del trabajo exploratorio llevado a cabo con las diversas herramientas que provee OpenAI. Se comienza con la exploración de ChatGPT, el chatbot de OpenAI, para luego pasar al \textit{Playground} y finalmente a la API, que nos posibilita el uso de los modelos en entornos de programación ad hoc que nos permiten la automatización de las tareas de peticiones a la API y procesamiento de los resultados en la generación de música.
 
 \subsection{ChatGPT, como banco de pruebas}
@@ -10,7 +10,7 @@ Como ya se ha señalado, una de sus grandes potencialidades es la de poder ser u
 
 \subsubsection{GPT-4, modelo utilizado en todos los experimentos}
 
-En \ref{sec:llm_asistentes_creacion_codigo_programacion} se ha expuesto el estado del arte de los modelos de lenguaje aplicados a la creación de código, que constituye una de sus más notorias habilidades. Al mismo tiempo, se señaló que el modelo más avanzado en la actualidad es GPT-4, de OpenAI. No obstante, se realizaron pruebas con otros chatbots, como Bart, de Google, o el mismo Github Copilot, modelo este último que ha recibido un \textit{fine tunning} específico para la creación de código con todos los repositorios de Github. Sin embargo, ninguno de estos y otros modelos actuales ha mostrado ni tan siquiera acercarse a la tasa de corrección de GPT-4. La Figura \ref{fig:GPT4_correction_comparation} muestra un ejemplo de la diferencia entre la corrección de GPT-4 y Bart, en el que se puede apreciar cómo el código generado por Bart no se puede ejecutar por numeroros errores sintácticos, mientras que el de GPT-4 es correcto.
+En la sección \ref{sec:llm_asistentes_creacion_codigo_programacion} se ha expuesto el estado del arte de los modelos de lenguaje aplicados a la creación de código, habilidad esta que constituye una de las más notorias. Al mismo tiempo, se señaló que el modelo más avanzado en la actualidad es GPT-4, de OpenAI. No obstante, se realizaron pruebas con otros chatbots, como Bart, de Google, o el mismo Github Copilot, modelo este último que ha recibido un \textit{fine tunning} específico para la creación de código con todos los repositorios de Github. Sin embargo, ninguno de estos y otros modelos actuales ha mostrado una tasa de corrección comparable a la de GPT-4. La Figura \ref{fig:GPT4_correction_comparation} muestra un ejemplo, realizado al azar, que pone de manifiesto la diferencia entre la corrección de código en SuperCollider de GPT-4 y Bart, en el que se puede apreciar cómo el código generado por Bart no se puede ejecutar por numeroros errores sintácticos, mientras que el de GPT-4 es correcto.
 
 
 \begin{figure}[h]
@@ -68,22 +68,92 @@ Synth(\fmSimple, [
 \end{figure}
 
 
-El otro modelo disponible en ChatGPT, GPT-3.5, si bien es capaz de generar código mejor que el de Bart, no lo hace con la tasa de corrección de GPT-4. En los experimentos realizados estos se pudo comprobar constantemente: una gran parte del código generado en SuperCollider por GPT-3.5 contenía demasiados errores de sintaxis y alucionaciones, lo cual lo convertía en ineficiente para la creación de código musical al lado de GPT-4.
+Un segundo LLM disponible en ChatGPT, GPT-3.5, si bien es capaz de generar código mejor que el de Bart, no lo hace con la tasa de corrección de GPT-4. En los experimentos realizados esto se pudo comprobar constantemente: una gran parte del código generado en SuperCollider por GPT-3.5 contenía demasiados errores de sintaxis y alucionaciones, lo cual lo convertía en ineficiente para la creación de código musical al lado de GPT-4.
 
 
 \subsection{Tareas en las que se ha probado ChatGPT}
 Por la propia interfaz de chatbot, ChatGPT solo permite una interacción tipo <<diálogo>>. Esto es, el usuario introduce un texto, y el modelo responde a este texto. Esto determina fuertemente el tipo de tareas que con él podemos realizar a la hora de crear código musical. En primer lugar, no es práctico para la creación de código musical en tiempo real, ya que es el usuario quien debe cortar y pegar constantemente téxto desde el IDE al chat y viceversa, lo cual entorpecería el flujo de trabajo. Sin embargo, se ha visto muy útil para las tareas que enumeramos a continuación:
 
 \begin{itemize}
-    \item Crear de esbozos generales de una obra o de un patch simple.
-    \item Crear de snippets simples de código ejecutable.
+    \item Crear esbozos generales de una obra.
+    \item Crear snippets sencillos de código..
     \item Poner a prueba ciertas técnicas de prompting, como \textit{Chain of Thoughts}.
 \end{itemize}
 
+\subsubsection{Creación de esbozos generales de una obra}
+Una de las tareas más útiles que se ha encontrado para ChatGPT en relación a la composición musical es la de crear esbozos generales de una obra. Esto es, estructuras generales, como la forma temporal, junto con la estructura del código con las clases y funciones que eventualmente se van a usar. Se trata de una planificación previa a la composición de los detalles. En este punto es tentador pensar que chatGPT podría producir la obra completa, pero esta ilusión cae rápidamente al intentarlo, ya que lo  más probable es contrar multitud de errores en el código generado, los cuales provienen de una mala planificación general y no merece la pena depurar. Sin embargo, si el objetivo de una conversación es la crear una estructura general, el resultado puede ser muy satisfactorio.
 
-No sirve para tiempo real, sino para la creación de proyectos anteriores a su interpretación: es tedioso cortar y pegar todo el tiempo.
+Para llevar a cabo una tarea así, se ha encontrado conveniente hacer que nuestro prompt pida al LLM realizar una planificación previa de la obra de forma razonada, siguiendo técnicas de prompting como \textit{Chain of Thoughts} (ver sección \ref{sec:llm_tecnicas_prompting}). En este sentido, se ha encontrado que es muy útil que el prompt contenga una serie de indicaciones que guíen al modelo en la creación de la estructura general de la obra. Por otra parte, la mayor parte de las veces que se le ha pedido este tipo de trabajo, lo ha hecho correctamente solo tras iterar ciertas indicaciones en la conversación.  Por ejemplo, en el prompt de la Figura \ref{fig:ChatGPT_esbozo_estructura} se puede ver cómo se le pide al modelo que cree una estructura general de una obra. Su primera respuesta, a pesar de ser correcta desde el punto de vista del lenguaje, no responde en absoluto a la dimensión temporal pedida, que es la esencia de la estructura. Simplemente devolviéndole una pista de lo que se busca, su segunda respuesta se adecua perfectamente a lo pedido originalmente. Ya desde el inicio de los experimentos se ha visto que el <<feedback>> del usuario, experto en la tarea pedida, es fundamental para no fustrar la tarea inmediatamente. Llama, sin embargo, la atención que ChatGPT parece no haber comprendido la esencia de la petición primera, crear una estructura temporal esquemática, y que baste una pista para que la respuesta sea correcta. La respuesta radica en que la iteración es la clave para obtener buenos resultados. Los LLM <<razonan>> mejor en conversaciones, donde pueden ir recibiendo feedback del usuario, que en prompts aislados. La ventana de contexto jugará un papel crucial en este sentido, como se verá más adelante.
 
-Una ventaja de usar chatGPT es su tarifa plana.
+
+\begin{figure}[h]
+    \caption[Conversación con ChatGPT para crear una estructura general de una obra]{Conversación con ChatGPT para crear una estructura general de una obra. El prompt (a) pide al modelo que cree una estructura general de una obra de unos 5 minutos de duración. La respuesta ignora la dimensión temporal pedida, por lo que se le da una pista de lo que se busca. La respuesta al siguiente prompt (b) se adecua perfectamente a lo pedido originalmente.}
+    \centering
+    \begin{subfigure}{.48\textwidth}
+    \centering
+    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+// Definición de SynthDef para la introducción
+SynthDef(\granularSynth, { |out = 0, freq = 440, dur = 1|
+    // Código para síntesis granular
+}).add;
+
+// Patrón para la sección de introducción
+Pbind(
+    \instrument, \granularSynth,
+    \dur, Pwhite(0.1, 0.3),
+    \freq, Pexprand(400, 500)
+).play;
+    \end{lstlisting}
+    \caption{Respuesta a Prompt 1: <<Crea la estructura en SuperCollider de una obra de música electroacústica.  La duración ha de ser de unos 5 minutos. El desarrollo temporal ha de ser la de una modificación constante de la textura sonora. Ayúdate de las técnicas de síntesis sonora que sean necesarias en cada caso. El código ha de ser modular. Los detalles se trabajarán después. Interesa un adecuado uso de las clases y placeholders de SuperCollider. Haz primero una planificación razonada.>>}
+    \end{subfigure}\hfill
+    \begin{subfigure}{.48\textwidth}
+    \centering
+    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+// Definición de secciones como funciones
+~introduccion = {
+    // Código para la introducción
+    // Ejemplo: Iniciar un SynthDef granular
+    "Iniciando introducción".postln;
+    // Duración de la introducción
+    60.wait;
+};
+
+~desarrollo = {
+    // Código para el desarrollo
+    "Iniciando desarrollo".postln;
+    // Duración del desarrollo
+    120.wait;
+};
+
+~climax = {
+    // Código para el clímax
+    "Iniciando clímax".postln;
+    // Duración del clímax
+    60.wait;
+};
+
+~conclusion = {
+    // Código para la conclusión
+    "Iniciando conclusión".postln;
+    // Duración de la conclusión
+    60.wait;
+};
+
+// Secuenciador temporal con Routine
+Routine({
+    ~introduccion.value;
+    ~desarrollo.value;
+    ~climax.value;
+    ~conclusion.value;
+}).play;
+    \end{lstlisting}
+    \caption{(Respueta a Prompt 2: <<Utiliza algún tipo de rutina para organizar el aspecto temporal.>>}
+    \end{subfigure}
+    \source{Elaboración propia.}
+    \label{fig:ChatGPT_esbozo_estructura}
+\end{figure}
+
+\subsubsection{Creación de snippets sencillos de código}
 
 ----¿Para qué es útil?
 
