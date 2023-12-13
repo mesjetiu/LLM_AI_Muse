@@ -1,0 +1,14 @@
+Avances 13 de diciembre de 2023
+
+* Modificación del título más acorde a la investigación realizada (ya no se habla de SuperCollider, porque no es el único en consideración)
+* Modificación de los objetivos.
+* Modificación de la justificación: mejoras en ciertos puntos, ampliación del discurso.
+* Modificación de la metodología a posteriori de la investigación
+* Cuerpo del trabajo: Comenzada la primera parte.
+* Se han ampliado las figuras, tablas, etc., que facilitan la lectura y comprensión del discurso. Se seguirá en la misma línea.
+
+Consideraciones generales:
+* La investigación como tal está realizada aunque el trabajo escrito no esté terminado: se han creado varios programas con Python para interaccionar con la API de OpenAI. Con ello y los resultados de los experimentos tengo de sobra para completar el trabajo. Estos programas o scripts realizados podrán ser mejorados en el futuro, pero en este momeno quedan a disposición de la comunidad musical y científica.
+* En este sentido, el rumbo del trabajo ya está definido lo suficiente. Solo resta poner por escrito. Hasta llegar a este punto he pasado muchas semanas trabajando con código únicamente, algo que era necesario.
+
+
