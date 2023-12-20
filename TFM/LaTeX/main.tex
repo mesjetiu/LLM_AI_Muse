@@ -27,13 +27,13 @@
 \usepackage{import}
 \usepackage[natbibapa]{apacite}
 \usepackage{fancyhdr}
-\usepackage{titlesec}
+\usepackage{titlesec} 
 \usepackage{graphicx}
 \usepackage{subcaption}
 \usepackage{mdframed}
 \usepackage{float}
 \usepackage{etoolbox}
-\usepackage{tocloft}
+\usepackage{tocloft} 
 \usepackage{comment}
 \usepackage{caption}
 \usepackage{relsize}
@@ -84,14 +84,19 @@
 \patchcmd{\chapter}{\thispagestyle{plain}}{\pagestyle{fancy}\thispagestyle{fancy}}{}{}
 
 % ----------- Formateo de títulos y subsecciones -----------
+% Definir un nuevo comando para el estilo del capítulo
+\newcommand{\chapterstyle}{\fontsize{18pt}{25pt}\selectfont\color{azul_unir}\textlight}
+
+
 \setstretch{1.5}
 
 \titleformat{\chapter}[block]
-{\fontsize{18pt}{25pt}\selectfont\color{azul_unir}\textlight}
+{\chapterstyle}
 {\thechapter.\ }
 {1em}
 {}
 \titlespacing*{\chapter}{0pt}{0pt}{6pt}
+
 
 \titleformat{\section}
 {\fontsize{14pt}{21pt}\selectfont\color{azul_unir}\textlight}
@@ -136,6 +141,10 @@
 % \newcommand{\source}[1]{\caption*{\begin{center}\smaller[1] Fuente: #1\end{center}}}
 \newcommand{\source}[1]{\caption*{\centering \smaller \textit{Fuente: #1}}}
 
+% Aplicar el estilo personalizado a los títulos con alineación a la izquierda
+\renewcommand{\cfttoctitlefont}{\chapterstyle}
+\renewcommand{\cftloftitlefont}{\chapterstyle}
+\renewcommand{\cftlottitlefont}{\chapterstyle}
 
 % ----------- Viudas y huérfanas -----------
 \clubpenalty=20000	% para que no haya líneas viudas en el texto.
@@ -155,6 +164,7 @@
 
   \import{./capitulos/}{resumen.tex}
   \clearpage
+
   \addcontentsline{toc}{chapter}{Índice de contenidos}
   \tableofcontents
   \clearpage
@@ -164,6 +174,7 @@
   \addcontentsline{toc}{chapter}{Índice de tablas}
   \listoftables
   \clearpage
+
 
   \import{./capitulos/}{introduccion.tex}
   \import{./capitulos/}{marco_teorico.tex}
