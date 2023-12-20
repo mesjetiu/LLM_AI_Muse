@@ -45,6 +45,7 @@
 \usepackage[framed,numbered]{sclang-prettifier} % Para que se vea bonito el código de SuperCollider
 %\usepackage{makeidx}
 \usepackage{xeindex}
+\usepackage{catchfile}
 
 
 
@@ -150,8 +151,13 @@
 \clubpenalty=20000	% para que no haya líneas viudas en el texto.
 \widowpenalty=20000 % para que no haya huérfanas
 
-% Configurar xeindex para indexar algunas palabras
+
+\newcommand{\defineIndexList}{
+  \input{index_terms.txt}
+}
+
 \makeindex
+
 
 % ----------- Contenido del documento -----------
 \begin{document}
@@ -172,8 +178,9 @@
   \listoftables
   \clearpage
 
-  % Configurar xeindex para indexar algunas palabras
-  \IndexList{mylist}{ChatGPT, LLM, OpenAI, Composición}
+  % Configurar xeindex con la lista de términos
+  % \IndexList{mylist}{\IndexTerms}
+  \defineIndexList
 
 
   % Importar los capítulos
