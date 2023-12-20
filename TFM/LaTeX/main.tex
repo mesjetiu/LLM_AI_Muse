@@ -1,4 +1,4 @@
-% !TEX program = lualatex
+% !TEX program = xelatex
 % Para habilitar "magic comments" en Workshop Latex (VS Code): latex-workshop.latex.build.forceRecipeUsage: false
 
 % ----------- Configuración del documento y márgenes -----------
@@ -35,7 +35,6 @@
 \usepackage{etoolbox}
 \usepackage{tocloft}
 \usepackage{comment}
-\usepackage{makeidx}
 \usepackage{caption}
 \usepackage{relsize}
 \usepackage{qrcode}
@@ -44,6 +43,11 @@
 \usepackage[disable]{todonotes} % Para deshabilitar los todos
 \usepackage{listings} % Para código
 \usepackage[framed,numbered]{sclang-prettifier} % Para que se vea bonito el código de SuperCollider
+%\usepackage{makeidx}
+\usepackage{xeindex}
+
+
+
 
 % ----------- Configuración de fuentes -----------
 \setmainfont[Path=/usr/share/fonts/TTF/,
@@ -110,6 +114,8 @@
 {}
 \titlespacing*{\subsubsection}{0pt}{0pt}{0pt}
 
+
+
 % ----------- Formateo de índice -----------
 \renewcommand{\cftchapfont}{\normalfont}        % para quitar la negrita al texto
 \renewcommand{\cftchappagefont}{\normalfont}   % para quitar la negrita al número de página
@@ -135,6 +141,12 @@
 \clubpenalty=20000	% para que no haya líneas viudas en el texto.
 \widowpenalty=20000 % para que no haya huérfanas
 
+
+% Configurar xeindex para indexar algunas palabras
+\makeindex
+\IndexList{mylist}{ChatGPT, LLM, OpenAI, Composición}
+
+
 % ----------- Contenido del documento -----------
 \begin{document}
 
@@ -143,12 +155,16 @@
 
   \import{./capitulos/}{resumen.tex}
   \clearpage
+  \addcontentsline{toc}{chapter}{Índice de contenidos}
   \tableofcontents
   \clearpage
+  \addcontentsline{toc}{chapter}{Índice de figuras}
   \listoffigures 
   \clearpage
+  \addcontentsline{toc}{chapter}{Índice de tablas}
   \listoftables
   \clearpage
+
   \import{./capitulos/}{introduccion.tex}
   \import{./capitulos/}{marco_teorico.tex}
   \import{./capitulos/}{estado_cuestion.tex}
@@ -159,9 +175,11 @@
   \import{./capitulos/}{conclusiones.tex}
   \import{./capitulos/}{limitaciones_prospectiva.tex}
   \import{./capitulos/}{bibliografia.tex}
+  \import{./anexos/}{anexos.tex}
+
+
   \addcontentsline{toc}{chapter}{Índice de términos}
   \printindex % Índice de términos. Compilar con makeindex main
   % Ejemplo: LaTeX\index{LaTeX} es un sistema, mientras que BibTeX\index{LaTeX!BibTeX} es para bibliografía.
-  \import{./anexos/}{anexos.tex}
-
+  \clearpage
 \end{document}
