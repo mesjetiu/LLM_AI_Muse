@@ -150,9 +150,6 @@
 \clubpenalty=20000	% para que no haya líneas viudas en el texto.
 \widowpenalty=20000 % para que no haya huérfanas
 
-\newcommand{\defineIndexList}{
-  \input{index_terms.txt}
-}
 
 \makeindex
 
@@ -177,8 +174,7 @@
   \clearpage
 
   % Configurar xeindex con la lista de términos
-  % \IndexList{mylist}{\IndexTerms}
-  \defineIndexList
+  \import{./}{index_terms.tex}
 
 
   % Importar los capítulos

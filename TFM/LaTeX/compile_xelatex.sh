@@ -5,6 +5,7 @@
 bibtex main
 # lualatex main.tex
 xelatex main.tex
+python ./generate_index_terms.py    
 makeindex main
 bibtex main
 # lualatex main.tex

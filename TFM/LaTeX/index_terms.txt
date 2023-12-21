@@ -1,1 +1,6 @@
-\IndexList{mylist}{ChatGPT, LLM, OpenAI, Composición}
+ChatGPT
+LLM
+OpenAI
+Composición
+Inteligencia
+Entrenamiento
