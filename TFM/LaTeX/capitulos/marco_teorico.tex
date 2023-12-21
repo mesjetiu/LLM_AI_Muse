@@ -35,15 +35,53 @@ Se utiliza el término \textit{modelo} para referirse al sistema una vez que ha 
 El aprendizaje en \textit{Machine Learning} se produce a través de un proceso de entrenamiento. Según la naturaleza de los datos y el método de validación, existen tres tipos principales de aprendizaje automático \citep[p. ~38]{torresivinalsPythonDeepLearning2020}:
 
 \begin{itemize}
-    \item \textbf{Aprendizaje supervisado:} Aquí, los datos se etiquetan con la respuesta esperada, como imágenes de animales etiquetadas como \textit{gato} o \textit{perro}. Tras el entrenamiento, se espera que el sistema identifique imágenes no etiquetadas correctamente.
+    \item \textbf{Aprendizaje supervisado:} Aquí, los datos se etiquetan con la respuesta esperada, como imágenes de animales etiquetadas como \textit{gato} o \textit{perro}. Tras el entrenamiento, se espera que el sistema identifique imágenes no etiquetadas correctamente. Este procedimiento de aprendizaje e inferencia queda reflejado en la Figura \ref{fig:labeled_data_training}. Una de las aplicaciones más comunes del aprendizaje supervisado es la clasificación de imágenes. Sin embargo, su debilidad consiste precisamente en la necesidad de etiquetado de los datos de entrenamiento, que puede ser un proceso costoso y laborioso si este solo se puede hacer manualmente.
     
-    \item \textbf{Aprendizaje no supervisado:} En este caso, los datos no están etiquetados. El sistema busca patrones y agrupa datos en categorías por sí mismo.
+    \item \textbf{Aprendizaje no supervisado:} En este caso, los datos no están etiquetados. El sistema busca patrones y agrupa datos en categorías por sí mismo. Precisamente este es el tipo de aprendizaje utilizado en el entrenamiento de modelos de lenguaje, donde los datos de entrenamiento son textos sin etiquetar.
     
-    \item \textbf{Aprendizaje por refuerzo:} El sistema aprende interactuando con un entorno. No recibe etiquetas explícitas, sino recompensas por decisiones correctas y penalizaciones por errores.
+    \item \textbf{Aprendizaje por refuerzo:} El sistema aprende interactuando con un entorno. No recibe etiquetas explícitas, sino recompensas por decisiones correctas y penalizaciones por errores. Este es el modo de aprendizaje más parecido al humano, ya que se basa en la experiencia. Sin embargo, a pesar de ser uno de los métodos más atractivos de aprendizaje automático, es el más complejo de implementar y requiere un entorno de simulación adecuado, que no siempre es posible ni eficiente en términos de computación.
 \end{itemize}
+
+\begin{figure}[h]
+    \caption[Esquema de aprendizaje supervisado]{Esquema de aprendizaje supervisado, usando datos de entrenamiento etiquetados. En la inferencia se espera que el modelo pueda clasificar datos no etiquetados.}
+    \centering
+    \includegraphics[width=0.4\textwidth]{./figuras/labeled_data_training.png}
+    \source{\cite{FindWaysDeal}}
+    \label{fig:labeled_data_training}
+\end{figure}
 
 
 \section{Deep Learning}
+
+Esta sección pretende ser una somera introducción a los conceptos de \textit{Deep Learning} y \textit{redes neuronales}, que son la base de los modelos de lenguaje, objeto de nuestro estudio. En los últimos meses la bibliografía sobre este tema ha crecido exponencialmente. Además de las obras citadas en este trabajo, se puede consultar, a modo de introducción para no especialistas, \cite{BeginnerGuideNeural}. El \textit{Deep Learning} es una subdisciplina del \textit{Machine Learning} que utiliza redes neuronales artificiales para aprender de forma automática. Las redes neuronales artificiales son modelos matemáticos que imitan el funcionamiento de las neuronas biológicas y hunden sus raíces en la intersección entre biología, matemáticas y ciencias de la computación en la primera mitad del siglo XX....
+
+\subsection{El concepto de neurona artificial}
+
+Para entender el funcionamiento de una red neuronal y, por extensión, de un modelo de \textit{Deep Learning}, antes es necesario comprender el de la <<neurona artificial>>. Una neurona artificial no es sino un modelo simplificado de una neurona natural que encontramos en el sistema nervioso de los animales. Análogamente a su homóloga biológica, una neurona artificial recibe una serie de entradas, las procesa y devuelve una salida. La entrada de una neurona artificial es la suma ponderada de las salidas de las neuronas de la capa anterior. Esta suma ponderada se pasa a una función de activación, que determina la salida de la neurona. Sin necesidad de entrar en detalles matemáticos, la función de activación más común es la función sigmoide, que devuelve un valor entre 0 y 1 de una forma no lineal. La Figura \ref{fig:neurona_artificial_natural} muestra un esquema de una neurona artificial. 
+
+\begin{figure}[h]
+    \caption[Neurona biológica y neurona artificial o <<perceptrón>>]{Neurona biológica y neurona artificial o <<perceptrón>>}
+    \centering
+    \includegraphics[width=0.4\textwidth]{./figuras/perceptron_with_neuron.png}
+    \source{\cite{DeepLearningDL}}
+    \label{fig:neurona_artificial_natural}
+\end{figure}
+
+Este concepto fue expuesto por primera vez por F. Rosenblatt en 1958 \citep{rothmanTransformersNaturalLanguage2021} bajo el nombre de <<perceptrón>>. El perceptrón no era otra cosa que un modelo de clasificación binaria, es decir, solo puede clasificar datos en dos categorías. Rosenblatt planteo su modelo para ser implementado en hardware, y de hecho se construyó un prototipo en 1959. Sin embargo, el perceptrón tenía limitaciones que no permitían su aplicación a problemas más complejos. Sin embargo, en 1969, Minsky y Papert publicaron un libro \citep{minsky1969perceptrons} en el que demostraban que el perceptrón no podía resolver problemas linealmente no separables. Este hecho supuso un freno en la investigación en redes neuronales artificiales, que no se retomó hasta la década de los 80, cuando se desarrollaron nuevos modelos de redes neuronales artificiales que permitían resolver problemas más complejos. Actualmente sabemos que una red neuronal de varias capas puede aproximar arbitrariamente cualquier función matemática, lo que ha venido a llamarse <<teorema de la aproximación universal>>, propuesto en 1989 por Hornik en su artículo \textit{Multilayer feedforward networks are universal approximators} \cite{hornikMultilayerFeedforwardNetworks1989}. Este teorema tiene grandes implicaciones no solo científicas, sino también filosóficas, en la medida en que podemos considerar que una red neuronal artificial es capaz de imitar el funcionamiento del cerebro humano y su comportamiento, el cual puede reducirse al de una función matemática, por compleja que esta sea, o a la ya citada <<máquina de Turing>> \citep{penroseNuevaMenteEmperador2015}.
+
+
+\subsection{Redes neuronales artificiales}
+Precisamente el teorema de la aproximación universal emerge de la combinación de varias capas de neuronas artificiales. Una red neuronal artificial es un modelo matemático que se compone de varias capas de neuronas artificiales. La primera capa se denomina <<capa de entrada>> y recibe los datos de entrada. La última capa se denomina <<capa de salida>> y devuelve la predicción del modelo. Las capas intermedias se denominan <<capas ocultas>> y son las que permiten que el modelo pueda aproximar cualquier función matemática. La Figura \ref{fig:deep_neural_network} muestra un esquema de una red neuronal artificial con una capa de entrada, dos capas ocultas y una capa de salida.
+
+La salida de la neurona se pasa a las neuronas de la capa siguiente, y así sucesivamente hasta llegar a la capa de salida. La salida de esta última capa es la predicción del modelo. 
+
+\begin{figure}[h]
+    \caption[Estructura de capas de una red neuronal artificial]{Estructura de capas de una red neuronal artificial, con una capa de entrada, dos capas ocultas y una capa de salida.}
+    \centering
+    \includegraphics[width=0.4\textwidth]{./figuras/Deep_neural_network.png}
+    \source{\cite{zraraPORTFOLIOOPTIMIZATIONUSING2021}}
+    \label{fig:deep_neural_network}
+\end{figure}
 
 qué es el Deep Learning, y por qué ha evolucionado tanto en los últimos años, factores: poder computacional, cantidad de datos disponibles, democratización de la computación, mejoras en las arquitecturas y modelos de Deep Learning.
 
