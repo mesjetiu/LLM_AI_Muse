@@ -1,4 +1,4 @@
-% !TEX program = xelatex
+% !TEX program = lualatex
 % Para habilitar "magic comments" en Workshop Latex (VS Code): latex-workshop.latex.build.forceRecipeUsage: false
 
 % ----------- Configuración del documento y márgenes -----------
@@ -43,8 +43,8 @@
 \usepackage[disable]{todonotes} % Para deshabilitar los todos
 \usepackage{listings} % Para código
 \usepackage[framed,numbered]{sclang-prettifier} % Para que se vea bonito el código de SuperCollider
-%\usepackage{makeidx}
-\usepackage{xeindex}
+\usepackage{makeidx}
+% \usepackage{xeindex}
 
 
 
@@ -173,9 +173,6 @@
   \listoftables
   \clearpage
 
-  % Configurar xeindex con la lista de términos
-  \import{./}{index_terms.tex}
-
 
   % Importar los capítulos
   \import{./capitulos/}{introduccion.tex}
@@ -193,6 +190,5 @@
 
   \addcontentsline{toc}{chapter}{Índice de términos}
   \printindex % Índice de términos. Compilar con makeindex main
-  % Ejemplo: LaTeX\index{LaTeX} es un sistema, mientras que BibTeX\index{LaTeX!BibTeX} es para bibliografía.
   \clearpage
 \end{document}

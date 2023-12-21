@@ -7,7 +7,7 @@ with open('index_terms.txt', 'r') as file:
         if termino:
             terminos.append(termino)
 
-lista_terminos = ', '.join(terminos)
+lista_terminos = ','.join(terminos)
 latex_command = f"\\IndexList{{mylist}}{{{lista_terminos}}}"
 
 with open('index_terms.tex', 'w') as outfile:

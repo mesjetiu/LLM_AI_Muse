@@ -2,5 +2,5 @@ ChatGPT
 LLM
 OpenAI
 Composición
-Inteligencia
+Inteligencia@{}Artificial
 Entrenamiento
