@@ -181,21 +181,104 @@ Entendemos aquí por \textit{snippet} a una pieza de código funcional, pero que
 
 Esta forma de trabajo, sin embargo, requiere de una buena planificación por parte del usuario, en la medida en la que es este quien dará unidad a los diferentes elementos del trabajo sonoro y musical. En este sentido, es difícil pensar en un buen rendimiento de este flujo de trabajo sin conocimientos sólidos de las herramientas de programación utilizadas. Si bien existen técnicas de uso de LLM que implican la interacción de varios modelos o conversaciones paralelas, al modo de <<agentes>>, en este trabajo no se ha explorado esta posibilidad debido a su complejidad y a la falta de técnicas y plataformas maduras que permitan su uso \footnote{En relación a técnicas de <<agentes>> aplicadas a la generación de código, véase \cite{huangAgentCoderMultiAgentbasedCode2023}. Un repositorio con extensa y actualizada bibliografía sobre el tema puede encontrarse en \cite{AGIEdgerunnersLLMAgentsPapers2024}.}
 
-En general, en nuestros experimentos se ha encontrado que GPT-4 se ha mostrado muy correcto en sus respuestas en el sentido sintáctico, mostrando una alta capacidad de autocorrección cuando se le ha devuelto un código de error, requiriendo poca o nula intervención humana en la corrección de errores. No obstante, como ocurría en el caso de la creación de esbozos generales de una obra, se han encontrado casos de bloqueo en la conversación, en los que el LLM no ha sido capaz de avanzar en la tarea sin la intervención humana. 
+En general, en nuestros experimentos se ha encontrado que GPT-4 se ha desenvuelto con notable corrección en sus respuestas en el sentido sintáctico, mostrando una alta capacidad de autocorrección cuando se le ha devuelto un código de error, requiriendo poca o nula intervención humana en la corrección de errores. No obstante, como ocurría en el caso de la creación de esbozos generales de una obra, se han encontrado casos de bloqueo en la conversación, en los que el LLM no ha sido capaz de avanzar en la tarea sin la intervención humana. 
 
-El lenguaje utilizado para comunicarse con GPT-4 siempre ha sido, deliberadamente, el lenguaje natural orientado a la creación sonora y musical, para encontrar así los límites de esta herramienta. Incluso en el caso de conversaciones en las que se devuelve código correcto y funcionial, se han encontrado diversos problemas a nivel artístico, que hay que tener muy en cuenta a la hora de utilizar esta herramienta con fines musicales:
+El lenguaje utilizado para comunicarse con GPT-4 siempre ha sido, deliberadamente, el lenguaje natural orientado a la creación sonora y musical, con el fin de encontrar así los límites de esta herramienta. Incluso en el caso de conversaciones en las que se devuelve código correcto y funcional, se han encontrado diversos problemas a nivel artístico, que hay que tener muy en cuenta a la hora de utilizar esta herramienta con fines musicales y que pasamos a detallar:
 
 \begin{itemize}
     \item Alucinaciones recurrentes.
     \item Abuso de valores <<por defecto>>, que restan interés artístico al código.
+    \item Errores indetectables y potencialmente peligrosos.
     \item Introducción de errores de sintaxis en código previamente correcto.
     \item Ocasionales errores de sintaxis que escapan a la autocorrección.
     \item Gran distancia entre el sonido producido y el sonido esperado.
 \end{itemize}
 
-Las <<alucinaciones>> en los LLM son una de las características más conocidas de estos modelos, al tiempo que una de las más difíciles de detectar sin una supervisión humana, y, por ende, uno de los mayores handicups a la hora de delegar tareas de cualquier índole a sistemas de IA. Se entiende por <<alucinación>> a un dato erróneo que el modelo genera con total apariencia de veracidad y corrección. En el mejor de los casos estas alucinaciones se producen en el uso de clases o métodos inexistentes en el lenguaje de programación en uso. Normalmente estos defectos son fáciles de detectar por el compilador o por el intérprete del lenguaje, que suele dar cuenta de dicho problema inmediatamente. Más difíciles de detectar son alucinaciones que pueden pasar desapercibidas por no provocar errores de sintaxis en el código, pero que son eventuales problemas de seguridad. Por ejemplo, en el caso de SuperCollider, un código como el de la Figura \ref{fig:ChatGPT_alucinacion} es correcto desde el punto de vista sintáctico, pero no lo es desde el punto de vista de la semántica del lenguaje, ya que el constructor de la clase <<SinOsc>> no cuenta con el el parámetro $freq$. En este caso, el compilador de SuperCollider no da cuenta de este error, ya que no es un error de sintaxis, sino de semántica. Este tipo de errores son muy difíciles de detectar, ya que requieren de un conocimiento profundo del lenguaje de programación en uso. En este caso, el error se ha detectado por la experiencia del usuario en el uso de SuperCollider, pero en otros casos puede pasar desapercibido, lo cual puede ser considerado un problema de seguridad. Los lenguajes de programación sonora no cuentan con limitaciones de volumen o frecuencia, por lo que un error de este tipo puede provocar daños en el equipo de sonido o en el oído del usuario.
+Las <<alucinaciones>> en los LLM son una de las características más conocidas de estos modelos, al tiempo que una de las más difíciles de detectar sin una supervisión humana, y, por ende, uno de los mayores handicups a la hora de delegar tareas de cualquier índole a sistemas de IA. Se entiende por <<alucinación>> a un dato erróneo que el modelo genera con total apariencia de veracidad y corrección. En el mejor de los casos estas alucinaciones se producen en el uso de clases o métodos inexistentes en el lenguaje de programación en uso. Normalmente estos defectos son fáciles de detectar por el compilador o por el intérprete del lenguaje, que suele dar cuenta de dicho problema inmediatamente. Por ejemplo, en el caso de SuperCollider, un código como el de la Figura \ref{fig:alucinacion_chatgpt} es correcto desde el punto de vista sintáctico, pero no lo es desde el punto de vista de la semántica del lenguaje, ya que utiliza la clase \texttt{KarplusStrong}, que no existe en SuperCollider. En este caso, el intérprete de SuperCollider dio buena cuenta de este error. 
 
-Otro defecto observado en relación a los parámetros de los métodos y clases del código es la propensión a utilizar valores por defecto. Este problema, lejos de comprometer la seguridad, resta interés al código generado desde el punto de vista artístico. Los valores por defecto son aquellos que un elemento del código utiliza cuando el usuario no provee de un valor explícito. Por ejemplo, en el caso de SuperCollider, el método $SinOsc.ar$ cuenta con un parámetro $mul$ que, si no se provee de un valor explícito, toma el valor por defecto de $1$; o $freq$, con el valor por defecto de $440$ Hz. Por ejemplo, en la Figura \ref{fig:ChatGPT_valores_por_defecto} se puede ver cómo el modelo utiliza valores por defecto en el código generado, lo cual no es deseable desde el punto de vista artístico. En este caso, el usuario ha tenido que intervenir para corregir el código generado por el modelo. Junto a la <<alucinación>>, se trata de uno de los problemas que pueden pasar desapercibidos sin un entendimiento profundo del lenguaje por parte del usuario.
+\begin{figure}[H]
+    \caption[Alucinación de ChatGPT utilizando una clase que no existe]{Alucinación de ChatGPT utilizando una clase que no existe ante el prompt <<Crea una textura sonora en supercollider inspirándote en el modelado físico de sonido.>> ChatGPT utiliza como base el UGen \texttt{KarplusStrong}, el cual no existe en SuperCollider.}
+    \centering
+    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+// Crear una función para el sonido modelado físicamente
+(
+SynthDef(\ksTexture, {
+    arg freq=440, amp=0.5, gate=1, pan=0;
+    var env, sig;
+    env = EnvGen.kr(Env.adsr(0.01, 0.1, 0.6, 0.4), gate, doneAction: 2);
+    // Crear el sonido utilizando KarplusStrong
+    sig = KarplusStrong.ar(freq, 0.5, 0.1, 1, env);
+    sig = Pan2.ar(sig * amp, pan);
+    Out.ar(0, sig);
+}).add;
+)
+    \end{lstlisting}
+    \source{Elaboración propia.}
+    \label{fig:alucinacion_chatgpt}
+\end{figure}
+
+
+
+Encontramos aún errores semánticos más sutiles y difíciles de detectar, ya que requieren de un conocimiento profundo del lenguaje de programación en uso y el intérprete no encuentra, pudiendo pasar desapercibidos, lo cual puede ser considerado un problema de seguridad. Un ejemplo claro es cuando la amplitud de la salida de audio satura el sistema. Los lenguajes de programación sonora no cuentan a priori con limitaciones de volumen o frecuencia, por lo que un error de este tipo puede provocar daños en el equipo de sonido o en el oído del usuario (véase Figura \ref{fig:amplitud_saturada_chatgpt}). Similar a este error es, en SuperCollider, la acumulación de instancias de un \texttt{Synth} en el servidor de audio, lo cual puede provocar un bloqueo del sistema. En la Figura \ref{fig:error_dificil_detectar_supercollider} se puede ver un ejemplo de este tipo de error. En este caso, el usuario ha tenido que intervenir para corregir el código generado por el modelo. Junto a la <<alucinación>>, se trata de uno de los problemas que pueden pasar desapercibidos cuando no existe un entendimiento profundo del lenguaje por parte del usuario.
+
+\begin{figure}[H]
+    \caption[Código saturado en amplitud, generado por ChatGPT]{Código saturado en amplitud, generado por ChatGPT. El código generado por ChatGPT es correcto desde el punto de vista sintáctico, pero la amplitud de la señal de audio satura el sistema. Este tipo de errores no son detectados hasta que se ejecuta el código, y son potencialmente peligrosos para el equipo de sonido o el oído del usuario.}
+    \centering
+    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+(
+    {
+        var x, y, z, a, b, c, d, e, f, g, h, mix;
+        
+        x = SinOsc.ar((Decay.ar(Impulse.ar([4,4.005]), 1e3*MouseX.kr(0, 1).abs)*50), MouseY.kr(0, 1)).distort;
+        y = BPF.ar(Saw.ar([40,40.001]), LFNoise0.kr(128)+1*4e3+146, LFNoise1.kr(1)+1*5e-2+0.01).tanh;
+        z = DelayC.ar(LPF.ar(LFNoise0.ar(8)**2 + x.tanh.round(0.05), 6e3), 1, LFNoise0.ar(8!2).range(1e-4, 0.02));
+        a = BHiPass.ar(LFNoise1.ar(8)**3, y.midicps, y/2e3, 67-y);
+        b = PitchShift.ar(Saw.ar(Demand.kr(Impulse.kr(4), 0, Drand(([-12, -7, 0, 7, 12]+33).midicps, inf)), Decay.kr(Impulse.kr(4), 3)), 7, 2);
+        c = Impulse.ar(8)*LFNoise1.ar(2);
+        d = Limiter.ar(GVerb.ar(BPF.ar(c, [400, 800], 1/9, 50).tanh, 100, 10), 0.9);
+        mix = Mix.new([x, y, z, a, b, c, d]);
+        Out.ar(0, Splay.ar(mix));
+    }.play;
+)
+            
+    \end{lstlisting}
+    \source{Elaboración propia.}
+    \label{fig:amplitud_saturada_chatgpt}
+\end{figure}
+
+
+\begin{figure}[H]
+    \caption[Error difícil de detectar en SuperCollider]{Error difícil de detectar en SuperCollider: El \texttt{Synth} \texttt{\textbackslash dual\_osc} no cuenta con mecanismo de autoliberación, por lo que se acumulan ilimitadas instancias en el servidor de audio llamadas desde el bucle \texttt{loop} hasta saturar el sistema. Este código fue creado por ChatGPT y posteriormente autocorregido tras pasarle la información del error.}
+    \centering
+    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+(
+    SynthDef(\dual_osc, {
+        arg out=0, freq1=440, freq2=660, amp1=0.5, amp2=0.5;
+        var sig;
+        sig = SinOsc.ar([freq1, freq2], 0, [amp1, amp2]);
+        Out.ar(out, sig);
+    }).add;
+    )
+    // --- código intermedio omitido por brevedad ---
+    {
+        loop {
+            var freq1, freq2, amp1, amp2;
+            freq1 = freqPattern1.next * 400 + 100;
+            freq2 = freqPattern2.next * 400 + 100;
+            amp1 = ampPattern1.next;
+            amp2 = ampPattern2.next;
+            Synth(\dual_osc, [\freq1, freq1, \freq2, freq2, \amp1, amp1, \amp2, amp2]);
+            0.1.wait;
+        }
+    }.fork;
+    )
+    \end{lstlisting}
+    \source{Elaboración propia.}
+    \label{fig:error_dificil_detectar_supercollider}
+\end{figure}
+
+
+Otro defecto observado en relación a los parámetros de los métodos y clases del código es la propensión a utilizar valores por defecto. Esto, aunque no compromete la seguridad, resta interés al código generado desde el punto de vista artístico. Los valores por defecto son aquellos que un elemento del código utiliza cuando el usuario no provee de un valor explícito. Por ejemplo, en el caso de SuperCollider, el método \texttt{SinOsc.ar} cuenta con un parámetro \texttt{mul} que, si no se provee de un valor explícito, toma el valor por defecto de 1; o \texttt{freq}, con el valor por defecto de 440 Hz. Por ejemplo, en la Figura \ref{fig:ChatGPT_valores_por_defecto} se puede ver cómo el modelo utiliza valores por defecto en el código generado, lo cual no es deseable desde el punto de vista artístico. En este caso, el usuario ha tenido que intervenir para corregir el código generado por el modelo. Junto a la <<alucinación>>, se trata de uno de los problemas que pueden pasar desapercibidos sin un entendimiento profundo del lenguaje por parte del usuario.
 
 Aunque infrecuente, no menos desconcertante es la introducción impredecible de errores de cualquier tipo en código previamente correcto. Si los errores son de sintaxis, el compilador o el intérprete del lenguaje darán cuenta de ellos, pero si se trata de errores de semántica, como en el caso de la alucinación, pueden pasar desapercibidos. De nuevo, el nivel de conocimientos de usuario es fundamental para detectar este tipo de errores.
 
