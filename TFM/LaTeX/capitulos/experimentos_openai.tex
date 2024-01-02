@@ -10,7 +10,7 @@ Como ya se ha señalado, una de sus grandes potencialidades es la de poder ser u
 
 \subsubsection{GPT-4, modelo utilizado en todos los experimentos}
 
-En la sección \ref{sec:llm_asistentes_creacion_codigo_programacion} se ha expuesto el estado del arte de los modelos de lenguaje aplicados a la creación de código, habilidad esta que constituye una de las más notorias. Al mismo tiempo, se señaló que el modelo más avanzado en la actualidad es GPT-4, de OpenAI\index{OpenAI}. No obstante, se realizaron pruebas con otros chatbots, como Bart, de Google, o el mismo Github Copilot, modelo este último que ha recibido un \textit{fine tunning} específico para la creación de código con todos los repositorios de Github. Sin embargo, ninguno de estos y otros modelos actuales ha mostrado una tasa de corrección comparable a la de GPT-4. La Figura \ref{fig:GPT4_correction_comparation} muestra un ejemplo, realizado al azar, que pone de manifiesto la diferencia entre la corrección de código en SuperCollider de GPT-4 y Bart\index{Bart}, en el que se puede apreciar cómo el código generado por Bart no se puede ejecutar por numeroros errores sintácticos, mientras que el de GPT-4 es correcto.
+En la sección \ref{sec:llm_asistentes_creacion_codigo_programacion} se ha expuesto el estado del arte de los modelos de lenguaje aplicados a la creación de código, habilidad esta que constituye una de las más notorias. Al mismo tiempo, se señaló que el modelo más avanzado en la actualidad es GPT-4, de OpenAI\index{OpenAI}. No obstante, se realizaron pruebas con otros chatbots, como Bart, de Google, o el mismo Github Copilot, modelo este último que ha recibido un \textit{fine tunning} específico para la creación de código con todos los repositorios de Github. Sin embargo, en GPT-4 se ha encontrado un buen equilibrio entre precisión en respuestas y posibilidades de uso, especialmente gracias a la API y su extensa documentación. La Figura \ref{fig:GPT4_correction_comparation} muestra un ejemplo, realizado al azar, que pone de manifiesto la diferencia entre la corrección de código en SuperCollider de GPT-4 y Bart\index{Bart}, en el que se puede apreciar cómo el código generado por Bart no se puede ejecutar por numeroros errores sintácticos, mientras que el de GPT-4 es correcto. En cuanto al modelo exacto de GPT-4, si bien este ha ido cambiando a lo largo del tiempo en el que se han realizado los experimentos, la versión más utilizada, tanto por coste como por optimización, ha sido $gpt-4-1106-preview$, más conocida como <<GPT-4 turbo>>.
 
 
 \begin{figure}[h]
@@ -76,7 +76,7 @@ Por la propia interfaz de chatbot, ChatGPT solo permite una interacción tipo <<
 
 \begin{itemize}
     \item Crear esbozos generales de una obra.
-    \item Crear snippets sencillos de código..
+    \item Crear snippets sencillos de código.
     \item Poner a prueba ciertas técnicas de prompting, como \textit{Chain of Thoughts}.
 \end{itemize}
 
@@ -177,6 +177,38 @@ Esto se debe a varios factores: En primer lugar, la ventana de contexto definiti
 
 \subsubsection{Creación de snippets sencillos de código}
 
+Entendemos aquí por \textit{snippet} a una pieza de código funcional, pero que no constituye un proyecto completo. Por ejemplo, una función, un patrón, etc. Al no constituir un código completo, no se requiere del manejo de una gran información en las respuestas del LLM, por lo que se puede esperar una mayor precisión en las mismas, al tiempo que se evitan los problemas asociados con la ventana de contexto. Del mismo modo, el usuario a priori puede controlar mejor la conversación iterando de una forma más controlada y cómoda. 
+
+Esta forma de trabajo, sin embargo, requiere de una buena planificación por parte del usuario humano, en tanto en cuanto es él quien dará unidad a los diferentes elementos del trabajo sonoro y musical. En este sentido, es difícil pensar en un buen rendimiento de este flujo de trabajo sin conocimientos sólidos de las herramientas de programación utilizadas. Si bien existen técnicas de uso de LLM que implican la interacción de varios modelos o conversaciones paralelas, al modo de <<agentes>>, en este trabajo no se ha explorado esta posibilidad debido a su complejidad y a la falta de técnicas y plataformas maduras que permitan su uso.
+
+En general, en nuestros experimentos se ha encontrado que GPT-4 se ha mostrado muy correcto en sus respuestas en el sentido sintáctico, mostrando una alta capacidad de autocorrección cuando se le ha devuelto un código de error, requiriendo poca o nula intervención humana en la corrección de errores. No obstante, como ocurría en el caso de la creación de esbozos generales de una obra, se han encontrado casos de bloqueo en la conversación, en los que el LLM no ha sido capaz de avanzar en la tarea sin la intervención humana. 
+
+El lenguaje utilizado para comunicarse con GPT-4 siempre ha sido, deliberadamente, el lenguaje natural orientado a la creación sonora y musical, para encontrar así los límites de esta herramienta. Incluso en el caso de conversaciones en las que se devuelve código correcto y funcionial, se han encontrado diversos problemas a nivel artístico, que hay que tener muy en cuenta a la hora de utilizar esta herramienta con fines musicales:
+
+\begin{itemize}
+    \item Alucinaciones recurrentes.
+    \item Abuso de valores <<por defecto>>, que restan interés artístico al código.
+    \item Introducción de errores de sintaxis en código previamente correcto.
+    \item Ocasionales errores de sintaxis que escapan a la autocorrección.
+    \item Gran distancia entre el sonido producido y el sonido esperado.
+\end{itemize}
+
+Las <<alucinaciones>> en los LLM son una de las características más conocidas de estos modelos, al tiempo que una de las más difíciles de detectar sin una supervisión humana, y, por ende, uno de los mayores handicups a la hora de delegar tareas de cualquier índole a sistemas de IA. Se entiende por <<alucinación>> a un dato erróneo que el modelo genera con total apariencia de veracidad y corrección. En el mejor de los casos estas alucinaciones se producen en el uso de clases o métodos inexistentes en el lenguaje de programación en uso. Normalmente estos defectos son fáciles de detectar por el compilador o por el intérprete del lenguaje, que suele dar cuenta de dicho problema inmediatamente. Más difíciles de detectar son alucinaciones que pueden pasar desapercibidas por no provocar errores de sintaxis en el código, pero que son eventuales problemas de seguridad. Por ejemplo, en el caso de SuperCollider, un código como el de la Figura \ref{fig:ChatGPT_alucinacion} es correcto desde el punto de vista sintáctico, pero no lo es desde el punto de vista de la semántica del lenguaje, ya que el constructor de la clase <<SinOsc>> no cuenta con el el parámetro $freq$. En este caso, el compilador de SuperCollider no da cuenta de este error, ya que no es un error de sintaxis, sino de semántica. Este tipo de errores son muy difíciles de detectar, ya que requieren de un conocimiento profundo del lenguaje de programación en uso. En este caso, el error se ha detectado por la experiencia del usuario en el uso de SuperCollider, pero en otros casos puede pasar desapercibido, lo cual puede ser considerado un problema de seguridad. Los lenguajes de programación sonora no cuentan con limitaciones de volumen o frecuencia, por lo que un error de este tipo puede provocar daños en el equipo de sonido o en el oído del usuario.
+
+Otro defecto observado en relación a los parámetros de los métodos y clases del código es la propensión a utilizar valores por defecto. Este problema, lejos de comprometer la seguridad, resta interés al código generado desde el punto de vista artístico. Los valores por defecto son aquellos que un elemento del código utiliza cuando el usuario no provee de un valor explícito. Por ejemplo, en el caso de SuperCollider, el método $SinOsc.ar$ cuenta con un parámetro $mul$ que, si no se provee de un valor explícito, toma el valor por defecto de $1$; o $freq$, con el valor por defecto de $440$ Hz. Por ejemplo, en la Figura \ref{fig:ChatGPT_valores_por_defecto} se puede ver cómo el modelo utiliza valores por defecto en el código generado, lo cual no es deseable desde el punto de vista artístico. En este caso, el usuario ha tenido que intervenir para corregir el código generado por el modelo. Junto a la <<alucinación>>, se trata de uno de los problemas que pueden pasar desapercibidos sin un entendimiento profundo del lenguaje por parte del usuario.
+
+Aunque infrecuente, no menos desconcertante es la introducción impredecible de errores de cualquier tipo en código previamente correcto. Si los errores son de sintaxis, el compilador o el intérprete del lenguaje darán cuenta de ellos, pero si se trata de errores de semántica, como en el caso de la alucinación, pueden pasar desapercibidos. De nuevo, el nivel de conocimientos de usuario es fundamental para detectar este tipo de errores.
+
+Una característica interesante de los LLM, cuando las conversaciones no son demasiado extensas, es la de autocorregirse. Esto es, si el usuario devuelve un el mensaje de error dado por el sistema, el modelo es capaz de corregirlo en la siguiente respuesta. Sin embargo, factores que escapan al control, como la introducción de alucinaciones o a simple carencia de información de entrenamiento en el problema actual del código, pueden hacer que el modelo no sea capaz de autocorregirse, pudiendo llevar a un bloqueo en la conversación, especialmente si esta se extiende demasiado en relación a su ventana de contexto, donde, como vimos, se producen lagunas de información. En relación a esto, se han encontrado errores de sintaxis muy simples, como ausencia de paréntesis, que el modelo no ha sido capaz de autocorregir, como se puede ver en la Figura \ref{fig:ChatGPT_autocorreccion}.
+
+El poder de los LLM es del procesar el lenguaje natural y traducir descripciones en código funcional. Si el código requerido es el de una función en \textit{Python} de ha de <<devolver el sumatorio de las entradas>>, el nivel de comprensión requerido al LLM en dicha transcripción es trivial, en tanto en cuanto la propia descripción es prácticamente un pseudocódigo de dicha función. El desnivel semántico no es comparable cuando lo que pedimos al LLM es <<crear un sonido rugoso que evolucione temporalmente de la granulación a un sonido armónico con leves y agradables fluctuaciones de sus componentes parciales>>. En este caso, el LLM ha de comprender la descripción, traducirla a código y, además, generar un sonido que se adecue a la descripción.  En este caso, el desnivel semántico es mucho mayor ya que la descripción responde a criterios estéticos y psicoacústicos, por lo que el resultado puede ser muy distinto al esperado. En la Figura \ref{fig:ChatGPT_desnivel_semantico} se puede ver un ejemplo de este fenómeno. Este problema puede ser mitigado en parte con el uso de técnicas de prompting y una continua iteración en la conversación, pero en muchos casos el resultado final el resultado aceptado por el usuario puede estar lejos el esperado, lo cual constituye un problema a la hora de usar esta herramienta para la creación musical.
+
+A nivel artístico, la utilización de esta herramienta con conocimiento de la misma, así como de la materia artística en cuestión, la creación iterada de snippets de código sonoro puede producir fragmentos de código eventualmente de interés, en forma de serendipia, si bien, en el momento de la realización de este trabajo, esta valoración entra ya en la percepción estética y subjetiva del creador humano. Ello requiere de un profundo conocimiento y experiencia de uso de estas herramientas de IA, así como del campo de trabajo en cuestión, en este caso, la creación sonora y musical.
+
+
+
+\subsubsection{Poner a prueba ciertas técnicas de prompting, como \textit{Chain of Thoughts}}
+
 A partir de aquí, por realizar...
 
 \subsubsection{Resumen de las características encontradas de la interacción con ChatGPT en la creación musical-sonora}
@@ -185,7 +217,7 @@ Se resumen las cuestiones insteresantes, así como las limitaciones, tanto al cr
 
 \subsection{Trabajando con el Playground de OpenAI}
 
-\subsection*{Ampliando el \textit{Knowledge}: RAG con GPTs y Assistants}
+\subsection{Ampliando el \textit{Knowledge}: RAG con GPTs y Assistants}
 
 \subsection{Programando con la API de OpenAI}
 Aquí se explica con detalle los scripts que se han programado, difultades, limitaciones y puntos de interés.
