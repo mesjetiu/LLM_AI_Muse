@@ -69,12 +69,12 @@
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[R]{\textlight{\small \autor \\[-5pt] \titulo}}
-\fancyfoot[R]{\thepage}
+\fancyfoot[R]{\normalsize\thepage} % Aquí se modifica el tamaño de la fuente
 \bibliographystyle{apacite}
 
 \fancypagestyle{plain}{
   \fancyhf{} 
-  \fancyfoot[R]{\thepage}
+  \fancyfoot[R]{\normalsize\thepage} % Y también aquí
   \fancyhead[R]{\textlight{\small \autor \\[-5pt] \titulo}}
   \renewcommand{\headrulewidth}{0.4pt} 
   \renewcommand{\footrulewidth}{0pt}  
