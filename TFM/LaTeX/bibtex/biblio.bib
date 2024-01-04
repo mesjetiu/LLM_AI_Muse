@@ -66,6 +66,24 @@
   file = {/home/carlos/Zotero/storage/QUNDLL5X/a_beginners_guide_to_neural_networks_and_deep_learning___pathmind.pdf;/home/carlos/Zotero/storage/A63S2JGX/neural-network.html}
 }
 
+@misc{borsosAudioLMLanguageModeling2023,
+  title = {{{AudioLM}}: A {{Language Modeling Approach}} to {{Audio Generation}}},
+  shorttitle = {{{AudioLM}}},
+  author = {Borsos, Zal{\'a}n and Marinier, Rapha{\"e}l and Vincent, Damien and Kharitonov, Eugene and Pietquin, Olivier and Sharifi, Matt and Roblek, Dominik and Teboul, Olivier and Grangier, David and Tagliasacchi, Marco and Zeghidour, Neil},
+  year = {2023},
+  month = jul,
+  number = {arXiv:2209.03143},
+  eprint = {2209.03143},
+  primaryclass = {cs, eess},
+  publisher = {{arXiv}},
+  urldate = {2024-01-04},
+  abstract = {We introduce AudioLM, a framework for highquality audio generation with long-term consistency. AudioLM maps the input audio to a sequence of discrete tokens and casts audio generation as a language modeling task in this representation space. We show how existing audio tokenizers provide different trade-offs between reconstruction quality and long-term structure, and we propose a hybrid tokenization scheme to achieve both objectives. Namely, we leverage the discretized activations of a masked language model pre-trained on audio to capture long-term structure and the discrete codes produced by a neural audio codec to achieve high-quality synthesis. By training on large corpora of raw audio waveforms, AudioLM learns to generate natural and coherent continuations given short prompts. When trained on speech, and without any transcript or annotation, AudioLM generates syntactically and semantically plausible speech continuations while also maintaining speaker identity and prosody for unseen speakers. Furthermore, we demonstrate how our approach extends beyond speech by generating coherent piano music continuations, despite being trained without any symbolic representation of music.},
+  archiveprefix = {arxiv},
+  langid = {english},
+  keywords = {Computer Science - Machine Learning,Computer Science - Sound,Electrical Engineering and Systems Science - Audio and Speech Processing},
+  file = {/home/carlos/Zotero/storage/QXGW8ZAJ/Borsos et al. - 2023 - AudioLM a Language Modeling Approach to Audio Generation.pdf}
+}
+
 @book{boulangerCsoundBookPerspectives2000,
   title = {The {{Csound Book}}. {{Perspectives}} in {{Software Synthesis}}, {{Sound Design}}, {{Signal Processing}}, and {{Programming}}},
   editor = {Boulanger, Richard},
@@ -790,6 +808,16 @@
   urldate = {2023-12-09},
   howpublished = {https://overtone.github.io/},
   file = {/home/carlos/Zotero/storage/LXF2GLUX/overtone.github.io.html}
+}
+
+@misc{PapersCodeAudioLM,
+  title = {Papers with {{Code}} - {{AudioLM}}: A {{Language Modeling Approach}} to {{Audio Generation}}},
+  shorttitle = {Papers with {{Code}} - {{AudioLM}}},
+  urldate = {2024-01-04},
+  abstract = {Implemented in 4 code libraries.},
+  howpublished = {https://paperswithcode.com/paper/audiolm-a-language-modeling-approach-to-audio},
+  langid = {english},
+  file = {/home/carlos/Zotero/storage/U33C57MP/audiolm-a-language-modeling-approach-to-audio.html}
 }
 
 @misc{PapersCodeMuseCoco,
