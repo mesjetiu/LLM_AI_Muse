@@ -634,6 +634,24 @@
   file = {/home/carlos/Zotero/storage/45RW8HRL/Liu et al. - 2023 - Lost in the Middle How Language Models Use Long C.pdf}
 }
 
+@misc{liuWavJourneyCompositionalAudio2023,
+  title = {{{WavJourney}}: {{Compositional Audio Creation}} with {{Large Language Models}}},
+  shorttitle = {{{WavJourney}}},
+  author = {Liu, Xubo and Zhu, Zhongkai and Liu, Haohe and Yuan, Yi and Cui, Meng and Huang, Qiushi and Liang, Jinhua and Cao, Yin and Kong, Qiuqiang and Plumbley, Mark D. and Wang, Wenwu},
+  year = {2023},
+  month = nov,
+  number = {arXiv:2307.14335},
+  eprint = {2307.14335},
+  primaryclass = {cs, eess},
+  publisher = {{arXiv}},
+  urldate = {2024-01-04},
+  abstract = {Despite breakthroughs in audio generation models, their capabilities are often confined to domain-specific conditions such as speech transcriptions and audio captions. However, real-world audio creation aims to generate harmonious audio containing various elements such as speech, music, and sound effects with controllable conditions, which is challenging to address using existing audio generation systems. We present WavJourney, a novel framework that leverages Large Language Models (LLMs) to connect various audio models for audio creation. WavJourney allows users to create storytelling audio content with diverse audio elements simply from textual descriptions. Specifically, given a text instruction, WavJourney first prompts LLMs to generate an audio script that serves as a structured semantic representation of audio elements. The audio script is then converted into a computer program, where each line of the program calls a task-specific audio generation model or computational operation function. The computer program is then executed to obtain a compositional and interpretable solution for audio creation. Experimental results suggest that WavJourney is capable of synthesizing realistic audio aligned with textually-described semantic, spatial and temporal conditions, achieving state-of-the-art results on text-toaudio generation benchmarks. Additionally, we introduce a new multi-genre story benchmark. Subjective evaluations demonstrate the potential of WavJourney in crafting engaging storytelling audio content from text. We further demonstrate that WavJourney can facilitate human-machine co-creation in multi-round dialogues. To foster future research, the code and synthesized audio are available at: https://audio-agi.github.io/WavJourney\_demopage/.},
+  archiveprefix = {arxiv},
+  langid = {english},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Multimedia,Computer Science - Sound,Electrical Engineering and Systems Science - Audio and Speech Processing},
+  file = {/home/carlos/Zotero/storage/FT53GGQ9/Liu et al. - 2023 - WavJourney Compositional Audio Creation with Large Language Models.pdf}
+}
+
 @misc{LiveCodeTidal,
   title = {Live Code with {{Tidal Cycles}} | {{Tidal Cycles}}},
   urldate = {2023-12-09},
@@ -649,6 +667,24 @@
   abstract = {We're on a journey to advance and democratize artificial intelligence through open source and open science.},
   howpublished = {https://huggingface.co/docs/transformers/main/en/tasks/prompting},
   file = {/home/carlos/Zotero/storage/MLZ8EYCS/prompting.html}
+}
+
+@misc{luMuseCocoGeneratingSymbolic2023,
+  title = {{{MuseCoco}}: {{Generating Symbolic Music}} from {{Text}}},
+  shorttitle = {{{MuseCoco}}},
+  author = {Lu, Peiling and Xu, Xin and Kang, Chenfei and Yu, Botao and Xing, Chengyi and Tan, Xu and Bian, Jiang},
+  year = {2023},
+  month = may,
+  number = {arXiv:2306.00110},
+  eprint = {2306.00110},
+  primaryclass = {cs, eess},
+  publisher = {{arXiv}},
+  urldate = {2024-01-04},
+  abstract = {Generating music from text descriptions is a user-friendly mode since the text is a relatively easy interface for user engagement. While some approaches utilize texts to control music audio generation, editing musical elements in generated audio is challenging for users. In contrast, symbolic music offers ease of editing, making it more accessible for users to manipulate specific musical elements. In this paper, we propose MuseCoco, which generates symbolic music from text descriptions with musical attributes as the bridge to break down the task into text-to-attribute understanding and attribute-to-music generation stages. MuseCoCo stands for Music Composition Copilot that empowers musicians to generate music directly from given text descriptions, offering a significant improvement in efficiency compared to creating music entirely from scratch. The system has two main advantages: Firstly, it is data efficient. In the attribute-to-music generation stage, the attributes can be directly extracted from music sequences, making the model training self-supervised. In the text-to-attribute understanding stage, the text is synthesized and refined by ChatGPT based on the defined attribute templates. Secondly, the system can achieve precise control with specific attributes in text descriptions and offers multiple control options through attribute-conditioned or text-conditioned approaches. MuseCoco outperforms baseline systems in terms of musicality, controllability, and overall score by at least 1.27, 1.08, and 1.32 respectively. Besides, there is a notable enhancement of about 20\% in objective control accuracy. In addition, we have developed a robust large-scale model with 1.2 billion parameters, showcasing exceptional controllability and musicality. Music samples generated by MuseCoco are available via this link 1, and the code is available at this link 2.},
+  archiveprefix = {arxiv},
+  langid = {english},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language,Computer Science - Machine Learning,Computer Science - Multimedia,Computer Science - Sound,Electrical Engineering and Systems Science - Audio and Speech Processing},
+  file = {/home/carlos/Zotero/storage/PW28ZPDB/Lu et al. - 2023 - MuseCoco Generating Symbolic Music from Text.pdf}
 }
 
 @misc{malachAutoRegressiveNextTokenPredictors2023,
@@ -756,6 +792,16 @@
   file = {/home/carlos/Zotero/storage/LXF2GLUX/overtone.github.io.html}
 }
 
+@misc{PapersCodeMuseCoco,
+  title = {Papers with {{Code}} - {{MuseCoco}}: {{Generating Symbolic Music}} from {{Text}}},
+  shorttitle = {Papers with {{Code}} - {{MuseCoco}}},
+  urldate = {2024-01-04},
+  abstract = {Implemented in one code library.},
+  howpublished = {https://paperswithcode.com/paper/musecoco-generating-symbolic-music-from-text},
+  langid = {english},
+  file = {/home/carlos/Zotero/storage/WCM7YULJ/musecoco-generating-symbolic-music-from-text.html}
+}
+
 @misc{PapersCodeRobustness,
   title = {Papers with {{Code}} - {{On}} the {{Robustness}} of {{Code Generation Techniques}}: {{An Empirical Study}} on {{GitHub Copilot}}},
   shorttitle = {Papers with {{Code}} - {{On}} the {{Robustness}} of {{Code Generation Techniques}}},
@@ -764,6 +810,16 @@
   howpublished = {https://cs.paperswithcode.com/paper/on-the-robustness-of-code-generation},
   langid = {english},
   file = {/home/carlos/Zotero/storage/T33YVX3N/on-the-robustness-of-code-generation.html}
+}
+
+@misc{PapersCodeWavJourney,
+  title = {Papers with {{Code}} - {{WavJourney}}: {{Compositional Audio Creation}} with {{Large Language Models}}},
+  shorttitle = {Papers with {{Code}} - {{WavJourney}}},
+  urldate = {2024-01-04},
+  abstract = {Implemented in one code library.},
+  howpublished = {https://paperswithcode.com/paper/wavjourney-compositional-audio-creation-with},
+  langid = {english},
+  file = {/home/carlos/Zotero/storage/WIJE3S3G/wavjourney-compositional-audio-creation-with.html}
 }
 
 @misc{pengImpactAIDeveloper2023a,
