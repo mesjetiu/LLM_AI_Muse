@@ -1,0 +1,135 @@
+
+-- Muy bueno... 6 de dic de 2023
+-- No hace falta assitant para trabajar, quizás solo para comenzar a tener ideas...
+-- {
+--     "mode_tidal_supercollider": "tidal",
+--     "create_log_file": false,
+--     "ghci_path": "ghci",
+--     "only_system_commands": true,
+--     "supercollider_on": false,
+--     "sclang_path": "sclang",
+--     "boot_tidal_path": "/usr/share/haskell-tidal/BootTidal.hs",
+--     "api_enabled": false,
+--     "bot_mode": "chat",
+--     "assistant_retrieval_folder": "./assistants/tidal_livecoding/retrieval_files/",
+--     "api_key_file": "apikey.txt",
+--     "system_prompt_file": "./assistants/tidal_livecoding/system_prompts/system_prompt_01",
+--     "model": "gpt-4-1106-preview",
+--     "temperature": 1,
+--     "max_tokens": 256,
+--     "top_p": 1,
+--     "frequency_penalty": 0,
+--     "presence_penalty": 0,
+--     "wait_time_before_api": 20,
+--     "wait_time_after_api": 20
+-- }
+
+
+
+set api off
+
+d1 
+    $ degradeBy 0.1
+    $ slow 5 
+    $ n (struct "[t(3,8)]*3 t(5,6) [t(6,7)]*4 t(3,4) t(2,3) t(7,8)"
+        $ slow 3 
+        $ ((fast 3 sine * rand) * (1-(fast 5 tri)) * (1-(fast 45 tri * rand))) *20) 
+            -- # s "[[rash, cpu] | cpu2 | numbers | [arpy, <hi lo snare>] | [superpiano, [alphabet clap]?]]" 
+            # s (choose["[rash, cpu]" , "[cpu2, hc]" ,"numbers" ," [arpy, <hi lo snare>]" , "[superpiano, [alphabet clap]?]"])
+            # speed (slow 7 $ sine*1+0.05) 
+            # legato 10
+            # squiz (slow 20 $ sine*5)
+            # room 1
+            # size 0.8
+            # delay 0.8
+            # delaytime (choose [0.1, 0.5, 1])
+            # delayfb 0.8
+            # pan (range 0 1 rand)
+            # vowel (slow 2 "u o i e a")
+
+d2 $ stack [
+  s "cpu2*16",
+  n (run 8),
+  speed (range 0.7 1.3 $ slow 2 sine),
+  room 0.5,
+  size 0.2,
+  shape (slow 4 $ saw)
+] # pan (slow 3 $ sine) -- gpt-4-1106-preview
+
+-- genial... más...
+
+
+
+d3 $ s "feel*8" # n (run 7) # speed (slow 15 $ sine * 0.2 + 0.5) # room 0.2 # size 0.1 # lpf (slow 10 $ range 500 2000 $ sine) # hpf (slow 15 $ range 200 800 $ sine) # pan (slow 2 $ range (-1) 1 $ sine) -- gpt-4-1106-preview
+
+
+d3 $ degradeBy 0.2 $ s "feel*8" # n (irand 8) # speed (slow 15 $ sine * 0.2 + 0.5) # room 0.2 # size 0.1 # lpf (slow 10 $ range 500 1500 $ sine) # hpf (slow 15 $ range 200 800 $ sine) # pan (slow 2 $ range (-1) 1 $ sine) # orbit 1 -- gpt-4-1106-preview
+
+
+
+d2 $ stack [
+  s "[cpu2:1*4, ~ cpu2:3*4, ~ ~ cpu2:1*8]",
+  speed (slow 2 $ range 0.75 1.25 $ saw),
+  room 0.4,
+  size 0.15,
+  shape (slow 6 $ sine)
+] # pan (fast 2 $ sine) -- gpt-4-1106-preview
+
+
+
+d4 $ s "gabba*16" # n (irand 32) # speed (0.5 - (slow 6 sine * 0.2)) # room 0.2 # size 0.1 # lpf (slow 3 $ sine * 500 + 800) # hpf (fast 7 $ sine * 300 + 400) # pan (slow 5 $ range (-1) 1 $ sine) # orbit 2 -- gpt-4-1106-preview
+
+
+d2 $ degradeBy 0.3 $ s "cpu*16" # speed (slow 8 $ range 0.9 1.1 $ sine) # room 0.3 # size 0.1 # shape (0.8) # pan (slow 4 $ range (-1) 1 $ sine) # delay 0.7 # delaytime (slow 3 $ sine * 0.3 + 0.5) # delayfb 0.75 # lpf (slow 5 $ range 300 1200 $ saw) # hpf (slow 2 $ range 400 600 $ sine) -- gpt-4-1106-preview
+
+
+d4 $ struct "t*8" $ s "gabba*16" # n (irand 32) # speed (0.5 - (slow 6 sine * 0.2)) # room 0.2 # size 0.1 # lpf (slow 3 $ sine * 500 + 800) # hpf (range 300 400 rand) # pan (slow 5 $ range (-1) 1 $ sine) # orbit 2 -- gpt-4-1106-preview
+
+
+d1 $ slow 4 $ striate 16 $ n (irand 8 + (slow 6 $ sine * 4)) # s "arpy" # speed ((slow 8 saw + 1) * 0.1) # room 0.2 # size 0.1 # shape 0.5 # pan (slow 2 $ sine) # lpf (slow 7 $ range 200 600 $ rand) # hpf (fast 3 $ rand * 400 + 200) # orbit 3 -- gpt-4-1106-preview
+
+
+
+d4 $ striate 16 $ loopAt 4 $ s "arpy*32" # n (slow 8 $ sine * 5) # speed (slow 2 $ range 0.2 0.5 $ rand) # room 0.1 # size 0.05 # lpf (slow 12 $ sine * 200 + 400) # hpf (slow 6 $ sine * 100 + 200) # pan (slow 3 $ range (-1) 1 $ sine) # orbit 3 -- gpt-4-1106-preview
+
+-- algo que sea lento y polifónico
+
+d5 $ s "supermandolin*4" # n (slow 10 $ run 16) # speed (slow 3 $ range 0.5 1.5 $ rand) # room 0.2 # size 0.1 # shape 0.7 # pan (slow 4 $ range (-1) 1 $ sine) # lpf (slow 13 $ range 300 1000 $ sine) # hpf (slow 5 $ range 100 500 $ sine) # orbit 4 -- gpt-4-1106-preview
+
+
+d3 $ weave 8 (pan (slow 2 $ sine)) [
+  s "arpy" # n (slow 4 $ sine * 12) # speed 0.8,
+  s "arpy:7" # n (slow 2 $ range 3 5 $ rand) # speed (slow 3 $ sine * 0.3 + 0.7),
+  s "arpy:5" # n (irand 8) # speed (slow 6 $ range 0.7 0.9 $ sine)
+] # room 0.3 # size 0.1 # lpf (slow 13 $ range 400 800 $ sine) # hpf (slow 7 $ range 300 500 $ rand) # orbit 2 -- gpt-4-1106-preview
+
+
+
+d1 $ jux (rev) $ slow 2 $ striate 24 $ n (irand 16 + (slow 9 $ sine * 4)) # s "pad" # speed ((slow 9 saw + 1) * 0.05) # room 0.1 # size 0.05 # shape 0.7 # pan (slow 8 $ sine) # lpf (slow 11 $ range 250 450 $ rand) # hpf (slow 7 $ rand * 300 + 150) # orbit 5 -- gpt-4-1106-preview
+
+-- muy chulo todo... sorprendeme
+
+
+d5 $ degradeBy 0.1 $ s "supermandolin*4" # n (slow 11 $ run 24) # speed (slow 4 $ range 0.3 1.7 $ rand) # room 0.15 # size 0.12 # shape 0.6 # pan (slow 3 $ range (-1) 1 $ sine) # lpf (slow 14 $ range 250 950 $ sine) # hpf (slow 4 $ range 110 460 $ sine) # orbit 4 -- gpt-4-1106-preview
+
+
+
+d6 $ linger 0.3 $ s "gab*6" # n (slow 12 $ sine * 7) # speed (slow 7 $ range 0.2 1.8 $ rand) # room 0.2 # size 0.1 # shape 0.6 # pan (slow 9 $ range (-1) 1 $ sine) # lpf (slow 15 $ range 250 750 $ sine) # hpf 600 # orbit 0 -- gpt-4-1106-preview
+
+
+
+d2 $ stack [
+  s "[cpu:1*8 ~ cpu:1*16]",
+  speed (slow 2.5 $ range 0.5 1.5 $ rand),
+  room 0.3,
+  size 0.1,
+  shape (slow 7 $ sine)
+] # pan (slow 3.5 $ sine) -- gpt-4-1106-preview -- gpt-4-1106-preview
+
+
+d2 $ degradeBy 0.2 $ slow 2 $ s "cpu*24" # speed (slow 8 $ range 0.85 1.15 $ sine) # room 0.25 # size 0.12 # shape 0.85 # pan (slow 4 $ range (-1) 1 $ sine) # delay 0.6 # delaytime (slow 3 $ sine * 0.25 + 0.45) # delayfb 0.65 # lpf (slow 5 $ range 280 1100 $ saw) # hpf (slow 2 $ range 380 580 $ sine) -- gpt-4-1106-preview -- gpt-4-1106-preview
+
+
+hush
+
+quit
