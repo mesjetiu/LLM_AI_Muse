@@ -188,9 +188,9 @@ En función del propósito de la interacción con sistemas basados en LLM, exist
 Una variante inmediata de esta técnica es la de \textit{few-shot}, en la que el LLM recibe como input una serie de pares <<petición-respuesta>> más una petición a la cual ha de responder de forma análoga al contexto. Se presenta muy útil para tareas que requieren de cierto automatismo, como la generación de respuestas con un formato concreto, ya que en el input se muestra al LLM qué tipo de respuesta se requiere (ver Figura \ref{fig:few_shot_prompting}). 
 
 \begin{figure}[H]
-    \caption[Técnica de \textit{few-shot prompting}]{Técnica de \textit{few-shot prompting}. El LLM recibe como input una serie de pares <<petición-respuesta>> más una petición a la cual ha de responder de forma análoga al contexto.}
+    \caption[Técnica de \textit{few-shot prompting}]{Técnica de \textit{few-shot prompting}. El LLM recibe como input una serie de pares <<petición-respuesta>> más una petición a la cual ha de responder de forma análoga al contexto. En este caso, el LLM, con papel de <<asistente>>, ha de devolver el input del <<usuario>> con las letras invertidas. Sin embargo, nunca se le pide explícitamente que invierta las letras, sino que lo ha de inferir a partir de los ejemplos.}
     \centering
-    \includegraphics[width=0.3\textwidth]{./figuras/few_shot_prompting.png}
+    \includegraphics[width=0.2\textwidth]{./figuras/few_shot_prompting.png}
     \source{Elaboración propia}
     \label{fig:few_shot_prompting}
 \end{figure}
