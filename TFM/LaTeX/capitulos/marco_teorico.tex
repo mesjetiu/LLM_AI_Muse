@@ -172,10 +172,67 @@ Seguimos las explicaciones de \cite{rothmanTransformersNaturalLanguage2021}
 Existen estudios centrados en la optimización de los hiperparámetros (los ya citados más arriba y \cite{wangCostEffectiveHyperparameterOptimization2023} y \cite{wangHyperparameterOptimizationAlgorithm2022})
 
 
-\subsection{Habilidades emergentes de los modelos de lenguaje}
-\subsection{Técnicas de \textit{prompting}}
+
+
+
+\section{\textit{Prompting engineering}}
+
 \label{sec:llm_tecnicas_prompting}
-En esta sección se abordará la disciplina del \textit{prompting engineering} y se ofrecerá una visión general de sus enfoques \citep{LLMPromptingGuide}\dots
+
+Se entiende por \textit{prompting} a la forma en la que se le pide a un modelo generativo una respuesta. En el caso de un LLM, que genere un texto \citep{LLMPromptingGuide}. El \textit{prompt} es el texto en lenguaje natural que el usuario presenta al LLM como input. El \textit{prompting} es un campo de investigación muy activo en la actualidad, y que ha dado lugar a numerosos estudios y publicaciones. El término \textit{prompting engineering} no está aceptado por la comunidad científica, aunque se pueden encontrar numerosos estudios científicos que acuñan esta denominación. En todo caso, para los propósitos de este trabajo, podemos entender por \textit{prompting engineering} el conjunto de técnicas que se utilizan para obtener mejores resultados en la generación de texto por parte de un LLM. 
+
+\subsection{Técnicas más importantes de \textit{prompting engineering}}
+
+En función del propósito de la interacción con sistemas basados en LLM, existen diferentes técnicas \textit{prompting}. La forma más sencilla de \textit{prompting} es la denominaza \textit{zero-shot}, en la que el usuario presenta al LLM un \textit{prompt} y el LLM genera un texto de salida. En este caso, el LLM no ha sido entrenado para realizar una tarea específica, sino que ha sido entrenado con textos en lenguaje natural de propósito general. Sin embargo, el LLM puede generar un texto de salida que se corresponda con la tarea que el usuario quiere realizar. Por ejemplo, si el usuario presenta al LLM el \textit{prompt} <<\textit{¿Cuál es la capital de Francia}>>, el LLM puede generar un texto de salida como <<\textit{La capital de Francia es París}>>. En este caso, el LLM no ha sido entrenado como experto en geografía, pero ha sido entrenado con textos en lenguaje natural de propósito general, y es capaz de generar un texto de salida que se corresponde con la petición del usuario. La limitación de esta técnica es la del propio entrenamiento del LLM. Este no podrá generar nada en lo que no haya sido previamente entrenado.
+
+Una variante inmediata de esta técnica es la de \textit{few-shot}, en la que el LLM recibe como input una serie de pares <<petición-respuesta>> más una petición a la cual ha de responder de forma análoga al contexto. Se presenta muy útil para tareas que requieren de cierto automatismo, como la generación de respuestas con un formato concreto, ya que en el input se muestra al LLM qué tipo de respuesta se requiere (ver Figura \ref{fig:few_shot_prompting}). 
+
+\begin{figure}[H]
+    \caption[Técnica de \textit{few-shot prompting}]{Técnica de \textit{few-shot prompting}. El LLM recibe como input una serie de pares <<petición-respuesta>> más una petición a la cual ha de responder de forma análoga al contexto.}
+    \centering
+    \includegraphics[width=0.3\textwidth]{./figuras/few_shot_prompting.png}
+    \source{Elaboración propia}
+    \label{fig:few_shot_prompting}
+\end{figure}
+
+\begin{figure}[H]
+    \caption[Técnicas de \textit{prompting engineering}]{Técnicas de \textit{prompting engineering} aplicadas a problemas aritméticos.}
+    \centering
+    \includegraphics[width=0.9\textwidth]{./figuras/prompt_engineering_techniques.png}
+    \source{\cite{bhavsarPromptEngineeringArithmetic2023}}
+    \label{fig:prompting_engineering}
+\end{figure}
+
+
+El buen desempeño de los LLM en tareas de código de programación lleva a estudios como \cite{liStructuredChainofThoughtPrompting2023}, que propone un sistema de prompting que pide al LLM una reflexión explícita sobre la implementación a realizar, en una especie de pseudocódigo, que en un segundo paso será traducido al código final de programación. Este sistema de prompting se basa en la idea de que el LLM generará código de mayor calidad si se le permite <<pensar>> la respuesta antes de generarla. En este sentido, existen sobradas publicaciones que ponen de relieve la sensibilidad de los LLM a la forma en la que se le pide que procese la información (\textit{prompting}) y la correlación en la calidad de sus resultados \citep{zhouLeasttoMostPromptingEnables2023,weiChainofThoughtPromptingElicits2023,LLMPromptingGuide}.
+ 
+\subsection{\textit{Retrieval-Augmented Generation} (RAG)}
+
+Los modelos de lenguaje están prentrenados con grandes cantidades de texto de propósito general, lo que los hace capaces y hábiles en multiples campos sin necesidad de un entrenamiento específico (ver Figura \ref{fig:fundation_models_habilities}). Es posible, sin embargo, rentrenarlos con datos más concretos y precisos para una tarea específica (por ejemplo, con datos médicos, ingenieriles, con datos privados de una empresa, etc.). A este proceso se le conoce como \textit{fine-tuning} o <<ajuste fino>>. Sin embargo, el proceso de \textit{fine-tuning} de un LLM requiere de grandes cantidades de datos y tiempo de entrenamiento, algo que en este momento no está al alcance del usuario medio. Por ello, se están desarrollando técnicas que permitan a los usuarios aprovechar los modelos preentrenados para tareas específicas sin necesidad de \textit{fine-tuning}. Una de estas técnicas es \textit{Retrieval-Augmented Generation} (RAG) \citep{WhatRetrievalaugmentedGeneration2021}, que combina la recuperación de información con la generación de texto. Esta es una técnica que ofrece resultados muy notables en términos de eficacia y eficiencia frente al \textit{fine-tuning}. RAG consiste en pasar como contexto al LLM junto a la petición del usuario, una serie de fragmentos de texto que se corresponden semánticamente con la petición, y que se obtienen de una base de datos de documentos relacionados con la tarea a realizar. Esta base de datos puede ser de cualquier tipo, desde una base de datos de texto en lenguaje natural, hasta una base de datos de código de programación, pasando por una base de datos de partituras musicales, o una base de datos de audio, y representan la base de conocimiento extra (\textit{knowledge}) que el LLM manejará en sus interacciones con el usuario. Este sistema de \textit{prompting} está en la base actual de muchos productos relacionados con LLM, como Assistant o GPTs de OpenAI. La Figura \ref{fig:rag} muestra el esquema de funcionamiento de RAG. La base de datos del conocimiento del LLM es dividido en una primera fase en fragmentos más pequeños y analizados por el LLM para obtener una representación vectorial de cada uno de ellos. En una segunda fase, el LLM recibe el \textit{prompt} del usuario y lo analiza para obtener una representación vectorial. En una tercera fase, el LLM busca en la base de datos de fragmentos aquellos que tienen similitud vectoria (y, por ende, semántica) con el \textit{prompt} del usuario. En una cuarta fase, el LLM genera el texto de salida a partir del \textit{prompt} del usuario y de los fragmentos de texto recuperados de la base de datos. 
+
+\begin{figure}
+    \caption{Habilidades de los \textit{Foundation Models} de OpenAI.}
+    \centering
+    \includegraphics[width=0.8\textwidth]{./figuras/fundation_models_habilities.png}
+    \source{\cite{GPT3RiseFoundation}}
+    \label{fig:fundation_models_habilities}
+\end{figure}
+
+\begin{figure}[H]
+    \caption[Esquema de funcionamiento de RAG]{Esquema de funcionamiento de RAG. El LLM recibe como input el \textit{prompt} del usuario y, como contexto, una serie de fragmentos de texto de la base de datos de conocimiento, que tienen similitud vectorial con el \textit{prompt} del usuario.}
+    \centering
+    \includegraphics[width=0.9\textwidth]{./figuras/rag.png}
+    \source{\cite{WhatRetrievalAugmented}}
+    \label{fig:rag}
+\end{figure}
+
+Esta técnica, frente al \textit{fine-tuning}, ofrece una serie de ventajas, como la posibilidad de utilizar modelos preentrenados de propósito general, que son más eficientes y eficaces que los modelos entrenados para una tarea específica, y la posibilidad de utilizar bases de datos de conocimiento de gran tamaño, que son más fáciles de obtener que los grandes conjuntos de datos necesarios para el \textit{fine-tuning}. Además, la base de datos de conocimiento puede ser actualizada de forma independiente al modelo, lo que permite una mayor flexibilidad en el uso de los modelos. Por contra, el modelo no tiene conocimiento global de los contenidos de la base de datos, por lo que no puede realizar inferencias globales sobre ella, y la calidad de los resultados depende en gran medida de cómo se ha dividido su contenido en fragmentos y de la calidad de la representación vectorial de cada uno de ellos. Se ha probado un mayor rendimiento en técnicas combinadas de \textit{fine-tuning} para tareas específicas y RAG \citep{lewisRetrievalAugmentedGenerationKnowledgeIntensive2021}.
+
+
+
+
+\subsection{Habilidades emergentes de los modelos de lenguaje}
+
 
 
 \section{Limitaciones conocidas de los LLM}
