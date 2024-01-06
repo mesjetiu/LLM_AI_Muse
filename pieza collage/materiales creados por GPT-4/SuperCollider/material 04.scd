@@ -1,3 +1,6 @@
+// Grabado en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_170445.wav'
+
+
 (
 {
     var x, y, z, a, b, c, d, e, f, g, h, mix;

@@ -1,3 +1,6 @@
+// Grabado en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_173559.wav'
+
+
 (
 SynthDef(\fmSynthNoReverb, {
     arg freq=440, mDepth=100, mFreq=5, dur=1, amp=0.5, pan=0;

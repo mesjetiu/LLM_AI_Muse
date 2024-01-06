@@ -1,3 +1,6 @@
+// Grabado en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_165228.wav'
+
+
 (
 // Primera capa: Ritmo percusivo
 Ndef(\a,

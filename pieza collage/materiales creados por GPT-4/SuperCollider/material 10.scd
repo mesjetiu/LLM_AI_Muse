@@ -11,17 +11,18 @@ SynthDef(\chopin_oteypiano, { |out=0, freq=440, gate=1, amp=0.5, rho=1, vel=1|
 
 // Pieza inspirada en Chopin y Liszt
 (
-Pbind(
+Pbindef(\piano,
     \instrument, \chopin_oteypiano,
-    \delta, Pwhite(0.05, 0.5),
-    \dur, Pwhite(0.25, 2),
+    \delta, Pwhite(0.4, 1),
+    \dur, Pwhite(0.25, 0.1),
+	\legato, Pbrown(5,8.0),
     \freq, Pseq([
-        Prand([300, 320, 350, 380], 8),    // Arpegio ascendente
+        Prand([300, 320, 350, 380], 8)*2,    // Arpegio ascendente
         Pseq([400, 380, 360, 340, 320, 300, 280], 1),  // Escala descendente
-        Prand([500, 530, 560, 590], 8),    // Arpegio ascendente en otra octava
-        Pseq([600, 580, 550, 520, 490, 460, 430], 1)  // Escala descendente
+        Prand([500, 530, 560, 590], 8)*1,    // Arpegio ascendente en otra octava
+        Pseq([600, 580, 550, 520, 490, 460, 430], 1)*2  // Escala descendente
     ], inf),
-    \amp, 0.5,
+    \amp, 0.1,
     \vel, Pwhite(0.5, 1.2),  // Dinámica variable para capturar la expresividad
     \rho, Pwhite(0.5, 2)
 ).play;

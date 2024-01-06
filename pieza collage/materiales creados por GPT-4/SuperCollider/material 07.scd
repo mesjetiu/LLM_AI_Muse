@@ -1,3 +1,7 @@
+// Grabada textura 3 en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_171941.wav'
+
+
+
 s.boot; // Arrancar el servidor
 
 // Textura 1: Espacialidad y Drones
@@ -41,7 +45,7 @@ s.boot; // Arrancar el servidor
     q = MouseY.kr(0.1, 20, warp:'exponential'); // Resonancia (Q) del filtro con el ratón en eje Y
 
     // Combinación de ruidos
-    mixedNoise = Mix([WhiteNoise.ar(0.3), PinkNoise.ar(0.3), BrownNoise.ar(0.3)]);
+    mixedNoise = Mix([WhiteNoise.ar(0.3!2), PinkNoise.ar(0.3!2), BrownNoise.ar(0.3!2)]);
 
     // Filtrado resonante
     filteredNoise = RLPF.ar(mixedNoise, freq, q);

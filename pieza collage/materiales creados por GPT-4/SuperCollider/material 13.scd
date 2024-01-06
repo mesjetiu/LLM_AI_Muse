@@ -1,3 +1,10 @@
+// Grabadas dos versiones:
+
+//path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_174012.wav'
+
+//path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_174107.wav'
+
+
 (
 // Inicialización de la orquestación
 s.waitForBoot {

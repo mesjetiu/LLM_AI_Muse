@@ -1,3 +1,7 @@
+// Grabado en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_172611.wav'
+
+
+
 s.boot;
 
 (
@@ -5,7 +9,7 @@ SynthDef(\customNTubeSound, {
     var source, filteredNoise, output, pannedOutput;
 
     // Generamos un sonido que se asemeje a la respiración utilizando PinkNoise, SinOsc y la técnica NTube.ar
-    source = PinkNoise.ar * SinOsc.ar(0.25);
+    source = PinkNoise.ar * SinOsc.ar(0.1);
     filteredNoise = NTube.ar(
         source,
         [0.97, 1.0, 1.0, 1.0, 1.0, 0.97], // Loss factors
@@ -14,7 +18,7 @@ SynthDef(\customNTubeSound, {
     ) * 0.1;
 
     // Panoramización
-    pannedOutput = Pan2.ar(filteredNoise, SinOsc.kr(0.2).range(-1, 1));
+	pannedOutput = Pan2.ar(filteredNoise, 0);//SinOsc.kr(0.1).range(-1, 1));
 
     // Aplicamos un limitador
     output = Limiter.ar(pannedOutput, 0.99, 0.01);
