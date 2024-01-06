@@ -4,8 +4,6 @@
 // Creo que mejor que los más avanzados. Al menos no peor.
 
 // grabado en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240106_185032.wav'
-// path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240106_185257.wav'
-
 
 
 (
