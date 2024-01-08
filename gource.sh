@@ -9,3 +9,5 @@
 
 gource -3840x2160 --seconds-per-day 10 --key --title "AlgorAI" --bloom-multiplier 2.0 --bloom-intensity 0.5 --auto-skip-seconds 0.5 --file-idle-time 0 --camera-mode overview -o - | ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i - -vcodec libx264 -preset ultrafast -pix_fmt yuv420p -crf 0 -threads 0 -bf 0 gource.mp4
 
+
+
