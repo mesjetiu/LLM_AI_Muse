@@ -22,21 +22,26 @@
 --     "wait_time_after_api": 20
 -- }
 
-
+hush
 
 -- empieza con un patrón rítmicamente complejo, muy complejo
 d1 $ degradeBy 0.2 $ slow 4 $ n (run 32) # s "feel" # speed (slow 0.2 $ sine * 5  + 0.2) # cut 1 # orbit 0 -- gpt-4-1106-preview
 
+-- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_174321.wav'
 d2 $ degradeBy 0.5 $ s "cpu2*30" # n (run 8 + irand 32) # up (slow 2 $ sine) # room 0.2 # sz 0.2 # orbit 1 -- gpt-4-1106-preview
 
+-- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_174358.wav'
 --añade elementos melódicos y armónicos
 d3 $ slow 8 $ n "[0 2 4 5 7]*16" # s "arpy" # speed (slow 16 $ sine * 0.6 * (slow 0.3 $ sine)) # room 0.1 # sz 0.1 # orbit 2 # lpf (slow 2 $ range 400 8000 $ rand) # resonance 0.3 -- gpt-4-1106-preview
 
 
 d1 $ degradeBy 0.25 $ slow 4 $ n (run 32) # s "feel" # speed (slow 0.25 $ sine * 5 + 0.25) # cut 1 # orbit 0 -- gpt-4-1106-preview
 
+-- grabar (bueno) path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_174604.wav'
 -- más elementos tímbricos contrastantes
 d2 $ degradeBy 0.4 $ s "cpu3:1*8 foley*4" # n (iter 4 $ slow 4 $ run 12 + (irand 4 - 2)) # pan (slow 1 $ sine) # room 0.3 # speed (slow 2 $ sine) # sz 0.2 # orbit 1 -- gpt-4-1106-preview
+
+hush
 
 -- buenísimo!!! más...
 

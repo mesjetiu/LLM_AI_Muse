@@ -28,6 +28,10 @@
 
 set api off
 
+hush
+
+-- grabar Recording Stopped: (SC_240107_173527.wav)
+
 d1 
     $ degradeBy 0.1
     $ slow 5 
@@ -39,13 +43,17 @@ d1
             # speed (slow 7 $ sine*1+0.05) 
             # legato 10
             # squiz (slow 20 $ sine*5)
-            # room 1
+            # room 0.7
             # size 0.8
             # delay 0.8
             # delaytime (choose [0.1, 0.5, 1])
             # delayfb 0.8
             # pan (range 0 1 rand)
             # vowel (slow 2 "u o i e a")
+            # gain 0.7
+
+
+-- grabado path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_173651.wav'
 
 d2 $ stack [
   s "cpu2*16",
@@ -58,6 +66,7 @@ d2 $ stack [
 
 -- genial... más...
 
+hush
 
 
 d3 $ s "feel*8" # n (run 7) # speed (slow 15 $ sine * 0.2 + 0.5) # room 0.2 # size 0.1 # lpf (slow 10 $ range 500 2000 $ sine) # hpf (slow 15 $ range 200 800 $ sine) # pan (slow 2 $ range (-1) 1 $ sine) -- gpt-4-1106-preview
@@ -75,11 +84,12 @@ d2 $ stack [
   shape (slow 6 $ sine)
 ] # pan (fast 2 $ sine) -- gpt-4-1106-preview
 
+hush
 
-
+-- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_173735.wav'
 d4 $ s "gabba*16" # n (irand 32) # speed (0.5 - (slow 6 sine * 0.2)) # room 0.2 # size 0.1 # lpf (slow 3 $ sine * 500 + 800) # hpf (fast 7 $ sine * 300 + 400) # pan (slow 5 $ range (-1) 1 $ sine) # orbit 2 -- gpt-4-1106-preview
 
-
+-- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_173849.wav'
 d2 $ degradeBy 0.3 $ s "cpu*16" # speed (slow 8 $ range 0.9 1.1 $ sine) # room 0.3 # size 0.1 # shape (0.8) # pan (slow 4 $ range (-1) 1 $ sine) # delay 0.7 # delaytime (slow 3 $ sine * 0.3 + 0.5) # delayfb 0.75 # lpf (slow 5 $ range 300 1200 $ saw) # hpf (slow 2 $ range 400 600 $ sine) -- gpt-4-1106-preview
 
 
@@ -113,20 +123,22 @@ d1 $ jux (rev) $ slow 2 $ striate 24 $ n (irand 16 + (slow 9 $ sine * 4)) # s "p
 d5 $ degradeBy 0.1 $ s "supermandolin*4" # n (slow 11 $ run 24) # speed (slow 4 $ range 0.3 1.7 $ rand) # room 0.15 # size 0.12 # shape 0.6 # pan (slow 3 $ range (-1) 1 $ sine) # lpf (slow 14 $ range 250 950 $ sine) # hpf (slow 4 $ range 110 460 $ sine) # orbit 4 -- gpt-4-1106-preview
 
 
-
+-- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_174018.wav'
 d6 $ linger 0.3 $ s "gab*6" # n (slow 12 $ sine * 7) # speed (slow 7 $ range 0.2 1.8 $ rand) # room 0.2 # size 0.1 # shape 0.6 # pan (slow 9 $ range (-1) 1 $ sine) # lpf (slow 15 $ range 250 750 $ sine) # hpf 600 # orbit 0 -- gpt-4-1106-preview
 
+hush
 
+-- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_174116.wav'
 
 d2 $ stack [
   s "[cpu:1*8 ~ cpu:1*16]",
-  speed (slow 2.5 $ range 0.5 1.5 $ rand),
+  speed (slow 6 $ range 0.5 1.5 $ rand),
   room 0.3,
   size 0.1,
   shape (slow 7 $ sine)
-] # pan (slow 3.5 $ sine) -- gpt-4-1106-preview -- gpt-4-1106-preview
+] -- # pan (slow 3.5 $ sine) -- gpt-4-1106-preview -- gpt-4-1106-preview
 
-
+-- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_174206.wav'
 d2 $ degradeBy 0.2 $ slow 2 $ s "cpu*24" # speed (slow 8 $ range 0.85 1.15 $ sine) # room 0.25 # size 0.12 # shape 0.85 # pan (slow 4 $ range (-1) 1 $ sine) # delay 0.6 # delaytime (slow 3 $ sine * 0.25 + 0.45) # delayfb 0.65 # lpf (slow 5 $ range 280 1100 $ saw) # hpf (slow 2 $ range 380 580 $ sine) -- gpt-4-1106-preview -- gpt-4-1106-preview
 
 

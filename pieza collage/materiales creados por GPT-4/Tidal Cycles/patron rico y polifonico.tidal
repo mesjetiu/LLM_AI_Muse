@@ -1,6 +1,6 @@
 -- Patrón impredecible y muy interesante
 
-
+-- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_175759.wav'
 d1 
     $ degradeBy 0.1
     $ slow 10 
@@ -14,7 +14,7 @@ d1
             # squiz (slow 20 $ sine*5)
             # room 1
             # size 0.8
-            # delay 0.8
+            # delay 0.2
             # delaytime (choose [0.1, 0.5, 1])
             # delayfb 0.8
             # pan (range 0 1 rand)
