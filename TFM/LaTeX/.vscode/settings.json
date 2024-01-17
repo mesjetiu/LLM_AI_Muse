@@ -6,5 +6,6 @@
     "latex-workshop.message.warning.show": false,
     "latex-workshop.message.latexlog.exclude": [
         " [\"Font shape .* in size .* not available\", \"size .* substituted\"]"
-    ]
+    ],
+    "editor.fontSize": 18
 }
