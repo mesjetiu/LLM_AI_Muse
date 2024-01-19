@@ -1,6 +1,6 @@
 \chapter{Hacia un ejemplo de arte sonoro generado con ayuda de GPT-4}
 
-Como consecuencia de las pruebas y experimentos realizados con la API y el Playground de OpenAI, se generaron decenas de archivos con código cuyo resultado sonoro fue juzgado de cierto interés, independientemente de su adecuación a los requerimentos pasados por el prompt. Estos bloques de código están escritos tanto en SuperCollider como en Tidal Cycles. En el primer caso responden a peticiones muy concretas de texturas, timbres o sucesiones sonoras, en el Playground; en el segundo, a sesiones de \textit{livecoding} compartidas, asistidas por la API en \textit{AlgorAI}.
+Como consecuencia de las pruebas y experimentos realizados con la API y el Playground de OpenAI para este trabajo, se generaron decenas de archivos con código cuyo resultado sonoro fue juzgado de cierto interés, independientemente de su adecuación a los requerimentos pasados por el prompt. Estos bloques de código están escritos tanto en SuperCollider como en Tidal Cycles. En el primer caso responden a peticiones muy concretas de texturas, timbres o sucesiones sonoras, en el Playground; en el segundo, a sesiones de \textit{livecoding} compartidas, asistidas por la API en \textit{AlgorAI}.
 
 Ninguna de las construcciones de código conseguidas responden a un plan de una pieza completa, sino, más bien, a texturas sonoras continuas o con pocas variaciones en el tiempo. Por esta razón, el planteamiento de composición de una pieza a partir de estos materiales ha sido organizado absolutamente por el compositor-investigador. En este caso, se ha optado por organizar los sonidos elegidos en la DAW (\textit{Digital Audio Workstation}) \textit{Ardour}. Los procesados y efectos aplicados han sido mínimos, con el fin de mantener la esencia de los sonidos generados por GPT-4, limitándose a filtrados, cortes y compensación dinámica entre elementos. La Figura \ref{fig:ardour} muestra la organización de los sonidos en la DAW.
 
@@ -18,9 +18,13 @@ La selección de los fragmentos de código a utilizar en la composición se real
 
 En el momento de la selección, se intentó encontrar una estructura base esquemática con la ayuda de GPT-4, pero siempre aparecían problemas asociados al entendimiento de los procesos en el tiempo por parte del LLM. Todas las soluciones eran extremadamente simples en el mejor de los casos, o bien lejos de lo que se pretendía, una composición temporal a partir de samples, en el peor y la mayoría de los casos. Por esta razón, se optó por la intervención humana absoluta en el proceso de composición, relegando el papel de GPT-4 a la generación de material sonoro.
 
+\section{Descripción de la pieza}
+
+\textit{AlgorAI}\footnote{La pieza puede ser escuchada en este enlace de Soundcloud: \qrcode[height=2cm]{https://on.soundcloud.com/mQaQM}} es una obra de música electroacústica. Su duración es de 5 minutos y está compuesta de un único movimiento, sin secciones claramente delimitadas. Su trama está compuesta por una sucesión polifónica de texturas sonoras de diversa índole, que se van superponiendo y combinando entre sí. Las decisiones de posición, duración y altura de cada sonido han sido tomadas en conjunto por el propio compositor, atendiendo a criterios subjetivos de equilibrio, coherencia e inteligilibilidad desde el punto de vista psicoacústico. Su título, \textit{AlgorAI}, es un acrónimo de \textit{Algoritmo} e \textit{Inteligencia Artificial}, y hace referencia a la naturaleza de la obra, cuya materia prima sonora ha sido compuesta a partir de algoritmos de IA, en concreto, por grandes modelos de lenguaje. Los materiales sonoros son en su mayoría de origen íntegramente electrónico (aquellos producidos a través de SuperCollider), y en menor medida, de origen electroacústico (los producidos por Tidal Cycles), cuando la base de los mismos es un conjunto de samples de sonidos reales.
+
 \section{Técnicas de síntesis sonora utilizadas en los materiales sonoros}
 
-Frecuencia Modulada, síntesis sustractiva y síntesis por granulación son las técnicas de síntesis sonora más utilizadas por GPT-4 en los experimentos en lo que la utilización del lenguaje de SuperCollider se refiere, independientemente de la petición en los prompts. La Figura \ref{fig:grafica_sintesis_gpt4} muestra la distribución de las técnicas de síntesis sonora utilizadas en los materiales sonoros generados por GPT-4 en SuperCollider en los fragmentos de código que han servido como base de la composición.
+Síntesis sustractiva, síntesis aditiva, frecuencia modulada, granulación y amplitud modulada son, en ese orden, las técnicas de síntesis sonora más utilizadas por GPT-4 en los experimentos en lo que la utilización del lenguaje de SuperCollider se refiere, independientemente de la petición en los prompts. La Figura \ref{fig:grafica_sintesis_gpt4} muestra esta distribución de uso de las técnicas de síntesis sonora utilizadas en los fragmentos de código que han servido como base de la composición. Se aprecia una prevalencia de la síntesis sustractiva, aquella que consiste en filtrar armónicos de un sonido complejo, generalmente ruido blanco o clicks, para obtener sonidos complejos y ricos en matices.
 
 \begin{figure}[H]
     \caption[Gráfica de barras con la distribución de las técnicas de síntesis sonora utilizadas en los materiales sonoros generados por GPT-4 en SuperCollider]{Gráfica de barras con la distribución de las técnicas de síntesis sonora utilizadas en los materiales sonoros utilizados en la composición de \textit{AlgorAI}, generados por GPT-4 en SuperCollider.}
@@ -30,13 +34,38 @@ Frecuencia Modulada, síntesis sustractiva y síntesis por granulación son las 
     \label{fig:grafica_sintesis_gpt4}
 \end{figure}
 
+Una significativa parte de los materiales sonoros, a pesar de estar generados aparentemente por una técnica definida, en realidad deben su sonido más bien a combinaciones casuales y complejas, más fruto del azar que de la intención. Esto es común cuando los diversos parámetros de un sistema son llevados al extremo y producto sonoro es fruto de artefactos digitales como saturaciones, \textit{aliasing}, etc. Este aspecto de serendipia e impredecibilidad en la utilización de modelos de lenguaje aplicados a lo sonoro no es desdeñable, ya que puede ser una fuente de inspiración para el compositor.
+
+Se aprecia una naturaleza distinta en los materiales generados en el lenguaje de Tidal Cycles, ya que este lenguaje se basa en la manipulación de samples y en su secuenciación en el tiempo. Los bucles más complejos que se aprecian en \textit{AlgorAI} han sido producidos por GPT-4 en Tidal Cycles. En este caso, se han escogido siempre los bucles sonoros más impredecibles, aquellos que no se ajustan a una estructura rítmica regular. La Figura \ref{fig:ejemplo_tidal_irregular} muestra uno de los ejemplos escritos en Tidal Cycles escogidos para la composición por su carácter irregular.
 
 
-% Crear una gráfica de barras con la distribución de las técnicas de síntesis sonora utilizadas en los materiales sonoros generados por GPT-4 en SuperCollider y guardados como materiales de interés.
-
-Una naturaleza distinta se aprecia en los materiales generados en el lenguaje de Tidal Cycles, ya que este lenguaje se basa en la manipulación de samples y en su secuenciación en el tiempo. 
-
-Una significativa parte de los materiales sonoros están generados sin una técnica de síntesis particular, y su resultado sonoro responde más bien a combinaciones casuales y complejas, más fruto del azar que de la intención. Este aspecto de serendipia en la utilización de modelos de lenguaje no es desdeñable, ya que puede ser una fuente de inspiración para el compositor.
+\begin{figure}[H]
+    \caption[Ejemplo de código en Tidal Cycles escogido para la composición por su carácter irregular.]{Ejemplo de código en Tidal Cycles escogido para la composición por su carácter irregular.}
+    \centering
+    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+// Crear una función para el sonido modelado físicamente
+d1 
+    $ degradeBy 0.1
+    $ slow 10 
+    $ n (struct "[t(3,8)]*3 t(5,6) [t(6,7)]*4 t(3,4) t(2,3) t(7,8)"
+        $ slow 3 
+        $ ((fast 3 sine * rand) * (1-(fast 5 tri)) * (1-(fast 45 tri * rand))) *20) 
+            # s "[[rash, cpu] | cpu2 | numbers | [arpy, <hi lo snare>] | [superpiano, [alphabet clap]?]]" 
+            -- # s (choose["[rash, cpu]" , "[cpu2, hc]" ,"numbers" ," [arpy, <hi lo snare>]" , "[superpiano, [alphabet clap]?]"])
+            # speed (slow 7 $ sine*1+0.05) 
+            # legato 10
+            # squiz (slow 20 $ sine*5)
+            # room 1
+            # size 0.8
+            # delay 0.8
+            # delaytime (choose [0.1, 0.5, 1])
+            # delayfb 0.8
+            # pan (range 0 1 rand)
+            # vowel (slow 2.7 "{u o i e a i u a, a e i o u o}")
+    \end{lstlisting}
+    \source{Elaboración propia.}
+    \label{fig:ejemplo_tidal_irregular}
+\end{figure}
 
 \section{Interacción humano-LLM en el proceso de composición}
 
@@ -45,6 +74,4 @@ En este proceso compositivo, cabe preguntarse si la utilización de materiales s
 Sin embargo, no se puede considerar indiferente la utilización de materiales sonoros generados por IA en el proceso compositivo. En primer lugar, la utilización de estos materiales ha permitido al compositor-investigador explorar nuevas texturas y timbres que, de otro modo, no hubiera podido crear. El artista sonoro suele buscar sus materiales sonoros a modo de exploración, bien del mundo real, con micrófonos, bien del mundo electrónico o digital, experimentando con sintetizadores, secuenciadores y todo tipo de software de generación sonora. En este caso, la exporación realizada por medio de modelos de lenguaje en código de programación ha permitido al compositor-investigador dar con materiales que por sí mismo no hubiera podido crear, no por falta de conocimientos o habilidades, sino porque las posibilidades de combinación de elementos generadores es infinita, por una parte, y el creador humano tiende a repetir patrones y estructuras que le son familirares o que han resultado exitosas en el pasado, por otra.
 
 En todo caso, es notable el ahorro de trabajo que ha supuesto el hecho de que el LLM haya generado los materiales sonoros. El tiempo necesario para ello se ha reducido con creces respecto a la creación de los mismos por parte del compositor. Podría objetarse que esto significa la pérdida del poder de control del artista sobre su obra, pero esto no es necesariamente cierto. La actitud del compositor humano frente al manejo del LLM por sus diferentes interfaces ha sido la de búsqueda y selección constante. Los archivos con código de los cuales se han elegido ciertos bloques para la composición puede que no lleguen a una tercera parte de todos los desechados en el proceso experimental. Los guardados como interesantes, a su vez, fueron el producto de varias iteraciones en el diálogo con el modelo. No se ha aprecidado diferencia significativa en la calidad de la composición derivada de que el origen de los materiales sea la IA o producto de otras técnicas de exploración sonora. En todo caso, al tratarse de música experimental, la búsqueda de materiales ajenos a la intención del compositor es una constante, y la utilización de modelos de lenguaje en código de programación sonora se presenta como una herramienta más en el proceso de exploración sonora.
-
-\section{Descripción de la pieza}
 
