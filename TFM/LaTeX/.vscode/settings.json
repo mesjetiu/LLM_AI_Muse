@@ -7,5 +7,5 @@
     "latex-workshop.message.latexlog.exclude": [
         " [\"Font shape .* in size .* not available\", \"size .* substituted\"]"
     ],
-    "editor.fontSize": 18
+    "editor.fontSize": 22
 }
