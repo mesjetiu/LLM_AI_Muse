@@ -4,10 +4,10 @@ Como consecuencia de las pruebas y experimentos realizados con la API y el Playg
 
 Ninguna de las construcciones de código conseguidas responden a un plan de una pieza completa, sino, más bien, a texturas sonoras continuas o con pocas variaciones en el tiempo. Por esta razón, el planteamiento de composición de una pieza a partir de estos materiales ha sido organizado absolutamente por el compositor-investigador. En este caso, se ha optado por organizar los sonidos elegidos en la DAW (\textit{Digital Audio Workstation}) \textit{Ardour}. Los procesados y efectos aplicados han sido mínimos, con el fin de mantener la esencia de los sonidos generados por GPT-4, limitándose a filtrados, cortes y compensación dinámica entre elementos. La Figura \ref{fig:ardour} muestra la organización de los sonidos en la DAW.
 
-\begin{figure}[H]
+\begin{figure}
     \caption[Captura de pantalla de la DAW Ardour con los sonidos generados por GPT-4 organizados en pistas]{Captura de pantalla de la DAW Ardour con los sonidos generados por GPT-4 organizados por pistas en una composición de arte sonoro.}
     \centering
-    \includegraphics[width=0.4\textwidth]{./figuras/ardour.png}
+    \includegraphics[width=0.8\textwidth]{./figuras/ardour.png}
     \source{Elaboración propia}
     \label{fig:ardour}
 \end{figure}
@@ -24,12 +24,12 @@ En el momento de la selección, se intentó encontrar una estructura base esquem
 
 \section{Técnicas de síntesis sonora utilizadas en los materiales sonoros}
 
-Síntesis sustractiva, síntesis aditiva, frecuencia modulada, granulación y amplitud modulada son, en ese orden, las técnicas de síntesis sonora más utilizadas por GPT-4 en los experimentos en lo que la utilización del lenguaje de SuperCollider se refiere, independientemente de la petición en los prompts. La Figura \ref{fig:grafica_sintesis_gpt4} muestra esta distribución de uso de las técnicas de síntesis sonora utilizadas en los fragmentos de código que han servido como base de la composición. Se aprecia una prevalencia de la síntesis sustractiva, aquella que consiste en filtrar armónicos de un sonido complejo, generalmente ruido blanco o clicks, para obtener sonidos complejos y ricos en matices.
+Síntesis sustractiva, síntesis aditiva, frecuencia modulada, granulación y amplitud modulada son, en ese orden, las técnicas de síntesis sonora más utilizadas por GPT-4 en los experimentos en lo que la utilización del lenguaje de SuperCollider se refiere, independientemente de la petición en los prompts. La Figura \ref{fig:grafica_sintesis_gpt4} muestra esta distribución de uso de las técnicas de síntesis sonora utilizadas en los fragmentos de código que han servido como base de la composición. Se aprecia una tendencia a la síntesis sustractiva, aquella que consiste en filtrar armónicos de un sonido complejo, generalmente ruido blanco o clicks, para obtener sonidos complejos y ricos en matices.
 
 \begin{figure}[H]
-    \caption[Gráfica de barras con la distribución de las técnicas de síntesis sonora utilizadas en los materiales sonoros generados por GPT-4 en SuperCollider]{Gráfica de barras con la distribución de las técnicas de síntesis sonora utilizadas en los materiales sonoros utilizados en la composición de \textit{AlgorAI}, generados por GPT-4 en SuperCollider.}
+    \caption[Gráfica circular con la distribución de las técnicas de síntesis sonora utilizadas en los materiales sonoros generados por GPT-4 en SuperCollider]{Gráfica de barras con la distribución de las técnicas de síntesis sonora utilizadas en los materiales sonoros utilizados en la composición de \textit{AlgorAI}, generados por GPT-4 en SuperCollider. Se aprecia una clara tendencia a la utilización de la síntesis sustractiva.}
     \centering
-    \includegraphics[width=0.8\textwidth]{./figuras/grafica_sintesis_gpt4.png}
+    \includegraphics[width=0.8\textwidth]{./figuras/grafica_sintesis_gpt4_quesitos.png}
     \source{Elaboración propia}
     \label{fig:grafica_sintesis_gpt4}
 \end{figure}
@@ -42,8 +42,8 @@ Se aprecia una naturaleza distinta en los materiales generados en el lenguaje de
 \begin{figure}[H]
     \caption[Ejemplo de código en Tidal Cycles escogido para la composición por su carácter irregular.]{Ejemplo de código en Tidal Cycles escogido para la composición por su carácter irregular.}
     \centering
+    \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-// Crear una función para el sonido modelado físicamente
 d1 
     $ degradeBy 0.1
     $ slow 10 

@@ -88,9 +88,10 @@ Para llevar a cabo una tarea así, se ha encontrado conveniente hacer que nuestr
 Ya desde el inicio de los experimentos se ha visto que el <<feedback>> del usuario experto en la tarea pedida es fundamental para no fustrar la tarea inmediatamente. Sin embargo, llama la atención que ChatGPT no comprenda la esencia de la petición primera, en el ejemplo dado, la de crear una estructura temporal esquemática, y que baste una pista para que la respuesta sea correcta. La respuesta radica en que la iteración es la clave para obtener buenos resultados. Los LLM <<razonan>> mejor en conversaciones, donde pueden ir recibiendo feedback del usuario, que en prompts aislados.
 
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \caption[Conversación con ChatGPT para crear una estructura general de una obra]{Conversación con ChatGPT para crear una estructura general de una obra. El prompt (a) pide al modelo que cree una estructura general de una obra de unos 5 minutos de duración. La respuesta ignora la dimensión temporal pedida, por lo que se le da una pista de lo que se busca. La respuesta al siguiente prompt (b) se adecua perfectamente a lo pedido originalmente.}
     \centering
+    \setstretch{1}
     \begin{subfigure}{.48\textwidth}
     \centering
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
@@ -144,7 +145,7 @@ Routine({
     ~conclusion.value;
 }).play;
     \end{lstlisting}
-    \caption{(Respueta a Prompt 2: <<Utiliza algún tipo de rutina para organizar el aspecto temporal.>>}
+    \caption{Respuesta a Prompt 2: <<Utiliza algún tipo de rutina para organizar el aspecto temporal.>>}
     \end{subfigure}
     \source{Elaboración propia.}
     \label{fig:ChatGPT_esbozo_estructura}
@@ -175,9 +176,9 @@ Esto se debe a varios factores: En primer lugar, la ventana de contexto definiti
 
 
 
-\subsection{Creación de snippets sencillos de código}
+\subsection{Creación de bloques sencillos de código}
 
-Entendemos aquí por \textit{snippet} a una pieza de código funcional, pero que no constituye un proyecto completo. Por ejemplo, una función, un patrón, etc. Al no constituir un código completo, no se requiere del manejo de una gran información en las respuestas del LLM, por lo que se puede esperar una mayor precisión en las mismas, al tiempo que se evitan los problemas asociados con la ventana de contexto. Del mismo modo, el usuario, a priori, puede controlar mejor la conversación iterando de una forma más controlada y cómoda. 
+Nos referimos con <<bloque>> a una pieza de código funcional pero que no constituye un proyecto completo, como, por ejemplo, una función, un patrón, etc. Al no constituir un código completo, no se requiere del manejo de una gran información en las respuestas del LLM, por lo que se puede esperar una mayor precisión en las mismas, al tiempo que se evitan los problemas asociados con la ventana de contexto. Del mismo modo, el usuario, a priori, puede controlar mejor la conversación iterando de una forma más controlada y cómoda. 
 
 Esta forma de trabajo, sin embargo, requiere de una buena planificación por parte del usuario, en la medida en la que es este quien dará unidad a los diferentes elementos del trabajo sonoro y musical. En este sentido, es difícil pensar en un buen rendimiento de este flujo de trabajo sin conocimientos sólidos de las herramientas de programación utilizadas. Si bien existen técnicas de uso de LLM que implican la interacción de varios modelos o conversaciones paralelas, al modo de <<agentes>>, en este trabajo no se ha explorado esta posibilidad debido a su complejidad y a la falta de técnicas y plataformas maduras que permitan su uso \footnote{En relación a técnicas de <<agentes>> aplicadas a la generación de código, véase \cite{huangAgentCoderMultiAgentbasedCode2023}. Un repositorio con extensa y actualizada bibliografía sobre el tema puede encontrarse en \cite{AGIEdgerunnersLLMAgentsPapers2024}.}
 
@@ -199,6 +200,7 @@ Las <<alucinaciones>> en los LLM son una de las características más conocidas 
 \begin{figure}[H]
     \caption[Alucinación de ChatGPT utilizando una clase que no existe]{Alucinación de ChatGPT utilizando una clase que no existe ante el prompt <<Crea una textura sonora en supercollider inspirándote en el modelado físico de sonido.>> ChatGPT utiliza como base el UGen \texttt{KarplusStrong}, el cual no existe en SuperCollider.}
     \centering
+    \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
 // Crear una función para el sonido modelado físicamente
 (
@@ -224,6 +226,7 @@ Encontramos aún errores semánticos más sutiles y difíciles de detectar, ya q
 \begin{figure}[H]
     \caption[Código saturado en amplitud, generado por ChatGPT]{Código saturado en amplitud, generado por ChatGPT. El código generado por ChatGPT es correcto desde el punto de vista sintáctico, pero la amplitud de la señal de audio satura el sistema. Este tipo de errores no son detectados hasta que se ejecuta el código, y son potencialmente peligrosos para el equipo de sonido o el oído del usuario.}
     \centering
+    \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
 (
     {
@@ -250,6 +253,7 @@ Encontramos aún errores semánticos más sutiles y difíciles de detectar, ya q
 \begin{figure}[H]
     \caption[Error difícil de detectar en SuperCollider]{Error difícil de detectar en SuperCollider: El \texttt{Synth} \texttt{\textbackslash dual\_osc} no cuenta con mecanismo de autoliberación, por lo que se acumulan ilimitadas instancias en el servidor de audio llamadas desde el bucle \texttt{loop} hasta saturar el sistema. Este código fue creado por ChatGPT y posteriormente autocorregido tras pasarle la información del error.}
     \centering
+    \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
 (
     SynthDef(\dual_osc, {
@@ -283,6 +287,7 @@ Otro defecto observado en relación a los parámetros de los métodos y clases d
 \begin{figure}[H]
     \caption[]{Código generado por ChatGPT con utilización de valor de frecuencia de 440 Hz. Este valor <<por defecto>> no es una excepción, sino que sistemáticamente se encuentran enn los parámetros de los métodos y clases del código generados por ChatGPT. Esto, sin duda, resta interés al código generado desde el punto de vista artístico.}
     \centering
+    \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
 (
     SynthDef(\fmSound, {
@@ -325,6 +330,7 @@ El poder de los LLM es del procesar el lenguaje natural y traducir descripciones
 \begin{figure}[H]
     \caption[Desnivel semántico de ChatGPT en un código en SuperCollider]{Desnivel semántico de ChatGPT en un código en SuperCollider. El código aparentemente representa un conjunto de sonidos naturales de un bosque, pero el resultado es ruido blanco de alto nivel de amplitud, todalmente alejado del significado semántico de la descripción.}
     \centering
+    \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
 (
     // Definir los componentes del paisaje sonoro
