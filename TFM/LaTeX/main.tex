@@ -49,7 +49,7 @@
 \usepackage{epigraph}
 \usepackage{float}
 \usepackage{dirtree}
-
+\usepackage{glossaries} % Para glosario y acrónimos
 
 % ----------- Configuración de fuentes -----------
 \setmainfont[Path=/usr/share/fonts/TTF/,
@@ -136,6 +136,7 @@
 \AtBeginDocument{\renewcommand{\bibname}{Referencias bibliográficas}}
 \newcommand{\defaultLaTeX}{\fontfamily{cmr}\selectfont \LaTeX \normalfont} % Para que LaTeX se vea bien en el texto
 
+% ----------- Configuración de las Figuras según UNIR -----------
 \captionsetup[figure]{
   font=it,
   labelfont=bf,
@@ -156,8 +157,12 @@
 \widowpenalty=20000 % para que no haya huérfanas
 
 
-\makeindex
+% ----------- Glosario y acrónimos -----------
+\makeglossaries
+\import{./glosario}{glosario.tex}
 
+
+\makeindex
 
 % ----------- Contenido del documento -----------
 \begin{document}
@@ -166,16 +171,31 @@
   \setcounter{page}{2} % Para que tras la portada esté la página 2.
 
   \import{./capitulos/}{resumen.tex}
-  \clearpage
+  \gls{ia}
 
+  \gls{ia}
+  \clearpage
+  
+  
+  
+  \phantomsection % Para que el índice apunte al lugar correcto
   \addcontentsline{toc}{chapter}{Índice de contenidos}
   \tableofcontents
   \clearpage
+
+  \phantomsection
   \addcontentsline{toc}{chapter}{Índice de figuras}
   \listoffigures 
   \clearpage
+
+  \phantomsection
   \addcontentsline{toc}{chapter}{Índice de tablas}
   \listoftables
+  \clearpage
+
+  \phantomsection
+  \addcontentsline{toc}{chapter}{Índice de acrónimos}
+  \printglossary[title=Índice de acrónimos, toctitle=Índice de acrónimos]
   \clearpage
 
 

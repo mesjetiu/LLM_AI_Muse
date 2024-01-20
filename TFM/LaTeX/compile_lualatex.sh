@@ -5,6 +5,7 @@
 bibtex main
 lualatex main.tex
 makeindex main
-bibtex main
+bibtex main.aux
+makeglossaries main
 lualatex main.tex
 lualatex main.tex
