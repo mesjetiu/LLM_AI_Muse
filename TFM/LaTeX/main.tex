@@ -136,6 +136,10 @@
 \AtBeginDocument{\renewcommand{\bibname}{Referencias bibliográficas}}
 \newcommand{\defaultLaTeX}{\fontfamily{cmr}\selectfont \LaTeX \normalfont} % Para que LaTeX se vea bien en el texto
 
+\newcommand{\customEpigraph}[2]{
+    \epigraph{\itshape #1}{---#2}
+} % Para crear epígrafes personalizados
+
 % ----------- Configuración de las Figuras según UNIR -----------
 \captionsetup[figure]{
   font=it,
