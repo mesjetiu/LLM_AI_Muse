@@ -69,22 +69,27 @@
 \onehalfspacing
 \newcommand{\highlight}[1]{\bgroup\markoverwith{\textcolor{yellow}{\rule[-.5ex]{2pt}{2.5ex}}}\ULon{#1}}
 
+
 % ----------- Configuración de cabeceras y pies de página -----------
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[R]{\textlight{\small \autor \\[-5pt] \titulo}}
-\fancyfoot[R]{\normalsize\thepage} % Aquí se modifica el tamaño de la fuente
+\fancyhead[R]{\small \autor \\[0pt] \titulo}
+\fancyfoot[R]{\normalsize\thepage}
+
+
 \bibliographystyle{apacite}
 
 \fancypagestyle{plain}{
   \fancyhf{} 
-  \fancyfoot[R]{\normalsize\thepage} % Y también aquí
-  \fancyhead[R]{\textlight{\small \autor \\[-5pt] \titulo}}
+  \fancyfoot[R]{\normalsize\thepage}
+  \fancyhead[R]{\small \autor \\[0pt] \titulo}
   \renewcommand{\headrulewidth}{0.4pt} 
   \renewcommand{\footrulewidth}{0pt}  
 }
 
 \patchcmd{\chapter}{\thispagestyle{plain}}{\pagestyle{fancy}\thispagestyle{fancy}}{}{}
+
+
 
 % ----------- Formateo de títulos y subsecciones -----------
 % Definir un nuevo comando para el estilo del capítulo
@@ -131,7 +136,11 @@
 \renewcommand{\cftchappagefont}{\normalfont}   % para quitar la negrita al número de página
 
 % ----------- Comandos personalizados -----------
-\newcommand{\titulo}{Creación sonora asistida por grandes modelos de lenguaje}
+% \newcommand{\titulo}{Creación sonora asistida por grandes modelos de lenguaje}
+
+\newcommand{\titulo}{\textit{All You Need is an AI Muse}: Grandes modelos de lenguaje en la creación sonora}
+
+
 \newcommand{\autor}{Carlos Arturo Guerra Parra}
 \AtBeginDocument{\renewcommand{\bibname}{Referencias bibliográficas}}
 \newcommand{\defaultLaTeX}{\fontfamily{cmr}\selectfont \LaTeX \normalfont} % Para que LaTeX se vea bien en el texto
