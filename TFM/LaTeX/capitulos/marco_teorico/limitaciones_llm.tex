@@ -16,23 +16,27 @@ La finalidad de un \gls{llm} es <<modelar>> el lenguaje humano, con lo que, a pr
 
 \subsection{Ineficiencia y coste}
 
-El tiempo
+Una de las razones por las que los \gls{llm}, y toda la \gls{ia} generativa en general, no se ha desarrollado hasta hace relativamente poco tiempo, es la alta demanda de recursos computacionales que requiere tanto su fase de entrenamiento como su fase de inferencia. La carrera actual en el desarrollo de la \gls{ia} reside en ganar eficiencia en los modelos. 
 
-Memoria RAM
+Los problemas de eficiencia y coste se pueden articular en torno a tres ejes \citep{arunbijiRAGVsFinetuning}:
 
-Coste económico
-
-
-El open source pone su foco en la eficiencia, implementando constantes y rápidas mejoras en la arquitectura de los modelos, su proceso de entrenamiento, la eficiencia en dispositivos de bajos recursos, la creación de conjutos de datos de entreamiento de alta calidad, etc.
-
-El entrenamiento de un \gls{llm} del tamaño de GPT-3\dots
+\begin{enumerate}[label=\alph*)]
+    \item \textbf{Recursos de tiempo computacional:} El tiempo necesario para entrenar un \gls{llm} es muy alto, y depende del tamaño del modelo, del conjunto de datos de entrenamiento y de la capacidad de cómputo disponible. En general, se habla en términos de <<años de GPU>>, lo cual está fuera del alcance de la computación de usuario. La Figura \ref{fig:llm_gpu_training_hours} muestra el coste en millones de horas de GPU de diversos modelos de lenguaje de código abierto. En la fase de inferencia el coste computacional, aunque menor que en la fase de entrenamiento, sigue siendo alto, lo cual constituye un problema para el uso de \gls{llm} en local en dispositivos de usuario final.
+    \item \textbf{Recursos de memoria:} Pero no es el tiempo de procesador el único origen de la ineficiencia. Estos modelos, de tamaños gigantescos, requieren de grandes cantidades de memoria RAM para su entrenamiento e inferencia. En \gls{llm} \textit{open source} como Mistral o Llama, en versiones comparables en rendimiento a GPT-3.5, se necesita entre 16 y 100 GB en GPU para la inferencia. 
+    \item \textbf{Recursos económicos:} Finalmente, los costes computacionales se traducen en costes económicos, solo asumibles por grandes empresas. De ahí que la mayoría de \gls{llm} sean propiedad de grandes empresas como Google, Facebook o Microsoft, quienes los ponen a disposición de los usuarios a través de sus API.
+\end{enumerate}
 
 \begin{figure}[H]
-  \caption[Coste de entrenamiento en horas de GPU de diversos modelos de lenguaje]{Coste de entrenamiento en horas de GPU de diversos modelos de lenguaje.}
-  \centering
-  \includegraphics[width=0.8\textwidth]{./figuras/llm_gpu_training_hours.png}
-  \source{\cite{ph.dTrainingTimeFoundation2023}}
-  \label{fig:llm_gpu_training_hours}
-\end{figure}
+    \caption[Coste de entrenamiento en horas de GPU de diversos modelos de lenguaje]{Coste de entrenamiento en horas de GPU de diversos modelos de lenguaje.}
+    \centering
+    \includegraphics[width=0.8\textwidth]{./figuras/llm_gpu_training_hours.png}
+    \source{\cite{ph.dTrainingTimeFoundation2023}}
+    \label{fig:llm_gpu_training_hours}
+  \end{figure}
+
+Es de esperar que la eficiencia de recursos mejore con el tiempo. De hecho, ya se están viendo significativos avences en este sentido, especialmente de la mano del \textit{open source}, que está democratizando el acceso a los \gls{llm} y a la \gls{ia} en general, con sus contribuciones a mejoras en la arquitectura de los modelos, su proceso de entrenamiento, la eficiencia en dispositivos de bajos recursos y la creación de conjutos de datos de entreamiento de alta calidad, entre otros. En estos momentos, la gran mayoría de modelos de código abierto que grandes empresas crean y entrenan, y los propios usuarios rentrenan con un \textit{fine-tuning}, se pueden descargar y utilizar de forma gratuita en webs como \href{https://huggingface.co/}{Hugging Face}.
+
+
+
 
 \subsection{Modelos <<Caja negra>>, sesgos y riesgos}
