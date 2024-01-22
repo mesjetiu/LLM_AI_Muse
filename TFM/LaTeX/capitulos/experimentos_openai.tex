@@ -1,9 +1,12 @@
 % Aquí se expondrá todo lo investigado con OpenAI y los modelos de lenguaje.
 
-\chapter{Componiendo música con la asistencia de GPT-4}
+\chapter{Experimentos con la plataforma de OpenAI}
+
 El estudio llevado a cabo en esta investigación se expone a continuación siguiendo el orden cronológico del trabajo exploratorio llevado a cabo con las diversas herramientas que provee OpenAI. Se comienza con la exploración de ChatGPT, el chatbot de OpenAI, para luego pasar al \textit{Playground} y finalmente a la API, que nos posibilita el uso de los modelos en entornos de programación ad hoc que nos permiten la automatización de las tareas de peticiones a la API y procesamiento de los resultados en la generación de música.
 
-\section{ChatGPT, como banco de pruebas}
+En cada una de las etapas de trabajo se ha ido explorando el impacto del uso de diversas técnicas de \textit{prompting} en la calidad y corrección de las respuestas de los modelos. Al mismo tiempo se evalúan las diferentes posibilidades de interfaces de usuario para la interacción con los modelos. 
+
+\section{ChatGPT, como primer banco de pruebas}
 La forma en la que ha dado a conocer al gran público las potencialidades de los modelos de lenguaje ha sido a través de chatbots. Si bien en la actualidad existen muchos chatbots que utilizan modelos de lenguaje, el primero en hacerlo de forma pública fue ChatGPT, de OpenAI, un chatbot que utiliza el modelo GPT-3 y GPT-4, con el cual se pueden mantener conversaciones en lenguaje natural. Si bien en la actualidad cuenta con muchas características que lo convierten en una herramienta dirigida a la productividad en múltiples ámbitos, en un principio, y esencialmente, fue concebido como un chatbot con el que mantener conversaciones.
 
 Como ya se ha señalado, una de sus grandes potencialidades es la de poder ser usado como <<copiloto>> en tareas de programación. En este sentido, se ha usado ChatGPT como banco de pruebas para la una primera exploración de cómo pueden ser usados estos modelos en la creación de música a través del lenguaje del código.
@@ -71,7 +74,7 @@ Synth(\fmSimple, [
 Un segundo LLM disponible en ChatGPT, GPT-3.5, si bien es capaz de generar código mejor que el de Bart, no lo hace con la tasa de corrección de GPT-4. En los experimentos realizados esto se pudo comprobar constantemente: una gran parte del código generado en SuperCollider por GPT-3.5 contenía demasiados errores de sintaxis y alucinaciones, lo cual lo convertía en ineficiente para la creación de código musical al lado de GPT-4.
 
 
-\section{Tareas en las que se ha probado ChatGPT}
+\section{Rendimiento de ChatGPT en tareas de generación de código sonoro}
 Por la propia interfaz de chatbot, ChatGPT solo permite una interacción tipo <<diálogo>>. Esto es, el usuario introduce un texto, y el modelo responde a este texto. Esto determina fuertemente el tipo de tareas que con él podemos realizar a la hora de crear código musical. En primer lugar, no es práctico para la creación de código musical en tiempo real, ya que es el usuario quien debe cortar y pegar constantemente texto desde el IDE al chat y viceversa, lo cual entorpecería el flujo de trabajo. Sin embargo, se ha visto muy útil para las tareas que enumeramos a continuación:
 
 \begin{itemize}
@@ -175,7 +178,6 @@ Esto se debe a varios factores: En primer lugar, la ventana de contexto definiti
 \end{figure}
 
 
-
 \subsection{Creación de bloques sencillos de código}
 
 Nos referimos con <<bloque>> a una pieza de código funcional pero que no constituye un proyecto completo, como, por ejemplo, una función, un patrón, etc. Al no constituir un código completo, no se requiere del manejo de una gran información en las respuestas del LLM, por lo que se puede esperar una mayor precisión en las mismas, al tiempo que se evitan los problemas asociados con la ventana de contexto. Del mismo modo, el usuario, a priori, puede controlar mejor la conversación iterando de una forma más controlada y cómoda. 
@@ -218,7 +220,6 @@ SynthDef(\ksTexture, {
     \source{Elaboración propia.}
     \label{fig:alucinacion_chatgpt}
 \end{figure}
-
 
 
 Encontramos aún errores semánticos más sutiles y difíciles de detectar, ya que requieren de un conocimiento profundo del lenguaje de programación en uso y el intérprete no encuentra, pudiendo pasar desapercibidos, lo cual puede ser considerado un problema de seguridad. Un ejemplo claro es cuando la amplitud de la salida de audio satura el sistema. Los lenguajes de programación sonora no cuentan a priori con limitaciones de volumen o frecuencia, por lo que un error de este tipo puede provocar daños en el equipo de sonido o en el oído del usuario (véase Figura \ref{fig:amplitud_saturada_chatgpt}). Similar a este error es, en SuperCollider, la acumulación de instancias de un \texttt{Synth} en el servidor de audio, lo cual puede provocar un bloqueo del sistema. En la Figura \ref{fig:error_dificil_detectar_supercollider} se puede ver un ejemplo de este tipo de error. En este caso, el usuario ha tenido que intervenir para corregir el código generado por el modelo. Junto a la <<alucinación>>, se trata de uno de los problemas que pueden pasar desapercibidos cuando no existe un entendimiento profundo del lenguaje por parte del usuario.
@@ -282,7 +283,7 @@ Encontramos aún errores semánticos más sutiles y difíciles de detectar, ya q
 \end{figure}
 
 
-Otro defecto observado en relación a los parámetros de los métodos y clases del código es la propensión a utilizar valores por defecto. Esto, aunque no compromete la seguridad, resta interés al código generado desde el punto de vista artístico. Los valores por defecto son aquellos que un elemento del código utiliza cuando el usuario no provee de un valor explícito. Por ejemplo, en el caso de SuperCollider, el método \texttt{SinOsc.ar} cuenta con un parámetro \texttt{mul} que, si no se provee de un valor explícito, toma el valor por defecto de 1; o \texttt{freq}, con el valor por defecto de 440 Hz. Por ejemplo, en la Figura \ref{fig:ChatGPT_valores_por_defecto} se puede ver cómo el modelo utiliza valores por defecto en el código generado, lo cual no es deseable desde el punto de vista artístico. Junto a la <<alucinación>>, se trata de uno de los problemas que pueden pasar desapercibidos sin un entendimiento profundo del lenguaje por parte del usuario, si bien puede mitigarse a traves del uso de técnicas de prompting, como se verá más adelante.
+Otro defecto observado con relación a los parámetros de los métodos y clases del código es la propensión a utilizar valores por defecto. Esto, aunque no compromete la seguridad, resta interés al código generado desde el punto de vista artístico. Los valores por defecto son aquellos que un elemento del código utiliza cuando el usuario no provee de un valor explícito. Por ejemplo, en el caso de SuperCollider, el método \texttt{SinOsc.ar} cuenta con un parámetro \texttt{mul} que, si no se provee de un valor explícito, toma el valor por defecto de 1; o \texttt{freq}, con el valor por defecto de 440 Hz. Por ejemplo, en la Figura \ref{fig:ChatGPT_valores_por_defecto} se puede ver cómo el modelo utiliza valores por defecto en el código generado, lo cual no es deseable desde el punto de vista artístico. Junto a la <<alucinación>>, se trata de uno de los problemas que pueden pasar desapercibidos sin un entendimiento profundo del lenguaje por parte del usuario, si bien puede mitigarse a traves del uso de técnicas de prompting, como se verá más adelante.
 
 \begin{figure}[H]
     \caption[]{Código generado por ChatGPT con utilización de valor de frecuencia de 440 Hz. Este valor <<por defecto>> no es una excepción, sino que sistemáticamente se encuentran enn los parámetros de los métodos y clases del código generados por ChatGPT. Esto, sin duda, resta interés al código generado desde el punto de vista artístico.}
@@ -360,12 +361,140 @@ El poder de los LLM es del procesar el lenguaje natural y traducir descripciones
 A nivel artístico, la utilización de esta herramienta con conocimiento de la misma, así como del campo en cuestión, en este caso, la creación sonora y musical. La creación iterada de snippets de código sonoro puede producir fragmentos de código eventualmente de interés, en muchos casos como serendipia, si bien, al menos en el momento de la realización de este trabajo, esta valoración artística entra ya en la percepción estética y subjetiva del creador humano.
 
 
-\subsection{Poner a prueba ciertas técnicas de \textit{prompting}}
+\subsection{Influjo del uso de técnicas de \textit{prompting} en ChatGPT}
 
 En la sección \ref{sec:llm_tecnicas_prompting} se han descrito algunas de las técnicas más relevantes en cuanto al prompting de un \gls{llm}, especialmente las que han presentado buenos resultados en aritmética y generación de código de programación, como \gls{cot}. De igual modo, en \ref{sec:llm_asistentes_creacion_codigo_programacion} se presentaban técnicas avanzadas como \gls{scot} en la generación de código.
 
+A continuación se analiza, de forma cualitativa y descriptiva, el impacto que han tenido diferentes técnicas de \textit{prompting} en las respuestas obtenidas del modelo.
 
-\section{Trabajando con el Playground de OpenAI}
+\subsubsection{\textit{Zero-shot} vs \textit{Few-shot}}
+
+Aunque ChatGPT está entrenado para establecer conversaciones tipo chat, es susceptible de recibir contextos junto a la petición del usuario con un conjunto de ejemplos de código, para que el modelo pueda aprender de ellos para elaborar su respuesta. En este sentido, se ha encontrado que la presentación de ejemplos de código al modelo tiene un efecto positivo en cuanto estilo y formato del código, incluso en el uso de elementos de programación similares a dichos ejemplos, siendo menos proclive a errores sintácticos. Sin embargo, no se ha encontrado que el uso de ejemplos de código mejore la calidad del código generado en el sentido artístico. 
+
+La Figura \ref{fig:chatgpt_zero_shot_vs_few_shot} muestra el resultado de una misma petición a ChatGPT con \textit{Zero-shot} y \textit{One-shot}. El resultado es claramente positivo en el segundo caso. 
+
+\begin{figure}[H]
+    \caption[]{Comparación de resultados de ChatGPT con (a) \textit{Zero-shot} y (b) \textit{Few-shot}.}
+    \centering
+    \begin{subfigure}{.48\textwidth}
+      \centering
+      \begin{mdframed}
+        \setstretch{1}
+        Usuario: Crea una textura sonora de interés artístico usando \texttt{FMGrain} en SuperCollider.
+      \end{mdframed}
+    %   \caption{Csound}
+    \end{subfigure}\hfill
+    \begin{subfigure}{.48\textwidth}
+      \centering
+      \begin{mdframed}
+        \setstretch{1}
+        Usuario: Crea una textura sonora de interés artístico usando \texttt{FMGrain} en SuperCollider. Te paso un ejemplo de uso:
+        \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+SynthDef(\fm_grain_test, {arg gate = 1, amp = 1;
+    Out.ar(0,
+        FMGrain.ar(Impulse.ar(20), 0.2, 440, 200,
+            LFNoise1.kr(1).range(1, 10),
+            EnvGen.kr(
+                Env([0, 1, 0], [1, 1], \sin, 1),
+                gate,
+                levelScale: amp,
+                doneAction: 2)
+        )
+    )
+}).add;
+s.sendMsg(\s_new, \fm_grain_test, a=s.nextNodeID, 0, 1, \amp, 0.1);
+        \end{lstlisting}
+      \end{mdframed}
+    %   \caption{SuperCollider}
+    \end{subfigure}
+
+    \vspace{0.2cm}
+
+    \begin{subfigure}{.48\textwidth}
+        \centering
+        \setstretch{1}
+        \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+{
+    var dur, dens, fund, form, indx, pan;
+    dur = MouseX.kr(0.01, 0.2, 1, 0.01); 
+    dens = MouseY.kr(20, 50, 1, 0.1);
+    fund = 200;                     
+    form = 800;
+    indx = 2;
+    pan = LFNoise2.kr(0.5).range(-1, 1); 
+
+    FMGrain.ar(
+        numChannels: 2,
+        trigger: Impulse.kr(dens),
+        dur: dur,
+        carfreq: fund,
+        modfreq: form,
+        index: indx,
+        pan: pan
+    )
+}.play;    
+        \end{lstlisting}
+        \caption{
+        \begin{tabular}{@{}p{0.7\textwidth}p{0.2\textwidth}@{}}
+            \textit{Zero-shot} en una petición de creación sonora en SuperCollider. & 
+            \qrcode[height=1.5cm]{https://github.com/mesjetiu/LLM_SuperCollider}
+        \end{tabular}
+        }
+      \end{subfigure}\hfill
+    \begin{subfigure}{.48\textwidth}
+      \centering
+        \setstretch{1}
+        \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+SynthDef(\fm_grain_artistic, { arg gate = 1, amp = 1;
+    var sound, freq, dur, pan, rate, index;
+
+    // Parámetros modificables para la textura
+    freq = LFNoise1.kr(0.5).range(200, 1000);
+    dur = LFNoise2.kr(0.1).range(0.1, 0.5); 
+    pan = LFNoise2.kr(0.2).range(-1, 1); 
+    rate = LFNoise1.kr(0.3).range(5, 50); 
+    index = LFNoise1.kr(0.4).range(100, 800); 
+
+    // Creación de la textura sonora
+    sound = FMGrain.ar(
+        Impulse.ar(rate), dur, freqindex, 5,pan               
+    );
+
+    // Aplicación del envolvente y salida
+    Out.ar(0,
+        Pan2.ar(
+            sound * EnvGen.kr(
+                Env([0, 1, 0], [0.1, 0.1], \sin, 1),
+                gate,
+                levelScale: amp,
+                doneAction: 2
+            ),
+            pan
+        )
+    );
+}).add;
+s.sendMsg(\s_new, \fm_grain_artistic, a=s.nextNodeID, 0, 1, \amp, 0.1);              
+        \end{lstlisting}
+        \caption{
+        \begin{tabular}{@{}p{0.7\textwidth}p{0.2\textwidth}@{}}
+            La misma petición con un ejemplo \textit{Few-shot}. El resultado sonoro es más interesante desde el punto de vista artístico. & 
+            \qrcode[height=1.5cm]{https://drive.google.com/file/d/1C7FDkH706e1OMlcOWrG4qsCoC7Au8GaU/view?usp=drive_link}
+        \end{tabular}
+        }
+    \end{subfigure}
+
+    \source{Elaboración propia.}
+    \label{fig:chatgpt_zero_shot_vs_few_shot}
+\end{figure}
+
+\subsubsection{\textit{Chain of Thoughts} (CoT) y \textit{Structured Chain of Thoughts} (SCoT)}
+
+\subsubsection{\textit{Self-Debugging}}
+
+\subsubsection{Uso de \textit{Retrieval-Augmented Generation} (RAG)}
+
+
+\section{Mayor control de parámetros con el Playground de OpenAI}
 
 \section{Ampliando el \textit{Knowledge}: RAG con \textit{GPTs} y \textit{Assistants}}
 

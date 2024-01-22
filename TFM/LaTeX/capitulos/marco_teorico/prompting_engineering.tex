@@ -9,6 +9,7 @@ En función del propósito de la interacción con sistemas basados en \gls{llm},
 
 
 \subsubsection{\textit{Few-shot prompting}}
+\label{sec:few_shot_prompting}
 
 Una primera técnica aplicable a un modelo de lenguaje es la de \textit{few-shot}, en la que el modelo recibe como input una serie de pares <<petición-respuesta>> más una petición a la cual ha de responder de forma análoga al contexto. Se presenta muy útil para tareas que requieren de cierto automatismo, como la generación de respuestas con un formato concreto, ya que en el input se muestra al \gls{llm} qué tipo de respuesta se requiere (ver Figura \ref{fig:few_shot_prompting}). De hecho, esta es la técnica que subyace tras las interfaces tipo \textit{chat} que se pueden encontrar en la mayoría de los \gls{llm} conversacionales. Si bien, fueron prentrenados para completar textos, pueden ser guiados por el \textit{few-shot prompting} a generar respuestas en un formato y personalidad concreta, ya que el modelo tenderá a repetir el estilo de los ejemplos pasados por contexto.
 
