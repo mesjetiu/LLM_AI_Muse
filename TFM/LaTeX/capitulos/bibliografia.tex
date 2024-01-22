@@ -3,16 +3,13 @@
 % Mostrar toda la bibliografía presente en el archivo .bib
 %\nocite{*} 
 
-% \renewcommand{\refname}{Referencias bibliográficas}
-
-% \renewcommand{\bibsection}{\section*{Referencias bibliográficas}
-% \defaultFontEpigraph{Textbooks Are All You Need}{\cite{gunasekarTextbooksAreAll2023}}}
-
-% \defaultFontEpigraph{Textbooks Are All You Need}{\cite{gunasekarTextbooksAreAll2023}}
+\renewcommand{\refname}{Referencias bibliográficas}
+\renewcommand{\bibname}{Referencias Bibliográficas}
 
 
 \bibliography{bibtex/biblio}
-
+% Agrega la bibliografía al índice
+\addcontentsline{toc}{chapter}{\refname}
 
 
 

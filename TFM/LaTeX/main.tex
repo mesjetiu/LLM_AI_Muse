@@ -26,6 +26,7 @@
 \usepackage[hidelinks]{hyperref} % Para que los enlaces no se coloreen
 %\usepackage{hyperref} % Para que los enlaces sí se coloreen
 \usepackage{import}
+% \usepackage[nottoc]{tocbibind} % Opciones para incluir la bibliografía en el índice
 \usepackage[natbibapa]{apacite}
 \usepackage{fancyhdr}
 \usepackage{titlesec} 
@@ -155,8 +156,7 @@
     {\fontfamily{lmr}\selectfont % Cambia a la fuente Latin Modern Roman
     \textit{\textsc{#1}} % Aplica versalitas y cursiva al título
     \par --- #2 % Autor y año
-    \par\bigskip
-    \footnote{#3}} % Cita en pie de página
+    \par\bigskip} % Cita en pie de página
     \end{flushright}
 }
 
@@ -187,9 +187,6 @@
 
 
 \makeindex
-
-% ----------- Configuración dl título de Referencias -------
-\renewcommand{\refname}{Referencias bibliográficas}
 
 % ----------- Contenido del documento -----------
 \begin{document}
