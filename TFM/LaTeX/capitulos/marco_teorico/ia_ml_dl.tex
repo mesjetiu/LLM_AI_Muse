@@ -95,15 +95,25 @@ Independientemente de su estructura, una \gls{rna} o modelo de \textit{Deep Lear
     \label{fig:ann_training}
 \end{figure}
 
-\subsubsection{La arquitectura Transformer}
-Hasta 2017, el estado del arte en el ámbito del procesamiento de lenguaje natural por medio de modelos de \textit{Deep Learning} eran las redes neuronales recurrentes (RNN). Estas se basaban en la idea de que la salida de una neurona se podía retroalimentar a la entrada, de forma que la salida de la neurona en el instante $t$ se podía usar como entrada en el instante $t+1$. Esta arquitectura se ilustra en la Figura.... Sin embargo, las RNN presentaban un problema conocido como \textit{vanishing gradient}, que hacía que el modelo no pudiera aprender de secuencias largas. Este problema se solucionó con las redes neuronales de memoria a corto y largo plazo (LSTM), que permitían que la información fluyera a través de la red sin perderse. Sin embargo, las LSTM no podían trabajar con grandes cantidades de tokens de contexto, lo que limitaba su aplicación a tareas de procesamiento de lenguaje natural.
+\subsubsection{Redes neuronales recurrentes}
+Hasta 2017, el estado del arte en el ámbito del procesamiento de lenguaje natural por medio de modelos de \gls{dl} eran las redes neuronales recurrentes (RNN). Estas se basaban en la idea de que la salida de una neurona se podía retroalimentar a la entrada, de forma que la salida de la neurona en el instante $t$ se podía usar como entrada en el instante $t+1$. Esta arquitectura se ilustra en la Figura \ref{fig:red_neuronal_recurrente}. Sin embargo, las RNN presentaban un problema conocido como \textit{vanishing gradient}, que hacía que el modelo no pudiera retener contextos de secuencias largas, ya que su <<atención>> se desvanece en los tokens más alejados en el tiempo. Este problema se solucionó en parte con las redes neuronales de memoria a corto y largo plazo (LSTM), que permitían que la información fluyera a través de la red sin perderse. Sin embargo, las LSTM no podían trabajar con grandes cantidades de tokens de contexto, lo que limitaba su aplicación a tareas de procesamiento de lenguaje natural.
 
-Sin embargo, en 2017, \citeauthor{vaswaniAttentionAllYou2017} publicaron un artículo \citep{vaswaniAttentionAllYou2017} en el que proponían una nueva arquitectura de red neuronal, denominada \textit{Transformer}, que no se basaba en las RNN y que permitía trabajar con grandes cantidades de tokens de contexto. Esta arquitectura se basaba en el concepto de \textit{atención}, que permite que el modelo pueda aprender de secuencias largas. En esta arquitectura, no importa la posición de los tokens de la secuencia de entrada, ya que el modelo aprende a asignar pesos a cada token en función de su relevancia para la predicción del siguiente token. A diferencia de una RNN, un \textit{Transformer} puede procesar todos los tokens de una secuencia de entrada en paralelo, lo que lo hace mucho más eficiente computacionalmente tanto en el entrenamiento como en la inferencia. La Figura \ref{fig:transformer_attention} muestra una matriz de atención de un \textit{Transformer} entrenado con textos en inglés.
+\begin{figure}[H]
+    \caption[Arquitectura de una red neuronal recurrente]{Arquitectura de una red neuronal recurrente.}
+    \centering
+    \includegraphics[width=0.9\textwidth]{./figuras/red_neuronal_recurrente.png}
+    \source{\cite{calvoRedNeuronalRecurrente2018}}
+    \label{fig:red_neuronal_recurrente}
+\end{figure}
+
+
+\subsubsection{La arquitectura \textit{Transformer}}
+En junio de 2017, \citeauthor{vaswaniAttentionAllYou2017} publicaron un artículo \citep{vaswaniAttentionAllYou2017} en el que proponían una nueva arquitectura de red neuronal, denominada \textit{Transformer}, que no se basaba en las RNN y que permitía trabajar con grandes cantidades de tokens de contexto. Esta arquitectura se basaba en el concepto de \textit{atención}, que permite que el modelo pueda aprender de secuencias largas. En esta arquitectura, no importa la posición de los tokens de la secuencia de entrada, ya que el modelo aprende a asignar pesos a cada token en función de su relevancia para la predicción del siguiente token. A diferencia de una RNN, un \textit{Transformer} puede procesar todos los tokens de una secuencia de entrada en paralelo, lo que lo hace mucho más eficiente computacionalmente tanto en el entrenamiento como en la inferencia. La Figura \ref{fig:transformer_attention} muestra una matriz de atención de un \textit{Transformer} entrenado con textos en inglés.
 
 En la figura \ref{fig:transformer_architecture} se puede ver un esquema de la arquitectura \textit{Transformer}.
 
 \begin{figure}[H]
-    \caption[Aquitectura de Transformer]{Aquitectura de Transformer}
+    \caption[Aquitectura de Transformer]{Aquitectura de Transformer. Esta imagen se ha convertido en icono de la revolución de la IA generativa.}
     \centering
     \includegraphics[width=0.4\textwidth]{./figuras/Transformer_architecture.png}
     \source{\cite{vaswaniAttentionAllYou2017}}
