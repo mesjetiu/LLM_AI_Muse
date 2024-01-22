@@ -371,9 +371,10 @@ A continuación se analiza, de forma cualitativa y descriptiva, el impacto que h
 
 Aunque ChatGPT está entrenado para establecer conversaciones tipo chat, es susceptible de recibir contextos junto a la petición del usuario con un conjunto de ejemplos de código, para que el modelo pueda aprender de ellos para elaborar su respuesta. En este sentido, se ha encontrado que la presentación de ejemplos de código al modelo tiene un efecto positivo en cuanto estilo y formato del código, incluso en el uso de elementos de programación similares a dichos ejemplos, siendo menos proclive a errores sintácticos. Sin embargo, no se ha encontrado que el uso de ejemplos de código mejore la calidad del código generado en el sentido artístico. 
 
-La Figura \ref{fig:chatgpt_zero_shot_vs_few_shot} muestra el resultado de una misma petición a ChatGPT con \textit{Zero-shot} y \textit{One-shot}. El resultado es claramente positivo en el segundo caso. 
+La Figura \ref{fig:chatgpt_zero_shot_vs_few_shot} muestra el resultado de una misma petición a ChatGPT con \textit{Zero-shot} y \textit{One-shot}. El resultado es claramente positivo en el segundo caso. Como veremos, este resultado es clave para el éxito en la utilización de técnicas más avanzadas, como \gls{rag}.
 
-\begin{figure}[H]
+
+\begin{figure}%[H]
     \caption[]{Comparación de resultados de ChatGPT con (a) \textit{Zero-shot} y (b) \textit{Few-shot}.}
     \centering
     \begin{subfigure}{.48\textwidth}
@@ -489,7 +490,25 @@ s.sendMsg(\s_new, \fm_grain_artistic, a=s.nextNodeID, 0, 1, \amp, 0.1);
 
 \subsubsection{\textit{Chain of Thoughts} (CoT) y \textit{Structured Chain of Thoughts} (SCoT)}
 
+Esta técnica requiere de un nivel mayor de abstracción en el razonamiento del \gls{llm}, al exigirle una planificación previa a la implementación del código. Esto implica la elaboración de la respuesta en dos pasos, una para la planificación y razonamiento, y otra, para la implementación en sí. Dichos pasos pueden ser dados en una sola respuesta o en dos. En el caso de ChatGPT, o el de cualquier chat de \gls{ia}, a cuyos parámetros de respuesta no podemos acceder, conviene hacerlo en dos respuestas consecutivas para asegurarnos de no alcanzar un límite de tokens en la única respuesta. 
+
+A diferencia de \textit{Few-shot}, esta técnica no mejora la respuesta del \gls{llm} de forma drástica, pero sí que se aprecian cambios positivos en cuanto a la complejidad de elementos que el código puede llegar a utilizar. Así, una petición compleja del usuario tiene más probabilidades de éxito si el \gls{llm} tiene la posibilidad de <<razonar>> previamente los pasos a dar que si lo implementa directamente. A cambio, puede introducir más errores en el código, que el usuario ha de corregir por sí mismo o llevar al \gls{llm} en una conversación iterada. Esta técnica es más apropiada que \textit{Few-shot} en el caso de buscar un código para una pieza en evolución temporal, donde se implican estructuras tipo rutinas, patrones y cambios de parámetros o sintetizadores a lo largo del tiempo, aunque, será útil en cualquier aplicación en la que se busque complejidad. En los experimentos realizados se han desechado muchas conversaciones completas por llegar a momentos de bloqueo, en los que la complejidad del código era tal que su depuración era más costosa que la elaboración del mismo a partir de partes más pequeñas.
+
+No se ha mostrado como relevante el uso de una técnica tipo \gls{scot}, en la que el primer paso ha de realizarse en pseudocódigo en lugar de en lenguaje natural. La hipótesis que lanzamos para este resultado es que, a diferencia de las tareas de programación a las que esta técnica originalmente se dirige, el diseño de sintetizadores no requiere de tanta complejidad como una función en Python o C++ que se descompone en flujos como bucles y condicionales. En este sentido, el propio script en SuperCollider se representa a sí mismo y no tiene sentido planificar en un pseudocódigo.
+
 \subsubsection{\textit{Self-Debugging}}
+
+Una aproximación para intentar minimizar los errores sintácticos del código generado podría ser el ya expuesto \textit{Self-Debugging}, en el que el \gls{llm} ha de dar un paso posterior a la implementación en código para revisar los posibles errores del código. En ninguno de los casos que se ha utilizado se han corregido errores algunos. La única forma de que el \gls{llm} corrija sus errores es que el usuario le devuelva el mensaje de error del compilador o del intérprete del lenguaje, en cuyo caso el \gls{llm} comprenderá el problema y tratará de resolverlo en la siguiente respuesta. 
+
+De hecho, este es un flujo habitual en el que se desenvuelve las conversaciones de creación sonora con ChatGPT. La inmensa mayoría de los bloques de código generados con éxito en este trabajo, han sido realizados de forma iterativa, limpiando el código a partir de los mensajes de error devueltos por el intérprete de SuperCollider. En este punto, el papel del usuario compositor y su nivel de conocimientos es fundamental para el éxito de la tarea. La Figura \ref{fig:iteracion_depuracion} muestra este proceso en bucle en el que el usuario devuelve al \gls{llm} los mensajes de error iterativamente.
+
+\begin{figure}[H]
+    \caption[Iteración de depuración de código con ChatGPT]{Iteración de depuración de código con ChatGPT. El usuario devuelve al LLM los mensajes de error iterativamente.}
+    \centering
+    \includegraphics[width=0.9\textwidth]{./figuras/iteracion_depuracion_codigo.png}
+    \source{Elaboración propia.}
+    \label{fig:iteracion_depuracion}
+\end{figure}
 
 \subsubsection{Uso de \textit{Retrieval-Augmented Generation} (RAG)}
 
@@ -499,7 +518,7 @@ s.sendMsg(\s_new, \fm_grain_artistic, a=s.nextNodeID, 0, 1, \amp, 0.1);
 \section{Ampliando el \textit{Knowledge}: RAG con \textit{GPTs} y \textit{Assistants}}
 
 \section{Programando con la API de OpenAI}
-Aquí se explica con detalle los scripts que se han programado, difultades, limitaciones y puntos de interés.
+Aquí se explica con detalle los scripts que se han programado, dificultades, limitaciones y puntos de interés.
 
 
 
