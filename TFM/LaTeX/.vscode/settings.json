@@ -7,5 +7,13 @@
     "latex-workshop.message.latexlog.exclude": [
         " [\"Font shape .* in size .* not available\", \"size .* substituted\"]"
     ],
-    "editor.fontSize": 22
+    "editor.fontSize": 22,
+    "workbench.editor.languageDetectionHints": {
+        "notebookEditors": false
+    },
+    "files.defaultLanguage": "es",
+    "languageTool.language": "es",
+    "ltex.additionalRules.motherTongue": "es",
+    "ltex.language": "es",
+    "ltex.dictionary": {}
 }
