@@ -1,0 +1,42 @@
+    Introducción:
+        "All You Need Is A Good Init" (La introducción establece las bases para todo lo que sigue, así como un buen inicio es esencial para los procesos.)
+
+    Justificación:
+        "All You Need Is Beyond A Good Init: Exploring Better Solution" (La justificación expande la necesidad de la investigación más allá de la introducción.)
+
+    Objetivos de la investigación:
+        "Attention Is All You Need" (Establece la importancia de enfocarse en los objetivos y la dirección de la investigación.)
+
+    Marco teórico:
+        "A Broad Dataset is All You Need for One-Shot Object Detection" (El marco teórico proporciona una amplia base de conocimiento sobre la que se construye la investigación.)
+
+    Estado de la cuestión:
+        "Depthwise Convolution is All You Need for Learning Multiple Visual Domains" (Similar al estado de la cuestión que requiere una comprensión profunda de múltiples dominios de un campo.)
+
+    Metodología:
+        "Logarithmic Pruning is All You Need" (La metodología podría ser vista como un proceso de poda, donde se define qué es esencial y qué no.)
+
+    Elección de lenguajes de programación musical:
+        "Transcription Is All You Need: Learning to Separate Musical Mixtures with Score as Supervision" (La elección de lenguajes podría compararse con la transcripción en música, un elemento esencial para entender y ejecutar piezas musicales.)
+
+    Experimentos con la plataforma de OpenAI:
+        "Hopfield Networks is All You Need" (Representa la idea de que una herramienta o enfoque puede ser suficiente para realizar experimentos significativos.)
+
+    AI Muse, herramienta de interacción en vivo con GPT-4 en entornos de livecoding:
+        "One Model is All You Need: Multi-Task Learning Enables Simultaneous Histology Image Segmentation and Classification" (La idea de que un modelo (o herramienta) puede manejar múltiples tareas a la vez.)
+
+    Hacia un ejemplo de arte sonoro generado con ayuda de GPT-4:
+
+    "Imagination is All You Need! Curved Contrastive Learning for Abstract Sequence Modeling Utilized on Long Short-Term Dialogue Planning" (La creatividad e imaginación son clave para el arte sonoro.)
+
+    Resultados y discusión:
+
+    "All You Need is a Second Look: Towards Tighter Arbitrary shape text detection" (Un segundo vistazo puede ser necesario para una comprensión profunda de los resultados y para la discusión.)
+
+    Conclusiones:
+
+    "All You Need Is Boundary: Toward Arbitrary-Shaped Text Spotting" (Estableciendo límites claros y conclusiones en la investigación.)
+
+    Limitaciones y prospectiva:
+
+    "Is Bang-Bang Control All You Need? Solving Continuous Control with Bernoulli Policies" (Explorando si las soluciones actuales son suficientes o si se necesita algo más, que es

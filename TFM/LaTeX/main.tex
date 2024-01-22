@@ -149,6 +149,17 @@
     \epigraph{\itshape #1}{---#2}
 } % Para crear epígrafes personalizados
 
+% Definir un nuevo comando para el epígrafe
+\newcommand{\defaultFontEpigraph}[3]{%
+    \begin{flushright}
+    {\fontfamily{lmr}\selectfont % Cambia a la fuente Latin Modern Roman
+    \textit{\textsc{#1}} % Aplica versalitas y cursiva al título
+    \par --- #2 % Autor y año
+    \par\bigskip
+    \footnote{#3}} % Cita en pie de página
+    \end{flushright}
+}
+
 % ----------- Configuración de las Figuras según UNIR -----------
 \captionsetup[figure]{
   font=it,
