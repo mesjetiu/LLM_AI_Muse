@@ -185,6 +185,23 @@
   file = {/home/carlos/Zotero/storage/3YM2L8NV/Butlin et al. - 2023 - Consciousness in Artificial Intelligence Insights.pdf}
 }
 
+@misc{caiStructuredPruningAll2022,
+  title = {Structured {{Pruning}} Is {{All You Need}} for {{Pruning CNNs}} at {{Initialization}}},
+  author = {Cai, Yaohui and Hua, Weizhe and Chen, Hongzheng and Suh, G. Edward and De Sa, Christopher and Zhang, Zhiru},
+  year = {2022},
+  month = may,
+  number = {arXiv:2203.02549},
+  eprint = {2203.02549},
+  primaryclass = {cs},
+  publisher = {{arXiv}},
+  doi = {10.48550/arXiv.2203.02549},
+  urldate = {2024-01-22},
+  abstract = {Pruning is a popular technique for reducing the model size and computational cost of convolutional neural networks (CNNs). However, a slow retraining or fine-tuning procedure is often required to recover the accuracy loss caused by pruning. Recently, a new research direction on weight pruning, pruning-at-initialization (PAI), is proposed to directly prune CNNs before training so that fine-tuning or retraining can be avoided. While PAI has shown promising results in reducing the model size, existing approaches rely on fine-grained weight pruning which requires unstructured sparse matrix computation, making it difficult to achieve real speedup in practice unless the sparsity is very high. This work is the first to show that fine-grained weight pruning is in fact not necessary for PAI. Instead, the layerwise compression ratio is the main critical factor to determine the accuracy of a CNN model pruned at initialization. Based on this key observation, we propose PreCropping, a structured hardware-efficient model compression scheme. PreCropping directly compresses the model at the channel level following the layerwise compression ratio. Compared to weight pruning, the proposed scheme is regular and dense in both storage and computation without sacrificing accuracy. In addition, since PreCropping compresses CNNs at initialization, the computational and memory costs of CNNs are reduced for both training and inference on commodity hardware. We empirically demonstrate our approaches on several modern CNN architectures, including ResNet, ShuffleNet, and MobileNet for both CIFAR-10 and ImageNet.},
+  archiveprefix = {arxiv},
+  keywords = {Computer Science - Computer Vision and Pattern Recognition},
+  file = {/home/carlos/Zotero/storage/5ICLM59D/Cai et al. - 2022 - Structured Pruning is All You Need for Pruning CNNs at Initialization.pdf;/home/carlos/Zotero/storage/3PNZ4KJR/2203.html}
+}
+
 @misc{calvoRedNeuronalRecurrente2018,
   title = {{Red Neuronal Recurrente - RNN}},
   author = {Calvo, Diego},
@@ -212,6 +229,24 @@
   abstract = {Deep Blue is the chess machine that defeated then-reigning World Chess Champion Garry Kasparov in a six-game match in 1997. There were a number of factors that contributed to this success, including: {\textbullet}a single-chip chess search engine,{\textbullet}a massively parallel system with multiple levels of parallelism,{\textbullet}a strong emphasis on search extensions,{\textbullet}a complex evaluation function, and{\textbullet}effective use of a Grandmaster game database. This paper describes the Deep Blue system, and gives some of the rationale that went into the design decisions behind Deep Blue.},
   keywords = {Computer chess,Evaluation function,Game tree search,Parallel search,Search extensions,Selective search},
   file = {/home/carlos/Zotero/storage/IAV98XWL/Campbell et al. - 2002 - Deep Blue.pdf;/home/carlos/Zotero/storage/ARPI4JK5/S0004370201001291.html}
+}
+
+@misc{caoAllYouNeed2020,
+  title = {All You Need Is a Second Look: {{Towards Tighter Arbitrary}} Shape Text Detection},
+  shorttitle = {All You Need Is a Second Look},
+  author = {Cao, Meng and Zou, Yuexian},
+  year = {2020},
+  month = apr,
+  number = {arXiv:2004.12436},
+  eprint = {2004.12436},
+  primaryclass = {cs},
+  publisher = {{arXiv}},
+  doi = {10.48550/arXiv.2004.12436},
+  urldate = {2024-01-22},
+  abstract = {Deep learning-based scene text detection methods have progressed substantially over the past years. However, there remain several problems to be solved. Generally, long curve text instances tend to be fragmented because of the limited receptive field size of CNN. Besides, simple representations using rectangle or quadrangle bounding boxes fall short when dealing with more challenging arbitrary-shaped texts. In addition, the scale of text instances varies greatly which leads to the difficulty of accurate prediction through a single segmentation network. To address these problems, we innovatively propose a two-stage segmentation based arbitrary text detector named {\textbackslash}textit\{NASK\} ({\textbackslash}textbf\{N\}eed {\textbackslash}textbf\{A\} {\textbackslash}textbf\{S\}econd loo{\textbackslash}textbf\{K\}). Specifically, {\textbackslash}textit\{NASK\} consists of a Text Instance Segmentation network namely {\textbackslash}textit\{TIS\} ({\textbackslash}(1\^\{st\}{\textbackslash}) stage), a Text RoI Pooling module and a Fiducial pOint eXpression module termed as {\textbackslash}textit\{FOX\} ({\textbackslash}(2\^\{nd\}{\textbackslash}) stage). Firstly, {\textbackslash}textit\{TIS\} conducts instance segmentation to obtain rectangle text proposals with a proposed Group Spatial and Channel Attention module ({\textbackslash}textit\{GSCA\}) to augment the feature expression. Then, Text RoI Pooling transforms these rectangles to the fixed size. Finally, {\textbackslash}textit\{FOX\} is introduced to reconstruct text instances with a more tighter representation using the predicted geometrical attributes including text center line, text line orientation, character scale and character orientation. Experimental results on two public benchmarks including {\textbackslash}textit\{Total-Text\} and {\textbackslash}textit\{SCUT-CTW1500\} have demonstrated that the proposed {\textbackslash}textit\{NASK\} achieves state-of-the-art results.},
+  archiveprefix = {arxiv},
+  keywords = {Computer Science - Computer Vision and Pattern Recognition},
+  file = {/home/carlos/Zotero/storage/7FSIZ6HW/Cao y Zou - 2020 - All you need is a second look Towards Tighter Arbitrary shape text detection.pdf;/home/carlos/Zotero/storage/ALQ7N894/2004.html}
 }
 
 @misc{ChallengesAssociatedBuilding,
@@ -378,6 +413,41 @@
   file = {/home/carlos/Zotero/storage/AP3AK6JY/Du y Wang - 2022 - Addressing Syntax-Based Semantic Complementation .pdf}
 }
 
+@misc{erkerImaginationAllYou2023,
+  title = {Imagination Is {{All You Need}}! {{Curved Contrastive Learning}} for {{Abstract Sequence Modeling Utilized}} on {{Long Short-Term Dialogue Planning}}},
+  author = {Erker, Justus-Jonas and Schaffer, Stefan and Spanakis, Gerasimos},
+  year = {2023},
+  month = jun,
+  number = {arXiv:2211.07591},
+  eprint = {2211.07591},
+  primaryclass = {cs},
+  publisher = {{arXiv}},
+  doi = {10.48550/arXiv.2211.07591},
+  urldate = {2024-01-22},
+  abstract = {Inspired by the curvature of space-time (Einstein, 1921), we introduce Curved Contrastive Learning (CCL), a novel representation learning technique for learning the relative turn distance between utterance pairs in multi-turn dialogues. The resulting bi-encoder models can guide transformers as a response ranking model towards a goal in a zero-shot fashion by projecting the goal utterance and the corresponding reply candidates into a latent space. Here the cosine similarity indicates the distance/reachability of a candidate utterance toward the corresponding goal. Furthermore, we explore how these forward-entailing language representations can be utilized for assessing the likelihood of sequences by the entailment strength i.e. through the cosine similarity of its individual members (encoded separately) as an emergent property in the curved space. These non-local properties allow us to imagine the likelihood of future patterns in dialogues, specifically by ordering/identifying future goal utterances that are multiple turns away, given a dialogue context. As part of our analysis, we investigate characteristics that make conversations (un)plannable and find strong evidence of planning capability over multiple turns (in 61.56\% over 3 turns) in conversations from the DailyDialog (Li et al., 2017) dataset. Finally, we show how we achieve higher efficiency in sequence modeling tasks compared to previous work thanks to our relativistic approach, where only the last utterance needs to be encoded and computed during inference.},
+  archiveprefix = {arxiv},
+  keywords = {Computer Science - Computation and Language},
+  file = {/home/carlos/Zotero/storage/8M275USC/Erker et al. - 2023 - Imagination is All You Need! Curved Contrastive Learning for Abstract Sequence Modeling Utilized on .pdf}
+}
+
+@misc{eysenbachDiversityAllYou2018,
+  title = {Diversity Is {{All You Need}}: {{Learning Skills}} without a {{Reward Function}}},
+  shorttitle = {Diversity Is {{All You Need}}},
+  author = {Eysenbach, Benjamin and Gupta, Abhishek and Ibarz, Julian and Levine, Sergey},
+  year = {2018},
+  month = oct,
+  number = {arXiv:1802.06070},
+  eprint = {1802.06070},
+  primaryclass = {cs},
+  publisher = {{arXiv}},
+  doi = {10.48550/arXiv.1802.06070},
+  urldate = {2024-01-22},
+  abstract = {Intelligent creatures can explore their environments and learn useful skills without supervision. In this paper, we propose DIAYN ('Diversity is All You Need'), a method for learning useful skills without a reward function. Our proposed method learns skills by maximizing an information theoretic objective using a maximum entropy policy. On a variety of simulated robotic tasks, we show that this simple objective results in the unsupervised emergence of diverse skills, such as walking and jumping. In a number of reinforcement learning benchmark environments, our method is able to learn a skill that solves the benchmark task despite never receiving the true task reward. We show how pretrained skills can provide a good parameter initialization for downstream tasks, and can be composed hierarchically to solve complex, sparse reward tasks. Our results suggest that unsupervised discovery of skills can serve as an effective pretraining mechanism for overcoming challenges of exploration and data efficiency in reinforcement learning.},
+  archiveprefix = {arxiv},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Robotics},
+  file = {/home/carlos/Zotero/storage/FSHXYMD5/Eysenbach et al. - 2018 - Diversity is All You Need Learning Skills without a Reward Function.pdf;/home/carlos/Zotero/storage/HUTK4SCB/1802.html}
+}
+
 @misc{FindWaysDeal,
   title = {{Find ways to deal with the scarcity of labeled data}},
   urldate = {2023-12-21},
@@ -466,6 +536,24 @@
   howpublished = {https://www.linkedin.com/pulse/gpt-3-rise-foundation-models-joseph-boland},
   langid = {spanish},
   file = {/home/carlos/Zotero/storage/9E6YS6FB/gpt-3-rise-foundation-models-joseph-boland.html}
+}
+
+@misc{grahamOneModelAll2022,
+  title = {One {{Model}} Is {{All You Need}}: {{Multi-Task Learning Enables Simultaneous Histology Image Segmentation}} and {{Classification}}},
+  shorttitle = {One {{Model}} Is {{All You Need}}},
+  author = {Graham, Simon and Vu, Quoc Dang and Jahanifar, Mostafa and Raza, Shan E. Ahmed and Minhas, Fayyaz and Snead, David and Rajpoot, Nasir},
+  year = {2022},
+  month = nov,
+  number = {arXiv:2203.00077},
+  eprint = {2203.00077},
+  primaryclass = {cs, eess},
+  publisher = {{arXiv}},
+  doi = {10.48550/arXiv.2203.00077},
+  urldate = {2024-01-22},
+  abstract = {The recent surge in performance for image analysis of digitised pathology slides can largely be attributed to the advances in deep learning. Deep models can be used to initially localise various structures in the tissue and hence facilitate the extraction of interpretable features for biomarker discovery. However, these models are typically trained for a single task and therefore scale poorly as we wish to adapt the model for an increasing number of different tasks. Also, supervised deep learning models are very data hungry and therefore rely on large amounts of training data to perform well. In this paper, we present a multi-task learning approach for segmentation and classification of nuclei, glands, lumina and different tissue regions that leverages data from multiple independent data sources. While ensuring that our tasks are aligned by the same tissue type and resolution, we enable meaningful simultaneous prediction with a single network. As a result of feature sharing, we also show that the learned representation can be used to improve the performance of additional tasks via transfer learning, including nuclear classification and signet ring cell detection. As part of this work, we train our developed Cerberus model on a huge amount of data, consisting of over 600K objects for segmentation and 440K patches for classification. We use our approach to process 599 colorectal whole-slide images from TCGA, where we localise 377 million, 900K and 2.1 million nuclei, glands and lumina, respectively and make the results available to the community for downstream analysis.},
+  archiveprefix = {arxiv},
+  keywords = {Computer Science - Computer Vision and Pattern Recognition,Electrical Engineering and Systems Science - Image and Video Processing},
+  file = {/home/carlos/Zotero/storage/EFDRE7RU/Graham et al. - 2022 - One Model is All You Need Multi-Task Learning Enables Simultaneous Histology Image Segmentation and.pdf}
 }
 
 @phdthesis{guerraparraMesjetiuTFM_Arte_Sonoro_MEMORIA2020,
@@ -571,6 +659,24 @@
   archiveprefix = {arxiv},
   keywords = {Computer Science - Computation and Language},
   file = {/home/carlos/Zotero/storage/495L4V9P/Huang et al. - 2023 - AgentCoder Multi-Agent-based Code Generation with Iterative Testing and Optimisation.pdf;/home/carlos/Zotero/storage/GBNPDX77/2312.html}
+}
+
+@misc{hungTranscriptionAllYou2020,
+  title = {Transcription {{Is All You Need}}: {{Learning}} to {{Separate Musical Mixtures}} with {{Score}} as {{Supervision}}},
+  shorttitle = {Transcription {{Is All You Need}}},
+  author = {Hung, Yun-Ning and Wichern, Gordon and Roux, Jonathan Le},
+  year = {2020},
+  month = oct,
+  number = {arXiv:2010.11904},
+  eprint = {2010.11904},
+  primaryclass = {cs, eess},
+  publisher = {{arXiv}},
+  doi = {10.48550/arXiv.2010.11904},
+  urldate = {2024-01-22},
+  abstract = {Most music source separation systems require large collections of isolated sources for training, which can be difficult to obtain. In this work, we use musical scores, which are comparatively easy to obtain, as a weak label for training a source separation system. In contrast with previous score-informed separation approaches, our system does not require isolated sources, and score is used only as a training target, not required for inference. Our model consists of a separator that outputs a time-frequency mask for each instrument, and a transcriptor that acts as a critic, providing both temporal and frequency supervision to guide the learning of the separator. A harmonic mask constraint is introduced as another way of leveraging score information during training, and we propose two novel adversarial losses for additional fine-tuning of both the transcriptor and the separator. Results demonstrate that using score information outperforms temporal weak-labels, and adversarial structures lead to further improvements in both separation and transcription performance.},
+  archiveprefix = {arxiv},
+  keywords = {Computer Science - Machine Learning,Computer Science - Sound,Electrical Engineering and Systems Science - Audio and Speech Processing},
+  file = {/home/carlos/Zotero/storage/H5CEA699/Hung et al. - 2020 - Transcription Is All You Need Learning to Separate Musical Mixtures with Score as Supervision.pdf;/home/carlos/Zotero/storage/QYZ9B53T/2010.html}
 }
 
 @misc{jzh2074,
@@ -786,6 +892,23 @@
   langid = {english},
   keywords = {Computer Science - Software Engineering},
   file = {/home/carlos/Zotero/storage/HYGTSJJX/Mastropaolo et al. - 2023 - On the Robustness of Code Generation Techniques A.pdf}
+}
+
+@misc{michaelisBroadDatasetAll2022,
+  title = {A {{Broad Dataset}} Is {{All You Need}} for {{One-Shot Object Detection}}},
+  author = {Michaelis, Claudio and Bethge, Matthias and Ecker, Alexander S.},
+  year = {2022},
+  month = oct,
+  number = {arXiv:2011.04267},
+  eprint = {2011.04267},
+  primaryclass = {cs},
+  publisher = {{arXiv}},
+  doi = {10.48550/arXiv.2011.04267},
+  urldate = {2024-01-22},
+  abstract = {Is it possible to detect arbitrary objects from a single example? A central problem of all existing attempts at one-shot object detection is the generalization gap: Object categories used during training are detected much more reliably than novel ones. We here show that this generalization gap can be nearly closed by increasing the number of object categories used during training. Doing so allows us to improve generalization from seen to unseen classes from 45\% to 89\% and improve the state-of-the-art on COCO by 5.4 \%AP50 (from 22.0 to 27.5). We verify that the effect is caused by the number of categories and not the number of training samples, and that it holds for different models, backbones and datasets. This result suggests that the key to strong few-shot detection models may not lie in sophisticated metric learning approaches, but instead simply in scaling the number of categories. We hope that our findings will help to better understand the challenges of few-shot learning and encourage future data annotation efforts to focus on wider datasets with a broader set of categories rather than gathering more samples per category.},
+  archiveprefix = {arxiv},
+  keywords = {Computer Science - Computer Vision and Pattern Recognition,Computer Science - Machine Learning},
+  file = {/home/carlos/Zotero/storage/TTGXP52I/Michaelis et al. - 2022 - A Broad Dataset is All You Need for One-Shot Object Detection.pdf;/home/carlos/Zotero/storage/ZSWF3IMF/2011.html}
 }
 
 @book{minsky1969perceptrons,
@@ -1025,6 +1148,23 @@
   file = {/home/carlos/Zotero/storage/PAWYWIEW/emerging-architectures-for-llm-applications.html}
 }
 
+@misc{ramsauerHopfieldNetworksAll2021,
+  title = {Hopfield {{Networks}} Is {{All You Need}}},
+  author = {Ramsauer, Hubert and Sch{\"a}fl, Bernhard and Lehner, Johannes and Seidl, Philipp and Widrich, Michael and Adler, Thomas and Gruber, Lukas and Holzleitner, Markus and Pavlovi{\'c}, Milena and Sandve, Geir Kjetil and Greiff, Victor and Kreil, David and Kopp, Michael and Klambauer, G{\"u}nter and Brandstetter, Johannes and Hochreiter, Sepp},
+  year = {2021},
+  month = apr,
+  number = {arXiv:2008.02217},
+  eprint = {2008.02217},
+  primaryclass = {cs, stat},
+  publisher = {{arXiv}},
+  doi = {10.48550/arXiv.2008.02217},
+  urldate = {2024-01-22},
+  abstract = {We introduce a modern Hopfield network with continuous states and a corresponding update rule. The new Hopfield network can store exponentially (with the dimension of the associative space) many patterns, retrieves the pattern with one update, and has exponentially small retrieval errors. It has three types of energy minima (fixed points of the update): (1) global fixed point averaging over all patterns, (2) metastable states averaging over a subset of patterns, and (3) fixed points which store a single pattern. The new update rule is equivalent to the attention mechanism used in transformers. This equivalence enables a characterization of the heads of transformer models. These heads perform in the first layers preferably global averaging and in higher layers partial averaging via metastable states. The new modern Hopfield network can be integrated into deep learning architectures as layers to allow the storage of and access to raw input data, intermediate results, or learned prototypes. These Hopfield layers enable new ways of deep learning, beyond fully-connected, convolutional, or recurrent networks, and provide pooling, memory, association, and attention mechanisms. We demonstrate the broad applicability of the Hopfield layers across various domains. Hopfield layers improved state-of-the-art on three out of four considered multiple instance learning problems as well as on immune repertoire classification with several hundreds of thousands of instances. On the UCI benchmark collections of small classification tasks, where deep learning methods typically struggle, Hopfield layers yielded a new state-of-the-art when compared to different machine learning methods. Finally, Hopfield layers achieved state-of-the-art on two drug design datasets. The implementation is available at: https://github.com/ml-jku/hopfield-layers},
+  archiveprefix = {arxiv},
+  keywords = {Computer Science - Computation and Language,Computer Science - Machine Learning,Computer Science - Neural and Evolutionary Computing,Statistics - Machine Learning},
+  file = {/home/carlos/Zotero/storage/36MASUK3/Ramsauer et al. - 2021 - Hopfield Networks is All You Need.pdf;/home/carlos/Zotero/storage/BGMBA4V5/2008.html}
+}
+
 @misc{RevistaBitsCiencia,
   title = {{Revista Bits de Ciencia N{\textdegree} 21 - 2021}},
   urldate = {2023-10-30},
@@ -1126,6 +1266,24 @@
   archiveprefix = {arxiv},
   keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language},
   file = {/home/carlos/Zotero/storage/RUC6VMXG/Sel et al. - 2023 - Algorithm of Thoughts Enhancing Exploration of Id.pdf;/home/carlos/Zotero/storage/DMUQY952/2308.html}
+}
+
+@misc{seydeBangBangControlAll2021,
+  title = {Is {{Bang-Bang Control All You Need}}? {{Solving Continuous Control}} with {{Bernoulli Policies}}},
+  shorttitle = {Is {{Bang-Bang Control All You Need}}?},
+  author = {Seyde, Tim and Gilitschenski, Igor and Schwarting, Wilko and Stellato, Bartolomeo and Riedmiller, Martin and Wulfmeier, Markus and Rus, Daniela},
+  year = {2021},
+  month = nov,
+  number = {arXiv:2111.02552},
+  eprint = {2111.02552},
+  primaryclass = {cs},
+  publisher = {{arXiv}},
+  doi = {10.48550/arXiv.2111.02552},
+  urldate = {2024-01-22},
+  abstract = {Reinforcement learning (RL) for continuous control typically employs distributions whose support covers the entire action space. In this work, we investigate the colloquially known phenomenon that trained agents often prefer actions at the boundaries of that space. We draw theoretical connections to the emergence of bang-bang behavior in optimal control, and provide extensive empirical evaluation across a variety of recent RL algorithms. We replace the normal Gaussian by a Bernoulli distribution that solely considers the extremes along each action dimension - a bang-bang controller. Surprisingly, this achieves state-of-the-art performance on several continuous control benchmarks - in contrast to robotic hardware, where energy and maintenance cost affect controller choices. Since exploration, learning,and the final solution are entangled in RL, we provide additional imitation learning experiments to reduce the impact of exploration on our analysis. Finally, we show that our observations generalize to environments that aim to model real-world challenges and evaluate factors to mitigate the emergence of bang-bang solutions. Our findings emphasize challenges for benchmarking continuous control algorithms, particularly in light of potential real-world applications.},
+  archiveprefix = {arxiv},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning,Computer Science - Robotics},
+  file = {/home/carlos/Zotero/storage/CKZ7I9RM/Seyde et al. - 2021 - Is Bang-Bang Control All You Need Solving Continuous Control with Bernoulli Policies.pdf;/home/carlos/Zotero/storage/UQUDFT7H/2111.html}
 }
 
 @article{shannon1951prediction,
@@ -1251,6 +1409,24 @@
   publisher = {{Multidisciplinary Digital Publishing Institute}}
 }
 
+@misc{wangAllYouNeed2019,
+  title = {All {{You Need Is Boundary}}: {{Toward Arbitrary-Shaped Text Spotting}}},
+  shorttitle = {All {{You Need Is Boundary}}},
+  author = {Wang, Hao and Lu, Pu and Zhang, Hui and Yang, Mingkun and Bai, Xiang and Xu, Yongchao and He, Mengchao and Wang, Yongpan and Liu, Wenyu},
+  year = {2019},
+  month = nov,
+  number = {arXiv:1911.09550},
+  eprint = {1911.09550},
+  primaryclass = {cs},
+  publisher = {{arXiv}},
+  doi = {10.48550/arXiv.1911.09550},
+  urldate = {2024-01-22},
+  abstract = {Recently, end-to-end text spotting that aims to detect and recognize text from cluttered images simultaneously has received particularly growing interest in computer vision. Different from the existing approaches that formulate text detection as bounding box extraction or instance segmentation, we localize a set of points on the boundary of each text instance. With the representation of such boundary points, we establish a simple yet effective scheme for end-to-end text spotting, which can read the text of arbitrary shapes. Experiments on three challenging datasets, including ICDAR2015, TotalText and COCO-Text demonstrate that the proposed method consistently surpasses the state-of-the-art in both scene text detection and end-to-end text recognition tasks.},
+  archiveprefix = {arxiv},
+  keywords = {Computer Science - Computer Vision and Pattern Recognition},
+  file = {/home/carlos/Zotero/storage/7KT9R5CE/Wang et al. - 2019 - All You Need Is Boundary Toward Arbitrary-Shaped Text Spotting.pdf;/home/carlos/Zotero/storage/5SXPIZ7P/1911.html}
+}
+
 @misc{wangCostEffectiveHyperparameterOptimization2023,
   title = {Cost-{{Effective Hyperparameter Optimization}} for {{Large Language Model Generation Inference}}},
   author = {Wang, Chi and Liu, Susan Xueqing and Awadallah, Ahmed H.},
@@ -1366,6 +1542,24 @@
   publisher = {{The MIT Press}},
   abstract = {SuperCollider is one of the most important domain-specific audio programming languages, with potential applications that include real-time interaction, installations, electroacoustic pieces, generative music, and audiovisuals. The SuperCollider Book is the essential reference to this powerful and flexible language, offering students and professionals a collection of tutorials, essays, and projects. With contributions from top academics, artists, and technologists that cover topics at levels from the introductory to the specialized, it will be a valuable sourcebook both for beginners and for advanced users. SuperCollider, first developed by James McCartney, is an accessible blend of Smalltalk, C, and further ideas from a number of programming languages. Free, open-source, cross-platform, and with a diverse and supportive developer community, it is often the first programming language sound artists and computer musicians learn. The SuperCollider Book is the long-awaited guide to the design, syntax, and use of the SuperCollider language. The first chapters offer an introduction to the basics, including a friendly tutorial for absolute beginners, providing the reader with skills that can serve as a foundation for further learning. Later chapters cover more advanced topics and particular topics in computer music, including programming, sonification, spatialization, microsound, GUIs, machine listening, alternative tunings, and non-real-time synthesis; practical applications and philosophical insigh"s from the composer's and artist's perspectives; and "under the hood," developer's-eye views of SuperCollider's inner workings. A Web site accompanying the book offers code, links to the application itself and its source code, and a variety of third-party extras, extensions, libraries, and examples.},
   isbn = {978-0-262-23269-2}
+}
+
+@misc{xieAllYouNeed2017,
+  title = {All {{You Need}} Is {{Beyond}} a {{Good Init}}: {{Exploring Better Solution}} for {{Training Extremely Deep Convolutional Neural Networks}} with {{Orthonormality}} and {{Modulation}}},
+  shorttitle = {All {{You Need}} Is {{Beyond}} a {{Good Init}}},
+  author = {Xie, Di and Xiong, Jiang and Pu, Shiliang},
+  year = {2017},
+  month = apr,
+  number = {arXiv:1703.01827},
+  eprint = {1703.01827},
+  primaryclass = {cs},
+  publisher = {{arXiv}},
+  doi = {10.48550/arXiv.1703.01827},
+  urldate = {2024-01-22},
+  abstract = {Deep neural network is difficult to train and this predicament becomes worse as the depth increases. The essence of this problem exists in the magnitude of backpropagated errors that will result in gradient vanishing or exploding phenomenon. We show that a variant of regularizer which utilizes orthonormality among different filter banks can alleviate this problem. Moreover, we design a backward error modulation mechanism based on the quasi-isometry assumption between two consecutive parametric layers. Equipped with these two ingredients, we propose several novel optimization solutions that can be utilized for training a specific-structured (repetitively triple modules of Conv-BNReLU) extremely deep convolutional neural network (CNN) WITHOUT any shortcuts/ identity mappings from scratch. Experiments show that our proposed solutions can achieve distinct improvements for a 44-layer and a 110-layer plain networks on both the CIFAR-10 and ImageNet datasets. Moreover, we can successfully train plain CNNs to match the performance of the residual counterparts. Besides, we propose new principles for designing network structure from the insights evoked by orthonormality. Combined with residual structure, we achieve comparative performance on the ImageNet dataset.},
+  archiveprefix = {arxiv},
+  keywords = {Computer Science - Computer Vision and Pattern Recognition,Computer Science - Machine Learning,Computer Science - Neural and Evolutionary Computing},
+  file = {/home/carlos/Zotero/storage/AXI3SGH8/Xie et al. - 2017 - All You Need is Beyond a Good Init Exploring Better Solution for Training Extremely Deep Convolutio.pdf;/home/carlos/Zotero/storage/CZIYPAEK/1703.html}
 }
 
 @misc{yangLargeLanguageModels2023,
