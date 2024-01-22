@@ -1,1 +1,7 @@
-Dummy2
+ChatGPT
+prompts
+SuperCollider
+IDE
+Bart
+GPT
+Playground

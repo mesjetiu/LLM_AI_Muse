@@ -1,7 +1,7 @@
 % Aquí se expondrá todo lo investigado con OpenAI y los modelos de lenguaje.
 
 \chapter{Componiendo música con la asistencia de GPT-4}
-El estudio llevado acabo en esta investigación se expone a continuación siguiendo el orden cronológico del trabajo exploratorio llevado a cabo con las diversas herramientas que provee OpenAI. Se comienza con la exploración de ChatGPT, el chatbot de OpenAI, para luego pasar al \textit{Playground} y finalmente a la API, que nos posibilita el uso de los modelos en entornos de programación ad hoc que nos permiten la automatización de las tareas de peticiones a la API y procesamiento de los resultados en la generación de música.
+El estudio llevado a cabo en esta investigación se expone a continuación siguiendo el orden cronológico del trabajo exploratorio llevado a cabo con las diversas herramientas que provee OpenAI. Se comienza con la exploración de ChatGPT, el chatbot de OpenAI, para luego pasar al \textit{Playground} y finalmente a la API, que nos posibilita el uso de los modelos en entornos de programación ad hoc que nos permiten la automatización de las tareas de peticiones a la API y procesamiento de los resultados en la generación de música.
 
 \section{ChatGPT, como banco de pruebas}
 La forma en la que ha dado a conocer al gran público las potencialidades de los modelos de lenguaje ha sido a través de chatbots. Si bien en la actualidad existen muchos chatbots que utilizan modelos de lenguaje, el primero en hacerlo de forma pública fue ChatGPT, de OpenAI, un chatbot que utiliza el modelo GPT-3 y GPT-4, con el cual se pueden mantener conversaciones en lenguaje natural. Si bien en la actualidad cuenta con muchas características que lo convierten en una herramienta dirigida a la productividad en múltiples ámbitos, en un principio, y esencialmente, fue concebido como un chatbot con el que mantener conversaciones.
@@ -68,11 +68,11 @@ Synth(\fmSimple, [
 \end{figure}
 
 
-Un segundo LLM disponible en ChatGPT, GPT-3.5, si bien es capaz de generar código mejor que el de Bart, no lo hace con la tasa de corrección de GPT-4. En los experimentos realizados esto se pudo comprobar constantemente: una gran parte del código generado en SuperCollider por GPT-3.5 contenía demasiados errores de sintaxis y alucionaciones, lo cual lo convertía en ineficiente para la creación de código musical al lado de GPT-4.
+Un segundo LLM disponible en ChatGPT, GPT-3.5, si bien es capaz de generar código mejor que el de Bart, no lo hace con la tasa de corrección de GPT-4. En los experimentos realizados esto se pudo comprobar constantemente: una gran parte del código generado en SuperCollider por GPT-3.5 contenía demasiados errores de sintaxis y alucinaciones, lo cual lo convertía en ineficiente para la creación de código musical al lado de GPT-4.
 
 
 \section{Tareas en las que se ha probado ChatGPT}
-Por la propia interfaz de chatbot, ChatGPT solo permite una interacción tipo <<diálogo>>. Esto es, el usuario introduce un texto, y el modelo responde a este texto. Esto determina fuertemente el tipo de tareas que con él podemos realizar a la hora de crear código musical. En primer lugar, no es práctico para la creación de código musical en tiempo real, ya que es el usuario quien debe cortar y pegar constantemente téxto desde el IDE al chat y viceversa, lo cual entorpecería el flujo de trabajo. Sin embargo, se ha visto muy útil para las tareas que enumeramos a continuación:
+Por la propia interfaz de chatbot, ChatGPT solo permite una interacción tipo <<diálogo>>. Esto es, el usuario introduce un texto, y el modelo responde a este texto. Esto determina fuertemente el tipo de tareas que con él podemos realizar a la hora de crear código musical. En primer lugar, no es práctico para la creación de código musical en tiempo real, ya que es el usuario quien debe cortar y pegar constantemente texto desde el IDE al chat y viceversa, lo cual entorpecería el flujo de trabajo. Sin embargo, se ha visto muy útil para las tareas que enumeramos a continuación:
 
 \begin{itemize}
     \item Crear esbozos generales de una obra.
@@ -328,7 +328,7 @@ Una característica interesante de los LLM es la de autocorregirse. Esto es, si 
 El poder de los LLM es del procesar el lenguaje natural y traducir descripciones en código funcional. Si el código requerido es el de una función, digamos, en \textit{Python}, que ha de <<devolver el sumatorio de las entradas>>, el nivel de comprensión requerido al LLM en dicha transcripción es trivial, en tanto en cuanto la propia descripción es prácticamente un pseudocódigo de dicha función. El desnivel semántico no es comparable cuando lo que pedimos al LLM es <<crear un sonido rugoso que evolucione temporalmente de la granulación a un sonido armónico con leves y agradables fluctuaciones de sus componentes parciales>>. En este caso, el LLM ha de comprender la descripción, traducirla a código y, además, generar un sonido que se adecue a la descripción.  En este caso, el desnivel semántico es mucho mayor ya que la descripción responde a criterios estéticos y psicoacústicos, por lo que el resultado puede ser muy distinto al esperado. En la Figura \ref{fig:ChatGPT_desnivel_semantico} se puede ver un ejemplo de este fenómeno. Este problema puede ser mitigado en parte con el uso de técnicas de prompting y una continua iteración en la conversación, pero en muchos casos el resultado final el resultado aceptado por el usuario puede estar lejos el esperado, lo cual constituye un problema a la hora de usar esta herramienta para la creación musical. La Figura \ref{fig:ChatGPT_desnivel_semantico} muestra un ejemplo de este fenómeno. Aparentemente, el código representa un conjunto de sonidos naturales de un bosque, pero el resultado es ruido blanco. 
 
 \begin{figure}[H]
-    \caption[Desnivel semántico de ChatGPT en un código en SuperCollider]{Desnivel semántico de ChatGPT en un código en SuperCollider. El código aparentemente representa un conjunto de sonidos naturales de un bosque, pero el resultado es ruido blanco de alto nivel de amplitud, todalmente alejado del significado semántico de la descripción.}
+    \caption[Desnivel semántico de ChatGPT en un código en SuperCollider]{Desnivel semántico de ChatGPT en un código en SuperCollider. El código aparentemente representa un conjunto de sonidos naturales de un bosque, pero el resultado es ruido blanco de alto nivel de amplitud, totalmente alejado del significado semántico de la descripción.}
     \centering
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
@@ -360,12 +360,14 @@ El poder de los LLM es del procesar el lenguaje natural y traducir descripciones
 A nivel artístico, la utilización de esta herramienta con conocimiento de la misma, así como del campo en cuestión, en este caso, la creación sonora y musical. La creación iterada de snippets de código sonoro puede producir fragmentos de código eventualmente de interés, en muchos casos como serendipia, si bien, al menos en el momento de la realización de este trabajo, esta valoración artística entra ya en la percepción estética y subjetiva del creador humano.
 
 
-\subsection{Poner a prueba ciertas técnicas de prompting, como \textit{Chain of Thoughts}}
+\subsection{Poner a prueba ciertas técnicas de \textit{prompting}}
+
+En la sección \ref{sec:llm_tecnicas_prompting} se han descrito algunas de las técnicas más relevantes en cuanto al prompting de un \gls{llm}, especialmente las que han presentado buenos resultados en aritmética y generación de código de programación, como \gls{cot}. De igual modo, en \ref{sec:llm_asistentes_creacion_codigo_programacion} se presentaban técnicas avanzadas como \gls{scot} en la generación de código.
 
 
 \section{Trabajando con el Playground de OpenAI}
 
-\section{Ampliando el \textit{Knowledge}: RAG con GPTs y Assistants}
+\section{Ampliando el \textit{Knowledge}: RAG con \textit{GPTs} y \textit{Assistants}}
 
 \section{Programando con la API de OpenAI}
 Aquí se explica con detalle los scripts que se han programado, difultades, limitaciones y puntos de interés.
