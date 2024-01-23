@@ -41,8 +41,8 @@
 \usepackage{relsize}
 \usepackage{qrcode}
 \usepackage[shortlabels]{enumitem}
-% \usepackage[textsize=tiny]{todonotes}% \usepackage[disable]{todonotes} % Para deshabilitar los todos
-\usepackage[disable]{todonotes} % Para deshabilitar los todos
+\usepackage[textsize=tiny]{todonotes}% \usepackage[disable]{todonotes} % Para deshabilitar los todos
+% \usepackage[disable]{todonotes} % Para deshabilitar los todos
 \usepackage{listings} % Para código
 \usepackage[framed,numbered]{sclang-prettifier} % Para que se vea bonito el código de SuperCollider
 \usepackage{makeidx}
@@ -50,7 +50,7 @@
 \usepackage{epigraph}
 \usepackage{float}
 \usepackage{dirtree}
-\usepackage{glossaries} % Para glosario y acrónimos
+\usepackage{glossaries} % Para glosario y acrónimos. Usar \gls{termino}. Y \glsdisp{llm}{LLM} cuando se quiera usar solo acrónimo (primera vez, por ejemplo)
 \usepackage{siunitx} % Para unidades del SI. Ejemplo: \SI{10}{\hertz}
 
 \renewcommand{\bibsection}{}
@@ -205,8 +205,11 @@
 % ----------- Contenido del documento -----------
 \begin{document}
 
+
   \import{./portada/}{portada.tex}
   \setcounter{page}{2} % Para que tras la portada esté la página 2.
+
+  \listoftodos 
 
   \import{./capitulos/}{resumen.tex}
   \clearpage
