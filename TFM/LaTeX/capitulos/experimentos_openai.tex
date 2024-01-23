@@ -182,23 +182,24 @@ Esto se debe a varios factores: En primer lugar, la ventana de contexto definiti
 
 \subsection{Creación de bloques sencillos de código}
 
-Nos referimos con <<bloque>> a una pieza de código funcional pero que no constituye un proyecto completo, como, por ejemplo, una función, un patrón, etc. Al no constituir un código completo, no se requiere del manejo de una gran información en las respuestas del LLM, por lo que se puede esperar una mayor precisión en las mismas, al tiempo que se evitan los problemas asociados con la ventana de contexto. Del mismo modo, el usuario, a priori, puede controlar mejor la conversación iterando de una forma más controlada y cómoda. 
+Nos referimos con <<bloque>> a una pieza de código funcional, pero que no constituye un proyecto completo, como, por ejemplo, una función, un patrón, etc. Al no constituir un código completo, no se requiere del manejo de una gran información en las respuestas del LLM, por lo que se puede esperar una mayor precisión en las mismas, al tiempo que se evitan los problemas asociados con la ventana de contexto. Del mismo modo, el usuario, a priori, puede controlar mejor la conversación iterando de una forma más controlada y cómoda. 
 
-Esta forma de trabajo, sin embargo, requiere de una buena planificación por parte del usuario, en la medida en la que es este quien dará unidad a los diferentes elementos del trabajo sonoro y musical. En este sentido, es difícil pensar en un buen rendimiento de este flujo de trabajo sin conocimientos sólidos de las herramientas de programación utilizadas. Si bien existen técnicas de uso de LLM que implican la interacción de varios modelos o conversaciones paralelas, al modo de <<agentes>>, en este trabajo no se ha explorado esta posibilidad debido a su complejidad y a la falta de técnicas y plataformas maduras que permitan su uso \footnote{En relación a técnicas de <<agentes>> aplicadas a la generación de código, véase \cite{huangAgentCoderMultiAgentbasedCode2023}. Un repositorio con extensa y actualizada bibliografía sobre el tema puede encontrarse en \cite{AGIEdgerunnersLLMAgentsPapers2024}.}
+Esta forma de trabajo, sin embargo, requiere de una buena planificación por parte del usuario, en la medida en la que es este quien dará unidad a los diferentes elementos del trabajo sonoro y musical. En este sentido, es difícil pensar en un buen rendimiento de este flujo de trabajo sin conocimientos sólidos de las herramientas de programación utilizadas. Si bien existen técnicas de uso de LLM que implican la interacción de varios modelos o conversaciones paralelas, al modo de <<agentes>>, en este trabajo no se ha explorado esta posibilidad debido a su complejidad y a la falta de técnicas y plataformas maduras que permitan su uso \footnote{Con relación a técnicas de <<agentes>> aplicadas a la generación de código, véase \cite{huangAgentCoderMultiAgentbasedCode2023}. Un repositorio con extensa y actualizada bibliografía sobre el tema puede encontrarse en \cite{AGIEdgerunnersLLMAgentsPapers2024}.}
 
 En general, en nuestros experimentos se ha encontrado que GPT-4 se ha desenvuelto con notable corrección en sus respuestas en el sentido sintáctico, mostrando una alta capacidad de autocorrección cuando se le ha devuelto un código de error, requiriendo poca o nula intervención humana en la corrección de errores. No obstante, como ocurría en el caso de la creación de esbozos generales de una obra, se han encontrado casos de bloqueo en la conversación, en los que el LLM no ha sido capaz de avanzar en la tarea sin la intervención humana. 
 
-El lenguaje utilizado para comunicarse con GPT-4 siempre ha sido, deliberadamente, el lenguaje natural orientado a la creación sonora y musical, con el fin de encontrar así los límites de esta herramienta. Incluso en el caso de conversaciones en las que se devuelve código correcto y funcional, se han encontrado diversos problemas a nivel artístico, que hay que tener muy en cuenta a la hora de utilizar esta herramienta con fines musicales y que pasamos a detallar:
+El lenguaje utilizado para comunicarse con GPT-4 siempre ha sido, deliberadamente, el lenguaje natural orientado a la creación sonora y musical, con el fin de encontrar así los límites de esta herramienta. Incluso en el caso de conversaciones en las que se devuelve código correcto y funcional, se han encontrado diversos problemas a nivel artístico, que hay que tener muy en cuenta a la hora de utilizar esta herramienta con fines musicales y que pasamos a detallar.
 
-\begin{itemize}
-    \item Alucinaciones recurrentes.
-    \item Abuso de valores <<por defecto>>, que restan interés artístico al código.
-    \item Errores indetectables y potencialmente peligrosos.
-    \item Introducción de errores de sintaxis en código previamente correcto.
-    \item Ocasionales errores de sintaxis que escapan a la autocorrección.
-    \item Gran distancia entre el sonido producido y el sonido esperado.
-\end{itemize}
+% \begin{itemize}
+%     \item Alucinaciones recurrentes.
+%     \item Abuso de valores <<por defecto>>, que restan interés artístico al código.
+%     \item Errores indetectables y potencialmente peligrosos.
+%     \item Introducción de errores de sintaxis en código previamente correcto.
+%     \item Ocasionales errores de sintaxis que escapan a la autocorrección.
+%     \item Gran distancia entre el sonido producido y el sonido esperado.
+% \end{itemize}
 
+\subsubsection{Alucinaciones recurrentes}
 Las <<alucinaciones>> en los LLM son una de las características más conocidas de estos modelos, al tiempo que una de las más difíciles de detectar sin una supervisión humana, y, por ende, uno de los mayores handicups a la hora de delegar tareas de cualquier índole a sistemas de IA. Se entiende por <<alucinación>> a un dato erróneo que el modelo genera con total apariencia de veracidad y corrección. En el mejor de los casos estas alucinaciones se producen en el uso de clases o métodos inexistentes en el lenguaje de programación en uso. Normalmente estos defectos son fáciles de detectar por el compilador o por el intérprete del lenguaje, que suele dar cuenta de dicho problema inmediatamente. Por ejemplo, en el caso de SuperCollider, un código como el de la Figura \ref{fig:alucinacion_chatgpt} es correcto desde el punto de vista sintáctico, pero no lo es desde el punto de vista de la semántica del lenguaje, ya que utiliza la clase \texttt{KarplusStrong}, que no existe en SuperCollider. En este caso, el intérprete de SuperCollider dio buena cuenta de este error. 
 
 \begin{figure}[H]
@@ -284,8 +285,8 @@ Encontramos aún errores semánticos más sutiles y difíciles de detectar, ya q
     \label{fig:error_dificil_detectar_supercollider}
 \end{figure}
 
-
-Otro defecto observado con relación a los parámetros de los métodos y clases del código es la propensión a utilizar valores por defecto. Esto, aunque no compromete la seguridad, resta interés al código generado desde el punto de vista artístico. Los valores por defecto son aquellos que un elemento del código utiliza cuando el usuario no provee de un valor explícito. Por ejemplo, en el caso de SuperCollider, el método \texttt{SinOsc.ar} cuenta con un parámetro \texttt{mul} que, si no se provee de un valor explícito, toma el valor por defecto de 1; o \texttt{freq}, con el valor por defecto de 440 Hz. Por ejemplo, en la Figura \ref{fig:ChatGPT_valores_por_defecto} se puede ver cómo el modelo utiliza valores por defecto en el código generado, lo cual no es deseable desde el punto de vista artístico. Junto a la <<alucinación>>, se trata de uno de los problemas que pueden pasar desapercibidos sin un entendimiento profundo del lenguaje por parte del usuario, si bien puede mitigarse a traves del uso de técnicas de prompting, como se verá más adelante.
+\subsubsection{Abuso de valores <<por defecto>>}
+Otro defecto observado con relación a los parámetros de los métodos y clases del código es la propensión a utilizar valores por defecto. Esto, aunque no compromete la seguridad, resta interés al código generado desde el punto de vista artístico. Los valores por defecto son aquellos que un elemento del código utiliza cuando el usuario no provee de un valor explícito. Por ejemplo, en el caso de SuperCollider, el método \texttt{SinOsc.ar} cuenta con un parámetro \texttt{mul} que, si no se provee de un valor explícito, toma el valor por defecto de 1; o \texttt{freq}, con el valor por defecto de \SI{440}{\hertz}. Por ejemplo, en la Figura \ref{fig:ChatGPT_valores_por_defecto} se puede ver cómo el modelo utiliza valores por defecto en el código generado, lo cual no es deseable desde el punto de vista artístico. Junto a la <<alucinación>>, se trata de uno de los problemas que pueden pasar desapercibidos sin un entendimiento profundo del lenguaje por parte del usuario, si bien puede mitigarse a través del uso de técnicas de \textit{prompting}, como se verá más adelante.
 
 \begin{figure}[H]
     \caption[]{Código generado por ChatGPT con utilización de valor de frecuencia de 440 Hz. Este valor <<por defecto>> no es una excepción, sino que sistemáticamente se encuentran enn los parámetros de los métodos y clases del código generados por ChatGPT. Esto, sin duda, resta interés al código generado desde el punto de vista artístico.}
@@ -324,10 +325,17 @@ Otro defecto observado con relación a los parámetros de los métodos y clases 
     \label{fig:ChatGPT_valores_por_defecto}
 \end{figure}
 
+
+
+\subsubsection{Introducción de errores de sintaxis en código previamente correcto}
 Aunque infrecuente, no menos desconcertante es la introducción impredecible de errores de cualquier tipo en código previamente correcto. Si los errores son de sintaxis, el compilador o el intérprete del lenguaje darán cuenta de ellos, pero si se trata de errores de semántica, como en el caso de la alucinación, pueden pasar desapercibidos. La introducción de nuevos errores en código previo es un problema que aparece según la conversación, o el tamaño del código, es comparable al tamaño de la ventana de contexto. De nuevo, el nivel de conocimientos de usuario es fundamental para detectar este tipo de errores.
 
+
+\subsubsection{Ocasionales errores de sintaxis que escapan a la autocorrección}
 Una característica interesante de los LLM es la de autocorregirse. Esto es, si el usuario le devuelve un el mensaje de error dado por el sistema, el modelo es capaz de corregirlo en la siguiente respuesta. Sin embargo, factores que escapan al control, como la introducción de alucinaciones, problemas con la ventana de contexto o la simple carencia de información de entrenamiento en el problema actual del código, pueden hacer que el modelo no sea capaz de autocorregirse, pudiendo llevar a un bloqueo en la conversación, especialmente si esta se extiende demasiado en relación a su ventana de contexto, donde, como vimos, se producen lagunas de información. En relación a esto, se han encontrado errores de sintaxis muy simples, como ausencia de paréntesis, que el modelo no ha sido capaz de diagnosticar.
 
+
+\subsubsection{Gran distancia entre el sonido producido y el sonido esperado}
 El poder de los LLM es del procesar el lenguaje natural y traducir descripciones en código funcional. Si el código requerido es el de una función, digamos, en \textit{Python}, que ha de <<devolver el sumatorio de las entradas>>, el nivel de comprensión requerido al LLM en dicha transcripción es trivial, en tanto en cuanto la propia descripción es prácticamente un pseudocódigo de dicha función. El desnivel semántico no es comparable cuando lo que pedimos al LLM es <<crear un sonido rugoso que evolucione temporalmente de la granulación a un sonido armónico con leves y agradables fluctuaciones de sus componentes parciales>>. En este caso, el LLM ha de comprender la descripción, traducirla a código y, además, generar un sonido que se adecue a la descripción.  En este caso, el desnivel semántico es mucho mayor ya que la descripción responde a criterios estéticos y psicoacústicos, por lo que el resultado puede ser muy distinto al esperado. En la Figura \ref{fig:ChatGPT_desnivel_semantico} se puede ver un ejemplo de este fenómeno. Este problema puede ser mitigado en parte con el uso de técnicas de prompting y una continua iteración en la conversación, pero en muchos casos el resultado final el resultado aceptado por el usuario puede estar lejos el esperado, lo cual constituye un problema a la hora de usar esta herramienta para la creación musical. La Figura \ref{fig:ChatGPT_desnivel_semantico} muestra un ejemplo de este fenómeno. Aparentemente, el código representa un conjunto de sonidos naturales de un bosque, pero el resultado es ruido blanco. 
 
 \begin{figure}[H]

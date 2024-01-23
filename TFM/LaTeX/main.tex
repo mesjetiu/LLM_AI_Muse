@@ -51,6 +51,18 @@
 \usepackage{float}
 \usepackage{dirtree}
 \usepackage{glossaries} % Para glosario y acrónimos
+\usepackage{siunitx} % Para unidades del SI. Ejemplo: \SI{10}{\hertz}
+
+% ----------- Configuración de siunitx -----------
+\sisetup{
+  mode = match,
+  propagate-math-font = true,
+  reset-math-version = false,
+  reset-text-family = false,
+  reset-text-series = false,
+  text-family-to-math = true,
+  text-series-to-math = true
+}
 
 % ----------- Configuración de fuentes -----------
 \setmainfont[Path=/usr/share/fonts/TTF/,
