@@ -41,8 +41,8 @@
 \usepackage{relsize}
 \usepackage{qrcode}
 \usepackage[shortlabels]{enumitem}
-\usepackage[textsize=tiny]{todonotes}% \usepackage[disable]{todonotes} % Para deshabilitar los todos
-% \usepackage[disable]{todonotes} % Para deshabilitar los todos
+\usepackage[textsize=tiny, spanish, colorinlistoftodos]{todonotes}% \usepackage[disable]{todonotes} % Para deshabilitar los todos
+% \usepackage[disable]{todonotes} % Para deshabilitar los todos.
 \usepackage{listings} % Para código
 \usepackage[framed,numbered]{sclang-prettifier} % Para que se vea bonito el código de SuperCollider
 \usepackage{makeidx}
@@ -58,6 +58,9 @@
 % ----------- Configuración de pdfpages para incluir páginas pequeñas de pdf -----------
 \newcommand{\scalefactor}{0.002} % Cambia este valor para ajustar el tamaño
 \newcommand{\pageoffset}{0.05} % Cambia este valor para ajustar el espacio entre las páginas
+
+
+\setuptodonotes{fancyline, color=red!30} % Para que los todos se vean bonitos
 
 
 \renewcommand{\bibsection}{}
@@ -160,7 +163,7 @@
 % ----------- Comandos personalizados -----------
 % \newcommand{\titulo}{Creación sonora asistida por grandes modelos de lenguaje}
 
-\newcommand{\titulo}{All You Need is \textit{AI Muse}: Grandes modelos de lenguaje en la creación sonora}
+\newcommand{\titulo}{All You Need Is An \textit{AI Muse}: Grandes modelos de lenguaje en la creación sonora}
 
 
 \newcommand{\autor}{Carlos Arturo Guerra Parra}
@@ -216,6 +219,7 @@
   \import{./portada/}{portada.tex}
   \setcounter{page}{2} % Para que tras la portada esté la página 2.
 
+  \todototoc
   \listoftodos[Comentarios y tareas pendientes]
   \clearpage
 
