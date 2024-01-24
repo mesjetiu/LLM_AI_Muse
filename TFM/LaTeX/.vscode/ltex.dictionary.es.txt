@@ -10,3 +10,5 @@ multiclase
 Sonograma
 psicoacústico
 samples
+prentrenamiento
+prentrenados

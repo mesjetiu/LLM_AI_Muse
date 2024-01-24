@@ -37,14 +37,16 @@ Los \gls{llm} emplean la arquitectura \textit{Transformer} o derivados. Se entre
     \label{fig:llm_sizes}
 \end{figure}
 
-\subsection{Modelos preentrenados}
-\subsection{Ajuste fino de los modelos}
+\subsection{Modelos prentrenados} \todo{Por hacer: modelos prentrenados}
+\subsection{Ajuste fino de los modelos}\todo{Por hacer: ajuste fino de los modelos}
 Bibliografía: \cite{chamandFinetuneYourClassifier2022}
 
 \subsection{Hiperparámetros fijos del modelo}
-Aquí hablaré de los hiperparámetros que definen la arquitectura del modelo que no se pueden modificar, como el número de capas, el número de cabezas de atención, etc., y que son fijos en el modelo. Especial atención se pondrá en el número de parámetros del modelo, que es el que determina el tamaño del modelo y su capacidad de generar textos, así como en la ventana de contexto, que es el número de \textit{tokens} que el modelo tiene en cuenta para generar el siguiente token.
+Aquí hablaré de los hiperparámetros que definen la arquitectura del modelo que no se pueden modificar, como el número de capas, el número de cabezas de atención, etc., y que son fijos en el modelo. Especial atención se pondrá en el número de parámetros del modelo, que es el que determina el tamaño del modelo y su capacidad de generar textos, así como en la ventana de contexto, que es el número de \textit{tokens} que el modelo tiene en cuenta para generar el siguiente \textit{token}.
 
-Precisamente el número de parámetros y la ventana de contexto son los hiperparámetros más importantes y críticos en términos computacionales y de efectividad. Cuanto más grande sea el modelo, más parámetros tendrá y más capacidad de generar textos tendrá. Sin embargo, también será más lento en la inferencia. Por otro lado, cuanto mayor sea la ventana de contexto, más \textit{tokens} tendrá en cuenta el modelo para generar el siguiente token, y más coherentes serán los textos generados. Sin embargo, también será más lento en la inferencia.
+Precisamente el número de parámetros y la ventana de contexto son los hiperparámetros más importantes y críticos en términos computacionales y de efectividad. Cuanto más grande sea el modelo, más parámetros tendrá y más capacidad de generar textos tendrá. Sin embargo, también será más lento en la inferencia. Por otro lado, cuanto mayor sea la ventana de contexto, más \textit{tokens} tendrá en cuenta el modelo para generar el siguiente \textit{token}, y más coherentes serán los textos generados. Sin embargo, también será más lento en la inferencia.
+
+\todo{Desde aquí hasta el final de la sección de Modelos de Lenguaje, por hacer.}
 
 Consideraciones interesantes sobre parámetros y ventana de contexto en \cite{gonzaloAsomandonosVentanaContextual2023}
 
