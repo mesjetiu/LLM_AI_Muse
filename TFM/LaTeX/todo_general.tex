@@ -5,7 +5,7 @@ Importante:
     \item Crear referencias cruzadas entre secciones del texto.
     \item Revisar tamaños de figuras e imágenes, que sea equilibrado.
     \item Revisar el formato de todas las citas y referencias bibliográficas (al ser automáticas, pueden faltar datos o estar mal).
-    \item Añadir dedicatoria % y huevo de Pascua
+    \item Añadir dedicatoria (en español y checo?) % y huevo de Pascua
   \end{enumerate}
 
   
@@ -15,4 +15,14 @@ Importante:
     \item Cambiar tipo de letra en códigos y enlaces dentro del texto tipo monospace. \texttt{\textit{Esta es demasiado elegante cuando aparece en cursiva}}.
     \item Añadir icono de audio junto los enlaces a los audios con QR.
     \item Los epígrafes de los capítulos convertirlos en hipervículos a los papers a los que hacen referencia.
+    \item Crear un enlace en el que siempre se podrá consultar la última versión del documento.
   \end{enumerate}
+
+% Comando para incluir las páginas del PDF en una línea horizontal
+
+
+\begin{tikzpicture}[remember picture,overlay]
+    \foreach \i in {1,...,80} { % Cambia 20 por el número total de páginas de tu PDF
+        \node at (\i*\pageoffset,0) {\includegraphics[page=\i, scale=\scalefactor]{./main_2.pdf}};
+    }
+\end{tikzpicture}
