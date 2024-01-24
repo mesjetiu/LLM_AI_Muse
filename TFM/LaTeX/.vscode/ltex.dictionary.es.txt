@@ -7,3 +7,6 @@ GPT
 Playground
 prompting
 multiclase
+Sonograma
+psicoacústico
+samples
