@@ -194,8 +194,9 @@
   justification=justified,
   singlelinecheck=false
 }
-% \newcommand{\source}[1]{\caption*{\begin{center}\smaller[1] Fuente: #1\end{center}}}
-\newcommand{\source}[1]{\caption*{\centering \smaller \textit{Fuente: #1}}}
+
+\newcommand{\source}[1]{\caption*{\centering \normalfont\smaller Fuente: #1}}
+\newcommand{\propio}{Elaboración propia}
 
 % Aplicar el estilo personalizado a los títulos con alineación a la izquierda
 \renewcommand{\cfttoctitlefont}{\chapterstyle}
