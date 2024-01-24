@@ -1,8 +1,8 @@
 \section{Modelos de lenguaje}
 
-Un <<modelo de lenguaje>> es un modelo estadístico que asigna una probabilidad a una secuencia de palabras dada como entrada. Esencialmente, es una función matemática diseñada para simular la forma en que se escribe en lenguaje natural. Una analogía común para entender el funcionamiento de un modelo de lenguaje es la función predictiva de un teclado. Mientras escribimos en nuestro dispositivo móvil, el teclado nos sugiere palabras que probablemente seguirán a las ingresadas. Esta capacidad de predicción es el fundamento de los modelos de lenguaje, incluyendo chatbots avanzados.
+Un glsdisp{lm}{<<modelo de lenguaje>> (\textit{LM} por \textit{Language Model})} es un modelo estadístico que asigna una probabilidad a una secuencia de palabras \cite{ModelacionLenguaje2024}. Esencialmente, es una función matemática capaz de simular la forma en que se escribe en lenguaje natural\footnote{Una analogía común para entender el funcionamiento de un \gls{lm} es la función predictiva de un teclado. Mientras escribimos en nuestro dispositivo móvil, el teclado nos sugiere palabras que probablemente seguirán a las ingresadas. Esta capacidad de predicción es el fundamento de los \gls{lm}, incluyendo chatbots avanzados.}.
 
-Desde una perspectiva técnica, un modelo de lenguaje devuelve como salida la distribución de probabilidad del siguiente \textit{token}, dada una secuencia de \textit{tokens} como entrada \citep{GenerationLLMs}. Un \textit{token} es la unidad mínima de información que el modelo procesa y, generalmente, equivale a una palabra\footnote{Aunque un token suele ser una palabra, también puede ser un signo de puntuación, número o cualquier otra unidad mínima de información.}. La Figura \ref{fig:llm_generation}
+Desde una perspectiva técnica, un \gls{lm} devuelve como salida la distribución de probabilidad del siguiente \textit{token}, dada una secuencia de \textit{tokens} como entrada \citep{GenerationLLMs}. Un \textit{token} es la unidad mínima de información que el modelo procesa y, generalmente, equivale a una palabra\footnote{Aunque un \textit{token} suele ser una palabra, también puede ser un signo de puntuación, número, una desinencia, etc.}. La Figura \ref{fig:llm_generation}
 \todo{Cambiar esta imagen por otra sin marca de agua, o crearla yo mismo.} ilustra un modelo de lenguaje que recibe una secuencia de palabras y devuelve la distribución de probabilidad del siguiente \textit{token} después de haber sido entrenado con textos en inglés.
 
 \begin{figure}[H]
@@ -13,7 +13,7 @@ Desde una perspectiva técnica, un modelo de lenguaje devuelve como salida la di
     \label{fig:llm_generation}
 \end{figure}
 
-Los modelos de lenguaje no se asocian exclusivamente a una arquitectura de \gls{ml}. Pueden implementarse mediante diferentes tipos de redes neuronales, como las redes neuronales recurrentes o convolucionales. No obstante, el hito que ha propulsado avances significativos en \gls{ml} ha sido la arquitectura \textit{Transformer} \citep{vaswaniAttentionAllYou2017}, de la que se ha hablado más arriba.
+Los \gls{lm} no se asocian exclusivamente a una arquitectura de \gls{ml}. Pueden implementarse mediante diferentes tipos de redes neuronales, como las redes neuronales recurrentes o convolucionales. No obstante, el hito que ha propulsado avances significativos en \gls{ml} ha sido la arquitectura \textit{Transformer} \citep{vaswaniAttentionAllYou2017}, de la que se ha hablado más arriba.
 
 \subsection{Grandes modelos de lenguaje}
 
