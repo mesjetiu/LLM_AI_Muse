@@ -56,6 +56,8 @@
 \usepackage{tikz}
 \usepackage{pdfpages} % Para incluir PDFs
 \usepackage{ifthen}
+\usepackage{scrextend}
+
 
 % ----------- Configuración de pdfpages para incluir páginas pequeñas de pdf -----------
 \newcommand{\scalefactor}{0.002} % Cambia este valor para ajustar el tamaño
@@ -86,8 +88,20 @@
     FontFace={l}{n}{Font=calibril.ttf},
     FontFace={l}{it}{Font=calibrili.ttf}
     ]{calibri.ttf}
+% \changefontsize[14.4pt]{12pt}
 \newcommand{\textlight}[1]{{\fontspec{calibril.ttf} #1}}
 \newcommand{\textlightit}[1]{{\fontspec{calibrili.ttf} #1}}
+
+\makeatletter
+\renewcommand\normalsize{%
+   \@setfontsize\normalsize{12pt}{14.4pt}%
+   \abovedisplayskip 12pt plus 3pt minus 9pt
+   \belowdisplayskip \abovedisplayskip
+   \abovedisplayshortskip 0pt plus 3pt
+   \belowdisplayshortskip 7pt plus 3pt minus 4pt
+   \let\@listi\@listI
+}
+\makeatother
 
 % ----------- Configuración de colores y estilos -----------
 \definecolor{azul_unir}{RGB}{0, 152, 205}
@@ -165,7 +179,7 @@
 % ----------- Comandos personalizados -----------
 % \newcommand{\titulo}{Creación sonora asistida por grandes modelos de lenguaje}
 
-\newcommand{\titulo}{All You Need Is An \textit{AI Muse}: Grandes modelos de lenguaje en la creación sonora}
+\newcommand{\titulo}{\textit{All You Need Is An AI Muse}: Composición Musical Algorítmica con Grandes Modelos de Lenguaje en SuperCollider y Tidal Cycles}
 
 % \newcommand{\titulo}{All You Need Is An \textit{AI Muse}: Modelos de lenguaje a gran escala en la creación sonora}
 
