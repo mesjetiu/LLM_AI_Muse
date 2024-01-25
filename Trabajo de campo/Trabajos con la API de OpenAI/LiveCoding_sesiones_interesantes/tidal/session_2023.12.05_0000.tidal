@@ -1,0 +1,58 @@
+-- 4 de diciembre de 2023. Muy bueno...
+
+-- {
+--     "mode_tidal_supercollider": "tidal",
+--     "create_log_file": false,
+--     "ghci_path": "ghci",
+--     "only_system_commands": true,
+--     "sclang_path": "sclang",
+--     "boot_tidal_path": "/usr/share/haskell-tidal/BootTidal.hs",
+--     "api_enabled": true,
+--     "bot_mode": "assistant",
+--     "assistant_retrieval_folder": "./assistants/tidal_livecoding/retrieval_files/",
+--     "api_key_file": "apikey.txt",
+--     "system_prompt_file": "./assistants/tidal_livecoding/system_prompts/system_prompt_01",
+--     "model": "gpt-4-1106-preview",
+--     "temperature": 1,
+--     "max_tokens": 256,
+--     "top_p": 1,
+--     "frequency_penalty": 0,
+--     "presence_penalty": 0,
+--     "wait_time_before_api": 20,
+--     "wait_time_after_api": 20
+-- }
+
+hush
+
+-- empieza con un patrón rítmicamente complejo, muy complejo
+d1 $ degradeBy 0.2 $ slow 4 $ n (run 32) # s "feel" # speed (slow 0.2 $ sine * 5  + 0.2) # cut 1 # orbit 0 -- gpt-4-1106-preview
+
+-- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_174321.wav'
+d2 $ degradeBy 0.5 $ s "cpu2*30" # n (run 8 + irand 32) # up (slow 2 $ sine) # room 0.2 # sz 0.2 # orbit 1 -- gpt-4-1106-preview
+
+-- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_174358.wav'
+--añade elementos melódicos y armónicos
+d3 $ slow 8 $ n "[0 2 4 5 7]*16" # s "arpy" # speed (slow 16 $ sine * 0.6 * (slow 0.3 $ sine)) # room 0.1 # sz 0.1 # orbit 2 # lpf (slow 2 $ range 400 8000 $ rand) # resonance 0.3 -- gpt-4-1106-preview
+
+
+d1 $ degradeBy 0.25 $ slow 4 $ n (run 32) # s "feel" # speed (slow 0.25 $ sine * 5 + 0.25) # cut 1 # orbit 0 -- gpt-4-1106-preview
+
+-- grabar (bueno) path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_174604.wav'
+-- más elementos tímbricos contrastantes
+d2 $ degradeBy 0.4 $ s "cpu3:1*8 foley*4" # n (iter 4 $ slow 4 $ run 12 + (irand 4 - 2)) # pan (slow 1 $ sine) # room 0.3 # speed (slow 2 $ sine) # sz 0.2 # orbit 1 -- gpt-4-1106-preview
+
+hush
+
+-- buenísimo!!! más...
+
+d1 $ jux (rev) $ degradeBy 0.3 $ s "feel*4" # n (run 32) # speed (slow 0.3 $ sine * 5.5  + 0.3) # cut 1 # orbit 0 -- gpt-4-1106-preview
+
+d3 $ silence
+
+d1 $ silence
+
+d2 $ silence
+
+hush
+
+quit

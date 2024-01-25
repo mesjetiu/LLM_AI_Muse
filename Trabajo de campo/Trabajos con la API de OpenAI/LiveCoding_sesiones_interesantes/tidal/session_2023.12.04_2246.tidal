@@ -1,0 +1,44 @@
+-- Sesión 4 diciembre 2023
+-- {
+--     "mode_tidal_supercollider": "tidal",
+--     "create_log_file": true,
+--     "ghci_path": "ghci",
+--     "only_system_commands": true,
+--     "sclang_path": "sclang",
+--     "boot_tidal_path": "/usr/share/haskell-tidal/BootTidal.hs",
+--     "api_enabled": false,
+--     "bot_mode": "assistant",
+--     "assistant_retrieval_folder": "./assistants/tidal_livecoding/retrieval_files/",
+--     "api_key_file": "apikey.txt",
+--     "system_prompt_file": "./assistants/tidal_livecoding/system_prompts/system_prompt_01",
+--     "model": "gpt-4-1106-preview",
+--     "temperature": 1,
+--     "max_tokens": 256,
+--     "top_p": 1,
+--     "frequency_penalty": 0,
+--     "presence_penalty": 0,
+--     "wait_time_before_api": 20,
+--     "wait_time_after_api": 20
+-- }
+
+
+
+hush
+
+d2 $ superimpose (density 2) $ striate 16 $ s "cpuS*4" # speed (slow 2 "<0.5 0.7 0.9 1.3>") # pan (slow 6 $ sine) # room 0.4 # sz 0.4 # lpf 250 # hpf 80 -- gpt-4-1106-preview
+
+--grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_175652.wav'
+d1 $ slow 4 $ s "cpu2*8 snare hi*4" # speed "-4 2 -1 3" # cut 1 # delay 0.7 # delaytime 1 # delayfeedback 0.8 # lpf 500 # hpf 100 # room 0.2 # sz 0.2 -- varía ete de alguna forma más clara
+
+d3 $ every 3 (within (0.25, 0.75) (rev)) $ s "arpy*8" # n (irand 32) # speed (slow 8 $ choose [0.2, 0.5, -0.2, -0.5]) # lpf (slow 6 $ sine * 400 + 800) # hpf (slow 5 $ sine * 100 + 120) # room 0.15 # sz 0.15 # crush 4 # shape 0.7 # gain 0.85-- gpt-4-1106-preview
+
+
+-- juega más con el sonido granular...
+
+d1 $ slow 8 $ s "cpu2*8 snare hi*4" # speed (slow 2 $ "-4 2 -1 3") # cut 1 # delay 0.9 # delaytime 1.2 # delayfeedback 0.85 # lpf 550 # hpf 120 # room 0.25 # sz 0.25 # gain 0.9 -- gpt-4-1106-preview
+
+-- soprendeme
+
+d2 $ superimpose (density 4) $ striate 32 $ s "cpuS*4" # speed (slow 4 "<0.5 0.7 0.9 1.3*2>") # pan (slow 8 $ sine) # room 0.4 # sz 0.4 # lpf 300 # hpf 90 # shape 0.5 -- gpt-4-1106-preview
+
+quit

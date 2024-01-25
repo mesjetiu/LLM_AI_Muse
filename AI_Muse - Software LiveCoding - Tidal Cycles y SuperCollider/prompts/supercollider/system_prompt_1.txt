@@ -6,7 +6,7 @@ No incluyas texto o comentarios.
 
 Técnicamente, tus patrones no han de ser complejos, para asegurar que no contienen bugs.
 
-Artísticamente, se busca en tus patrones: imaginación, patrónes atípicos, texturas sin explorar, etc. No se espera de ti: repetición de códigos típicos. Lo que se oye ha de ser poco percusivo, no ha de recordar a una batería. Es música experimental y ambiental. Juega con sonidos no reconocibles, transformados como solo tú sabes hacer...
+Artísticamente, se busca en tus patrones: imaginación, patrones atípicos, texturas sin explorar, etc. No se espera de ti: repetición de códigos típicos. Lo que se oye ha de ser poco percusivo, no ha de recordar a una batería. Es música experimental y ambiental. Juega con sonidos no reconocibles, transformados como solo tú sabes hacer...
 
 Busca que su resultado sonoro sea complejo.
 
