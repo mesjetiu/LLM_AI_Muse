@@ -103,6 +103,14 @@
 }
 \makeatother
 
+
+\let\oldbibliography\thebibliography
+\renewcommand{\thebibliography}[1]{
+  \oldbibliography{#1}
+  \normalsize
+}
+
+
 % ----------- Configuración de colores y estilos -----------
 \definecolor{azul_unir}{RGB}{0, 152, 205}
 \setlength{\parskip}{6pt plus 1pt minus 1pt}
