@@ -40,6 +40,7 @@
 \usepackage{caption}
 \usepackage{relsize}
 \usepackage{qrcode}
+\usepackage{fontawesome} % Incluye el paquete fontawesome
 \usepackage[shortlabels]{enumitem}
 \usepackage[textsize=tiny, spanish, colorinlistoftodos]{todonotes}% \usepackage[disable]{todonotes} % Para deshabilitar los todos
 % \usepackage[disable]{todonotes} % Para deshabilitar los todos.
@@ -54,6 +55,7 @@
 \usepackage{siunitx} % Para unidades del SI. Ejemplo: \SI{10}{\hertz}
 \usepackage{tikz}
 \usepackage{pdfpages} % Para incluir PDFs
+\usepackage{ifthen}
 
 % ----------- Configuración de pdfpages para incluir páginas pequeñas de pdf -----------
 \newcommand{\scalefactor}{0.002} % Cambia este valor para ajustar el tamaño
@@ -194,6 +196,23 @@
   justification=justified,
   singlelinecheck=false
 }
+
+% ----------- Configuración de caption con QR a recurso ----------
+% #1: Texto del caption
+% #2: URL del recurso
+% #3: Tipo de ícono (audio o video)
+\newcommand{\captionqr}[3]{%
+    \begin{tabular}{@{}p{0.7\textwidth}@{\hspace{5pt}}p{0.2\textwidth}@{}}
+        \caption[#1]{#1} & 
+        \raisebox{-0.7\height}{%
+            \begin{tabular}[c]{@{}c@{\hspace{2pt}}c@{}}
+                \qrcode[height=1.4cm]{#2} & 
+                \href{#2}{\raisebox{-0.1\height}{\ifthenelse{\equal{#3}{audio}}{{\Huge \faMusic}}{{\Huge \faVideoCamera}}}}
+            \end{tabular}
+        }
+    \end{tabular}
+}
+
 
 \newcommand{\source}[1]{\caption*{\centering \normalfont\smaller Fuente: #1}}
 \newcommand{\propio}{Elaboración propia}

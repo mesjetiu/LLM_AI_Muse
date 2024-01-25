@@ -446,12 +446,7 @@ s.sendMsg(\s_new, \fm_grain_test, a=s.nextNodeID, 0, 1, \amp, 0.1);
     )
 }.play;    
         \end{lstlisting}
-        \caption{
-        \begin{tabular}{@{}p{0.7\textwidth}p{0.2\textwidth}@{}}
-            \textit{Zero-shot} en una petición de creación sonora en SuperCollider. & 
-            \qrcode[height=1.5cm]{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}
-        \end{tabular}
-        }
+        \captionqr{\textit{Zero-shot} en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
       \end{subfigure}\hfill
     \begin{subfigure}{.48\textwidth}
       \centering
@@ -487,15 +482,10 @@ SynthDef(\fm_grain_artistic, { arg gate = 1, amp = 1;
 }).add;
 s.sendMsg(\s_new, \fm_grain_artistic, a=s.nextNodeID, 0, 1, \amp, 0.1);              
         \end{lstlisting}
-        \caption{
-        \begin{tabular}{@{}p{0.7\textwidth}p{0.2\textwidth}@{}}
-            La misma petición con un ejemplo \textit{Few-shot}. El resultado sonoro es más interesante desde el punto de vista artístico. & 
-            \qrcode[height=1.5cm]{https://drive.google.com/file/d/1C7FDkH706e1OMlcOWrG4qsCoC7Au8GaU/view?usp=drive_link}
-        \end{tabular}
-        }
+        \captionqr{La misma petición con un ejemplo \textit{Few-shot}. El resultado sonoro es más interesante desde el punto de vista artístico.}{https://drive.google.com/file/d/1C7FDkH706e1OMlcOWrG4qsCoC7Au8GaU/view?usp=drive_link}{audio}
     \end{subfigure}
 
-    \source{Elaboración propia.}
+    \source{\propio}
     \label{fig:chatgpt_zero_shot_vs_few_shot}
 \end{figure}
 
