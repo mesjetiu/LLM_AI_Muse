@@ -280,6 +280,14 @@
   \import{./}{todo_general.tex}
   \clearpage
 
+  % Cambio a una página con estilo vacío para la dedicatoria
+  \thispagestyle{empty} 
+  \import{./capitulos/}{dedicatoria.tex}
+  \clearpage
+  \thispagestyle{empty} % Asegurar que la siguiente página también esté vacía si la dedicatoria es de una sola página
+  
+  % Restablecer el estilo de página
+  \pagestyle{fancy} 
 
   \import{./capitulos/}{resumen.tex}
   \clearpage
