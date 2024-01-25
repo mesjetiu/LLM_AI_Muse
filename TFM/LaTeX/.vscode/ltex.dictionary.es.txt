@@ -12,3 +12,5 @@ psicoacústico
 samples
 prentrenamiento
 prentrenados
+Hiperparámetros
+hiperparámetros
