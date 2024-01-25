@@ -286,30 +286,32 @@ Quizás sea este el más arbitrario de todos los criterios, pero un desnivel de 
 Es importante que el investigador domine los lenguajes de programación musicales seleccionados, para poder centrarse en la creación musical, y no tanto en la depuración del código. Esto es especialmente importante en el caso de los \gls{llm}, ya que estos no son capaces de detectar errores en el código, y por tanto, el investigador debe ser capaz de detectarlos y corregirlos de un modo rápido y eficiente.
 
 \subsection{\textit{SuperCollider} y \textit{Tidal Cycles}}
-Se ha decidido utilizar \textit{SuperCollider} y \textit{Tidal Cycles} como lenguajes de programación musicales para esta investigación. Ambos lenguajes cumplen sobradamente con los criterios expuestos. Se trata de lenguajes muy potentes y flexibles, suficientemente conocidos por el investigador y con una comunidad activa de usuarios y desarrolladores. Ambos soportan un trabajo fluido en tiempo real, aunque enfocaremos la creación de código para piezas musicales en \textit{SuperCollider} principalmente, y el trabajo que implique codificación en tiempo real, en \textit{Tidal Cycles}. Ambos lenguajes son independientes del IDE, y por tanto, pueden ser ejecutados por medio de scripts externos por medio de scripts en Python. Véase la Tabla \ref{tab:lenguajes_comparativa} para una comparativa de los lenguajes de programación musicales en función de los criterios expuestos. Dicha tabla no es exhaustiva. Una lista más completa de lenguajes de programación musicales puede encontrarse en \cite{ListAudioProgramming2023}
+Se ha decidido utilizar \textit{SuperCollider} y \textit{Tidal Cycles} como lenguajes de programación musicales para esta investigación. Ambos lenguajes cumplen sobradamente con los criterios expuestos. Se trata de lenguajes muy potentes y flexibles, suficientemente conocidos por el investigador y con una comunidad activa de usuarios y desarrolladores. Ambos soportan un trabajo fluido en tiempo real, aunque enfocaremos la creación de código para piezas musicales en \textit{SuperCollider} principalmente, y el trabajo que implique codificación en tiempo real, en \textit{Tidal Cycles}. Ambos lenguajes son independientes del IDE, y por tanto, pueden ser ejecutados por medio de scripts externos por medio de scripts en Python. 
 
-\todo{No me queda clara la utilidad de esta tabla, donde muchos datos son subjetivos a partir de la experiencia del autor, pero no justificados con datos.}
-\begin{table}[h] % t de top
-  \begin{center}
-  \caption[Lenguajes de programación musicales más relevantes]{Lenguajes de programación musicales más relevantes. El número de desarrolladores se ha obtenido de la página de GitHub de cada lenguaje. La documentación y el nivel de \textit{Live} se han valorado de 1 a 3 asteriscos, siendo 3 asteriscos la máxima puntuación.}
-  \begin{tabular}{| c | c | c | c | c | c | c |}
-  \hline
-  Lenguaje & Lanzamiento & Actualización & Desarrolladores & Documentación & \textit{Live} & Independiente de IDE\\
-  \hline
-  \textit{Csound} & 1985 & 2022 & 56 & *** & * & Sí\\
-  \textit{SuperCollider} & 1996 & 2023 & 212 & *** & ** & Sí\\
-  \textit{ChucK} & 2003 & 2023 & 44 & *** & ** & Sí\\
-  \textit{Tidal Cycles} & 2009 & 2023 & 76 & *** & *** & Sí\\
-  \textit{Overtone} & 2010 & 2023 & 68 & ** & ** & Sí\\
-  \textit{Sonic Pi} & 2012 & 2023 & 532 & *** & *** & No\\
-  \textit{FoxDot} & 2019 & 2021 & 35 & * & *** & Sí\\
-  \textit{Strudel} & 2022 & 2023 & 29 & *** & *** & No\\
+% Véase la Tabla \ref{tab:lenguajes_comparativa} para una comparativa de los lenguajes de programación musicales en función de los criterios expuestos. Dicha tabla no es exhaustiva. Una lista más completa de lenguajes de programación musicales puede encontrarse en \cite{ListAudioProgramming2023}
 
-  \textit{GLICOL} & 2022 & 2023 & 29 & *** & *** & No\\ % poner datos reales y comentar
-  \textit{FAUST} & 2022 & 2023 & 29 & *** & *** & No\\ % poner datos reales y comentar
-  \hline
-  \end{tabular}
-  \source{\propio en \textit{Sonic Pi}}.
-  \label{tab:lenguajes_comparativa}
-  \end{center}
-\end{table} 
+% \todo{No me queda clara la utilidad de esta tabla, donde muchos datos son subjetivos a partir de la experiencia del autor, pero no justificados con datos.}
+% \begin{table}[h] % t de top
+%   \begin{center}
+%   \caption[Lenguajes de programación musicales más relevantes]{Lenguajes de programación musicales más relevantes. El número de desarrolladores se ha obtenido de la página de GitHub de cada lenguaje. La documentación y el nivel de \textit{Live} se han valorado de 1 a 3 asteriscos, siendo 3 asteriscos la máxima puntuación.}
+%   \begin{tabular}{| c | c | c | c | c | c | c |}
+%   \hline
+%   Lenguaje & Lanzamiento & Actualización & Desarrolladores & Documentación & \textit{Live} & Independiente de IDE\\
+%   \hline
+%   \textit{Csound} & 1985 & 2022 & 56 & *** & * & Sí\\
+%   \textit{SuperCollider} & 1996 & 2023 & 212 & *** & ** & Sí\\
+%   \textit{ChucK} & 2003 & 2023 & 44 & *** & ** & Sí\\
+%   \textit{Tidal Cycles} & 2009 & 2023 & 76 & *** & *** & Sí\\
+%   \textit{Overtone} & 2010 & 2023 & 68 & ** & ** & Sí\\
+%   \textit{Sonic Pi} & 2012 & 2023 & 532 & *** & *** & No\\
+%   \textit{FoxDot} & 2019 & 2021 & 35 & * & *** & Sí\\
+%   \textit{Strudel} & 2022 & 2023 & 29 & *** & *** & No\\
+
+%   \textit{GLICOL} & 2022 & 2023 & 29 & *** & *** & No\\ % poner datos reales y comentar
+%   \textit{FAUST} & 2022 & 2023 & 29 & *** & *** & No\\ % poner datos reales y comentar
+%   \hline
+%   \end{tabular}
+%   \source{\propio en \textit{Sonic Pi}}.
+%   \label{tab:lenguajes_comparativa}
+%   \end{center}
+% \end{table} 
