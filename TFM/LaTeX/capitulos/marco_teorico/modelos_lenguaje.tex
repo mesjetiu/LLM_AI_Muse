@@ -1,8 +1,8 @@
 \section{Modelos de lenguaje}
 
-Un glsdisp{lm}{<<modelo de lenguaje>> (\textit{LM} por \textit{Language Model})} es un modelo estadístico que asigna una probabilidad a una secuencia de palabras \cite{ModelacionLenguaje2024}. Esencialmente, es una función matemática capaz de simular la forma en que se escribe en lenguaje natural\footnote{Una analogía común para entender el funcionamiento de un \gls{lm} es la función predictiva de un teclado. Mientras escribimos en nuestro dispositivo móvil, el teclado nos sugiere palabras que probablemente seguirán a las ingresadas. Esta capacidad de predicción es el fundamento de los \gls{lm}, incluyendo chatbots avanzados.}.
+Un \glsdisp{lm}{<<modelo de lenguaje>> (\textit{LM} por \textit{Language Model})} es un modelo estadístico que asigna una probabilidad a una secuencia de palabras \cite{ModelacionLenguaje2024}. Esencialmente, es una función matemática capaz de simular la forma en que se escribe en lenguaje natural\footnote{Una analogía común para entender el funcionamiento de un \gls{lm} es la función predictiva de un teclado. Mientras escribimos en nuestro dispositivo móvil, el teclado nos sugiere palabras que probablemente seguirán a las ingresadas. Esta capacidad de predicción es el fundamento de los \gls{lm}, incluyendo chatbots avanzados.}.
 
-Desde una perspectiva técnica, un \gls{lm} devuelve como salida la distribución de probabilidad del siguiente \textit{token}, dada una secuencia de \textit{tokens} como entrada \citep{GenerationLLMs}. Un \textit{token} es la unidad mínima de información que el modelo procesa y, generalmente, equivale a una palabra\footnote{Aunque un \textit{token} suele ser una palabra, también puede ser un signo de puntuación, número, una desinencia, etc.}. La Figura \ref{fig:llm_generation} ilustra un modelo de lenguaje que recibe una secuencia de palabras y devuelve la distribución de probabilidad del siguiente \textit{token} después de haber sido entrenado con textos en inglés.
+Desde una perspectiva técnica, un \gls{lm} devuelve como salida la distribución de probabilidad del siguiente \textit{token}, dada una secuencia de \textit{tokens} como entrada \citep{GenerationLLMs}. Un \textit{token} es la unidad mínima de información que el modelo procesa y, generalmente, equivale a una palabra\footnote{Aunque un \textit{token} suele ser una palabra, también puede ser un signo de puntuación, número, una desinencia, etc.}.  La Figura \ref{fig:llm_generation} ilustra un modelo de lenguaje que recibe una secuencia de palabras y devuelve la distribución de probabilidad del siguiente \textit{token} después de haber sido entrenado con textos en inglés. Para generar cadenas de \textit{tokens}, para formar, por ejemplo, oraciones completas, se vuelve a pasar al modelo el contexto inicial más el último \textit{token} generado para producir el siguiente, y así sucesivamente hasta llegar al final del texto. Este modo de generación de texto se denomina \textit{autorregresivo} \citep{malachAutoRegressiveNextTokenPredictors2023}. Un ejemplo de generación de una oración completa por un \gls{lm} de forma autorregresiva se muestra en la Figura \ref{fig:llm_generation_example}.
 
 \begin{figure}[H]
     \caption[Inferencia de \textit{token} de un LLM]{Inferencia de \textit{token} de un LLM}
@@ -12,11 +12,19 @@ Desde una perspectiva técnica, un \gls{lm} devuelve como salida la distribució
     \label{fig:llm_generation}
 \end{figure}
 
+\begin{figure}[H]
+    \caption[Generación de un texto completo por medio de la autorregresión por un LLM]{Generación de un texto completo por medio de la autorregresión por un LLM. Cada fila del diagrama representa una iteración en el tiempo con el modelo. Este recibe en cada paso el \emph{prompt} inicial más la cadena de \emph{tokens} actual y predice el siguiente \emph{token}. Este proceso se repite hasta alcanzar el \emph{token} <<END>>.}
+    \centering
+    \includegraphics[width=0.7\textwidth]{./figuras/text-gen-diagram-autoregressive.png}
+    \source{\cite{UnderstandingLearningDemonstrations}}
+    \label{fig:llm_generation_example}
+\end{figure}
+
 Los \gls{lm} no se asocian exclusivamente a una arquitectura de \gls{ml}. Pueden implementarse mediante diferentes tipos de redes neuronales, como las redes neuronales recurrentes o convolucionales. No obstante, el hito que ha propulsado avances significativos en \gls{ml} ha sido la arquitectura \textit{Transformer} \citep{vaswaniAttentionAllYou2017}, de la que se ha hablado más arriba.
 
 \subsection{Grandes modelos de lenguaje (LLM)}
 
-Un \gls{llm} posee un número de parámetros del orden del billón, lo cual es considerado <<grande>> o \textit{large} desde el punto de vista computacional. El primer \gls{llm} fue \textit{GPT-2}, creado y entrenado por OpenAI en 2019 \citep{radfordLanguageModelsAre2019a}. \textit{GPT-2} se entrenó con 40 GB de texto de Internet y alcanzó 1.5 billones de parámetros. Su capacidad para predecir la siguiente palabra en una secuencia sorprendió a la comunidad científica debido a la calidad de los textos generados. Sin embargo, OpenAI publicó una versión reducida de 117 millones de parámetros debido a preocupaciones sobre su eventual uso irresponsable. La Figura \ref{fig:gpt2_text_generation} muestra ejemplos de textos generados por este modelo.
+Un \gls{llm} posee un número de parámetros del orden del billón, lo cual es considerado <<grande>> o \textit{large} desde el punto de vista computacional. El primer \gls{llm} fue \textit{GPT-2}, creado y entrenado por OpenAI en 2019 \citep{radfordLanguageModelsAre2019a}. \textit{GPT-2} se entrenó con 40 GB\todo{¿seguro? revisar el dato...} de texto de Internet y alcanzó 1.5 billones de parámetros. Su capacidad para predecir la siguiente palabra en una secuencia sorprendió a la comunidad científica debido a la calidad de los textos generados. Sin embargo, OpenAI publicó una versión reducida de 117 millones de parámetros debido a preocupaciones sobre su eventual uso irresponsable. La Figura \ref{fig:gpt2_text_generation} muestra ejemplos de textos generados por este modelo.
 
 \begin{figure}[H]
     \caption{Generación de textos por \textit{GPT-2}}
@@ -52,18 +60,25 @@ El \textit{fine-tuning} produce buenos resultados gracias a la capacidad de gene
 \end{figure}
 
 
-\subsection{Hiperparámetros del modelo}
+\subsection{Hiperparámetros y parámetros del modelo}
+
+
+Se denominan \textit{hiperparámetros} a los parámetros que se fijan de forma previa al entrenamiento del modelo, delimitando su estructura y capacidades computacionales \citep{QueEsAjuste}. Así, la arquitectura elegida, las dimensiones de cada una de sus partes, la tasa de aprendizaje, etc. Todo ello determinará las características del modelo entrenado, así como las necesidades de recursos computacionales necesarios tanto para la fase de entrenamiento como de inferencia.
+
+Cuanto mayor sea el modelo, más parámetros variables tendrá en su entrenamiento, por lo que mayor costo computacional demandará. Actualmente, los \gls{llm} tienen un número de parámetros absolutamente prohibitivo dentro de la computación personal, del orden del billón \citep{radfordLanguageModelsAre2019a}, por lo que su entrenamiento se realiza en \textit{clusters} de ordenadores de alto rendimiento, con cientos de GPUs. Sin embargo, una vez entrenados, son potencialmente utilizables en ordenadores personales para tareas de inferencia, como la generación de texto, traducción automática, etc., aunque lo más habitual es ofrecer sus servicios a demanda.
+
+Además del número de parámetros, el tamaño de la ventana de contexto es otro hiperparámetro a considerar en un \gls{llm}. Este dato hace referencia a la cantidad de \textit{tokens} que un \gls{llm} puede recibir como input para realizar la inferencia del siguiente \textit{token}. 
 
 
 
-Aquí hablaré de los hiperparámetros que definen la arquitectura del modelo que no se pueden modificar, como el número de capas, el número de cabezas de atención, etc., y que son fijos en el modelo. Especial atención se pondrá en el número de parámetros del modelo, que es el que determina el tamaño del modelo y su capacidad de generar textos, así como en la ventana de contexto, que es el número de \textit{tokens} que el modelo tiene en cuenta para generar el siguiente \textit{token}.
+
 
 Precisamente el número de parámetros y la ventana de contexto son los hiperparámetros más importantes y críticos en términos computacionales y de efectividad. Cuanto más grande sea el modelo, más parámetros tendrá y más capacidad de generar textos tendrá. Sin embargo, también será más lento en la inferencia. Por otro lado, cuanto mayor sea la ventana de contexto, más \textit{tokens} tendrá en cuenta el modelo para generar el siguiente \textit{token}, y más coherentes serán los textos generados. Sin embargo, también será más lento en la inferencia.
 
 
 Consideraciones interesantes sobre parámetros y ventana de contexto en \cite{gonzaloAsomandonosVentanaContextual2023}
 
-% \subsection{Hiperparámetros controlables por el usuario}
+\subsection{Hiperparámetros controlables por el usuario}
 \label{sec:hiperparametros_controlables}
 Hablar de la temperatura, top\_p, top\_k, ventana de contexto, número de \textit{tokens}, etc. 
 

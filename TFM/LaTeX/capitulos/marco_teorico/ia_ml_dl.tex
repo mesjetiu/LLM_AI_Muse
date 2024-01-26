@@ -29,10 +29,27 @@ Aunque el \gls{ml} ha sido una área de interés desde los inicios de la computa
 En términos generales, el objetivo del \gls{ml} es encontrar funciones matemáticas que describan un conjunto de datos de entrenamiento y que, posteriormente, pueda ser utilizada para prever datos desconocidos con precisión. Esta capacidad predictiva se conoce como <<inferencia>>. El proceso busca que la función determinada durante el entrenamiento se aproxime lo más fielmente posible a la función real que describe los datos. Modelos complejos y grandes, pueden llegar a generalizar de forma análoga al cerebro humano. 
 
 
-Se utiliza el término <<modelo>> para referirse al sistema una vez que ha sido entrenado y posee capacidad predictiva. Dependiendo de su aplicación, un modelo puede ser empleado para predecir datos desconocidos o clasificarlos. Si produce un valor numérico, se habla de <<regresión>>; si categoriza datos, de <<clasificación>>. La clasificación puede ser binaria o multiclase, y la regresión unidimensional o multidimensional. La Figura \ref{fig:ml_classification_regression} muestra un ejemplo de clasificación y regresión.\todo{Si se encuentra alguna imagen buena para esto, ok, si no, exponer de otro modo la información para que se entienda.}
+Se utiliza el término <<modelo>> para referirse al sistema una vez que ha sido entrenado y posee capacidad predictiva. Dependiendo de su aplicación, un modelo puede ser empleado para predecir datos desconocidos o clasificarlos. Si produce un valor numérico, se habla de <<regresión>>; si categorizan datos, de <<clasificación>>. La clasificación es binaria cuando el modelo solo devuelve dos posibles respuestas, o multiclase cuando clasifica en más de dos categorías. La Figura \ref{fig:ml_classification_regression} muestra un ejemplo de clasificación y regresión.\todo{Si se encuentra alguna imagen buena para esto, ok, si no, exponer de otro modo la información para que se entienda.}
 
-\missingfigure[figwidth=.4\textwidth]{Añadir: ejemplo de clasificación y regresión}
-\label{fig:ml_classification_regression}
+\begin{figure}[H]
+    \caption[Problema de clasificación versus regresión]{Problema de clasificación versus regresión. Los modelos de lenguaje son regresivos, ya que predicen el siguiente \emph{token} a partir de una serie.}
+    \centering
+  
+    \begin{subfigure}{.49\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{./figuras/regression-vs-classification_simple-comparison-image.png}
+        \caption{Representación gráfica de un modelo de clasificación y otro de regresión. La clasificación consiste en categorizar un conjunto de datos en dos o más clases. La regresión permite predecir el siguiente dato a partir de una serie temporal o espacial.}
+      \end{subfigure}\hfill
+    \begin{subfigure}{.49\textwidth}
+      \centering
+      \includegraphics[width=.8\textwidth]{./figuras/regression-vs-classification-easy-example.png}
+      \caption{Diagrama intuitivo para comprender la regresión y la clasificación.}
+    \end{subfigure}
+
+    \source{(a) \cite{RegressionVsClassification2021}; (b) \cite{RegressionVsClassification2021a}}
+    \label{fig:ml_classification_regression}
+\end{figure}
+
 
 El aprendizaje en \gls{ml} se produce a través de un proceso de entrenamiento. Según la naturaleza de los datos y el método de validación, existen tres tipos principales de aprendizaje automático \citep[p. ~38]{torresivinalsPythonDeepLearning2020}:
 
@@ -64,7 +81,7 @@ Para entender en qué consiste una \gls{rna} y, por extensión, de un modelo de 
 \begin{figure}[H]
     \caption[Neurona biológica y neurona artificial o <<perceptrón>>]{Neurona biológica y neurona artificial o <<perceptrón>>}
     \centering
-    \includegraphics[width=0.5\textwidth]{./figuras/perceptron_with_neuron.png}
+    \includegraphics[width=0.9\textwidth]{./figuras/perceptron_with_neuron.png}
     \source{\cite{DeepLearningDL}}
     \label{fig:neurona_artificial_natural}
 \end{figure}
@@ -112,7 +129,7 @@ Hasta 2017, el estado del arte en el ámbito del procesamiento de lenguaje natur
 
 
 \subsubsection{La arquitectura \textit{Transformer}}
-En junio de 2017, \citeauthor{vaswaniAttentionAllYou2017} publicaron un artículo \citep{vaswaniAttentionAllYou2017} en el que proponían una nueva arquitectura de red neuronal, denominada \textit{Transformer}, que no se basaba en las RNN y que permitía trabajar con grandes cantidades de \textit{tokens} de contexto. Esta arquitectura se basaba en el concepto de \textit{atención}, que permite que el modelo pueda aprender de secuencias largas. En esta arquitectura, no importa la posición de los \textit{tokens} de la secuencia de entrada, ya que el modelo aprende a asignar pesos a cada \textit{token} en función de su relevancia para la predicción del siguiente \textit{token}. A diferencia de una RNN, un \textit{Transformer} puede procesar todos los \textit{tokens} de una secuencia de entrada en paralelo, lo que lo hace mucho más eficiente computacionalmente tanto en el entrenamiento como en la inferencia. La Figura \ref{fig:transformer_attention} muestra una matriz de atención de un \textit{Transformer} entrenado con textos en inglés.
+En junio de 2017, \citeauthor{vaswaniAttentionAllYou2017} publicaron un artículo \citep{vaswaniAttentionAllYou2017} en el que proponían una nueva arquitectura de red neuronal, denominada \textit{Transformer}, que no se basaba en las RNN y que permitía trabajar con grandes cantidades de \textit{tokens} de contexto. Esta arquitectura se basaba en el concepto de \textit{atención}, que permite que el modelo pueda predecir nuevos \textit{tokens} teniendo en cuenta todo el contexto de la cadena previa. En esta arquitectura, no importa la posición de los \textit{tokens} de la secuencia de entrada, ya que el modelo aprende a asignar pesos a cada \textit{token} en función de su relevancia para la predicción del siguiente \textit{token}. A diferencia de una RNN, un \textit{Transformer} puede procesar todos los \textit{tokens} de una secuencia de entrada en paralelo, lo que lo hace mucho más eficiente computacionalmente tanto en el entrenamiento como en la inferencia. La Figura \ref{fig:transformer_attention} muestra una matriz de atención de un \textit{Transformer} entrenado con textos en inglés.
 
 En la figura \ref{fig:transformer_architecture} se puede ver el esquema de la arquitectura \textit{Transformer} tal como se presentó originalmente en \textit{Attention is All You Need} \cite{vaswaniAttentionAllYou2017}.
 
@@ -125,11 +142,11 @@ En la figura \ref{fig:transformer_architecture} se puede ver el esquema de la ar
 \end{figure}
 
 \begin{figure}[H]
-    \caption[Matriz de \textit{atención} de un \textit{Transformer} entrenado con textos en inglés]{Matriz de \textit{atención} de un \textit{Transformer} entrenado con textos en inglés. En ella queda representada la atención de cada \textit{token} de la secuencia de entrada <<\textit{He later went to report Malaysia for one year}>> con respecto a los demás.}
+    \caption[Matriz de \emph{atención} de un \emph{Transformer} entrenado con textos en inglés]{Matriz de \emph{atención} de un \textit{Transformer} entrenado con textos en inglés. En ella queda representada la \emph{atención}, o nivel de relación semántica de cada \emph{token} ddentro de la secuencia de entrada <<\emph{He later went to report Malaysia for one year}>> con respecto a los demás.}
     \centering
     \includegraphics[width=0.4\textwidth]{./figuras/Transformer_attention_matrix.png}
     \source{\cite{duAddressingSyntaxBasedSemantic2022}}
     \label{fig:transformer_attention}
 \end{figure}
 
-\subsubsection{Inteligencia artificial generativa}\todo{Explicar brevemente en qué consiste la IAG: generación de imágenes, vídeo, audio, texto, etc.}
+Esta capacidad de generar contenido original de forma autorregresiva, prestando atención a todos los \textit{tokens} previos, propia de los modelos entrenados con la arquitectura \textit{transformer}, es lo que ha dado lugar a la \gls{iag}. La \gls{iag} abarca tanto a la generación de texto como de música, imagen, vídeo y cualquier forma de información, por compleja que esta sea, susceptible de ser reducida a modelos estadísticos.
