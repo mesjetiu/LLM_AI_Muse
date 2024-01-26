@@ -58,7 +58,11 @@
 \usepackage{pdfpages} % Para incluir PDFs
 \usepackage{ifthen}
 \usepackage{scrextend}
+\usepackage{refcount}
 
+% para contar el número de páginas de contenido.
+\newcounter{inicioContenido}
+\newcounter{finContenido}
 
 % ----------- Configuración de pdfpages para incluir páginas pequeñas de pdf -----------
 \newcommand{\scalefactor}{0.002} % Cambia este valor para ajustar el tamaño
@@ -188,7 +192,7 @@
 % ----------- Comandos personalizados -----------
 % \newcommand{\titulo}{Creación sonora asistida por grandes modelos de lenguaje}
 
-\newcommand{\titulo}{\textit{All You Need Is An AI Muse}: Composición Musical Algorítmica con Grandes Modelos de Lenguaje en SuperCollider y Tidal Cycles}
+\newcommand{\titulo}{\textit{All You Need Is An AI Muse}: Generación Musical Algorítmica con Modelos de Lenguaje en SuperCollider y Tidal Cycles}
 
 % \newcommand{\titulo}{All You Need Is An \textit{AI Muse}: Modelos de lenguaje a gran escala en la creación sonora}
 
@@ -314,6 +318,8 @@
   \printglossary[title=Índice de acrónimos, toctitle=Índice de acrónimos]
   \clearpage
 
+  % Inicio del contador de páginas
+  \setcounter{inicioContenido}{\value{page}}
 
   % Importar los capítulos
   \import{./capitulos/}{introduccion.tex}
@@ -326,6 +332,10 @@
   \import{./capitulos/}{resultados.tex}
   \import{./capitulos/}{conclusiones.tex}
   \import{./capitulos/}{limitaciones_prospectiva.tex}
+
+  % página de fin de contenido
+  \setcounter{finContenido}{\value{page}}
+
   \import{./capitulos/}{bibliografia.tex}
   \import{./anexos/}{repositorio.tex}
   \import{./anexos/}{system_prompts.tex}
@@ -335,4 +345,15 @@
   \addcontentsline{toc}{chapter}{Índice de términos}
   \printindex % Índice de términos. Compilar con makeindex main
   \clearpage
+
+  \chapter*{Resumen de Páginas}
+  \todo{eliminar este contador de páginas}
+  % Calcular el número de páginas del contenido principal
+  \newcounter{numPaginasContenido}
+  \setcounter{numPaginasContenido}{\value{finContenido}}
+  \addtocounter{numPaginasContenido}{-\value{inicioContenido}}
+  \addtocounter{numPaginasContenido}{2}
+
+  El contenido principal consta de \arabic{numPaginasContenido}\ de 90 páginas.
+
 \end{document}
