@@ -354,6 +354,12 @@
   \addtocounter{numPaginasContenido}{-\value{inicioContenido}}
   \addtocounter{numPaginasContenido}{2}
 
+  \newcounter{numPaginasRestantes}
+  \addtocounter{numPaginasRestantes}{90}
+  \addtocounter{numPaginasRestantes}{-\value{numPaginasContenido}}
+
   El contenido principal consta de \arabic{numPaginasContenido}\ de 90 páginas.
+
+  Número de páginas restantes: \arabic{numPaginasRestantes}
 
 \end{document}
