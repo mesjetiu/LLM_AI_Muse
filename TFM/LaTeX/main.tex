@@ -308,10 +308,10 @@
   \listoffigures 
   \clearpage
 
-  \phantomsection
-  \addcontentsline{toc}{chapter}{Índice de tablas}
-  \listoftables
-  \clearpage
+  % \phantomsection
+  % \addcontentsline{toc}{chapter}{Índice de tablas}
+  % \listoftables
+  % \clearpage
 
   \phantomsection
   \addcontentsline{toc}{chapter}{Índice de acrónimos}
@@ -339,7 +339,8 @@
   \import{./capitulos/}{bibliografia.tex}
   \import{./anexos/}{repositorio.tex}
   \import{./anexos/}{system_prompts.tex}
-  % \import{./anexos/}{algorai_manual.tex}
+  \import{./anexos/}{aimuse_manual.tex}
+  \import{./anexos/}{algorai_creacion.tex}
 
 
   \addcontentsline{toc}{chapter}{Índice de términos}
@@ -358,8 +359,8 @@
   \addtocounter{numPaginasRestantes}{90}
   \addtocounter{numPaginasRestantes}{-\value{numPaginasContenido}}
 
-  El contenido principal consta de \arabic{numPaginasContenido}\ de 90 páginas.
+  Páginas utilizadas: {\Huge\arabic{numPaginasContenido}\ de 90}
 
-  Número de páginas restantes: \arabic{numPaginasRestantes}
+  Número de páginas restantes: {\Huge\arabic{numPaginasRestantes}}
 
 \end{document}
