@@ -77,6 +77,8 @@
 
 \setuptodonotes{fancyline, color=red!30} % Para que los todos se vean bonitos
 
+\renewcommand{\glsgroupskip}{} % Para arreglar problemas de interlineado irregular en el glosario
+
 
 \renewcommand{\bibsection}{}
 
@@ -391,9 +393,9 @@
   \import{./anexos/}{algorai_creacion.tex}
 
 
-  \addcontentsline{toc}{chapter}{Índice de términos}
-  \printindex % Índice de términos. Compilar con makeindex main
-  \clearpage
+  % \addcontentsline{toc}{chapter}{Índice de términos}
+  % \printindex % Índice de términos. Compilar con makeindex main
+  % \clearpage
 
   \chapter*{Resumen de Páginas}
   \todo{eliminar este contador de páginas}
