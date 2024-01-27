@@ -8,13 +8,13 @@ Escribir aquí una intro...
 \section{Revisión bibliográfica}
 
 \subsection{Objetivos de la revisión}
-La revisión bibliográfica en este trabajo tiene como propósito comprender el estado actual de los Modelos de Lenguaje a Gran Escala (LLM) e identificar las mejores prácticas en cuanto a la interacción mediante \textit{prompting} en programación informática y composición musical.
+La revisión bibliográfica en este trabajo tiene como propósito comprender el estado actual de los Modelos de Lenguaje a Gran Escala (LLM) e identificar las mejores prácticas en cuanto a la interacción mediante \emph{prompting} en programación informática y composición musical.
 
 \subsection{Fuentes y búsqueda}
-Para llevar a cabo esta revisión, se consultarám diversas bases de datos, revistas especializadas y conferencias de relevancia en el ámbito principalmente de la inteligencia artificial y el \textit{prompting}. La publicación de artículos científicos en el área de la inteligencia artificial, y, en concreto, de LLM, es diaria, y debido a que la mayoría de estos trabajos han sido publicados durante 2022 y 2023, no cuentan con revisión por pares u otros mecanismos de verificación de las tesis en ellos contenidas. Por esta razón, sus resultados deben ser tomados con cautela y como líneas abiertas de investigación.
+Para llevar a cabo esta revisión, se consultarám diversas bases de datos, revistas especializadas y conferencias de relevancia en el ámbito principalmente de la inteligencia artificial y el \emph{prompting}. La publicación de artículos científicos en el área de la inteligencia artificial, y, en concreto, de LLM, es diaria, y debido a que la mayoría de estos trabajos han sido publicados durante 2022 y 2023, no cuentan con revisión por pares u otros mecanismos de verificación de las tesis en ellos contenidas. Por esta razón, sus resultados deben ser tomados con cautela y como líneas abiertas de investigación.
 
 \subsection{Selección y evaluación}
-Los criterios utilizados para seleccionar los trabajos incluidos en esta revisión se centraron en la relevancia y actualidad. Se dieron prioridad a trabajos publicados en los últimos meses y aquellos que se centran específicamente en aspectos cruciales de los LLM y la interacción mediante \textit{prompting} y la programación. 
+Los criterios utilizados para seleccionar los trabajos incluidos en esta revisión se centraron en la relevancia y actualidad. Se dieron prioridad a trabajos publicados en los últimos meses y aquellos que se centran específicamente en aspectos cruciales de los LLM y la interacción mediante \emph{prompting} y la programación. 
 
 \subsection{Resultados de la revisión}
 Los hallazgos más relevantes de esta revisión son discutidos en detalle en el capítulo correspondiente al \hyperref[chap:estado_cuestion]{Estado de la cuestión}. No obstante, es importante destacar que existen múltiples enfoques y técnicas para interactuar con los LLM, y que su aplicación en la composición musical aún se encuentra en una fase exploratoria, al no ser un objetivo primordial de los investigadores en el campo de la generación de código. Por otra parte, la mayoría de los trabajos publicados en el área de la música y los modelos generativos se centran en la generación de música como producto final, con una clara proyección comercial, y no en la interacción con los LLM como herramienta de composición. 
@@ -31,7 +31,7 @@ La investigación tiene un \textbf{alcance exploratorio y descriptivo}. Es explo
 Se busca descubrir los procesos creativos que sustentan la interacción con los LLM en la composición musical. Nos basaremos en las descripciones, observaciones y reflexiones sobre las interacciones y respuestas obtenidas. Unido a esto, un elemento clave es la investigación en el campo de las interfaces de usuario, la interacción persona-ordenador y la programación informática, que condiciona de forma conceptual y práctica la interacción con los LLM, y determina el tipo de producto musical que se puede obtener.
 
 \subsection{Diseño}
-El diseño de la investigación es \textbf{no experimental}. Aunque se lleva a cabo una experimentación con diferentes \textit{prompts}, interfaces y selecciones de parámetros de los LLM, no se realiza una manipulación clara y definida de variables independientes para observar sus efectos en variables dependientes. Sin embargo, el diseño implica un proceso iterativo de experimentación y análisis de los resultados obtenidos.
+El diseño de la investigación es \textbf{no experimental}. Aunque se lleva a cabo una experimentación con diferentes \emph{prompts}, interfaces y selecciones de parámetros de los LLM, no se realiza una manipulación clara y definida de variables independientes para observar sus efectos en variables dependientes. Sin embargo, el diseño implica un proceso iterativo de experimentación y análisis de los resultados obtenidos.
 
 \section{Herramientas y recursos utilizados}
 
@@ -61,17 +61,17 @@ Para llevar a cabo este estudio, se han utilizado los medios informáticos relat
             \label{fig:chatgpt}
         \end{figure}
 
-        \paragraph{\textit{Playground.}} Esta herramienta permite interactuar con los modelos de lenguaje de OpenAI de forma más flexible que ChatGPT. En ella se pueden introducir \textit{prompts} de texto, así como seleccionar el modelo de lenguaje a utilizar, el número de respuestas a obtener, la \textit{temperatura} de generación, la presencia o ausencia de \textit{stopwords}, y la presencia o ausencia de \textit{top\_p sampling}, todos ellos parámetros avanzados en la interacción con los LLM (véase \ref{sec:hiperparametros_controlables}), sobre los que no existe ningún control por parte del usuario en la versión web de chatGPT. En la figura \ref{fig:playground} se puede observar la interfaz de Playground, donde el usuario puede introducir un \textit{prompt} de sistema, así como un mensaje de usuario, y obtener una respuesta del modelo de acuerdo a los parámetros seleccionados de \textit{temperatura} y \textit{top\_p sampling}. Esta herramienta es muy útil para la experimentación de esta y otras investigaciones con LLM, ya que permite una interacción más flexible con los LLM.
+        \paragraph{\emph{Playground.}} Esta herramienta permite interactuar con los modelos de lenguaje de OpenAI de forma más flexible que ChatGPT. En ella se pueden introducir \emph{prompts} de texto, así como seleccionar el modelo de lenguaje a utilizar, el número de respuestas a obtener, la \emph{temperatura} de generación, la presencia o ausencia de \emph{stopwords}, y la presencia o ausencia de \emph{top\_p sampling}, todos ellos parámetros avanzados en la interacción con los LLM (véase \ref{sec:hiperparametros_controlables}), sobre los que no existe ningún control por parte del usuario en la versión web de chatGPT. En la figura \ref{fig:playground} se puede observar la interfaz de Playground, donde el usuario puede introducir un \emph{prompt} de sistema, así como un mensaje de usuario, y obtener una respuesta del modelo de acuerdo a los parámetros seleccionados de \emph{temperatura} y \emph{top\_p sampling}. Esta herramienta es muy útil para la experimentación de esta y otras investigaciones con LLM, ya que permite una interacción más flexible con los LLM.
 
         \begin{figure}[h]
-            \caption[Interfaz de \textit{Playground} de OpenAI]{Interfaz de \textit{Playground} de OpenAI}
+            \caption[Interfaz de \emph{Playground} de OpenAI]{Interfaz de \emph{Playground} de OpenAI}
             \centering
             \includegraphics[width=0.7\textwidth]{./figuras/interfaz_playground.png}
             \source{\propio}
             \label{fig:playground}
         \end{figure}
 
-        \paragraph{API de OpenAI.} La herramienta \textit{Playground} no es sino la antesala de la API de OpenAI. \textit{API}, del inglés \textit{Application Programming Interface}, es un conjunto de funciones y procedimientos que ofrece una biblioteca para ser utilizado por otro software como una capa de abstracción. En el caso de OpenAI, la API permite la interacción con los LLM de forma programática, es decir, mediante código. Esto permite una interacción absolutamente flexible a la par que potente con los LLM, ya que se pueden automatizar procesos, y se puede interactuar con los LLM de forma más rápida y eficiente. La API de OpenAI permite la interacción con diversos modelos de lenguaje basados en GPT-3 y GPT-4, así como con el modelo de generación de imágenes DALL-E 3. En la figura \ref{fig:api} se puede observar un ejemplo de interacción con la API de OpenAI, en el que se introduce un \textit{prompt} de sistema, otro de usuario, se ajustan los hiperparámetros y se obtiene una respuesta del modelo.
+        \paragraph{API de OpenAI.} La herramienta \emph{Playground} no es sino la antesala de la API de OpenAI. \emph{API}, del inglés \emph{Application Programming Interface}, es un conjunto de funciones y procedimientos que ofrece una biblioteca para ser utilizado por otro software como una capa de abstracción. En el caso de OpenAI, la API permite la interacción con los LLM de forma programática, es decir, mediante código. Esto permite una interacción absolutamente flexible a la par que potente con los LLM, ya que se pueden automatizar procesos, y se puede interactuar con los LLM de forma más rápida y eficiente. La API de OpenAI permite la interacción con diversos modelos de lenguaje basados en GPT-3 y GPT-4, así como con el modelo de generación de imágenes DALL-E 3. En la figura \ref{fig:api} se puede observar un ejemplo de interacción con la API de OpenAI, en el que se introduce un \emph{prompt} de sistema, otro de usuario, se ajustan los hiperparámetros y se obtiene una respuesta del modelo.
 
         \begin{figure}[h]
             \caption[Ejemplo con API de OpenAI]{Ejemplo con API de OpenAI}
@@ -84,20 +84,20 @@ Para llevar a cabo este estudio, se han utilizado los medios informáticos relat
     \subsection{Python como lenguaje de programación}
     El uso de la API de OpenAI requiere el uso de un lenguaje de programación. En este caso, se ha utilizado Python, un lenguaje de programación de propósito general, interpretado, de alto nivel y de tipado dinámico. Python es un lenguaje de programación muy popular, y es utilizado por la mayoría de los investigadores en el campo de la inteligencia artificial. Además, es un lenguaje de programación muy flexible, que permite la interacción con la API de OpenAI de forma sencilla y eficiente. La propia OpenAI ofrece una biblioteca de Python para la interacción con su API, que facilita la interacción con los LLM, así como una gran documentación y ejemplos de uso. 
 
-    Debido al amplio uso de Python como lenguaje de \textit{Deep Learning}, muchos de estos códigos se pueden compartir y ejecutar en servidores remotos, lo cual permite un trabajo con un flujo de trabajo distribuido entre varios investigadores. En el caso de el presente estudio,con el fin de realizar una sencilla interacción de la API con los motores de sonido (SuperCollider y Tidal Cycles), se han programado todos los scripts para ser ejecutados en local.
+    Debido al amplio uso de Python como lenguaje de \emph{Deep Learning}, muchos de estos códigos se pueden compartir y ejecutar en servidores remotos, lo cual permite un trabajo con un flujo de trabajo distribuido entre varios investigadores. En el caso de el presente estudio,con el fin de realizar una sencilla interacción de la API con los motores de sonido (SuperCollider y Tidal Cycles), se han programado todos los scripts para ser ejecutados en local.
 
 
 \section{Desarrollo y aplicación}
 
-Para llevar a cabo la experimentación en esta investigación, se utilizará el modelo GPT-4 proporcionado por OpenAI a través de su API. GPT-4 es, en el momento en que se escribe este texto, el modelo de lenguaje a gran escala más avanzado y potente disponible públicamente. Esta elección garantiza la interacción con una tecnología de vanguardia en el campo del procesamiento del lenguaje natural y el \textit{Deep Learning}. La API de OpenAI permite una interacción flexible y eficiente con el modelo, facilitando la introducción de \textit{prompts} y la recopilación de respuestas en tiempo real.
+Para llevar a cabo la experimentación en esta investigación, se utilizará el modelo GPT-4 proporcionado por OpenAI a través de su API. GPT-4 es, en el momento en que se escribe este texto, el modelo de lenguaje a gran escala más avanzado y potente disponible públicamente. Esta elección garantiza la interacción con una tecnología de vanguardia en el campo del procesamiento del lenguaje natural y el \emph{Deep Learning}. La API de OpenAI permite una interacción flexible y eficiente con el modelo, facilitando la introducción de \emph{prompts} y la recopilación de respuestas en tiempo real.
 
 \subsection{Exploración de posibles interfaces de interacción humano-IA}
-De algún modo, esta será la guia de la investigación. A partir de las posibilidades de interacción con los LLM, ofrecidas principalmente por la API de OpenAI, se explorarán las posibilidades de interacción con los LLM, y se diseñarán \textit{prompts} para interactuar con el modelo de cara a la composición musical por medio de código.
+De algún modo, esta será la guia de la investigación. A partir de las posibilidades de interacción con los LLM, ofrecidas principalmente por la API de OpenAI, se explorarán las posibilidades de interacción con los LLM, y se diseñarán \emph{prompts} para interactuar con el modelo de cara a la composición musical por medio de código.
 
 % Seguir revisando por aquí.
 
-\subsection{Experimentación con \textit{prompts}}
-Se realizarán múltiples sesiones de experimentación, en las cuales se introducirán diversos \textit{prompts} tanto de sistema como de usuario para interactuar con el LLM.
+\subsection{Experimentación con \emph{prompts}}
+Se realizarán múltiples sesiones de experimentación, en las cuales se introducirán diversos \emph{prompts} tanto de sistema como de usuario para interactuar con el LLM.
 
 \subsection{Análisis cuantitativo}
 Una vez recopilados los resultados, se llevará a cabo un análisis cuantitativo para determinar métricas como el porcentaje de respuestas correctas desde el punto de vista sintáctico y la calidad artística del output.
@@ -109,4 +109,4 @@ Además del análisis cuantitativo, se reflexionará sobre las interacciones, la
 Se realizará una reflexión comparativa sobre la influencia de los LLM en el proceso creativo en contraste con creaciones realizadas sin su intervención. También se discutirán las implicaciones, limitaciones y posibles aplicaciones futuras de los descubrimientos de la investigación.
 
 \subsection{Disponibilidad y publicación de los scripts del trabajo}
-Todos los scripts utilizados en este trabajo, así como los \textit{prompts} utilizados y el texto de esta memoria, se encuentran disponibles en el repositorio de GitHub del autor (Véase Anexo \ref{anexo:repositorio}).
+Todos los scripts utilizados en este trabajo, así como los \emph{prompts} utilizados y el texto de esta memoria, se encuentran disponibles en el repositorio de GitHub del autor (Véase Anexo \ref{anexo:repositorio}).
