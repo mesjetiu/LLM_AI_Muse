@@ -6,3 +6,109 @@
 Principalmente se trata de explicar el archivo de configuración y los comandos existentes.
 
 Prospectivas de futuro de la aplicación.
+
+
+
+\begin{longtable}{ l c l l l }
+	
+    \multicolumn{3}{c}{\textit{OSC Type Tag String}} \\
+    \cline{1-3}
+    Módulo			& Número			& Parámetro				& \textit{Level} 	& Módulo de Synthi 100 \\
+    
+    % Módulo de Envelope Shaper.
+    \hline 
+    \multirow{9}{*}{\texttt{/env}}	& \multirow{9}{*}{\texttt{/$[1-3]$}}
+    & \texttt{/selector}	&\texttt{[1-5]} & \multirow{9}{*}{\textit{Envelope Shapers}}\\
+    & & \texttt{/delay} & $[0.0-10.0]$ & \\
+    & & \texttt{/attack} & \texttt{[0.0-10.0]} & \\
+    & & \texttt{/decay} & \texttt{[0.0-10.0]} &\\
+    & & \texttt{/sustain} & \texttt{[0.0-10.0]}  &\\
+    & & \texttt{/release} & \texttt{[0.0-10.0]} &\\
+    & & \texttt{/envelopeLevel} & \texttt{[-5.0-5.0]} &\\
+    & & \texttt{/signalLevel} & \texttt{[-5.0-5.0]} &\\
+    & & \texttt{/gate} & \texttt{[0-1]} &\\
+    \hline
+    
+    % Módulo de Ring Modulator.
+    \multirow{1}{*}{\texttt{/ring}}	& \multirow{1}{*}{\texttt{/[1-2]}}	& \texttt{/level}	&\texttt{[0.0-10.0]} & \multirow{1}{*}{\textit{Ring Modulators}}\\
+    \hline
+    
+    % Módulo de oscilador.
+    \hline 
+    \multirow{8}{*}{\texttt{/osc}}	& \multirow{8}{*}{\texttt{/[1-12]}}	& \texttt{/pulse/level}	&\texttt{[0.0-10.0]} & \multirow{8}{*}{\textit{Oscillators}}\\
+    & & \texttt{/pulse/shape} & \texttt{[-5.0-5.0]} & \\
+    & & \texttt{/sine/level} & \texttt{[0.0-10.0]} & \\
+    & & \texttt{/sine/symmetry} & \texttt{[-5.0-5.0]} &\\
+    & & \texttt{/triangle/level} & \texttt{[0.0-10.0]}  &\\
+    & & \texttt{/sawtooth/level} & \texttt{[0.0-10.0]} &\\
+    & & \texttt{/frequency} & \texttt{[0.0-10.0]} &\\
+    & & \texttt{/range} & \texttt{[0-1]} &\\
+    
+    % Módulo de Noise generator
+    \hline
+    \multirow{2}{*}{\texttt{/noise}}	& \multirow{2}{*}{\texttt{/[1-2]}}	& \texttt{/color}	&\texttt{[0.0-10.0]} & \multirow{2}{*}{\textit{Noise Generators}}\\
+    & & \texttt{/level} &\texttt{[0.0-10.0]}& \\
+    \hline
+    
+    % Módulo de Random control voltage generator
+    \hline
+    \multirow{5}{*}{\texttt{/random}}	& 	& \texttt{/mean}	&\texttt{[0.0-10.0]} \\
+    & & \texttt{/variance} &\texttt{[-5.0-5.0]}&  \multirow{2}{*}{\textit{Random Control}}\\
+    & & \texttt{/voltage1} &\texttt{[0.0-10.0]}& \multirow{2}{*}{\textit{Voltage Generator}}\\
+    & & \texttt{/voltage2} &\texttt{[0.0-10.0]}& \\
+    & & \texttt{/key} &\texttt{[-5.0-5.0]}& \\
+    \hline
+    
+    % Módulo de Output channels
+    \multirow{4}{*}{\texttt{/out}}	& \multirow{4}{*}{\texttt{/[1-8]}}	& \texttt{/filter}	&\texttt{[-5.0-5.0]} & \multirow{4}{*}{\textit{Output Channels}}\\
+    & & \texttt{/pan} & \texttt{[-5.0-5.0]} & \\
+    & & \texttt{/on} & \texttt{[0-1]} & \\
+    & & \texttt{/level} & \texttt{[0.0-10.0]} &\\
+    \hline
+    
+    % Módulo de Input Amplifiers
+    \multirow{1}{*}{\texttt{/in}}	& \multirow{1}{*}{\texttt{/[1-8]}}	& \texttt{/level}	&\texttt{[0.0-10.0]} & \multirow{1}{*}{\textit{Input Amplifiers}}\\
+    \hline
+    
+    % Módulo de filters
+    \multirow{3}{*}{\texttt{/filter}}	& \multirow{4}{*}{\texttt{/[1-8]}}	& \texttt{/frequency}	&\texttt{[0.0-10.0]} & \multirow{3}{*}{\textit{Filters}}\\
+    & & \texttt{/response} & \texttt{[0.0-10.0]} & \\
+    & & \texttt{/level} & \texttt{[0.0-10.0]} & \\
+    \hline
+    
+    % Módulo de filter bank
+    \multirow{8}{*}{\texttt{/filterBank}}	& 	& \texttt{/63}	&\texttt{[0.0-10.0]} & \multirow{8}{*}{\textit{Filter Bank}}\\
+    & & \texttt{/125} & \texttt{[0.0-10.0]} & \\
+    & & \texttt{/250} & \texttt{[0.0-10.0]} & \\
+    & & \texttt{/500} & \texttt{[0.0-10.0]} & \\
+    & & \texttt{/1000} & \texttt{[0.0-10.0]} & \\
+    & & \texttt{/2000} & \texttt{[0.0-10.0]} & \\
+    & & \texttt{/4000} & \texttt{[0.0-10.0]} & \\
+    & & \texttt{/8000} & \texttt{[0.0-10.0]} & \\
+    \hline
+    
+    % Módulo de echo
+    \multirow{4}{*}{\texttt{/echo}}	& 	& \texttt{/delay}	&\texttt{[0.0-10.0]} & \multirow{4}{*}{\textit{Echo A.D.L.}}\\
+    & & \texttt{/mix} & \texttt{[0.0-10.0]} & \\
+    & & \texttt{/feedback} & \texttt{[0.0-10.0]} & \\
+    & & \texttt{/level} & \texttt{[0.0-10.0]} & \\
+    \hline
+    
+    % Módulo de slew
+    \multirow{1}{*}{\texttt{/slew}}	& 	& \texttt{/rate}	&\texttt{[0.0-10.0]} & \multirow{1}{*}{\textit{Slew Limiters}}\\
+    \hline
+    
+    % Módulo de Patchbay de Audio
+    \multirow{1}{*}{\texttt{/patchA}}	& 	
+    & \texttt{/[67-128]/[1-66]} 	&\texttt{[0.0-1.0]} & \multirow{1}{*}{\textit{Audio Control}}\\
+    \hline
+    
+    % Módulo de Patchbay de Voltaje
+    \multirow{1}{*}{\texttt{/patchV}}	& 	
+    & \texttt{/[67-128]/[1-66]} 	&\texttt{[0.0-1.0]} & \multirow{1}{*}{\textit{Voltage Control}}\\
+    \hline
+    
+
+\caption[Estructura de los mensajes \textit{OSC}]{Estructura de la cadena de texto (\textit{OSC Type Tag String}) y valor de los mensajes \textit{OSC} para comunicarse con }
+\label{table:osc}
+\end{longtable}
