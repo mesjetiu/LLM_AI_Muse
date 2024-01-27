@@ -15,3 +15,5 @@ prentrenados
 Hiperparámetros
 hiperparámetros
 hiperparámetro
+Copilot
+Mandelbrot
