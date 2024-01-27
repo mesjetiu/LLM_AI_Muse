@@ -243,6 +243,23 @@
     \end{tabular}
 }
 
+\newcommand{\captionqranexo}[3]{%
+    \begin{minipage}{0.7\textwidth}
+        \fontsize{9.5pt}{11pt}\selectfont
+        \setstretch{1} 
+        \fontsize{9.5pt}{11pt}\selectfont #1
+    \end{minipage}%
+    \begin{minipage}{0.2\textwidth}
+        \flushright
+        \raisebox{-0.7\height}{%
+            \begin{tabular}[c]{@{\hspace{2pt}}c@{\hspace{2pt}}c@{}}
+                \qrcode[height=1.4cm]{#2} & 
+                \href{#2}{\raisebox{-0.1\height}{\ifthenelse{\equal{#3}{audio}}{{\Huge \faVolumeUp}}{{\Huge \faVideoCamera}}}}
+            \end{tabular}
+        }
+    \end{minipage}%
+}
+
 
 % \newcommand{\source}[1]{\caption*{\centering \normalfont\smaller Fuente: #1}}
 \newcommand{\source}[1]{
