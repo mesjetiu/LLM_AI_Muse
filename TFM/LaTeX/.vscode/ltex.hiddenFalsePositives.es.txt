@@ -1,0 +1,1 @@
+{"rule":"AGREEMENT_PARTICIPLE_NOUN","sentence":"^\\QUn modelo antes de ser entrenado da como salida valores aleatorios, y el entrenamiento consiste en ajustar estos valores para que la salida se aproxime a lo esperado.\\E$"}
