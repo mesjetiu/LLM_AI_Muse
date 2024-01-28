@@ -18,3 +18,9 @@ hiperparámetro
 Copilot
 Mandelbrot
 source
+learning
+machine
+perceptrón
+tokens
+token
+transformer
