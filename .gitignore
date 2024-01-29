@@ -22,15 +22,15 @@
 OUTPUT/*
 
 útiles/*
-TFM/LaTeX/capitulos/bibliografia.tex
 *apikey.*
 *__pycache__*
-Experimentos/Tidal Cycles/python/LiveCoding_interactivo_API/apikey.txt
+*apikey.txt
 
-TFM/LaTeX/main.glg
-TFM/LaTeX/main.glo
-TFM/LaTeX/main.gls
-TFM/LaTeX/main.ist
-TFM/LaTeX/main.glsdefs
-TFM/LaTeX/main.run.xml
-TFM/LaTeX/main.tdo
+*.glg
+*.glo
+*.gls
+*.ist
+*.glsdefs
+*.run.xml
+*.tdo
+*.wav
