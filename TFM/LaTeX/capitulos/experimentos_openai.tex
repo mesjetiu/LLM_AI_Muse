@@ -16,13 +16,13 @@ Se ha usado ChatGPT como banco de pruebas para la una primera exploración de c�
 
 \subsection{GPT-4, modelo utilizado en todos los experimentos}
 
-En la sección \ref{sec:llm_asistentes_creacion_codigo_programacion} se ha expuesto el estado del arte de los modelos de lenguaje aplicados a la creación de código, habilidad esta que constituye una de las más notorias. Al mismo tiempo, se señaló que el modelo más avanzado en la actualidad es GPT-4, de OpenAI\index{OpenAI}. No obstante, se realizaron pruebas con otros chatbots, como Bart, de Google, o el mismo GitHub Copilot, modelo este último que ha recibido un \emph{fine tunning} específico para la creación de código con todos los repositorios de GitHub. Sin embargo, en GPT-4 se ha encontrado un buen equilibrio entre precisión en respuestas y posibilidades de uso, especialmente gracias a la API y su extensa documentación. La Figura \ref{fig:GPT4_correction_comparation} muestra un ejemplo, realizado al azar, que pone de manifiesto la diferencia entre la corrección de código en SuperCollider de GPT-4 y Bart\index{Bart}, en el que se puede apreciar cómo el código generado por Bart no se puede ejecutar por numerosos errores sintácticos, mientras que el de GPT-4 es correcto. En cuanto al modelo exacto de GPT-4, si bien este ha ido cambiando a lo largo del tiempo en el que se han realizado los experimentos, la versión más utilizada, tanto por coste como por optimización, ha sido $gpt-4-1106-preview$, más conocida como <<GPT-4 turbo>>.
+En la sección \ref{sec:llm_asistentes_creacion_codigo_programacion} se ha expuesto el estado del arte de los modelos de lenguaje aplicados a la creación de código, habilidad esta que constituye una de las más notorias. Al mismo tiempo, se señaló que el modelo más avanzado en la actualidad es GPT-4, de OpenAI\index{OpenAI}. No obstante, se realizaron pruebas con otros chatbots, como Bard, de Google, o el mismo GitHub Copilot, modelo este último que ha recibido un \emph{fine tunning} específico para la creación de código con todos los repositorios de GitHub. Sin embargo, en GPT-4 se ha encontrado un buen equilibrio entre precisión en respuestas y posibilidades de uso, especialmente gracias a la API y su extensa documentación. La Figura \ref{fig:GPT4_correction_comparation} muestra un ejemplo, realizado al azar, que pone de manifiesto la diferencia entre la corrección de código en SuperCollider de GPT-4 y Bard\index{Bard}, en el que se puede apreciar cómo el código generado por Bard no se puede ejecutar por numerosos errores sintácticos, mientras que el de GPT-4 es correcto. En cuanto al modelo exacto de GPT-4, si bien este ha ido cambiando a lo largo del tiempo en el que se han realizado los experimentos, la versión más utilizada, tanto por coste como por optimización, ha sido $gpt-4-1106-preview$, más conocida como <<GPT-4 turbo>>.
 
 A priori se han descartado los modelos open source, ya que demandan, en el momento del trabajo, una gran cantidad de recursos que quedan fuera del alcance de esta investigación. Por otra parte, la aplicación de estos modelos a la generación de código está en pleno desarrollo y, por lo general, quedan lejos de las capacidades de GPT-4\footnote{En el momento en el que se está finalizando este trabajo, se ha liberado el modelo open source {Code LLaMa 2}, del que se anuncia un rendimiento superior a GPT-4 \citep{roziereCodeLlamaOpena}.}.
 
 
 \begin{figure}[h]
-    \caption[Respuesta de \emph{Bart} y \emph{ChatGPT} a un mismo prompt]{(a) Respuesta de \emph{Bart} y (b) \emph{ChatGPT} a un mismo prompt: <<Haz un código sencillo en SuperCollider, listo para ejecutarse, que ejemplifique una frecuencia modulada>>. El código de \emph{Bart} cuenta con varios errores graves de sintaxis, mientras el de \emph{ChatGPT} es correcto.}
+    \caption[Respuesta de \emph{Bard} y \emph{ChatGPT} a un mismo prompt]{(a) Respuesta de \emph{Bard} y (b) \emph{ChatGPT} a un mismo prompt: <<Haz un código sencillo en SuperCollider, listo para ejecutarse, que ejemplifique una frecuencia modulada>>. El código de \emph{Bard} cuenta con varios errores graves de sintaxis, mientras el de \emph{ChatGPT} es correcto.}
     \centering
     \begin{subfigure}{.48\textwidth}
     \centering
@@ -40,7 +40,7 @@ s.freq * (1 + fms * SinOsc(fms).cos);
 // Asignamos la señal a un bus
 Out(s);
     \end{lstlisting}
-    \caption{Bart (con Palm 2)}
+    \caption{Bard (con Palm 2)}
     \end{subfigure}\hfill
     \begin{subfigure}{.48\textwidth}
     \centering
@@ -76,7 +76,7 @@ Synth(\fmSimple, [
 \end{figure}
 
 
-Un segundo LLM disponible en ChatGPT, GPT-3.5, si bien es capaz de generar código mejor que el de Bart, no lo hace con la tasa de corrección de GPT-4. En los experimentos realizados esto se pudo comprobar constantemente: una gran parte del código generado en SuperCollider por GPT-3.5 contenía demasiados errores de sintaxis y alucinaciones, lo cual lo convertía en ineficiente para la creación de código musical al lado de GPT-4.
+Un segundo LLM disponible en ChatGPT, GPT-3.5, si bien es capaz de generar código mejor que el de Bard, no lo hace con la tasa de corrección de GPT-4. En los experimentos realizados esto se pudo comprobar constantemente: una gran parte del código generado en SuperCollider por GPT-3.5 contenía demasiados errores de sintaxis y alucinaciones, lo cual lo convertía en ineficiente para la creación de código musical al lado de GPT-4.
 
 
 \section{Rendimiento de ChatGPT en tareas de generación de código sonoro}
