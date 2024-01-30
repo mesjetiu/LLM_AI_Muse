@@ -498,9 +498,43 @@ De hecho, este es un flujo habitual en el que se desenvuelve las conversaciones 
 
 \section{Mayor control de parámetros con el Playground de OpenAI}
 
-problema con temperatura y ajustes de otros parámetros.
+El Playground de OpenAI consiste en una interfaz web, similar a ChatGPT, en la cual, entre otras cosas, se pueden controlar importantes parámetros como la temperatura, la longitud de la respuesta, la ventana de contexto, top-\emph{k} y top-\emph{p}. 
 
-\section{Ampliando el \emph{Knowledge}: RAG con \emph{GPTs} y \emph{Assistants}}
+En la práctica, se ha visto que no conviene modificar la temperatura más allá de su valor por defecto $1$. Incluso valores ligeramente altos producen efectos negativos en la generación de código, especialmente errores sintácticos y alucinaciones. Valores menores son posibles, aunque estos se tornan demasiado predecibles, y esto puede ser un problema si se busca variedad en las respuestas.
+
+Una ventaja práctica que se ha encontrado en la interfaz de Playground es la posibilidad de escribir un prompt de sistema. Es decir, un prompt general que siempre antecede a los mensajes del usuario. Estos prompts de sistema tienen como finalidad contextualizar la conversación y el papel que el \gls{llm} tendrá dentro de ella. Estos prompts, redactados en lenguaje natural, son una suerte de instrucciones que el usuario puede escribir una sola vez, pero que se espera que el \gls{llm} respete en la conversación. Se ha notado, no obstante, que no siempre son respetadas estas instrucciones, y que prompts de sistema demasiado largos pueden caer en los defectos asociados a la ventana de contexto ya señalados en la sección \ref{sec:hiperparametros_ventana}. La Figura \ref{fig:system_prompt_example} muestra un ejemplo de prompt de sistema utilizado en los experimentos, en el que se le pide GPT-4 que genere código en SuperCollider. Más ejemplos de prompts de sistema utilizados en este trabajo se pueden encontrar en el anexo \ref{anexo:system_promts}.
+
+\begin{figure}[H]
+    \caption[Ejemplo de prompt de sistema para generar código en SuperCollider]{Ejemplo de prompt de sistema para generar código en SuperCollider. Este prompt ha sido construido iterativamente según las necesidades de la conversación. Muchas instrucciones corresponden a defectos que el LLM ha ido mostrando previamente.}
+    \centering
+    \begin{mdframed}
+        \setstretch{1}
+        \fontsize{9.5pt}{11pt}\selectfont
+        Eres un experto en SuperCollider. Cada vez que se te pida, debes devolver una sentencia de SuperCollider (SC). Una sentencia puede ser una sola línea o un conjunto de líneas dentro de un bloque. A cada petición, responderás con una única sentencia que continúe el contexto proporcionado por la conversación. Si un usuario reporta un error en tu sentencia, debes corregirla.
+        \setlength{\parskip}{6pt}
+        Importante: Utiliza Pbindef (no Pbind) como base para la creación musical.
+        
+        Evita usar el Synth default. En su lugar, crea tus propios SynthDef, asegurándote de:
+        1. Evitar valores predeterminados (como "freq=440") y 
+        2. Que los SynthDef se autoliberen con "doneAction: 2". 
+        Crea patrones, ritmos, texturas, planos sonoros y espacializaciones experimentales. Utiliza siempre la sintaxis correcta de SC y no incluyas texto o comentarios, ya que no serán procesados.
+        
+        Organiza tus respuestas de la siguiente manera: primero s.boot; luego, define SynthDefs; después, trabaja con Pbinds; y finalmente, termina con s.freeAll y s.quit. Evita bloques de código largos.
+    \end{mdframed}
+    
+    \source{\propio}
+    \label{fig:system_prompt_example}
+\end{figure}
+
+
+\section{Ampliando el \emph{Knowledge}: retrieval-augmented generation}
+
+OpenAI provee de las herramientas necesarias para implementar sistemas de \gls{rag} (véase sección \ref{sec:rag}), bajo el nombre de \emph{GPTs} y \emph{Assistant}, lo cual fue explorado en el transcurso de la investigación. Básicamente, se ha de proveer al sistema de un prompt de sistema y de un conjunto de archivos sobre los que pueda realizar consultas. 
+
+Para ello, se elaboró una serie de archivos de texto plano a partir de la documentación oficial de las clases de SuperCollider y su guía práctica de uso de \emph{patterns} \citep{SuperCollider12Help} \footnote{Los archivos generados ad hoc para estos sistemas se encuentran en el repositorio del trabajo (véase el anexo \ref{anexo:repositorio})} convertido a formato JSON para facilitar su lectura al sistema. Otro archivo incluido, esta vez en PDF, es el manual \emph{A Gentle Introduction To SuperCollider} de \citeauthor{ruviaroGentleIntroductionSuperCollider2015} (\citeyear{ruviaroGentleIntroductionSuperCollider2015}). Para el caso de los trabajos con el lenguaje de Tidal Cycles, se prepararon en archivos de texto los ejemplos de los cursos disponibles en la web oficial del lenguaje \citep{LiveCodeTidal}.
+
+Por lo general, no se ha apreciado una gran diferencia de calidad en el código generado con \gls{rag}. En los sistemas dirigidos a Tidal Cycles se observó que los códigos generados estaban inspirados en ejemplos reales de código, con las transformaciones pertinentes, aunque probablemente se deba a que los experimentos realizados en Tidal Cycles fueron realizados en el contexto de \emph{live coding}, como se verá, donde el sistema podía tomar al azar códigos para su contexto. Por otra parte, los archivos utilizados para Tidal Cycles contenían básicamente ejemplos de código con un comentario cada uno, mientras que los de SuperCollider contenían más texto, lo cual puede haber influido en el resultado.
+
 
 \section{Programando con la API de OpenAI}
 Aquí se explica con detalle los scripts que se han programado, dificultades, limitaciones y puntos de interés.
