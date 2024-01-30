@@ -62,32 +62,71 @@ El \emph{fine-tuning} produce buenos resultados gracias a la capacidad de genera
 
 
 \subsection{Hiperparámetros y parámetros del modelo}
+\label{sec:hiperparametros_ventana}
 
 
 Se denominan \emph{hiperparámetros} a los parámetros que se fijan de forma previa al entrenamiento del modelo, delimitando su estructura y capacidades computacionales \citep{QueEsAjuste}. Así, la arquitectura elegida, las dimensiones de cada una de sus partes, la tasa de aprendizaje, etc. Todo ello determinará las características del modelo entrenado, así como las necesidades de recursos computacionales necesarios tanto para la fase de entrenamiento como de inferencia.
 
-Cuanto mayor sea el modelo, más parámetros variables tendrá en su entrenamiento, por lo que mayor costo computacional demandará. Actualmente, los \gls{llm} tienen un número de parámetros absolutamente prohibitivo dentro de la computación personal, del orden del billón \citep{radfordLanguageModelsAre2019}, por lo que su entrenamiento se realiza en \emph{clusters} de ordenadores de alto rendimiento, con cientos de GPUs. Sin embargo, una vez entrenados, son potencialmente utilizables en ordenadores personales para tareas de inferencia, como la generación de texto, traducción automática, etc., aunque lo más habitual es ofrecer sus servicios a demanda.
+Cuanto mayor sea el modelo, más parámetros variables tendrá en su entrenamiento, por lo que mayor coste computacional demandará. Actualmente, los \gls{llm} tienen un número de parámetros absolutamente prohibitivo dentro de la computación personal, del orden del billón \citep{radfordLanguageModelsAre2019}, por lo que su entrenamiento se realiza en \emph{clusters} de ordenadores de alto rendimiento, con cientos de GPUs. Sin embargo, una vez entrenados, son potencialmente utilizables en ordenadores personales\footnote{En realidad, también para la fase de inferencia se necesita del uso de GPUs, pero podemos considerarlo un recurso asequible comparado con los requerimientos de la fase de entreamiento.} para tareas de inferencia, como la generación de texto, traducción automática, etc., aunque lo más habitual es ofrecer sus servicios online a demanda.
 
-Además del número de parámetros, el tamaño de la ventana de contexto es otro hiperparámetro a considerar en un \gls{llm}. Este dato hace referencia a la cantidad de \emph{tokens} que un \gls{llm} puede recibir como input para realizar la inferencia del siguiente \emph{token}. 
-
-
+Además del número de parámetros, el tamaño de la ventana de contexto es otro hiperparámetro a considerar en un \gls{llm}. Este dato hace referencia a la cantidad de {tokens} que un \gls{llm} puede recibir como input para realizar la inferencia del siguiente {token}. Cuanto mayor sea la ventana de contexto, más tokens tendrá en cuenta el modelo para generar el siguiente, y más coherentes serán los textos generados. Sin embargo, también será más lento en la inferencia \citep{gonzaloAsomandonosVentanaContextual2023}.
 
 
 
-Precisamente el número de parámetros y la ventana de contexto son los hiperparámetros más importantes y críticos en términos computacionales y de efectividad. Cuanto más grande sea el modelo, más parámetros tendrá y más capacidad de generar textos tendrá. Sin embargo, también será más lento en la inferencia. Por otro lado, cuanto mayor sea la ventana de contexto, más \emph{tokens} tendrá en cuenta el modelo para generar el siguiente \emph{token}, y más coherentes serán los textos generados. Sin embargo, también será más lento en la inferencia.
+Por otra parte, independientemente del tamaño ventana de contexto, y especialmente en las ventanas grandes, se ha visto que los LLM no procesan por igual toda la información. Pueden existir lagunas importantes en el centro de la ventana, tal como demuestran recientes estudios \citep{liuLostMiddleHow2023}, lo cual puede llevar al modelo a alucinar. La Figura \ref{fig:Precision_LLM_gran_contexto} muestra una gráfica con este fenómeno. Por tanto, en una conversación larga dentro de la creación de un proyecto de envergadura el LLM puede sufrir de pérdida absoluta de la parte inicial de la conversación (limitación de la ventana de contexto) y, por otra parte, de pérdida parcial de la parte central de la conversación (limitación de la precisión en el centro de la ventana de contexto). Véase la Figura \ref{fig:chat_ventana_lost_in_the_middle}, que ilustra gráficamente el problema combinado de conocimiento del contexto por parte de los LLM en conversaciones suficientemente largas.
 
 
-Consideraciones interesantes sobre parámetros y ventana de contexto en \cite{gonzaloAsomandonosVentanaContextual2023}
+\begin{figure}[H]
+    \caption[Precisión de GPT-3 en función del tamaño de la ventana de contexto]{Precisión de GPT-3 en función del tamaño de la ventana de contexto. En la gráfica se aprecia cómo la precisión del modelo disminuye hacia el centro de la ventana de contexto. Ello puede se runa limitación en la creación de un proyecto, ya que la parte central de la conversación recordada por el modelo puede resultar minimizada en su importancia.}
+    \centering
+    \includegraphics[width=0.5\textwidth]{./figuras/Precision_LLM_gran_contexto.png}
+    \source{\cite{liuLostMiddleHow2023}}
+    \label{fig:Precision_LLM_gran_contexto}
+\end{figure}
 
-\subsection{Hiperparámetros controlables por el usuario}
+\begin{figure}[H]
+    \caption[Ventana de contexto y pérdida de precisión en su interior]{Ventana de contexto y pérdida de precisión en su interior. En un proyecto de medianas y grandes dimensiones, chatGPT puede perder la memoria de las directrices iniciales (limitación de la ventana de contexto) y perder precisión o alucinar en el centro de la ventana de contexto (limitación de la precisión en el centro de la ventana de contexto). Las partes sombreadas indican una pérdida total (fuera de la ventana de contexto) o parcial (hacia la mitad de la ventana de contexto) de la atención por parte del LLM.}
+    \centering
+    \includegraphics[width=0.7\textwidth]{./figuras/chat_ventana_lost_in_the_middle.png}
+    \source{\propio}
+    \label{fig:chat_ventana_lost_in_the_middle}
+\end{figure}
+
+
+
+\subsection{Temperatura, top-p y top-k}
 \label{sec:hiperparametros_controlables}
-Hablar de la temperatura, top\_p, top\_k, ventana de contexto, número de \emph{tokens}, etc. 
 
-Se habla de la temperatura y su impacto en la generación de textos en \cite{holtzmanCuriousCaseNeural2020} y \cite{chamandFinetuneYourClassifier2022}
+Consideremos la Figura \ref{fig:llm_generation}. Un \gls{llm} predice su siguiente token devolviendo una distribución de probabilidad. Si el sistema tomara por salida siempre el token más probable, las respuestas del \gls{llm} serían absolutamente predecibles y repetitivas. Para evitarlo, el parámetro de \emph{temperatura} permite controlar el peso que se dará a cada elemento de la distribución de probabilidad. Si la temperatura es baja, se dará más peso a los elementos más probables, y si es alta, se igualará la probabilidad de todos los elementos. En el primer caso, las respuestas serán más predecibles, y en el segundo, más variadas y creativas. Si la temperatura es demasiado alta, el modelo puede generar respuestas incoherentes. La Figura \ref{fig:temperatura} ilustra este procedimiento.
 
-\cite{holtzmanCuriousCaseNeural2020} habla de la importancia de top\_p, en lo que denomina \emph{top\_k nucleus sampling}. Aunque es antiguo el paper, echar un ojo porque aclara bastante los conceptos.
+\begin{figure}[H]
+    \caption[Control de la temperatura en la generación de texto por un LLM]{Control de la temperatura en la generación de texto por un LLM. La temperatura controla el peso que se da a cada elemento de la distribución de probabilidad. Si la temperatura es baja, se dará más peso a los elementos más probables, y si es alta, se igualará la probabilidad de todos los elementos. En el primer caso, las respuestas serán más predecibles, y en el segundo, más variadas y creativas. Si la temperatura es demasiado alta, el modelo puede generar respuestas incoherentes.}
+    \centering
+    \includegraphics[width=0.6\textwidth]{./figuras/temperatura.png}
+    \source{\cite{LLMTanSuoGPTLeiMoXingDeJiGeChangYongCanShuTopk}}
+    \label{fig:temperatura}
+\end{figure}
 
-Seguimos las explicaciones de \cite{rothmanTransformersNaturalLanguage2021}
+Por otra parte, los parámetros top-\texttt{k} y top-\texttt{p} permiten controlar cuántos elementos de la distribución de probabilidad se tendrán en cuenta en la generación del siguiente token. El parámetro top-\texttt{k} indica el número de elementos más probables, mientras que top-\texttt{p} indica el porcentaje de probabilidad que se tendrá en cuenta. En ambos casos, la distribución queda truncada a los elementos más probables. La Figura \ref{fig:top_k_top_p} ilustra el funcionamiento de estos parámetros. En todo caso, la elección de estos valores tiene un gran impacto en las respuestas del \gls{llm} \citep{holtzmanCuriousCaseNeural2020,chamandFinetuneYourClassifier2022,wangHyperparameterOptimizationAlgorithm2022,wangCostEffectiveHyperparameterOptimization2023}, y en la mayoría de los casos, se requiere un proceso de prueba y error para encontrar los valores óptimos.
 
-Existen estudios centrados en la optimización de los hiperparámetros (los ya citados más arriba y \cite{wangCostEffectiveHyperparameterOptimization2023} y \cite{wangHyperparameterOptimizationAlgorithm2022})
+
+\begin{figure}[h]
+    \caption[Control de los parámetros top-\texttt{k} y top-\texttt{p} en la generación de texto por un LLM]{Control de los parámetros top-\texttt{k} y top-\texttt{p} en la generación de texto por un LLM. (a) El parámetro top-\texttt{k} indica el número de elementos más probables, mientras que (b) top-\texttt{p} indica el porcentaje de probabilidad que se tendrá en cuenta. En ambos casos, la distribución queda truncada a los elementos más probables.}
+    \centering
+    \begin{subfigure}{.48\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{./figuras/top-k.png}
+    \caption{Truncamiento de la distribución de probabilidad por top-\texttt{k}.}
+    \end{subfigure}\hfill
+    \begin{subfigure}{.48\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{./figuras/top-p.png}
+
+    \caption{Truncamiento de la distribución de probabilidad por top-\texttt{p}.}
+    \end{subfigure}
+
+    \source{\cite{stokesGuideLanguageModel2023}}
+    \label{fig:top_k_top_p}
+\end{figure}
+
 
