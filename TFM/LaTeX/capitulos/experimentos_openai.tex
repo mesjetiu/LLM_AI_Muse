@@ -537,7 +537,22 @@ Por lo general, no se ha apreciado una gran diferencia de calidad en el código 
 
 
 \section{Programando con la API de OpenAI}
-Aquí se explica con detalle los scripts que se han programado, dificultades, limitaciones y puntos de interés.
+
+La comunicación por API con los servicios, en este caso, de OpenAI, constituye la forma más dúctil de interactuar con los modelos de \gls{ia}. En este caso, se provee de una amplia y completa documentación y de librerías para su utilización dentro de diversos lenguajes de programación.
+
+En nuestro caso, el lenguaje utilizado es Python, por la sencillez de su uso y por ser un lenguaje robusto en el campo de la \gls{ia} y de la investigación. El entorno de programación fue durante toda la investigación Visual Studio Code. Se crearon principalmente 2 programas para la interacción con la API de OpenAI: uno para la generación automática de código en Tidal Cycles y otro para la generación interactiva de código tanto en Tidal Cycles como en SuperCollider.
+
+\subsection{Generación automática de código en Tidal Cycles}
+
+La API, además de interacciones del mismo tipo que ChatGPT o que la Playground, permite la interacción programada de peticiones y la gestión de las respuestas de forma automatizada. Uno de los primeros scripts que se crearon en este trabajo realizaba peticiones cíclicamente a la API. El código solicitado era el de un patrón de Tidal Cycles por medio de una petición de prompt de sistema. Una vez obtenido, el patrón es enviado al generador de sonido de Tidal en local y, tras un tiempo determinado, se vuelve a comenzar el ciclo enviando una nueva petición que incluye tanto el prompt de sistema como los patrones que se han generado hasta el momento como contexto.
+
+Una parte de estos patrones generados contienen errores en el código, normalmente por la utilización de objetos o clases inexistentes. En estos casos, como ya se ha mencionado, el error puede pasar desapercibido y sin consecuencias graves en la salida del sonido. Tidal no para la ejecución de los patrones previos aunque el último ejecutado contenga errores. El resultado sonoro del script es el de una evolución temporal de patrones, en forma de deriva, que solo puede ser controlado, en parte, por el usuario desde el prompt de sistema. El resultado es similar al de un intérprete de live coding escribiendo código musical en vivo. La Figura xxx ilustra el flujo cíclico de este programa.
+
+\missingfigure{Flujo cíclico de peticiones a la API para la generación automática de código en Tidal Cycles.}   
+
+Los resultados obtenidos con esta forma de interacción mostraron una notable diferencia tanto en lo cuantitativo como en lo cualitativo respecto a técnicas previas. Por una parte, el flujo continuo de peticiones a la API permite obtener una cantidad de código mayor que con las interfaces tipo chatbot, lo cual se muestra útil a la hora de buscar variedad y cierta serendipia en la búsqueda artística de sonidos y texturas. Por otra parte, la posibilidad de ejecutar directamente el código generado abre la puerta a la experimentación en tiempo real y abre ilimitadas posibilidades en el campo de la música en vivo.
+
+Las limitaciones de esta forma de interacción se encuentran en la forma de implementación de la interacción con el usuario, que, en este caso, se ha visto reducido absolutamente al prompt inicial. Esto provoca que no exista dominio temporal del flujo. Esta situación se puede solucionar, en parte, programando diversos prompts de sistema para ser lanzados en momentos determinados de la ejecución
 
 \section{Explorando la \emph{multimodalidad} con \emph{ChatGPT Vision}}
 % Crear varios ejemplos y plasmar la experiencia: dar imágenes a ChatGPT y ver qué pasa a nivel de creación sonora.
