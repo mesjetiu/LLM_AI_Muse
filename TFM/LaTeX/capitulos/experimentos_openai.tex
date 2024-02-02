@@ -552,7 +552,13 @@ Una parte de estos patrones generados contienen errores en el código, normalmen
 
 Los resultados obtenidos con esta forma de interacción mostraron una notable diferencia tanto en lo cuantitativo como en lo cualitativo respecto a técnicas previas. Por una parte, el flujo continuo de peticiones a la API permite obtener una cantidad de código mayor que con las interfaces tipo chatbot, lo cual se muestra útil a la hora de buscar variedad y cierta serendipia en la búsqueda artística de sonidos y texturas. Por otra parte, la posibilidad de ejecutar directamente el código generado abre la puerta a la experimentación en tiempo real y abre ilimitadas posibilidades en el campo de la música en vivo.
 
-Las limitaciones de esta forma de interacción se encuentran en la forma de implementación de la interacción con el usuario, que, en este caso, se ha visto reducido absolutamente al prompt inicial. Esto provoca que no exista dominio temporal del flujo. Esta situación se puede solucionar, en parte, programando diversos prompts de sistema para ser lanzados en momentos determinados de la ejecución
+Una decisión que resultó muy productiva es la de utilizar el lenguaje de Tidal en lugar del de SuperCollider. Además de la fácil y silenciosa gestión de errores de Tidal, por tratarse de un lenguaje expresamente diseñado para la creación musical en tiempo real, su código resulta potencialmente menos peligroso que el de SuperCollider, como también se señaló más arriba. 
+
+Las limitaciones de esta forma de interacción se encuentran en la forma de implementación de la interacción con el usuario, que, en este caso, se ha visto reducido absolutamente al prompt inicial. Esto provoca que no exista dominio temporal del flujo. Esta situación se puede solucionar, en parte, programando diversos prompts de sistema para ser lanzados en momentos determinados de la ejecución, aunque esto no fue explorado lo suficiente.
+
+Precisamente, para posibilitar un control mayor por parte del usuario, se creó un segundo programa que permitiera una interacción mucho más directa y abierta, en términos de posibilidades, con la API. Debido a la importancia de este programa y su complejidad, se le dedicará un apartado propio.
+
+
 
 \section{Explorando la \emph{multimodalidad} con \emph{ChatGPT Vision}}
 % Crear varios ejemplos y plasmar la experiencia: dar imágenes a ChatGPT y ver qué pasa a nivel de creación sonora.
