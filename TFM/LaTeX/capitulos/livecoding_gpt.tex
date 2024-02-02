@@ -1,44 +1,71 @@
 \chapter{\emph{AI Muse}, herramienta en \emph{Python} para la interacción en vivo LLM en entornos de \emph{live coding}}
 \label{chap:ai_muse}
-\todo{Probablemente este capítulo se incluya como sección, en "Uso de la API", aunque lo puedo decidir después.}
 
 % \defaultFontEpigraph{One Model Is All You Need}{\cite{grahamOneModelAll2022}}
 \defaultFontEpigraph{One Model Is All You Need}{Graham y cols. (2022)}
 
-Aquí se detalla la herramienta creada de live coding con la API y Tidal Cycles. Se describe el proceso de creación de la herramienta, así como su funcionamiento y las posibilidades que ofrece. También se exponen ejemplos.
+En este capítulo pasamos a describir la herramienta \emph{AI Muse}, a la cual nos referimos en el capítulo anterior (véase \ref{sec:generacion_automatica_codigo_tidal_cycles}), detallando su funcionamiento, diversas cuestiones de su implementación y los resultados de su utilización.
 
 \section{Descripción general de la herramienta}
 
-Escrito en Python
-Se comunica con la API de OpenAI
-Es un entorno de Liveconding
-Al guardar el archivo se realiza un intercambio con la API
-Permite ejecutar código de SuperCollider y código de Tidal Cycles
-Tiene un archivo de configuración en json, además de un conjunto de comandos para cambiar los parámetros en vivo
+\emph{AI Muse} es una herramienta de interacción con modelos de lenguaje en entornos de live coding. Está escrita en Python y se comunica con la API de OpenAI. Permite ejecutar código de SuperCollider y de Tidal Cycles. Además, tiene un archivo de configuración en formato JSON, así como un conjunto de comandos para modificar en vivo los parámetros de la configuración. Aunque está pensada para la utilización de modelos de OpenAI, esta librería permite eventualmente comunicarse con otros modelos de lenguaje incluso en local, detalle que no ha sido explorado en este trabajo.
+
+% Escrito en Python
+% Se comunica con la API de OpenAI
+% Es un entorno de Liveconding
+% Al guardar el archivo se realiza un intercambio con la API
+% Permite ejecutar código de SuperCollider y código de Tidal Cycles
+% Tiene un archivo de configuración en json, además de un conjunto de comandos para cambiar los parámetros en vivo
 
 \section{¿Por qué en entorno de Livecoding?}
 
-Es más dúctil e interactivo que el de la composición.
-Explora la posibilidad de respuesta inmediata por API.
-Explota el hecho de que los LLM actualmente trabajan mejor con bloques relativamente pequeños.
-Los lenguajes de livecoding tienen mecanismos de seguridad que abstraen al usuario de largas comprobaciones de errores: o funciona o no funciona. Si no funciona, nada se cae. Este principio se aplica especialmente a Tidal Cycles, aunque SuperCollider también tiene estructuras adecuadas para livecoding (placeholders)
-Inmediatez de la respuesta del modelo. Se iteran las respuestas buenas, las malas se pueden desechar sin más.
+El live coding es el arte de programar música en tiempo real. Es un entorno de experimentación y de creación artística que une el campo de la programación con el de la interpretación musical y la improvisación. Por su naturaleza, esta práctica ofrece un entorno ideal para la exploración de las posibilidades que puede ofrecer la interacción con modelos de lenguaje de forma automatizada. 
+
+El live coding, por su naturaleza improvisatoria, no está ceñido a una forma musical predeterminada. Esta indeterminación formal tiene menos exigencias que la composición a nivel temporal, algo que se adecua muy bien a los resultados que se obtuvieron en etapas anteriores de nuestro trabajo, donde se observó que los modelos de lenguaje actuales producen mejores resultados con bloques de código relativamente pequeños. Este formato creativo, unido a las bondades ya señaladas de Tidal Cycles en cuanto a seguridad del código y resistencia a errores, llevó a la escritura \emph{AI Muse} como una herramienta de experimentación.
+
+% Es más dúctil e interactivo que el de la composición.
+% Explora la posibilidad de respuesta inmediata por API.
+% Explota el hecho de que los LLM actualmente trabajan mejor con bloques relativamente pequeños.
+% Los lenguajes de livecoding tienen mecanismos de seguridad que abstraen al usuario de largas comprobaciones de errores: o funciona o no funciona. Si no funciona, nada se cae. Este principio se aplica especialmente a Tidal Cycles, aunque SuperCollider también tiene estructuras adecuadas para livecoding (placeholders)
+% Inmediatez de la respuesta del modelo. Se iteran las respuestas buenas, las malas se pueden desechar sin más.
 
 \section{Integración de la API de OpenAI}
 
-Usar la API es conveniente para controlar todos los parámetros del modelo.
-Actualmente tiene dos modalidades: Chat y Assistant.
-Es lo suficientemente rápido como para interaccionar y escribir mucho más rápido que el usuario, por lo que se puede poner un tiempo mínimo entre respuestas.
+\emph{AI Muse} integra dos posibles interacciones que OpenAI permite con su API: utilización modelos de chatbot y de sistemas de \gls{rag}\footnote{Los llamados \emph{Assistants} por OpenAI.}. La primera modalidad es la más sencilla, ya que se trata de realizar conversaciones con el modelo. En este caso, cada petición se limita a un prompt general de sistema unido al archivo actual con todo el código generado, de forma que el modelo pueda genera el siguiente bloque de código.
 
+La diferencia crucial con scripts previos en este trabajo es que es el propio usuario quien decide cuándo hacer una petición a la API, en lugar de estar automatizado. La acción elegida para hacer esta petición es la de guardar el archivo. De esta forma, el programa puede ser utilizado en cualquier editor de textos, y no está limitado a un entorno de desarrollo concreto ni al uso de \emph{plugins} o extensiones. En este caso, todo el programa ha sido escrito y testado en Visual Studio Code, pero eventualmente podría ser utilizado en cualquier otro editor de textos.
 
+% Usar la API es conveniente para controlar todos los parámetros del modelo.
+% Actualmente tiene dos modalidades: Chat y Assistant.
+% Es lo suficientemente rápido como para interaccionar y escribir mucho más rápido que el usuario, por lo que se puede poner un tiempo mínimo entre respuestas.
 
 \section{Lenguajes de programación musical disponibles}
+
+En un primer momento se implementó únicamente la posibilidad de ejecutar código de Tidal Cycles. Posteriormente, se añadió el soporte para SuperCollider, aprovechando las clases que este lenguaje ofrece para el live coding. En ambos casos se ofrece la posibilidad de que sea el propio programa el que se ocupe de llamar a los binarios de los propios lenguajes, o que este código sea ejecutado por el usuario por otros medios (uso de plugins o de entornos de desarrollo específicos).
+
+
+\section{Flujo de trabajo}
+
+El flujo de trabajo típico de \emph{AI Muse} es el siguiente:
+
+\begin{enumerate}
+    \item El usuario abre un archivo de código en un editor de texto, con la extensión adecuada (actualmente, \texttt{.tidal} o \texttt{.sc}, para Tidal Cycles y SuperCollider, respectivamente).
+    \item \label{item:paso_write_code} El usuario puede escribir código musical o un simple comentario-mensaje para el modelo.
+    \item Al guardar el archivo, \emph{AI Muse} lee el archivo y lo envía a la API de OpenAI.
+    \item La API de OpenAI devuelve una respuesta con el siguiente bloque de código que es añadido automáticamente al archivo actual.
+    \item El usuario ejecuta el nuevo bloque de código a voluntad, pudiendo modificarlo si lo cree oportuno.
+    \item El usuario vuelve al paso \ref{item:paso_write_code}.
+\end{enumerate}
+
+La Figura xxx ilustra este flujo de trabajo.
+
+\missingfigure{Flujo de trabajo de AI Muse}
 
 \section{Archivo de configuración y comandos}
 
 Explicar el archivo de configuración y los comandos de configuración en vivo. Hacer una tabla
 
-\section{Flujo de trabajo}
+
 
 \section{Hallazgos obtenidos con \emph{AI Muse}}
 
@@ -46,6 +73,6 @@ Se ha conseguido un alto nivel de "colaboración" e interacción con un modelo d
 
 Es un buen banco de pruebas para la experimentación con modelos. 
 
-
+\section{Limitaciones de la herramienta}
 
 \section{Ejemplos de uso}

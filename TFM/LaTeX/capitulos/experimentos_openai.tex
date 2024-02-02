@@ -543,6 +543,7 @@ La comunicación por API con los servicios, en este caso, de OpenAI, constituye 
 En nuestro caso, el lenguaje utilizado es Python, por la sencillez de su uso y por ser un lenguaje robusto en el campo de la \gls{ia} y de la investigación. El entorno de programación fue durante toda la investigación Visual Studio Code. Se crearon principalmente 2 programas para la interacción con la API de OpenAI: uno para la generación automática de código en Tidal Cycles y otro para la generación interactiva de código tanto en Tidal Cycles como en SuperCollider.
 
 \subsection{Generación automática de código en Tidal Cycles}
+\label{sec:generacion_automatica_codigo_tidal_cycles}
 
 La API, además de interacciones del mismo tipo que ChatGPT o que la Playground, permite la interacción programada de peticiones y la gestión de las respuestas de forma automatizada. Uno de los primeros scripts que se crearon en este trabajo realizaba peticiones cíclicamente a la API. El código solicitado era el de un patrón de Tidal Cycles por medio de una petición de prompt de sistema. Una vez obtenido, el patrón es enviado al generador de sonido de Tidal en local y, tras un tiempo determinado, se vuelve a comenzar el ciclo enviando una nueva petición que incluye tanto el prompt de sistema como los patrones que se han generado hasta el momento como contexto.
 
@@ -556,7 +557,7 @@ Una decisión que resultó muy productiva es la de utilizar el lenguaje de Tidal
 
 Las limitaciones de esta forma de interacción se encuentran en la forma de implementación de la interacción con el usuario, que, en este caso, se ha visto reducido absolutamente al prompt inicial. Esto provoca que no exista dominio temporal del flujo. Esta situación se puede solucionar, en parte, programando diversos prompts de sistema para ser lanzados en momentos determinados de la ejecución, aunque esto no fue explorado lo suficiente.
 
-Precisamente, para posibilitar un control mayor por parte del usuario, se creó un segundo programa que permitiera una interacción mucho más directa y abierta, en términos de posibilidades, con la API. Debido a la importancia de este programa y su complejidad, se le dedicará un apartado propio.
+Precisamente, para posibilitar un control mayor por parte del usuario, se creó un segundo programa que permitiera una interacción mucho más directa y abierta, en términos de posibilidades, con la API. Debido a la importancia de este programa y su complejidad, se le dedicará un apartado propio (véase capítulo \ref{anexo:aimuse}).
 
 
 
