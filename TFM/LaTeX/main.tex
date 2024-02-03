@@ -23,7 +23,7 @@
 \usepackage[normalem]{ulem} % [normalem] para que no se cambie el estilo de \emph
 \usepackage{booktabs} % Para líneas horizontales en tablas
 \usepackage{tabularx} % Para tablas con columnas de ancho ajustable
-\usepackage{xcolor}
+\usepackage[table]{xcolor}
 \usepackage{colortbl}
 \usepackage[hidelinks]{hyperref} % Para que los enlaces no se coloreen
 %\usepackage{hyperref} % Para que los enlaces sí se coloreen
@@ -175,6 +175,11 @@
 
 % ----------- Configuración de colores y estilos -----------
 \definecolor{azul_unir}{RGB}{0, 152, 205}
+% Definir un nuevo color suave basado en azul_unir
+\definecolor{azul_unir_soft}{RGB}{204, 236, 255} % Un azul más suave
+% Alternar colores de fila con azul_unir_soft y blanco
+\rowcolors{2}{azul_unir_soft}{white} % Comenzar en la segunda fila, alternando con blanco
+
 \setlength{\parskip}{6pt plus 1pt minus 1pt}
 \setlength{\parindent}{0pt}
 \onehalfspacing
