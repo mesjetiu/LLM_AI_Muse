@@ -46,7 +46,7 @@ En un primer momento se implementó únicamente la posibilidad de ejecutar códi
 
 \section{Flujo de trabajo}
 
-El flujo de trabajo típico de \emph{AI Muse} es el siguiente:
+El flujo de trabajo típico de \emph{AI Muse} es el siguiente (cfr. Figura xxx):
 
 \begin{enumerate}
     \item El usuario ejecuta el programa. Automáticamente se creará un archivo en texto plano con la extensión adecuada (actualmente, \texttt{.tidal} o \texttt{.sc}, para Tidal Cycles y SuperCollider, respectivamente) para interactuar.
@@ -58,16 +58,64 @@ El flujo de trabajo típico de \emph{AI Muse} es el siguiente:
     \item El usuario vuelve al paso \ref{item:paso_write_code}.
 \end{enumerate}
 
-La Figura xxx ilustra este flujo de trabajo.
 
 \missingfigure{Flujo de trabajo de AI Muse}
 
 \section{Archivo de configuración y comandos}
 
-La Figura \ref{fig:json} muestra el archivo de configuración de \emph{AI Muse}. Este archivo será cargado al ejecutar el programa.
+La Figura \ref{fig:json} muestra una configuración concreta para el archivo \texttt{config.json} \emph{AI Muse}. Este archivo, en formato JSON, será cargado al ejecutar el programa y contiene toda la información relevante en cuanto al lenguaje musical, modelo, hiperparámetros y otras opciones referentes a la propia aplicación, como el tiempo que ha de pasar entre dos peticiones. La Tabla \ref{table:json_comandos} muestra una breve descripción de estos parámetros, así como su traducción a comandos dentro de la propia aplicación.
+
+
+
+
+\begin{landscape}
+    \begin{table}[htbp]
+        \centering
+        \caption{Descripción de la configuración del archivo \texttt{config.json} y de sus correspondientes comandos.}
+        \label{tab:config-description}
+        % \setstretch{1}
+        \fontsize{9.5pt}{11pt}\selectfont
+        \begingroup
+        \rowcolors{2}{azul_unir_soft}{white}
+        \begin{tabularx}{\linewidth}{lXlcl}
+            \toprule
+            \rowcolor{azul_unir} % Aplica el color azul_unir al encabezado de la tabla
+            \textbf{Clave} & \textbf{Valores posibles} & \textbf{Efecto} & \textbf{Modificable en vivo} & \textbf{Ejemplo de uso en comando} \\
+            \midrule
+        % Tus filas aquí
+        mode\_tidal\_supercollider & tidal/sclang & Modo de operación para TidalCycles o SuperCollider & sí & set mode\_tidal\_supercollider tidal \\
+        create\_log\_file & \textcolor{truecolor}{true}/\textcolor{falsecolor}{false} & Activa o desactiva la creación de archivos de registro & sí & set create\_log\_file \textcolor{truecolor}{true} \\
+        ghci\_path & \textcolor{pathcolor}{./ruta/a/ghci} & Ruta al ejecutable ghci & no & - \\
+        only\_system\_commands & \textcolor{truecolor}{true}/\textcolor{falsecolor}{false} & Restringe a comandos del sistema & sí & set only\_system\_commands \textcolor{falsecolor}{false} \\
+        supercollider\_on & \textcolor{truecolor}{true}/\textcolor{falsecolor}{false} & Enciende o apaga SuperCollider & sí & set supercollider\_on \textcolor{truecolor}{true} \\
+        sclang\_path & \textcolor{pathcolor}{./ruta/a/sclang} & Ruta al ejecutable sclang & no & - \\
+        boot\_tidal\_path & \textcolor{pathcolor}{/ruta/a/BootTidal.hs} & Ruta al archivo de arranque de Tidal & no & - \\
+        api\_enabled & \textcolor{truecolor}{true}/\textcolor{falsecolor}{false} & Activa o desactiva la API & sí & set api\_enabled \textcolor{truecolor}{true} \\
+        bot\_mode & assistant/otro & Establece el modo del bot & sí & set bot\_mode assistant \\
+        assistant\_id & ID & ID del asistente & no & - \\
+        assistant\_retrieval\_folder & \textcolor{pathcolor}{./ruta/a/carpetas} & Ruta a la carpeta de recuperación & no & - \\
+        api\_key\_file & \textcolor{pathcolor}{apikey.txt} & Archivo con la clave de la API & no & - \\
+        system\_prompt\_file & \textcolor{pathcolor}{./ruta/a/system\_prompts} & Archivo de prompt del sistema & no & - \\
+        model & gpt-4-1106-preview/otro & Modelo de lenguaje utilizado & no & - \\
+        temperature & \textcolor{numbercolor}{0.0-2.0} & Temperatura para la generación de texto & sí & set temperature \textcolor{numbercolor}{0.7} \\
+        max\_tokens & \textcolor{numbercolor}{Número entero} & Número máximo de tokens por generación & sí & set max\_tokens \textcolor{numbercolor}{256} \\
+        top\_p & \textcolor{numbercolor}{0.0-1.0} & Ajusta la probabilidad de tomar caminos menos probables & sí & set top\_p \textcolor{numbercolor}{0.9} \\
+        frequency\_penalty & \textcolor{numbercolor}{Número} & Penalización por frecuencia de tokens & sí & set frequency\_penalty \textcolor{numbercolor}{0.5} \\
+        presence\_penalty & \textcolor{numbercolor}{Número} & Penalización por presencia de tokens & sí & set presence\_penalty \textcolor{numbercolor}{0.5} \\
+        wait\_time\_before\_api & \textcolor{numbercolor}{Segundos} & Tiempo de espera antes de llamar a la API & sí & set wait\_time\_before\_api \textcolor{numbercolor}{10} \\
+        wait\_time\_after\_api & \textcolor{numbercolor}{Segundos} & Tiempo de espera después de llamar a la API & sí & set wait\_time\_after\_api \textcolor{numbercolor}{10} \\
+        \bottomrule
+    \end{tabularx}
+    \endgroup
+    \source{\propio}
+    \label{table:json_comandos}
+    \end{table}
+\end{landscape}
+    
+
 
 \begin{figure}[H]
-    \caption[Archivo de configuración \texttt{config.json} de AI Muse]{Archivo de configuración \texttt{\emph{config.json}} de AI Muse. Los valores de cada clave pueden ser modificados directamente en el archivo o por medio de comandos.}
+    \caption[Ejemplo de archivo de configuración \texttt{config.json} de AI Muse]{Ejemplo de archivo de configuración \texttt{\emph{config.json}} de AI Muse. Los valores de cada clave pueden ser modificados directamente en el archivo o por medio de comandos. En este caso, el programa creará música en Tidal Cycles y utiliza un Assistant (RAG) previamente creado con una ID determinada. El modelo es GPT-4. El número de tokens por petición-respuesta es de 256.}
     \centering
 % \begin{mdframed}
 \setstretch{1} % Esto establece el interlineado a sencillo
@@ -102,62 +150,25 @@ La Figura \ref{fig:json} muestra el archivo de configuración de \emph{AI Muse}.
 \end{figure}
 
 
-
-\begin{landscape}
-    \begin{table}[htbp]
-        \centering
-        \caption{Descripción de la configuración del archivo \texttt{config.json} y de sus correspondientes comandos.}
-        \label{tab:config-description}
-        % \setstretch{1}
-        \fontsize{9.5pt}{11pt}\selectfont
-        \begingroup
-        \rowcolors{2}{azul_unir_soft}{white}
-        \begin{tabularx}{\linewidth}{lXlcl}
-            \toprule
-            \rowcolor{azul_unir} % Aplica el color azul_unir al encabezado de la tabla
-            \textbf{Clave} & \textbf{Valores posibles} & \textbf{Efecto} & \textbf{Modificable en vivo} & \textbf{Ejemplo de uso en comando} \\
-            \midrule
-        % Tus filas aquí
-        mode\_tidal\_supercollider & tidal/sclang & Modo de operación para TidalCycles o SuperCollider & sí & set mode\_tidal\_supercollider tidal \\
-        create\_log\_file & \textcolor{truecolor}{true}/\textcolor{falsecolor}{false} & Activa o desactiva la creación de archivos de registro & sí & set create\_log\_file \textcolor{truecolor}{true} \\
-        ghci\_path & Ruta & Ruta al ejecutable ghci & no & - \\
-        only\_system\_commands & \textcolor{truecolor}{true}/\textcolor{falsecolor}{false} & Restringe a comandos del sistema & sí & set only\_system\_commands \textcolor{falsecolor}{false} \\
-        supercollider\_on & \textcolor{truecolor}{true}/\textcolor{falsecolor}{false} & Enciende o apaga SuperCollider & sí & set supercollider\_on \textcolor{truecolor}{true} \\
-        sclang\_path & Ruta & Ruta al ejecutable sclang & no & - \\
-        boot\_tidal\_path & \textcolor{pathcolor}{/ruta/a/BootTidal.hs} & Ruta al archivo de arranque de Tidal & no & - \\
-        api\_enabled & \textcolor{truecolor}{true}/\textcolor{falsecolor}{false} & Activa o desactiva la API & sí & set api\_enabled \textcolor{truecolor}{true} \\
-        bot\_mode & assistant/otro & Establece el modo del bot & sí & set bot\_mode assistant \\
-        assistant\_id & ID & ID del asistente & no & - \\
-        assistant\_retrieval\_folder & \textcolor{pathcolor}{./ruta/a/carpetas} & Ruta a la carpeta de recuperación & no & - \\
-        api\_key\_file & \textcolor{pathcolor}{apikey.txt} & Archivo con la clave de la API & no & - \\
-        system\_prompt\_file & \textcolor{pathcolor}{./ruta/a/system\_prompts} & Archivo de prompt del sistema & no & - \\
-        model & gpt-4-1106-preview/otro & Modelo de lenguaje utilizado & no & - \\
-        temperature & \textcolor{numbercolor}{0.0-1.0} & Temperatura para la generación de texto & sí & set temperature \textcolor{numbercolor}{0.7} \\
-        max\_tokens & \textcolor{numbercolor}{Número} & Número máximo de tokens por generación & sí & set max\_tokens \textcolor{numbercolor}{256} \\
-        top\_p & \textcolor{numbercolor}{0.0-1.0} & Ajusta la probabilidad de tomar caminos menos probables & sí & set top\_p \textcolor{numbercolor}{0.9} \\
-        frequency\_penalty & \textcolor{numbercolor}{Número} & Penalización por frecuencia de tokens & sí & set frequency\_penalty \textcolor{numbercolor}{0.5} \\
-        presence\_penalty & \textcolor{numbercolor}{Número} & Penalización por presencia de tokens & sí & set presence\_penalty \textcolor{numbercolor}{0.5} \\
-        wait\_time\_before\_api & \textcolor{numbercolor}{Segundos} & Tiempo de espera antes de llamar a la API & sí & set wait\_time\_before\_api \textcolor{numbercolor}{10} \\
-        wait\_time\_after\_api & \textcolor{numbercolor}{Segundos} & Tiempo de espera después de llamar a la API & sí & set wait\_time\_after\_api \textcolor{numbercolor}{10} \\
-        \bottomrule
-    \end{tabularx}
-    \endgroup
-    \source{\propio}
-    \end{table}
-    \end{landscape}
-    
-
-
-% Explicar el archivo de configuración y los comandos de configuración en vivo. Hacer una tabla
+% Explicar el sistema de archivos, especialmente el relativo a cómo debe configurarse la carpeta de un asistente, los prompts, etc.
 
 
 
-\section{Hallazgos obtenidos con \emph{AI Muse}}
+\section{Resultados del uso de \emph{AI Muse}}
 
-Se ha conseguido un alto nivel de "colaboración" e interacción con un modelo de lenguaje. La dimensión temporal no se decide de antemano, como en una composición, sino que se desarrolla a partir de modificaciones y aportaciones atómicas. En esto es fuerte GPT-4.
+Como era de esperar, la automatización de los diálogos con el sistema del \gls{llm} permitió una interacción más fluida que en etapas previas, así como la concentración de la atención del usuario únicamente en cuestiones musicales. La música se produce ahora de forma sincrónica a la interacción usuario-\gls{llm}, lo cual se llega a percibir como una auténtica colaboración humano-máquina. Máxime cuando es posible comunicarse con comentarios en lenguaje natural durante el acto performativo.
 
-Es un buen banco de pruebas para la experimentación con modelos. 
+Especial cuidado se puso en los prompts de sistema, ya que estos deben compendiar en el mínimo de tokens la finalidad de la conversación con el \gls{llm}, así como el formato esperado de sus respuestas para ser procesadas adecuadamente por el programa. En la Figura xxx se muestran sendos prompts de sistema para Tidal Cycles y para SuperCollider, los cuales fueron utilizados con éxito en la práctica.
 
-\section{Limitaciones de la herramienta}
+\missingfigure{Prompts de sistema de AI Muse}
 
-\section{Ejemplos de uso}
+Se ha apreciado una tenencia del \gls{llm} a imitar los patrones ya existentes en la conversación, si bien, por medio de comentarios es posible provocar más originalidad en sucesivas respuestas. Por esta razón, es interesante aplicar la técnica de prompting de few-shot para dirigir el inicio de la improvisación colaborativa. 
+
+No se ha apreciado una diferencia importante entre usar el modelo en modo chatbot o en modo assistant. Sin embargo, esto debería estudiarse con mayor detenimiento en función de unas cuidadas configuraciones de asistentes y de sus archivos de base de datos.
+
+Este tipo de interacción se ha mostrado, en todo caso, muy prometedora de cara a la generación musical interactiva. Las aportaciones atómicas que se piden al \gls{llm} por medio de la API lo hacen muy adecuado como banco de pruebas tanto con los servicios de OpenAI, como eventualmente otros modelos, incluso open source.
+
+
+% \section{Limitaciones de la herramienta}
+
+% \section{Ejemplos de uso}
