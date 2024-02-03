@@ -108,10 +108,13 @@ La Figura \ref{fig:json} muestra el archivo de configuración de \emph{AI Muse}.
         \centering
         \caption{Descripción de la configuración del archivo \texttt{config.json} y de sus correspondientes comandos.}
         \label{tab:config-description}
+        % \setstretch{1}
         \fontsize{9.5pt}{11pt}\selectfont
+        \begingroup
+        \rowcolors{2}{azul_unir_soft}{white}
         \begin{tabularx}{\linewidth}{lXlcl}
             \toprule
-            \rowcolor{azul_unir} % Color sólido para la fila del encabezado
+            \rowcolor{azul_unir} % Aplica el color azul_unir al encabezado de la tabla
             \textbf{Clave} & \textbf{Valores posibles} & \textbf{Efecto} & \textbf{Modificable en vivo} & \textbf{Ejemplo de uso en comando} \\
             \midrule
         % Tus filas aquí
@@ -138,7 +141,8 @@ La Figura \ref{fig:json} muestra el archivo de configuración de \emph{AI Muse}.
         wait\_time\_after\_api & \textcolor{numbercolor}{Segundos} & Tiempo de espera después de llamar a la API & sí & set wait\_time\_after\_api \textcolor{numbercolor}{10} \\
         \bottomrule
     \end{tabularx}
-    \source{Fuente de la información}
+    \endgroup
+    \source{\propio}
     \end{table}
     \end{landscape}
     
