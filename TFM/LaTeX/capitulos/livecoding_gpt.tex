@@ -49,8 +49,9 @@ En un primer momento se implementó únicamente la posibilidad de ejecutar códi
 El flujo de trabajo típico de \emph{AI Muse} es el siguiente:
 
 \begin{enumerate}
-    \item El usuario abre un archivo de código en un editor de texto, con la extensión adecuada (actualmente, \texttt{.tidal} o \texttt{.sc}, para Tidal Cycles y SuperCollider, respectivamente).
-    \item \label{item:paso_write_code} El usuario puede escribir código musical o un simple comentario-mensaje para el modelo.
+    \item El usuario ejecuta el programa. Automáticamente se creará un archivo en texto plano con la extensión adecuada (actualmente, \texttt{.tidal} o \texttt{.sc}, para Tidal Cycles y SuperCollider, respectivamente) para interactuar.
+    \item El usuario abre un archivo de código en un editor de texto.
+    \item \label{item:paso_write_code} El usuario puede escribir código musical, un comando de sistema o un simple comentario-mensaje para el modelo.
     \item Al guardar el archivo, \emph{AI Muse} lee el archivo y lo envía a la API de OpenAI.
     \item La API de OpenAI devuelve una respuesta con el siguiente bloque de código que es añadido automáticamente al archivo actual.
     \item El usuario ejecuta el nuevo bloque de código a voluntad, pudiendo modificarlo si lo cree oportuno.
@@ -63,7 +64,87 @@ La Figura xxx ilustra este flujo de trabajo.
 
 \section{Archivo de configuración y comandos}
 
-Explicar el archivo de configuración y los comandos de configuración en vivo. Hacer una tabla
+La Figura \ref{fig:json} muestra el archivo de configuración de \emph{AI Muse}. Este archivo será cargado al ejecutar el programa.
+
+\begin{figure}[H]
+    \caption[Archivo de configuración \texttt{config.json} de AI Muse]{Archivo de configuración \texttt{\emph{config.json}} de AI Muse. Los valores de cada clave pueden ser modificados directamente en el archivo o por medio de comandos.}
+    \centering
+% \begin{mdframed}
+\setstretch{1} % Esto establece el interlineado a sencillo
+\begin{lstlisting}[language=json, numbers=none]
+{
+    "mode_tidal_supercollider": "tidal",
+    "create_log_file": false,
+    "ghci_path": "ghci",
+    "only_system_commands": false,
+    "supercollider_on": false,
+    "sclang_path": "sclang",
+    "boot_tidal_path": "/usr/share/haskell-tidal/BootTidal.hs",
+    "api_enabled": false,
+    "bot_mode": "assistant",
+    "assistant_id": "asst_9Km6Fd3xywD4tGGY4yZzSEiw",
+    "assistant_retrieval_folder": "./assistants/tidal_livecoding/retrieval_files/",
+    "api_key_file": "apikey.txt",
+    "system_prompt_file": "./assistants/tidal_livecoding/system_prompts/system_prompt_01",
+    "model": "gpt-4-1106-preview",
+    "temperature": 1,
+    "max_tokens": 256,
+    "top_p": 1,
+    "frequency_penalty": 0,
+    "presence_penalty": 0,
+    "wait_time_before_api": 20,
+    "wait_time_after_api": 20
+}
+\end{lstlisting}
+% \end{mdframed}
+    \source{\propio}
+    \label{fig:json}
+\end{figure}
+
+
+
+\begin{landscape}
+    \begin{table}[htbp]
+    \centering
+    \caption{Descripción de la configuración del archivo \texttt{config.json} y de sus correspondientes comandos.}
+    \label{tab:config-description}
+    % \setstretch{1}
+    \fontsize{9.5pt}{11pt}\selectfont
+    \begin{tabularx}{\linewidth}{lXlcl}
+        \toprule
+        \textbf{Clave} & \textbf{Valores posibles} & \textbf{Efecto} & \textbf{Modificable en vivo} & \textbf{Ejemplo de uso en comando} \\
+        \midrule
+        % Tus filas aquí
+        mode\_tidal\_supercollider & tidal/sclang & Modo de operación para TidalCycles o SuperCollider & sí & set mode\_tidal\_supercollider tidal \\
+        create\_log\_file & \textcolor{truecolor}{true}/\textcolor{falsecolor}{false} & Activa o desactiva la creación de archivos de registro & sí & set create\_log\_file \textcolor{truecolor}{true} \\
+        ghci\_path & Ruta & Ruta al ejecutable ghci & no & - \\
+        only\_system\_commands & \textcolor{truecolor}{true}/\textcolor{falsecolor}{false} & Restringe a comandos del sistema & sí & set only\_system\_commands \textcolor{falsecolor}{false} \\
+        supercollider\_on & \textcolor{truecolor}{true}/\textcolor{falsecolor}{false} & Enciende o apaga SuperCollider & sí & set supercollider\_on \textcolor{truecolor}{true} \\
+        sclang\_path & Ruta & Ruta al ejecutable sclang & no & - \\
+        boot\_tidal\_path & \textcolor{pathcolor}{/ruta/a/BootTidal.hs} & Ruta al archivo de arranque de Tidal & no & - \\
+        api\_enabled & \textcolor{truecolor}{true}/\textcolor{falsecolor}{false} & Activa o desactiva la API & sí & set api\_enabled \textcolor{truecolor}{true} \\
+        bot\_mode & assistant/otro & Establece el modo del bot & sí & set bot\_mode assistant \\
+        assistant\_id & ID & ID del asistente & no & - \\
+        assistant\_retrieval\_folder & \textcolor{pathcolor}{./ruta/a/carpetas} & Ruta a la carpeta de recuperación & no & - \\
+        api\_key\_file & \textcolor{pathcolor}{apikey.txt} & Archivo con la clave de la API & no & - \\
+        system\_prompt\_file & \textcolor{pathcolor}{./ruta/a/system\_prompts} & Archivo de prompt del sistema & no & - \\
+        model & gpt-4-1106-preview/otro & Modelo de lenguaje utilizado & no & - \\
+        temperature & \textcolor{numbercolor}{0.0-1.0} & Temperatura para la generación de texto & sí & set temperature \textcolor{numbercolor}{0.7} \\
+        max\_tokens & \textcolor{numbercolor}{Número} & Número máximo de tokens por generación & sí & set max\_tokens \textcolor{numbercolor}{256} \\
+        top\_p & \textcolor{numbercolor}{0.0-1.0} & Ajusta la probabilidad de tomar caminos menos probables & sí & set top\_p \textcolor{numbercolor}{0.9} \\
+        frequency\_penalty & \textcolor{numbercolor}{Número} & Penalización por frecuencia de tokens & sí & set frequency\_penalty \textcolor{numbercolor}{0.5} \\
+        presence\_penalty & \textcolor{numbercolor}{Número} & Penalización por presencia de tokens & sí & set presence\_penalty \textcolor{numbercolor}{0.5} \\
+        wait\_time\_before\_api & \textcolor{numbercolor}{Segundos} & Tiempo de espera antes de llamar a la API & sí & set wait\_time\_before\_api \textcolor{numbercolor}{10} \\
+        wait\_time\_after\_api & \textcolor{numbercolor}{Segundos} & Tiempo de espera después de llamar a la API & sí & set wait\_time\_after\_api \textcolor{numbercolor}{10} \\
+        \bottomrule
+    \end{tabularx}
+    \source{Fuente de la información}
+    \end{table}
+    \end{landscape}
+    
+
+
+% Explicar el archivo de configuración y los comandos de configuración en vivo. Hacer una tabla
 
 
 

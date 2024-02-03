@@ -21,6 +21,8 @@
 \usepackage{setspace}
 \usepackage{parskip}
 \usepackage[normalem]{ulem} % [normalem] para que no se cambie el estilo de \emph
+\usepackage{booktabs} % Para líneas horizontales en tablas
+\usepackage{tabularx} % Para tablas con columnas de ancho ajustable
 \usepackage{xcolor}
 \usepackage{colortbl}
 \usepackage[hidelinks]{hyperref} % Para que los enlaces no se coloreen
@@ -63,6 +65,7 @@
 \usepackage{longtable} % Para tablas largas que se extienden a través de varias páginas.
 \usepackage{multirow}  % Para combinar celdas en filas y columnas en tablas.
 \usepackage[hang,flushmargin]{footmisc} % Para que las notas al pie no tengan sangría
+\usepackage{pdflscape}
 
 % para contar el número de páginas de contenido.
 \newcounter{inicioContenido}
@@ -80,6 +83,53 @@
 
 
 \renewcommand{\bibsection}{}
+
+% ----------- Configuración de coloreado de JSON -----------
+\definecolor{delim}{RGB}{20,105,176}  % Color para los delimitadores {}, []
+\definecolor{numb}{RGB}{106, 109, 32}  % Color para los números
+\definecolor{string}{rgb}{0.64,0.08,0.08}  % Color para las cadenas
+\definecolor{keycolor}{rgb}{0.1, 0.1, 0.9}  % Azul oscuro para las claves
+
+% Colores para tablas
+
+\definecolor{truecolor}{HTML}{007700} % Color para valores "true"
+\definecolor{falsecolor}{HTML}{CC0000} % Color para valores "false"
+\definecolor{numbercolor}{HTML}{0000CC} % Color para valores numéricos
+\definecolor{pathcolor}{HTML}{555555} % Color para rutas de archivos o directorios
+
+
+
+% Configuración de lstlisting para JSON
+\lstdefinelanguage{json}{  
+    basicstyle=\ttfamily\small,  
+    stringstyle=\color{string},  % Usa el color definido para cadenas
+    numberstyle=\color{numb},    % Usa el color definido para números
+    showstringspaces=false,  
+    breaklines=true,  
+    literate=  
+     *{0}{{{\color{numb}0}}}{1}  
+      {1}{{{\color{numb}1}}}{1}  
+      {2}{{{\color{numb}2}}}{1}  
+      {3}{{{\color{numb}3}}}{1}  
+      {4}{{{\color{numb}4}}}{1}  
+      {5}{{{\color{numb}5}}}{1}  
+      {6}{{{\color{numb}6}}}{1}  
+      {7}{{{\color{numb}7}}}{1}  
+      {8}{{{\color{numb}8}}}{1}  
+      {9}{{{\color{numb}9}}}{1}  
+      {\{}{{{\color{delim}{\{}}}}{1}  
+      {\}}{{{\color{delim}{\}}}}}{1}  
+      {[}{{{\color{delim}{[}}}}{1}  
+      {]}{{{\color{delim}{]}}}}{1},  
+    morestring=[b]",  
+    morecomment=[l]//,
+    commentstyle=\color{green},  % Estilo para comentarios
+    keywordstyle=\color{keycolor},  % Intento de aplicar color a las claves
+    morekeywords={true,false,null}  % Palabras clave para booleanos y nulo
+}
+
+
+
 
 % ----------- Configuración de siunitx -----------
 \sisetup{
