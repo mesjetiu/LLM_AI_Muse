@@ -1,0 +1,68 @@
+d1 $ degradeBy 0.2 $ sound "cpu:2*4 [hi*2 <lo cpu2> <sn*3 db*5>]" # pan (sine) # speed (0.5) # lpf (slow 6 $ range 200 1200 $ rand) # hpf (slow 4 $ range 500 1000 $ rand)
+
+
+d2 $ jux rev $ stack [ every 3 (iter 4) $ sound "arpy*8", every 4 (0.75 <~) $ sound "gamelan*6" ] # cut 1 # speed (slow 2 $ sine) # room 0.2 # sz 0.1 # delay 0.4 # delaytime (slow 3 $ sine) # delayfeedback 0.7 -- gpt-4-1106-preview
+
+hush
+
+d1 $ s "feel*4 [~ feel] [feel*2 ~] feel" # n (run 8) # speed "-1 1" # cut 1 # room 0.1 # sz 0.05 # delay 0.2 # delaytime (1/6) # delayfeedback 0.5 -- gpt-4-1106-preview
+
+
+-- transforma algún patrón que ya existe en la conversación...
+
+
+
+d2 $ jux rev $ stack [ every 3 (iter 4) $ sound "arpy*8", every 4 (0.75 <~) $ sound "gamelan*6" ] # cut 1 # speed (slow 3 $ sine) # room 0.2 # sz 0.1 # delay 0.6 # delaytime (slow 2 $ sine) # delayfeedback 0.8 -- gpt-4-1106-preview
+
+--transforma más aún...
+
+d2 $ jux (|=| speed "-0.5") $ stack [ every 3 (iter 4) $ sound "arpy*19", every 4 (0.75 <~) $ sound "gamelan*19" ] # cut 1 # speed (slow 4 $ sine) # room 0.2 # sz 0.1 # delay 0.8 # delaytime (slow 3 $ sine) # delayfeedback 0.6 -- gpt-4-1106-preview
+
+
+-- más loco!!!!!
+d2 $ jux (|=| speed "-0.5") $ stack [ every 3 (iter 5) $ sound "arpy:7*8", every 4 (0.75 <~) $ sound "gamelan:5*6" ] # cut 1 # speed (scale 0.1 1.5 $ slow 2 $ saw) # room 0.2 # sz 0.1 # delay 1 # delaytime (slow 4 $ sine) # delayfeedback (scale 0 0.6 $ saw) -- gpt-4-1106-preview
+
+--transforma el d1
+d1 $ s "feel*8 [~ feel] [feel*3 ~] feel" # n (iter 3 $ run 8) # speed "-1 1.5" # distort 0.2 # cut 1 # room 0.1 # sz 0.05 # delay 0.3 # delaytime (1/7) # delayfeedback 0.55 -- gpt-4-1106-preview
+
+d2 silence
+
+set max_tokens 1024
+
+d1 $ slow 6 $ s "arpy*8" # speed (slow 2 $ sine) # cut 1 # room 0.1 # sz 0.2 -- gpt-4-1106-preview
+
+-- tranforma el d2 y crea un d3
+
+d2 $ jux (|=| speed "0.5") $ stack [ every 2 (iter 4) $ sound "arpy:3*12", every 5 (0.5 <~) $ sound "gamelan:2*9" ] # cut 1 # speed (slow 5 $ sine) # room 0.15 # sz 0.1 # delay 0.5 # delaytime (slow 5 $ sine) # delayfeedback (scale 0 0.5 $ saw)
+
+d3 $ struct "t(3,8)" $ sound "pad*2 [~ pad] pad pad*3" # gain 1.2 # speed (slow 2 $ saw) # cut 1 # room 0.1 # sz 0.05 # bandf (slow 5 $ range 600 1600 $ rand) # bandq (1/3) -- gpt-4-1106-preview
+
+-- el d2 debe de dar error... no suena
+
+d2 $ jux (|=| speed "0.5") $ stack [ every 2 (iter 4) $ sound "arpy:3*12", every 5 (0.5 <~) $ sound "gamelan:2*9" ] # cut 1 # speed (scale 0.5 2 $ slow 5 $ sine) # room 0.15 # sz 0.1 # delay (1/2) # delaytime (slow 5 $ sine) # delayfeedback (scale 0 0.5 $ saw) -- gpt-4-1106-preview
+
+-- crea otro más... y transforma el d1
+
+d1 $ s "feel*6 [~ feel] [feel*4 ~] feel" # n (iter 4 $ run 8) # speed (slow 2 $ choose [-1, 1, 0.5]) # distort 0.25 # cut 1 # room 0.1 # sz 0.05 # delay 0.35 # delaytime (1/8) # delayfeedback 0.6
+
+d4 $ degradeBy 0.3 $ s "glass*7 [~ glass] glass*2" # speed (flat $ slow 3 $ rand) # pitch (slow 4 $ sine) # room 0.12 # sz 0.06 # lpf (slow 2 $ range 1000 3000 $ rand) # hpf (slow 5 $ range 300 1200 $ rand) -- gpt-4-1106-preview
+
+
+-- transforma los dos últimos para que el snido sea más etereo y menos percusivo
+d3 $ struct "t(3,8)" $ sound "pad*5 [~ pad] pad pad*4" # gain 1.3 # speed (slow 4 $ saw) # cut 1 # room 0.1 # sz 0.05 # bandf (slow 6 $ range 800 2000 $ rand) # bandq (1/4) # delay 0.2 # delaytime (1/5) # delayfeedback 0.4
+
+d4 $ degradeBy 0.5 $ s "glass*8 [~ glass] glass*3" # speed (scale 0.1 0.3 $ slow 4 $ rand) # pitch (slow 8 $ sine) # room 0.15 # sz 0.07 # lpf (slow 3 $ range 900 2500 $ rand) # hpf (slow 6 $ range 500 1000 $ rand) -- gpt-4-1106-preview
+
+
+d1 silence
+
+--propón algo interesante...
+
+
+d1 $ s "voices*6 [~ voices] [voices*2 ~] voices" # n (irand 32) # speed (slow 4 $ choose [-1, 1, 0.5, 2]) # distort 0.15 # room 0.08 # sz 0.04 # delay 0.25 # delaytime (1/9) # delayfeedback 0.45 # lpf (800) # hpf (500) -- gpt-4-1106-preview
+
+--no se oye nada...
+
+d1 $ s "voices*6 [~ voices] [voices*2 ~] voices" # n (irand 32) # speed (slow 4 $ choose [-1, 1, 0.5, 2]) # distort 0.15 # room 0.08 # sz 0.04 # delay 0.25 # delaytime (1/9) # delayfeedback 0.45 # lpf (slow 4 $ range 600 1200 $ rand) # hpf (slow 3 $ range 400 800 $ rand) -- gpt-4-1106-preview
+
+quit
