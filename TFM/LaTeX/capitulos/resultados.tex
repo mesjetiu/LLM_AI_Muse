@@ -1,12 +1,34 @@
 \chapter{Resultados y discusión}
-\todo{lo que hay en Resultados y en Limitaciones y prospectivas es aún un conjunto de apuntes. Hay que organizarlos.}
 
 % \defaultFontEpigraph{All You Need Is a Second Look\dots}{\cite{caoAllYouNeed2020}}
 \defaultFontEpigraph{All You Need Is a Second Look}{Cao y Zou (2020)}
 
 \section{Resultados}
 
+Este estudio ha explorado la intersección entre la \gls{ia} y la generación algorítmica de música, destacando tanto las capacidades como las limitaciones de los \gls{llm} en la interacción con el proceso creativo musical humano. A continuación, se enumeran los resultados clave obtenidos y que se han ido exponiendo de forma sincrónica a lo largo de las diferentes etapas del trabajo:
+
+
+\begin{enumerate}
+    \item \textbf{Utilidad de los sistemas de \gls{ia} como herramientas complementarias para expertos musicales:} La investigación apunta a que las tecnologías de \gls{ia}, aunque lejos de alcanzar en este momento la autonomía completa en generación musical, constituyen asistencia valiosa a los expertos musicales, potenciando su creatividad.
+    \item \textbf{Fomento de la interacción creativa en tiempo real:} Las API y el entorno de live coding se muestran como plataformas efectivas para la exploración sonora dinámica, siempre que los lenguajes utilizados posean mecanismos eficientes para la gestión de errores y su ejecución en vivo.
+    \item \textbf{Potencial en la exploración de nuevas ideas y sonidos:} La capacidad de los \gls{llm} para inspirar y facilitar la experimentación sonora se destaca, especialmente entre los usuarios con conocimientos previos en el lenguaje de programación musical.
+    \item \textbf{Tendencia a la repetición de patrones en las respuestas:} Se observa una propensión de los \gls{llm} a generar, a priori, contenido de características similares, indicando una \emph{personalidad} del modelo que presenta desafíos y oportunidades en la generación musical.
+    \item \textbf{Limitaciones en la generación de estructuras temporales compositivas:} Los \gls{llm} muestran limitaciones en crear estructuras temporales o códigos largos y complejos, enfatizando la necesidad de intervención humana en la composición.
+    \item \textbf{Exploración y serendipia creativa:} La generación de sonidos y música por parte de los \gls{llm} facilita encuentros creativos inesperados, promoviendo la exploración de nuevos territorios sonoros.
+    \item \textbf{Aplicaciones educativas y de asistente:} Se reconoce el valor de estas herramientas para la educación en los lenguajes musicales, ofreciendo una asistencia teórica y práctica de gran utilidad.
+    \item \textbf{Desafíos y limitaciones técnicas:} El estudio identifica desafíos clave, como la gestión de proyectos de mediano a grande tamaño, las limitaciones de la ventana de contexto y las alucinaciones recurrentes del modelo, que requieren supervisión y ajuste activo por parte del usuario.
+\end{enumerate}
+
+
 \section{Discusión crítica de los resultados}
+
+Queremos subrayar el hecho de que la capacidad de razonamiento actual de sistemas de \gls{iag} como los \gls{llm} no sustituye el proceso creativo humano. A juzgar por la velocidad en la que se desarrollan cuantitativa y cualitativamente estas tecnologías, es muy probable que en un futuro no muy lejano, la generación musical autónoma, sea una realidad. En todo caso, su papel a día de hoy puede ser el de asistente creativo, herramienta de exploración y fuente de inspiración.
+
+La interacción en tiempo real por medio de las API se ha mostrado como el lugar más adecuado al potencial actual de los \gls{llm}. Por una parte, las limitaciones inherentes a estos sistemas en la creación sonora, especialmente la dificultad en la generación de estructuras temporales, se ven mitigadas a la hora de actuar en tiempo real, donde la dimensión temporal y su forma no tienen por qué ser decididas de antemano, y el papel del usuario-compositor es determinante en el devenir de la actividad performativa. Por otra parte, la interacción en tiempo real explota los puntos fuertes de los \gls{llm}, a saber, la generación de pequeñas piezas de código a partir de contextos también pequeños. Subrayamos que es crítico que los lenguajes de programación musical elegidos tengan una buena abstracción de errores, para que el usuario pueda corregir y ajustar el código en tiempo real y en ningún caso se vea interrumpida la actividad creativa.
+
+La generación sonora por parte de los \gls{llm}, independientemente de la interfaz utilizada, se ha mostrado fértil para la exploración de nuevos sonidos y texturas, y para la búsqueda de ideas y soluciones creativas. Es de esperar que en función de las mejoras cualitativas de los modelos, estas herramientas se conviertan en asistentes donde poder hablar de auténtica \emph{creatividad}. 
+
+
 % Estamos lejos de una IA que pueda generar música de forma autónoma con fines musicales y absoluta comprensión del proceso compositivo. Sin embargo, los resultados muestran que es una herramienta muy útil para el experto musical.
 
 % Las interacciones que posibilitan las API son un buen punto de partida para la generación de sonido y música en tiempo real, como en el live coding, siempre que existan buenos mecanismos de abstracción de los errores de código.
@@ -14,3 +36,27 @@
 % A nivel compositivo y de búsqueda de ideas y nuevos sonidos, se muestra como una herramienta prometedora, siempre más provechosa para el experto en el lenguaje utilizado que para quien lo desconoce.
 
 
+% Los LLM tienden a repetir ciertos patrones, por lo que podemos hablar de una personalidad creativa del modelo.
+
+% Los LLM, a día de hoy, son útiles para la generación de código de timbres y texturas, pero no para la generación de estructuras temporales compositivas.
+
+% Interesante herramienta para la creación "aleatoria" de sonidos y música, en busca de la serendipia creadora.
+
+
+% Gran herramienta usada para fines educativos y de autodidáctica.
+
+% Potencia el trabajo del especialista (como a hombros de gigantes)
+
+% El entorno de livecoding, y de interacción en tiempo real con APIs es muy prometedor. La dimensión temporal no se decide de antemano, como en una composición, sino que se desarrolla a partir de modificaciones y aportaciones atómicas. En esto es fuerte GPT-4.
+
+% ----Limitaciones encontradas:
+
+% 1. llegar a puntos sin salida si se delega en el chat toda la creación del código.
+
+% 2. Dificultad en manejar proyectos de tamaño medio o grande (100 líneas...) (esto es independiente de la ventana de contexto)
+
+% 3. Limitación de la ventana de contexto y, por tanto, olvido de las directrices de los primeros prompts. Esto dificulta la escritura de código extenso, incluso teniendo en cuenta su capacidad de crear estructuras generales de piezas.
+
+% 4. Alucinaciones recurrentes (veremos que este problema ocurre siempre).
+
+% 6. No se puede esperar en este momento códigos complejos.
