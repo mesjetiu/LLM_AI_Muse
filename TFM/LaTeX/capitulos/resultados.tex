@@ -14,15 +14,12 @@ A continuación, se enumeran y sintetizan los resultados clave obtenidos en este
     \item \textbf{Fomento de la interacción creativa en tiempo real:} Las API y el entorno de live coding se muestran como plataformas efectivas para la exploración sonora dinámica, siempre que los lenguajes utilizados posean mecanismos eficientes para la gestión de errores y su ejecución en vivo.
     \item \textbf{Potencial en la exploración de nuevas ideas y sonidos:} La capacidad de los \gls{llm} para inspirar y facilitar la experimentación sonora se destaca, especialmente entre los usuarios con conocimientos previos en el lenguaje de programación musical.
     \item \textbf{Tendencia a la repetición de patrones en las respuestas:} Se observa una propensión de los \gls{llm} a generar, a priori, contenido de características similares, indicando una \emph{personalidad} del modelo que presenta desafíos y oportunidades en la generación musical.
+    \item \textbf{Desnivel semántico entre la descripción en lenguaje natural del código generado y el sonido efectivo de dicho código:} Se trata, quizás, de la principal limitación actual de los \gls{llm} en la generación musical, ya que no han sido entrenados en la comprensión de la relación entre el código y el sonido resultante, la cual es una asociación psicoacústica muy compleja. La comprensión de este resultado es clave para comprender la necesidad de la intervención humana en la composición y la limitación al papel de asistente creativo de los \gls{llm} en cualquiera de sus formas e interfaces.
+    \item \textbf{Importancia relativa del diseño de prompts:} Los prompts de sistema son fundamentales en la interacción en tiempo real como en el programa AI Muse. Técnicas más avanzadas, como \gls{rag} puede ofrecer mejoras cualitativas en las respuestas si posee un buen dataset de conocimiento. 
     \item \textbf{Limitaciones en la generación de estructuras temporales compositivas:} Los \gls{llm} muestran limitaciones en crear estructuras temporales o códigos largos y complejos, enfatizando la necesidad de intervención humana en la composición.
     \item \textbf{Exploración y serendipia creativa:} La generación de sonidos y música por parte de los \gls{llm} facilita encuentros creativos inesperados, promoviendo la exploración de nuevos territorios sonoros.
     \item \textbf{Desafíos y limitaciones técnicas:} El estudio identifica desafíos clave, como la gestión de proyectos de mediano a grande tamaño, las limitaciones de la ventana de contexto y las alucinaciones recurrentes del modelo, que requieren supervisión y ajuste activo por parte del usuario.
-    
 
-    % añadir:
-
-    \item Desnivel semántico entre la descripción en lenguaje natural del código generado y el sonido efectivo de dicho código.
-    \item Importancia relativa del diseño de prompts. La técnica de \gls{rag} funciona si posee un buen dataset de conocimiento. Los prompts de sistema son fundamentales en la interacción en tiempo real como en el programa AI Muse.
 \end{enumerate}
 
 
@@ -31,6 +28,8 @@ A continuación, se enumeran y sintetizan los resultados clave obtenidos en este
 Queremos subrayar el hecho de que la capacidad de razonamiento actual de sistemas de \gls{iag} como los \gls{llm} no sustituye el proceso creativo humano. A juzgar por la velocidad en la que se desarrollan cuantitativa y cualitativamente estas tecnologías, es muy probable que en un futuro no muy lejano, la generación musical autónoma, sea una realidad. En todo caso, su papel a día de hoy puede ser el de asistente creativo, herramienta de exploración y fuente de inspiración.
 
 La interacción en tiempo real por medio de las API se ha mostrado como el lugar más adecuado al potencial actual de los \gls{llm}. Por una parte, las limitaciones inherentes a estos sistemas en la creación sonora, especialmente la dificultad en la generación de estructuras temporales, se ven mitigadas a la hora de actuar en tiempo real, donde la dimensión temporal y su forma no tienen por qué ser decididas de antemano, y el papel del usuario-compositor es determinante en el devenir de la actividad performativa. Por otra parte, la interacción en tiempo real explota los puntos fuertes de los \gls{llm}, a saber, la generación de pequeñas piezas de código a partir de contextos también pequeños. Subrayamos que es crítico que los lenguajes de programación musical elegidos tengan una buena abstracción de errores, para que el usuario pueda corregir y ajustar el código en tiempo real y en ningún caso se vea interrumpida la actividad creativa.
+
+A pesar de que en otros campos de aplicación de los glos{llm}, la técnica de \gls{rag} se manifiesta como un avance significativo, en el presente trabajo no se ha podido explorar en profundidad esta técnica. Sin embargo, se intuye que la utilización de un \gls{rag} con un dataset de conocimiento específico para la generación musical podría ofrecer mejoras cualitativas en las respuestas de los \gls{llm}.
 
 La generación sonora por parte de los \gls{llm}, independientemente de la interfaz utilizada, se ha mostrado fértil para la exploración de nuevos sonidos y texturas, y para la búsqueda de ideas y soluciones creativas. Es de esperar que en función de las mejoras cualitativas de los modelos, estas herramientas se conviertan en asistentes donde poder hablar de auténtica \emph{creatividad}. 
 
