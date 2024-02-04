@@ -17,7 +17,7 @@ En este capítulo pasamos a describir la herramienta \emph{AI Muse}, a la cual n
 % Permite ejecutar código de SuperCollider y código de Tidal Cycles
 % Tiene un archivo de configuración en json, además de un conjunto de comandos para cambiar los parámetros en vivo
 
-\section{¿Por qué en entorno de Livecoding?}
+\section{¿Por qué en entorno de live coding?}
 
 El live coding es el arte de programar música en tiempo real. Es un entorno de experimentación y de creación artística que une el campo de la programación con el de la interpretación musical y la improvisación. Por su naturaleza, esta práctica ofrece un entorno ideal para la exploración de las posibilidades que puede ofrecer la interacción con modelos de lenguaje de forma automatizada. 
 
@@ -46,20 +46,63 @@ En un primer momento se implementó únicamente la posibilidad de ejecutar códi
 
 \section{Flujo de trabajo}
 
-El flujo de trabajo típico de \emph{AI Muse} es el siguiente (cfr. Figura xxx):
+El flujo de trabajo típico de \emph{AI Muse} es el siguiente (cfr. Figura \ref{fig:ai_muse_flow}):
 
 \begin{enumerate}
     \item El usuario ejecuta el programa. Automáticamente se creará un archivo en texto plano con la extensión adecuada (actualmente, \texttt{.tidal} o \texttt{.sc}, para Tidal Cycles y SuperCollider, respectivamente) para interactuar.
     \item El usuario abre un archivo de código en un editor de texto.
     \item \label{item:paso_write_code} El usuario puede escribir código musical, un comando de sistema o un simple comentario-mensaje para el modelo.
-    \item Al guardar el archivo, \emph{AI Muse} lee el archivo y lo envía a la API de OpenAI.
-    \item La API de OpenAI devuelve una respuesta con el siguiente bloque de código que es añadido automáticamente al archivo actual.
+    \item Al guardar el archivo, \emph{AI Muse} lee el archivo y lo envía a la API de OpenAI. Adicionalmente, ejecuta los comandos nuevos escritos en el archivo de código.
+    \item La API de OpenAI devuelve una respuesta con el siguiente bloque de código que es añadido automáticamente al archivo actual en la siguiente acción de guardar archivo.
     \item El usuario ejecuta el nuevo bloque de código a voluntad, pudiendo modificarlo si lo cree oportuno.
-    \item El usuario vuelve al paso \ref{item:paso_write_code}.
+    \item El flujo continúa en el paso \ref{item:paso_write_code}.
 \end{enumerate}
 
 
-\missingfigure{Flujo de trabajo de AI Muse}
+\begin{figure}[H]
+    \caption[Flujo de trabajo de AI Muse]{Flujo de trabajo de AI Muse.}
+    \centering
+    \includegraphics[width=1\textwidth]{./figuras/flujo_aimuse.png}
+    \source{\propio}
+    \label{fig:ai_muse_flow}
+\end{figure}
+
+% Código generador del diagrama:
+% Se contruye en https://mermaid.live/
+% https://mermaid.live/edit#pako:eNqNU8tu2zAQ_JWFclEAOQXqXqICBWRJtgXDaNGkJ7uHNbmK2VKiQFJuA9uf1EORT_CPlXr4lQJFdSDI3Zmd4VK79Zji5IXek8ZqDY_JsgT3RX5WCiYUcJIQZTCvDd3CYPBh18ZxByM_1oRMHF5KBwLUbC02Cu4Me3NnBUd521UaNSyI_S-mRu0K4kqf0Y7IDi9cPKkeHbfoxE8N02Il9DEdNg4EQxlArAosuTIN-UEYSwW2QSptI2CgQo0gEaJPWV81aaum_sRZ4Kgh6uT7bNpmx4v0G7HaIrCzgDw6_XoJnSzScnP4hadrtFqNn48VlVF2BZ4uosNvdDlNpqrJWGydd_4AXyuMW1K2_UwbYdrmVkqDM1J3_dt3sEkH6w7Ty0PWvtJccZG7fh37t4PkMn266jE78_srGVUKrhpfhvTGbXXb57oiHSspBScNCh6bB4b4mUkyfRdn3ct1h25lEo1JKAfR_Uu5kDK8ye_zwFitvlN4MxwO-_3gh-B2Hb6rfr5_RUbmuGVPXq3-QX77N5kTc2080fP8_n-0L4pA1Lu_rAyjIA6SIA3GwSSY9g6vANlJ-So8O2O9wCtIFyi4G75tA1p6dk0FLb3QbTnlWEu79Jbl3kGxturhuWReaHVNgVdXHC0lAt3YFl6YozQuSlxYpefdQLdzvf8DThJCbw
+
+% graph TD
+%     A(Inicio del AI Muse) -->|Automático| B[Creación de archivo .sc/.tidal]
+%     B --> C[Usuario abre archivo de código]
+%     C -->|Acción del Usuario| D[Escribir código: Musical, Comandos de Sistema, Comentarios para la API]
+%     D -->|Acción del Usuario| E[Guardar Archivo]
+%     E -->|Acción Automática| F[Ejecuta comandos del archivo]
+%     E -->|Acción Automática| G[Envía archivo a API de OpenAI]
+%     G -->|Respuesta de la API| K[Respuesta almacenada en el programa]
+%     E -->|Acción Automática| H[Añade respuestas de la API al archivo]
+%     K -.->|Respuestas previamente almacenadas| H
+%     F --> I{Revisión por el usuario}
+%     G --> I
+%     H --> I
+%     I -->|Acción del Usuario| D
+%     I -.->|Acción del Usuario| I
+    
+%     classDef inicio fill:#f9f,stroke:#333,stroke-width:4px;
+%     classDef accion fill:#bbf,stroke:#333,stroke-width:2px;
+%     classDef decision fill:#ff9,stroke:#333,stroke-width:4px;
+%     classDef almacenado fill:#bff,stroke:#333,stroke-width:2px,stroke-dasharray: 5, 5;
+%     classDef usuario fill:#ff9,stroke:#333,stroke-width:2px;
+%     classDef automatico fill:#fbb,stroke:#333,stroke-width:2px;
+    
+%     class A inicio;
+%     class B automatico;
+%     class C,D,E usuario;
+%     class F,G,H automatico;
+%     class I decision;
+%     class K almacenado;
+%     linkStyle 0,2,3,10,11 stroke:#333,stroke-width:2px;
+
+
 
 \section{Archivo de configuración y comandos}
 
