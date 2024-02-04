@@ -29,7 +29,7 @@
 %\usepackage{hyperref} % Para que los enlaces sí se coloreen
 \usepackage{import}
 % \usepackage[nottoc]{tocbibind} % Opciones para incluir la bibliografía en el índice
-\usepackage[natbibapa]{apacite}
+% \usepackage[natbibapa]{apacite}
 % \usepackage[style=apa, backend=biber]{biblatex}
 \usepackage{fancyhdr}
 \usepackage{titlesec} 
@@ -66,6 +66,7 @@
 \usepackage{multirow}  % Para combinar celdas en filas y columnas en tablas.
 \usepackage[hang,flushmargin]{footmisc} % Para que las notas al pie no tengan sangría
 \usepackage{pdflscape}
+\usepackage{verbatim}
 
 % para contar el número de páginas de contenido.
 \newcounter{inicioContenido}
@@ -82,7 +83,7 @@
 \renewcommand{\glsgroupskip}{} % Para arreglar problemas de interlineado irregular en el glosario
 
 
-\renewcommand{\bibsection}{}
+% \renewcommand{\bibsection}{}
 
 % ----------- Configuración de coloreado de JSON -----------
 \definecolor{delim}{RGB}{20,105,176}  % Color para los delimitadores {}, []
@@ -166,11 +167,11 @@
 \makeatother
 
 
-\let\oldbibliography\thebibliography
-\renewcommand{\thebibliography}[1]{
-  \oldbibliography{#1}
-  \normalsize
-}
+% \let\oldbibliography\thebibliography
+% \renewcommand{\thebibliography}[1]{
+%   \oldbibliography{#1}
+%   \normalsize
+% }
 
 
 % ----------- Configuración de colores y estilos -----------
@@ -193,7 +194,7 @@
 \fancyfoot[R]{\normalsize\thepage}
 
 
-\bibliographystyle{apacite}
+% \bibliographystyle{apacite}
 
 \fancypagestyle{plain}{
   \fancyhf{} 
@@ -260,7 +261,7 @@
 
 
 \newcommand{\autor}{Carlos Arturo Guerra Parra}
-\AtBeginDocument{\renewcommand{\bibname}{Referencias bibliográficas}}
+% \AtBeginDocument{\renewcommand{\bibname}{Referencias bibliográficas}}
 \newcommand{\defaultLaTeX}{\fontfamily{cmr}\selectfont \LaTeX \normalfont} % Para que LaTeX se vea bien en el texto
 
 \newcommand{\customEpigraph}[2]{
@@ -356,6 +357,7 @@
 % ----------- Contenido del documento -----------
 \begin{document}
 
+\begin{comment}
 
   \import{./portada/}{portada.tex}
   \setcounter{page}{2} % Para que tras la portada esté la página 2.
@@ -469,5 +471,7 @@
   Páginas utilizadas: {\Huge\arabic{numPaginasContenido}\ de 90}
 
   Número de páginas restantes: {\Huge\arabic{numPaginasRestantes}}
+
+\end{comment}
 
 \end{document}
