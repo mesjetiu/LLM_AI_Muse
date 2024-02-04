@@ -30,7 +30,8 @@
 \usepackage{import}
 % \usepackage[nottoc]{tocbibind} % Opciones para incluir la bibliografía en el índice
 % \usepackage[natbibapa]{apacite}
-% \usepackage[style=apa, backend=biber]{biblatex}
+\usepackage[backend=biber, style=apa, natbib=true]{biblatex} % ejecutar "biber main" antes de compilar
+\addbibresource{./bibtex/biblio.bib}
 \usepackage{fancyhdr}
 \usepackage{titlesec} 
 \usepackage{graphicx}
@@ -356,6 +357,10 @@
 
 % ----------- Contenido del documento -----------
 \begin{document}
+
+Esto es una cita \cite{ArXivOrgEPrint}
+
+y esta otra \citep{vaswaniAttentionAllYou2017}
 
 \begin{comment}
 

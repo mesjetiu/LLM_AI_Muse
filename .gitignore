@@ -34,3 +34,5 @@ OUTPUT/*
 *.run.xml
 *.tdo
 *.wav
+
+TFM/LaTeX/main.bcf
