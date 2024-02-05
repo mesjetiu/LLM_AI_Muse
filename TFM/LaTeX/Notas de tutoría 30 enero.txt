@@ -1,4 +1,5 @@
 en el título, parece que es un estudio desde fuera. Añaidr procedimental, interacción, "interfaz". El título me ha de involucrar académicamente: interacción, performance, generación en vivo, etc. que involucre al ser vivo. Parece una revisión bibliográfica.
+--HECHO--
 
 
 Revisar si SuperCollider y Tidal Cycles en el título ha de ir en cursiva por ser la primera vez?
