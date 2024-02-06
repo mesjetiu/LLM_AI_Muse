@@ -8,7 +8,7 @@ En este capítulo pasamos a describir la herramienta \emph{AI Muse}, a la cual n
 
 \section{Descripción general de la herramienta}
 
-\emph{AI Muse} es una herramienta de interacción con modelos de lenguaje en entornos de live coding. Está escrita en Python y se comunica con la API de OpenAI. Permite ejecutar código de SuperCollider y de Tidal Cycles. Además, tiene un archivo de configuración en formato JSON, así como un conjunto de comandos para modificar en vivo los parámetros de la configuración. Aunque está pensada para la utilización de modelos de OpenAI, esta librería permite eventualmente comunicarse con otros modelos de lenguaje incluso en local, detalle que no ha sido explorado en este trabajo.
+\emph{AI Muse} es una herramienta de interacción con modelos de lenguaje en entornos de \emph{live coding}. Está escrita en Python y se comunica con la API de OpenAI. Permite ejecutar código de SuperCollider y de Tidal Cycles. Además, tiene un archivo de configuración en formato JSON, así como un conjunto de comandos para modificar en vivo los parámetros de la configuración. Aunque está pensada para la utilización de modelos de OpenAI, esta librería permite eventualmente comunicarse con otros modelos de lenguaje incluso en local, detalle que no ha sido explorado en este trabajo.
 
 % Escrito en Python
 % Se comunica con la API de OpenAI
@@ -17,11 +17,11 @@ En este capítulo pasamos a describir la herramienta \emph{AI Muse}, a la cual n
 % Permite ejecutar código de SuperCollider y código de Tidal Cycles
 % Tiene un archivo de configuración en json, además de un conjunto de comandos para cambiar los parámetros en vivo
 
-\section{¿Por qué en entorno de live coding?}
+\section{¿Por qué en entorno de \emph{live coding}?}
 
-El live coding es el arte de programar música en tiempo real. Es un entorno de experimentación y de creación artística que une el campo de la programación con el de la interpretación musical y la improvisación. Por su naturaleza, esta práctica ofrece un entorno ideal para la exploración de las posibilidades que puede ofrecer la interacción con modelos de lenguaje de forma automatizada. 
+El \emph{live coding} es el arte de programar música en tiempo real. Es un entorno de experimentación y de creación artística que une el campo de la programación con el de la interpretación musical y la improvisación. Por su naturaleza, esta práctica ofrece un entorno ideal para la exploración de las posibilidades que puede ofrecer la interacción con modelos de lenguaje de forma automatizada. 
 
-El live coding, por su naturaleza improvisatoria, no está ceñido a una forma musical predeterminada. Esta indeterminación formal tiene menos exigencias que la composición a nivel temporal, algo que se adecua muy bien a los resultados que se obtuvieron en etapas anteriores de nuestro trabajo, donde se observó que los modelos de lenguaje actuales producen mejores resultados con bloques de código relativamente pequeños. Este formato creativo, unido a las bondades ya señaladas de Tidal Cycles en cuanto a seguridad del código y resistencia a errores, llevó a la escritura \emph{AI Muse} como una herramienta de experimentación.
+El \emph{live coding}, por su naturaleza improvisatoria, no está ceñido a una forma musical predeterminada. Esta indeterminación formal tiene menos exigencias que la composición a nivel temporal, algo que se adecua muy bien a los resultados que se obtuvieron en etapas anteriores de nuestro trabajo, donde se observó que los modelos de lenguaje actuales producen mejores resultados con bloques de código relativamente pequeños. Este formato creativo, unido a las bondades ya señaladas de Tidal Cycles en cuanto a seguridad del código y resistencia a errores, llevó a la escritura \emph{AI Muse} como una herramienta de experimentación.
 
 % Es más dúctil e interactivo que el de la composición.
 % Explora la posibilidad de respuesta inmediata por API.
@@ -41,7 +41,7 @@ La diferencia crucial con scripts previos en este trabajo es que es el propio us
 
 \section{Lenguajes de programación musical disponibles}
 
-En un primer momento se implementó únicamente la posibilidad de ejecutar código de Tidal Cycles. Posteriormente, se añadió el soporte para SuperCollider, aprovechando las clases que este lenguaje ofrece para el live coding. En ambos casos se ofrece la posibilidad de que sea el propio programa el que se ocupe de llamar a los binarios de los propios lenguajes, o que este código sea ejecutado por el usuario por otros medios (uso de plugins o de entornos de desarrollo específicos).
+En un primer momento se implementó únicamente la posibilidad de ejecutar código de Tidal Cycles. Posteriormente, se añadió el soporte para SuperCollider, aprovechando las clases que este lenguaje ofrece para el \emph{live coding}. En ambos casos se ofrece la posibilidad de que sea el propio programa el que se ocupe de llamar a los binarios de los propios lenguajes, o que este código sea ejecutado por el usuario por otros medios (uso de plugins o de entornos de desarrollo específicos).
 
 
 \section{Flujo de trabajo}
