@@ -11,13 +11,14 @@ Los lenguajes de programación musicales abarcan tanto la generación sonora por
 
 Una característica común a los lenguajes de programación musicales es el hecho de que su representación simbólica se realiza por medio de código de programación, en texto plano, y por tanto, son lenguajes formales, con una sintaxis y una semántica definidas. Esto significa que son lenguajes que pueden ser generados por un modelo de lenguaje natural, como los \gls{llm}, incluso si no han sido entrenados específicamente en estos lenguajes. Esto es importante, ya que permite que los \gls{llm} puedan generar código de estos lenguajes, y por tanto, que puedan generar sonidos y música de un modo indirecto. Los \gls{llm}, en su prentrenamiento, han sido entrenados con todo tipo de código, incluyendo lenguajes con propósitos musicales o sonoros. Aunque no podemos esperar que los \gls{llm} tengan tanta destreza en Csound como en Python, sí podemos esperar que sean capaces de generar código de Csound, y que este código sea correcto, y que por tanto, pueda ser ejecutado para generar sonidos. Otra cosa es que el código generado sea interesante, o que el sonido generado sea interesante, ni siquiera que el código generado tenga sentido musical. No obstante, explorar esta capacidad de creación musical por medio de la generación de código es uno de los objetivos de esta investigación. La figura \ref{fig:hola_mundo} muestra un \emph{¡Hola, mundo!}\footnote{Un \emph{¡Hola, mundo!}, o, más conocido como \emph{Hello, World!}, es un programa informático mínimo de un lenguaje de programación, el cual lo único que hace es imprimir en pantalla el texto <<¡Hola, Mundo!>>, con una finalidad pedagógica. Por extensión, un \emph{¡Hola, Mundo!} de un lenguaje musical sería aquel que produce un sonido simple, como una onda sinusoidal.} en diversos lenguajes de programación sonora, creados todos ellos por medio de GPT-4.
 
-\begin{figure}[h]
-    \caption[<<Hola Mundo>> en diferentes lenguajes de programación sonora]{Códigos de <<Hola Mundo>> en diferentes lenguajes de programación sonora. (\textbf{a}) Csound, (\textbf{b}) SuperCollider, (\textbf{c}) Sonic Pi, (\textbf{d}) Overtone (Clojure), (\textbf{e}) FoxDoty y (\textbf{f}) ChucK.}
+\begin{figure}[H]
+    \caption[<<¡Hola Mundo!>> en diferentes lenguajes de programación sonora]{Códigos de <<¡Hola Mundo!>> en diferentes lenguajes de programación sonora. (\textbf{a}) Csound, (\textbf{b}) SuperCollider, (\textbf{c}) Sonic Pi, (\textbf{d}) Overtone (Clojure), (\textbf{e}) FoxDot y (\textbf{f}) ChucK.}
     \centering
     \begin{subfigure}{.48\textwidth}
       \centering
       \begin{mdframed}
-      \fontsize{9.5pt}{11pt}\selectfont
+        \setstretch{1}
+        \fontsize{9.5pt}{11pt}\selectfont
       \begin{verbatim}
 <CsInstruments>
 instr 1
@@ -36,7 +37,8 @@ i1 0 2
     \begin{subfigure}{.48\textwidth}
       \centering
       \begin{mdframed}
-      \fontsize{9.5pt}{11pt}\selectfont
+        \setstretch{1}
+        \fontsize{9.5pt}{11pt}\selectfont
       \begin{verbatim}
 (
 SynthDef(\helloworld, {
@@ -55,7 +57,8 @@ Synth(\helloworld);
     \begin{subfigure}{.48\textwidth}
       \centering
       \begin{mdframed}
-      \fontsize{9.5pt}{11pt}\selectfont
+        \setstretch{1}
+        \fontsize{9.5pt}{11pt}\selectfont
       \begin{verbatim}
 play 72
 sleep 1
@@ -66,7 +69,8 @@ sleep 1
     \begin{subfigure}{.48\textwidth}
       \centering
       \begin{mdframed}
-      \fontsize{9.5pt}{11pt}\selectfont
+        \setstretch{1}
+        \fontsize{9.5pt}{11pt}\selectfont
       \begin{verbatim}
 (use 'overtone.live)
 (definst hello-world [] (sin-osc 440))
@@ -81,7 +85,8 @@ sleep 1
     \begin{subfigure}{.48\textwidth}
       \centering
       \begin{mdframed}
-      \fontsize{9.5pt}{11pt}\selectfont
+        \setstretch{1}
+        \fontsize{9.5pt}{11pt}\selectfont
       \begin{verbatim}
 p1 >> pluck([0, 1, 2, 3])
       \end{verbatim}
@@ -91,7 +96,8 @@ p1 >> pluck([0, 1, 2, 3])
     \begin{subfigure}{.48\textwidth}
       \centering
       \begin{mdframed}
-      \fontsize{9.5pt}{11pt}\selectfont
+        \setstretch{1}
+        \fontsize{9.5pt}{11pt}\selectfont
       \begin{verbatim}
 SinOsc s => dac;
 440 => s.freq;
@@ -107,12 +113,14 @@ SinOsc s => dac;
 
 Excluimos lenguajes de programación de audio como Pure Data u Open Music, ya que estos lenguajes, si bien guardan sus archivos en formato de texto plano, estos códigos no están diseñados para ser escritos por el usuario, sino solo como un modo de representación interna de los grafos de objetos que se muestran en un canvas gráfico (Figura \ref{fig:patch_puredata}), y que luego son interpretados por un motor de audio. 
 
-\begin{figure}[h]
+\begin{figure}[H]
     \caption[Ejemplo de patch de Pure Data]{Patch de Pure Data en su representación interna en código (\textbf{a}), y en su aspecto visual (\textbf{b}).}
     \centering
     \begin{subfigure}{.55\textwidth}
         \centering
         \begin{mdframed}
+          \setstretch{1}
+          \fontsize{9.5pt}{11pt}\selectfont
         \begin{verbatim}
 #N canvas 443 44 725 592 12;
 #X declare -stdpath ./;
@@ -127,17 +135,19 @@ Excluimos lenguajes de programación de audio como Pure Data u Open Music, ya qu
 ...
         \end{verbatim}
         \end{mdframed}
-        \caption{Representación interna en código de un \emph{patch} de \emph{Pure Data}}
+        \caption{Representación interna en código de un {patch} de {Pure Data}}
       \end{subfigure} \hfill
 
       \vspace{5mm} % Añade espacio vertical entre las filas
 
+      \centering
       \begin{subfigure}{.7\textwidth}
         \centering
         \includegraphics[width=1\textwidth]{./figuras/patch_puredata.png}
-        \caption{Aspecto visual de la interfaz gráfica de un \emph{patch} de \emph{Pure Data}}
+        \centering
+        \caption{Aspecto visual de la interfaz gráfica de un {patch} de {Pure Data}}
       \end{subfigure}\hfill
-    \source{\propio}
+      \source{\propio}
     \label{fig:patch_puredata}
 \end{figure}
 
@@ -148,12 +158,14 @@ Excluimos lenguajes de programación de audio como Pure Data u Open Music, ya qu
 
 Podemos incluir en nuestra lista sistemas de notación musical que se reducen a código, como Lilypond, la librería de {Python} \emph{Music21}, \emph{ABC notation} o el mismo formato \emph{MusicXML}. Sin embargo, se ha podido comprobar desde un primer acercamiento a \gls{llm} como GPT-4, que aún no son capaces de generar un código mínimamente interesante desde el punto de vista artístico cuando hablamos de utilización de notas musicales, acordes, etc., a pesar de comprender perfectamente la sintaxis. La figura \ref{fig:melodia_bach} muestra una partitura generada por GPT-4, cuando se le pidió crear una melodía de 4 compases al estilo de Bach. Como se puede apreciar, la melodía es correcta desde el punto de vista de la sintaxis, pero no tiene ningún interés musical ni atisbo de aproximación estilística al la petición del usuario. Por tanto, se ha decidido excluir de esta investigación los lenguajes de notación musical.
 
-\begin{figure}[h]
-    \caption[Melodía de 4 compases generada por GPT-4, al estilo de Bach]{Melodía de 4 compases generada por GPT-4, al estilo de Bach. El \gls{llm} la entregó en formato Lilypond.}
+\begin{figure}[H]
+    \caption[Melodía de 4 compases generada por GPT-4, al estilo de Bach]{Melodía, en Lilypond de 4 compases generada por GPT-4, al estilo de Bach. Se aprecia la correcta sintaxis pero la falta de interés musical y la lejanía conceptual al prompt del usuario.}
     \centering
     \begin{subfigure}{.48\textwidth}
         \centering
         \begin{mdframed}
+          \setstretch{1}
+          \fontsize{9.5pt}{11pt}\selectfont
         \begin{verbatim}
 \score {
     \new Staff {
@@ -201,9 +213,9 @@ La música experimental, la música electrónica, la música electroacústica, l
 
 El lenguaje sonoro en torno a estos géneros musicales es mucho más flexible, por lo general, que el lenguaje de la música notada. Especialmente las músicas autodenominadas experimentales, que no tienen un lenguaje musical definido y que se caracterizan por la búsqueda de nuevos sonidos y nuevas formas de expresión, son idóneas para una experimentación con elementos no humanos, como los \gls{llm}. Esta interacción eventualmente puede traducirse en la exploración de nuevos timbres y texturas sonoras.
 
-Dentro de los lenguajes de programación orientados a la síntesis de sonido, podemos distinguir entre los diseñados para ser codificados en interpretaciones en vivo, y los diseñados para ser codificados en archivos de audio, a una composición más estática. {Csound} \citep{boulangerCsoundBookPerspectives2000} fue contruido para crear composiciones renderizadas en archivos de audio, si bien actualmente tiene características que le permiten ser ejecutado en tiempo real. {SuperCollider} \citep{wilsonSuperColliderBook2011a} tiene características de ambos mundos, lo que lo hace óptimo tanto para la composición de obras sonoras como para la codificación en vivo, en lo que se denomina \emph{live coding}. Precisamente su ductilidad y potencia lo ha convertido en plataforma de audio sobre la que se han creado otros lenguajes orientados únicamente al tiempo real y \emph{live coding}, como {FoxDot} (\citeyear{kirkbrideQirkyFoxDot2023}), {Sonic Pi}, {Overtone} (\citeyear{OvertoneCollaborativeProgrammable}) o {Tidal Cycles} (\citeyear{LiveCodeTidal}). Actualmente proliferan lenguajes diseñados para esta interacción en tiempo real con el usuario. Además de los expuestos, podemos destacar {ChucK} (\citeyear{teamChucKStronglyTimedMusic}) o {Strudel} (\citeyear{StrudelREPL}), entre otros. Esto se debe, entre otros factores culturales, al aumento de la potencia de los ordenadores, que permite ejecutar en tiempo real programas de síntesis de sonido cada vez más complejos.
+Dentro de los lenguajes de programación orientados a la síntesis de sonido, podemos distinguir entre los diseñados para ser codificados en interpretaciones en vivo, y los diseñados para ser codificados en archivos de audio, a una composición más estática. {Csound} \citep{boulangerCsoundBookPerspectives2000} fue contruido para crear composiciones renderizadas en archivos de audio, si bien actualmente tiene características que le permiten ser ejecutado en tiempo real. {SuperCollider} \citep{wilsonSuperColliderBook2011a} tiene características de ambos mundos, lo que lo hace óptimo tanto para la composición de obras sonoras como para la codificación en vivo, en lo que se denomina \emph{live coding}. Precisamente su ductilidad y potencia lo ha convertido en plataforma de audio sobre la que se han creado otros lenguajes orientados únicamente al tiempo real y \emph{live coding}, como {FoxDot} (\citep{kirkbrideQirkyFoxDot2023}), {Sonic Pi}, {Overtone} (\citep{OvertoneCollaborativeProgrammable}) o {Tidal Cycles} (\citep{LiveCodeTidal}). Actualmente proliferan lenguajes diseñados para esta interacción en tiempo real con el usuario. Además de los expuestos, podemos destacar {ChucK} (\citep{teamChucKStronglyTimedMusic}) o {Strudel} (\citep{StrudelREPL}), entre otros. Esto se debe, entre otros factores culturales, al aumento de la potencia de los ordenadores, que permite ejecutar en tiempo real programas de síntesis de sonido cada vez más complejos.
 
-\section{Lenguajes seleccionados para esta investigación}
+\section{Criterios de selección de lenguajes de programación musical para esta investigación}
 
 Hubiera sido de mucho interés incluir en esta investigación todos los lenguajes de programación musicales mencionados en este capítulo, y muchos más. Sin embargo, esto hubiera resultado una tarea que excede los límites de recursos y tiempo. Por ello, se ha decidido acotar la investigación a únicamente dos lenguajes de programación musicales, como punto de partida de ulteriores trabajos. En la elección se han tenido en cuenta una serie de criterios, que se exponen a continuación.
 
@@ -220,7 +232,7 @@ Es importante que los lenguajes de programación musicales seleccionados sean ca
 Explicado de una forma rápida y sencilla, la codificación en tiempo real consiste en la ejecución de código de programación en tiempo real, en el momento de la interpretación. Esto permite al usuario interactuar con el código de un modo más inmediato, y por tanto, tener una experiencia más inmersiva. En el caso de los lenguajes de programación musicales, esto se suele conseguir creando bucles infinitos, que se ejecutan continuamente y pueden ser modificados en vivo (o sustituidos) sin tener que reiniciar el programa, y permiten una intuitiva interacción con el usuario. La Figura \ref{fig:sonic_pi_loop} muestra un ejemplo de bucle infinito en {Sonic Pi}. Este bucle es sustituido por otro nuevo en vivo cada vez que el usuario hace una modificación en él. No es difícil imaginar el papel que puede tener un modelo de inteligencia artificial en este proceso, generando código de programación sonora en tiempo real y permitiendo una interacción continua con el usuario, e incluso sin la intervención del usuario, como se verá más adelante.
 
 
-\begin{figure}[h]
+\begin{figure}[H]
   \caption[Bucle infinito en {Sonic Pi}]{Bucle infinito en {Sonic Pi}. En este código se ejecutan cuatro notas (con la sentencia \texttt{play}), una por segundo (tiempo indicado a \texttt{sleep}) en un bucle infinito. El usuario puede modificar las notas, y el cambio se ejecuta en el siguiente ciclo del bucle.}
   \centering
   \begin{subfigure}{.5\textwidth}
@@ -253,7 +265,7 @@ Esta característica está muy unida a la anterior, ya que un buen lenguaje con 
 \emph{Tidal Cycles}, que está enfocado principalmente a la codificación en tiempo real (o \emph{live coding}), permite una ejecución sonora continua por defecto, abstraído completamente de los errores. El artista ha de estar atento a la consola para detectar los errores, pero será muy raro que el software termine su ejecución por un error. Esta es una característica muy interesante para la interacción con \gls{llm}, asegurando que no existirán interrupciones indeseadas ante código erróneo o respuestas inesperadas del modelo.
 
 \subsection{Independencia del IDE}
-Esta característica es importante si se quiere utilizar un \gls{llm} por medio de la API. Si un lenguaje tiene un apropia interfaz gráfica o IDE \footnote{(\emph{Integrated Development Environment})}, no hay un modo sencillo de ejecutar dicho código por medio de scripts creados ad hoc u otros programas de terceros. Una investigación profunda en la interacción entre \gls{llm} y usuario humano requiere de un control total sobre el código que se le pasa al \gls{llm}, así como la posibilidad de automatizar la ejecución del código y convertirlo en sonido a través de scripts o software creado ad hoc. Por ello, se ha considerado importante que los lenguajes de programación musicales seleccionados no tengan un IDE propio, o que este IDE no sea imprescindible para la ejecución del código. Un ejemplo de utilización de IDE propio es {Sonic Pi}, que no permite por defecto la ejecución de código por medio de scripts externos. {SuperCollider}, aunque tiene un IDE propio, su intérprete de comandos, \emph{sclang}, puede ser ejecutado por medio de scripts externos, y por tanto, es independiente de IDE. Esta característica de independencia del IDE utilizado es heredado por lenguajes que usan {SuperCollider} como motor de sonido, como {FoxDot} o {Tidal Cycles}.
+Esta característica es importante si se quiere utilizar un \gls{llm} por medio de la API. Si un lenguaje tiene un apropia interfaz gráfica o IDE \footnote{\emph{Integrated Development Environment}}, no hay un modo sencillo de ejecutar dicho código por medio de scripts creados ad hoc u otros programas de terceros. Una investigación profunda en la interacción entre \gls{llm} y usuario humano requiere de un control total sobre el código que se le pasa al \gls{llm}, así como la posibilidad de automatizar la ejecución del código y convertirlo en sonido a través de scripts o software creado ad hoc. Por ello, se ha considerado importante que los lenguajes de programación musicales seleccionados no tengan un IDE propio, o que este IDE no sea imprescindible para la ejecución del código. Un ejemplo de utilización de IDE propio es {Sonic Pi}, que no permite por defecto la ejecución de código por medio de scripts externos. {SuperCollider}, aunque tiene un IDE propio, su intérprete de comandos, \emph{sclang}, puede ser ejecutado por medio de scripts externos, y por tanto, es independiente de IDE. Esta característica de independencia del IDE utilizado es heredado por lenguajes que usan {SuperCollider} como motor de sonido, como {FoxDot} o {Tidal Cycles}.
 
 \subsection{Lenguajes dominados por el investigador.} 
 Quizás sea este el más arbitrario de todos los criterios, pero un desnivel de conocimiento entre lenguajes podría sesgar los resultados de la investigación. En este caso, el investigador tiene amplia experiencia con {SuperCollider}\footnote{Véase el trabajo previo del propio autor \citep{guerraparraMesjetiuTFM_Arte_Sonoro_MEMORIA2020}.}, {Csound}, {Tidal Cycles} y {Sonic Pi}.
