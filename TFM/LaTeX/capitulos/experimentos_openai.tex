@@ -316,7 +316,7 @@ Otro defecto observado con relación a los parámetros de los métodos y clases 
 
 
 \subsubsection{Introducción de errores de sintaxis en código previamente correcto}
-Aunque infrecuente, no menos desconcertante es la introducción impredecible de errores de cualquier tipo en código previamente correcto. Si los errores son de sintaxis, el compilador o el intérprete del lenguaje darán cuenta de ellos, pero si se trata de errores de semántica, como en el caso de la alucinación, pueden pasar desapercibidos. La introducción de nuevos errores en código previo es un problema que aparece según la conversación, o el tamaño del código, es comparable al tamaño de la ventana de contexto. De nuevo, el nivel de conocimientos de usuario es fundamental para detectar este tipo de errores.
+Aunque infrecuente, no menos desconcertante es la introducción impredecible de errores de cualquier tipo en código previamente correcto. Si los errores son de sintaxis, el compilador o el intérprete del lenguaje darán cuenta de ellos, pero si se trata de errores de semántica, como puede ocurrir en casos de alucinaciones, pueden pasar desapercibidos. La introducción de nuevos errores en código previo es un problema que aparece según la conversación, o el tamaño del código, es comparable al tamaño de la ventana de contexto. De nuevo, el nivel de conocimientos de usuario es fundamental para detectar este tipo de errores.
 
 
 \subsubsection{Ocasionales errores de sintaxis que escapan a la autocorrección}
@@ -365,15 +365,15 @@ En la sección \ref{sec:llm_tecnicas_prompting} se han descrito algunas de las t
 
 A continuación se analiza, de forma cualitativa y descriptiva, el impacto que han tenido diferentes técnicas de {prompting} en las respuestas obtenidas del modelo.
 
-\subsubsection{\emph{Zero-shot} vs \emph{Few-shot}}
+\subsubsection{\emph{Zero-shot} versus \emph{few-shot}}
 
-Aunque ChatGPT está entrenado para establecer conversaciones tipo chat, es susceptible de recibir contextos junto a la petición del usuario con un conjunto de ejemplos de código, para que el modelo pueda aprender de ellos para elaborar su respuesta (véase sección \ref{sec:few_shot_prompting}). En este sentido, se ha encontrado que la presentación de ejemplos de código al modelo tiene un efecto positivo en cuanto estilo y formato del código, incluso en el uso de elementos de programación similares a dichos ejemplos, haciéndolo menos proclive a errores sintácticos. Sin embargo, no se ha encontrado que el uso de ejemplos de código mejore la calidad del código generado en el sentido artístico. 
+Aunque ChatGPT está entrenado para establecer conversaciones tipo chat, es susceptible de recibir contextos junto a la petición del usuario con un conjunto de ejemplos de código, para que el modelo pueda aprender de ellos para elaborar su respuesta (véase sección \ref{sec:few_shot_prompting}). En este sentido, se ha encontrado que la presentación de ejemplos de código al modelo tiene un efecto positivo en cuanto estilo y formato del código, incluso en el uso de elementos de programación similares a dichos ejemplos, haciéndolo menos proclive a errores sintácticos. Sin embargo, no se ha hallado que el uso de ejemplos de código mejore sustancialmente la calidad del código generado en el sentido artístico. 
 
-La Figura \ref{fig:chatgpt_zero_shot_vs_few_shot}\todo{revisar que esta figura utilice el entorno de código de sc} muestra el resultado de una misma petición a ChatGPT con \emph{Zero-shot} y \emph{One-shot}. El resultado es claramente positivo en el segundo caso. Como veremos, este resultado es clave para el éxito en la utilización de técnicas más avanzadas, como \gls{rag}.
+La Figura \ref{fig:chatgpt_zero_shot_vs_few_shot}\todo{revisar que esta figura utilice el entorno de código de sc} muestra el resultado de una misma petición a ChatGPT con \emph{zero-shot} y \emph{one-shot}. El resultado es claramente positivo en el segundo caso. Como veremos, este resultado es clave para el éxito en la utilización de técnicas más avanzadas, como \gls{rag}.
 
 
 \begin{figure}%[H]
-    \caption{Comparación de resultados de ChatGPT con (\textbf{a}) \emph{Zero-shot} y (\textbf{b}) \emph{Few-shot}.}
+    \caption{Comparación de resultados de ChatGPT con (\textbf{a}) \emph{zero-shot} y (\textbf{b}) \emph{few-shot}.}
     \centering
     \begin{subfigure}{.48\textwidth}
       \centering
@@ -482,7 +482,7 @@ s.sendMsg(\s_new, \fm_grain_artistic, a=s.nextNodeID, 0, 1, \amp, 0.1);
 
 Esta técnica requiere de un nivel mayor de abstracción en el razonamiento del \gls{llm}, al exigirle una planificación previa a la implementación del código. Esto implica la elaboración de la respuesta en dos pasos, una para la planificación y razonamiento, y otra, para la implementación en sí. Dichos pasos pueden ser dados en una sola respuesta o en dos. En el caso de ChatGPT, o el de cualquier chat de \gls{ia}, a cuyos parámetros de respuesta no podemos acceder, conviene hacerlo en dos respuestas consecutivas para asegurarnos de no alcanzar un límite de tokens en la única respuesta. 
 
-A diferencia de {few-shot}, esta técnica no mejora la respuesta del \gls{llm} de forma drástica, pero sí que se aprecian cambios positivos en cuanto a la complejidad de elementos que el código puede llegar a utilizar. Así, una petición compleja del usuario tiene más probabilidades de éxito si el \gls{llm} tiene la posibilidad de <<razonar>> previamente los pasos a dar que si lo implementa directamente. A cambio, puede introducir más errores en el código, que el usuario ha de corregir por sí mismo o llevar al \gls{llm} en una conversación iterada. Esta técnica es más apropiada que {few-shot} en el caso de buscar un código para una pieza en evolución temporal, donde se implican estructuras tipo rutinas, patrones y cambios de parámetros o sintetizadores a lo largo del tiempo, aunque, será útil en cualquier aplicación en la que se busque complejidad. En los experimentos realizados se han desechado muchas conversaciones completas por llegar a momentos de bloqueo, en los que la complejidad del código era tal que su depuración era más costosa que la elaboración del mismo a partir de partes más pequeñas.
+A diferencia de \emph{few-shot}, esta técnica no mejora la respuesta del \gls{llm} de forma drástica, pero sí que se aprecian cambios positivos en cuanto a la complejidad de elementos que el código puede llegar a utilizar. Así, una petición compleja del usuario tiene más probabilidades de éxito si el \gls{llm} tiene la posibilidad de \emph{razonar} previamente los pasos a dar que si lo implementa directamente. A cambio, puede introducir más errores en el código, que el usuario ha de corregir por sí mismo o llevar al \gls{llm} en una conversación iterada. Esta técnica es más apropiada que \emph{few-shot} en el caso de buscar un código para una pieza en evolución temporal, donde se implican estructuras tipo rutinas, patrones y cambios de parámetros o sintetizadores a lo largo del tiempo, aunque, será útil en cualquier aplicación en la que se busque complejidad. En los experimentos realizados se han desechado muchas conversaciones completas por llegar a momentos de bloqueo, en los que la complejidad del código era tal que su depuración era más costosa que la elaboración del mismo a partir de partes más pequeñas.
 
 No se ha mostrado como relevante el uso de una técnica tipo \gls{scot}, en la que el primer paso ha de realizarse en pseudocódigo en lugar de en lenguaje natural. La hipótesis que lanzamos para este resultado es que, a diferencia de las tareas de programación a las que esta técnica originalmente se dirige, el diseño de sintetizadores no requiere de tanta complejidad como una función en Python o C++ que se descompone en flujos como bucles y condicionales. En este sentido, el propio script en SuperCollider se representa a sí mismo y no tiene sentido planificar en un pseudocódigo.
 
@@ -544,16 +544,14 @@ Por lo general, no se ha apreciado una gran diferencia de calidad en el código 
 
 La comunicación por API con los servicios, en este caso, de OpenAI, constituye la forma más dúctil de interactuar con los modelos de \gls{ia}. En este caso, se provee de una amplia y completa documentación y de librerías para su utilización dentro de diversos lenguajes de programación.
 
-En nuestro caso, el lenguaje utilizado es Python, por la sencillez de su uso y por ser un lenguaje robusto en el campo de la \gls{ia} y de la investigación. El entorno de programación fue durante toda la investigación Visual Studio Code. Se crearon principalmente 2 programas para la interacción con la API de OpenAI: uno para la generación automática de código en Tidal Cycles y otro para la generación interactiva de código tanto en Tidal Cycles como en SuperCollider.
+En nuestro caso, el lenguaje utilizado es Python, por la sencillez de su uso y por ser un lenguaje robusto en el campo de la \gls{ia} y de la investigación. El entorno de programación fue durante toda la investigación Visual Studio Code. Se crearon principalmente dos programas para la interacción con la API de OpenAI: uno para la generación automática de código en Tidal Cycles y otro para la generación interactiva de código tanto en Tidal Cycles como en SuperCollider.
 
 \subsection{Generación automática de código en Tidal Cycles}
 \label{sec:generacion_automatica_codigo_tidal_cycles}
 
 La API, además de interacciones del mismo tipo que ChatGPT o que la Playground, permite la interacción programada de peticiones y la gestión de las respuestas de forma automatizada. Uno de los primeros scripts que se crearon en este trabajo realizaba peticiones cíclicamente a la API. El código solicitado era el de un patrón de Tidal Cycles por medio de una petición de prompt de sistema. Una vez obtenido, el patrón es enviado al generador de sonido de Tidal en local y, tras un tiempo determinado, se vuelve a comenzar el ciclo enviando una nueva petición que incluye tanto el prompt de sistema como los patrones que se han generado hasta el momento como contexto.
 
-Una parte de estos patrones generados contienen errores en el código, normalmente por la utilización de objetos o clases inexistentes. En estos casos, como ya se ha mencionado, el error puede pasar desapercibido y sin consecuencias graves en la salida del sonido. Tidal no para la ejecución de los patrones previos aunque el último ejecutado contenga errores. El resultado sonoro del script es el de una evolución temporal de patrones, en forma de deriva, que solo puede ser controlado, en parte, por el usuario desde el prompt de sistema. El resultado es similar al de un intérprete de \emph{live coding} escribiendo código musical en vivo. La Figura xxx ilustra el flujo cíclico de este programa.
-
-\missingfigure{Flujo cíclico de peticiones a la API para la generación automática de código en Tidal Cycles.}   
+Una parte de estos patrones generados contienen errores en el código, normalmente por la utilización de objetos o clases inexistentes. En estos casos, como ya se ha mencionado, el error puede pasar desapercibido y sin consecuencias graves en la salida del sonido. Tidal no para la ejecución de los patrones previos aunque el último ejecutado contenga errores. El resultado sonoro del script es el de una evolución temporal de patrones, en forma de deriva, que solo puede ser controlado, en parte, por el usuario desde el prompt de sistema. El resultado es similar al de un intérprete de \emph{live coding} escribiendo código musical en vivo. 
 
 Los resultados obtenidos con esta forma de interacción mostraron una notable diferencia tanto en lo cuantitativo como en lo cualitativo respecto a técnicas previas. Por una parte, el flujo continuo de peticiones a la API permite obtener una cantidad de código mayor que con las interfaces tipo chatbot, lo cual se muestra útil a la hora de buscar variedad y cierta serendipia en la búsqueda artística de sonidos y texturas. Por otra parte, la posibilidad de ejecutar directamente el código generado abre la puerta a la experimentación en tiempo real y abre ilimitadas posibilidades en el campo de la música en vivo.
 
@@ -561,16 +559,4 @@ Una decisión que resultó muy productiva es la de utilizar el lenguaje de Tidal
 
 Las limitaciones de esta forma de interacción se encuentran en la forma de implementación de la interacción con el usuario, que, en este caso, se ha visto reducido absolutamente al prompt inicial. Esto provoca que no exista dominio temporal del flujo. Esta situación se puede solucionar, en parte, programando diversos prompts de sistema para ser lanzados en momentos determinados de la ejecución, aunque esto no fue explorado lo suficiente.
 
-Precisamente, para posibilitar un control mayor por parte del usuario, se creó un segundo programa que permitiera una interacción mucho más directa y abierta, en términos de posibilidades, con la API. Debido a la importancia de este programa y su complejidad, se le dedicará un apartado propio (véase capítulo \ref{anexo:aimuse}).
-
-
-
-% \section{Explorando la \emph{multimodalidad} con \emph{ChatGPT Vision}}
-% Crear varios ejemplos y plasmar la experiencia: dar imágenes a ChatGPT y ver qué pasa a nivel de creación sonora.
-% Si resulta interesante, se puede hacer un anexo con imágenes y ejemplos sonoros...
-
-
-
-
-
-% ----Ejemplos sonoros conseguidos a través de ChatGPT.
+Precisamente, para posibilitar un control mayor por parte del usuario, se creó un segundo programa que permitiera una interacción mucho más directa y abierta, en términos de posibilidades, con la API. Debido a la importancia de este programa y su complejidad, se le dedicará un apartado propio (véase capítulo \ref{chap:ai_muse}).
