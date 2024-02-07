@@ -367,12 +367,12 @@ A continuación se analiza, de forma cualitativa y descriptiva, el impacto que h
 
 \subsubsection{\emph{Zero-shot} vs \emph{Few-shot}}
 
-Aunque ChatGPT está entrenado para establecer conversaciones tipo chat, es susceptible de recibir contextos junto a la petición del usuario con un conjunto de ejemplos de código, para que el modelo pueda aprender de ellos para elaborar su respuesta. En este sentido, se ha encontrado que la presentación de ejemplos de código al modelo tiene un efecto positivo en cuanto estilo y formato del código, incluso en el uso de elementos de programación similares a dichos ejemplos, siendo menos proclive a errores sintácticos. Sin embargo, no se ha encontrado que el uso de ejemplos de código mejore la calidad del código generado en el sentido artístico. 
+Aunque ChatGPT está entrenado para establecer conversaciones tipo chat, es susceptible de recibir contextos junto a la petición del usuario con un conjunto de ejemplos de código, para que el modelo pueda aprender de ellos para elaborar su respuesta (véase sección \ref{sec:few_shot_prompting}). En este sentido, se ha encontrado que la presentación de ejemplos de código al modelo tiene un efecto positivo en cuanto estilo y formato del código, incluso en el uso de elementos de programación similares a dichos ejemplos, haciéndolo menos proclive a errores sintácticos. Sin embargo, no se ha encontrado que el uso de ejemplos de código mejore la calidad del código generado en el sentido artístico. 
 
-La Figura \ref{fig:chatgpt_zero_shot_vs_few_shot} muestra el resultado de una misma petición a ChatGPT con \emph{Zero-shot} y \emph{One-shot}. El resultado es claramente positivo en el segundo caso. Como veremos, este resultado es clave para el éxito en la utilización de técnicas más avanzadas, como \gls{rag}.
+La Figura \ref{fig:chatgpt_zero_shot_vs_few_shot}\todo{revisar que esta figura utilice el entorno de código de sc} muestra el resultado de una misma petición a ChatGPT con \emph{Zero-shot} y \emph{One-shot}. El resultado es claramente positivo en el segundo caso. Como veremos, este resultado es clave para el éxito en la utilización de técnicas más avanzadas, como \gls{rag}.
 
 
-\begin{figure}%[H]
+\begin{figure}[H]
     \caption[]{Comparación de resultados de ChatGPT con (\textbf{a}) \emph{Zero-shot} y (\textbf{b}) \emph{Few-shot}.}
     \centering
     \begin{subfigure}{.48\textwidth}
@@ -380,7 +380,7 @@ La Figura \ref{fig:chatgpt_zero_shot_vs_few_shot} muestra el resultado de una mi
       \begin{mdframed}
         \setstretch{1}
         \fontsize{9.5pt}{11pt}\selectfont
-        Usuario: Crea una textura sonora de interés artístico usando \texttt{FMGrain} en SuperCollider.
+        Usuario: Crea una textura sonora de interés artístico usando el UGen \texttt{FMGrain} en SuperCollider.
       \end{mdframed}
     %   \caption{Csound}
     \end{subfigure}\hfill
