@@ -8,8 +8,9 @@
 Los \gls{llm} no aprenden nuevos datos tras su entrenamiento, por lo que existe una limitación en la información o el conocimiento disponible al no haber tenido acceso a información o acontecimientos ocurridos después de esa fecha límite. Esta limitación se minimiza con rentrenamientos tipo \emph{fine-tuning} o con técnicas como \gls{rag}.
 
 \subsection{Alucinaciones}
+\label{sec:alucinaciones}
 
-La finalidad de un \gls{lm} es \emph{modelar} el lenguaje humano, con lo que, a priori, no se puede esperar que los datos que de en sus respuestas sean ciertos sino verosímiles. Los \gls{llm} se entrenan con vastas cantidades de datos de diversa calidad, y la trazabilidad de los datos que devuelve en sus respuestas es muy difícil de determinar. Precisamente, la técnica \gls{rag} permite dibujar la trazabilidad de los datos de las respuestas, en tanto en cuanto estas se basan en los datos de la base de datos de conocimiento. Por otra parte, la constante mejora de los datos de entramiento de los \gls{llm} \citep{gunasekarTextbooksAreAll2023} hace que este problema se minimice aunque nunca se elimina completamente.
+Se entiende por \emph{alucinación} a un dato erróneo que el modelo genera con total apariencia de verosimilitud y corrección. Para entender por qué sucede esto, hay que comprender que la finalidad de un \gls{lm} es \emph{modelar} el lenguaje humano, con lo que, a priori, no se puede esperar que los datos que de en sus respuestas sean ciertos sino verosímiles. Los \gls{llm} se entrenan con vastas cantidades de datos de diversa calidad, y la trazabilidad de los datos que devuelve en sus respuestas es muy difícil de determinar. Precisamente, la técnica \gls{rag} permite dibujar la trazabilidad de los datos de las respuestas, en tanto en cuanto estas se basan en los datos de la base de datos de conocimiento. Por otra parte, la constante mejora de los datos de entramiento de los \gls{llm} \citep{gunasekarTextbooksAreAll2023} hace que este problema de las alucinaciones se minimice aunque nunca se elimina completamente.
 
 \subsection{Ineficiencia y coste}
 
