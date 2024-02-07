@@ -277,7 +277,7 @@ Encontramos aún errores semánticos más sutiles y difíciles de detectar, ya q
 Otro defecto observado con relación a los parámetros de los métodos y clases del código generado es la propensión a utilizar valores por defecto. Esto, aunque no compromete la seguridad, resta interés al código generado desde el punto de vista artístico. Los valores por defecto son aquellos que un elemento del código utiliza cuando el usuario no provee de un valor explícito. Por ejemplo, en el caso de SuperCollider, el método \texttt{SinOsc.ar} cuenta con un parámetro \texttt{mul} que, si no se provee de un valor explícito, toma el valor por defecto de $1$; o \texttt{freq}, con el valor por defecto de \SI{440}{\hertz}. Por ejemplo, en la Figura \ref{fig:ChatGPT_valores_por_defecto} se puede ver cómo el modelo utiliza valores por defecto en el código generado, lo cual no es deseable desde el punto de vista artístico.
 
 \begin{figure}[H]
-    \caption[]{Código generado por ChatGPT con utilización de valor de frecuencia de 440 Hz. Este valor <<por defecto>> no es una excepción, sino que sistemáticamente se encuentran enn los parámetros de los métodos y clases del código generados por ChatGPT. Esto, sin duda, resta interés al código generado desde el punto de vista artístico.}
+    \caption[Código generado por ChatGPT con utilización de valor de frecuencia de \SI{440}{\hertz}]{Código generado por ChatGPT con utilización de valor de frecuencia de \SI{440}{\hertz}. Este valor por defecto no es una excepción, sino que sistemáticamente se encuentran en los parámetros de los métodos y clases del código generados por ChatGPT. Esto, sin duda, resta interés al código generado desde el punto de vista artístico.}
     \centering
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
@@ -372,8 +372,8 @@ Aunque ChatGPT está entrenado para establecer conversaciones tipo chat, es susc
 La Figura \ref{fig:chatgpt_zero_shot_vs_few_shot}\todo{revisar que esta figura utilice el entorno de código de sc} muestra el resultado de una misma petición a ChatGPT con \emph{Zero-shot} y \emph{One-shot}. El resultado es claramente positivo en el segundo caso. Como veremos, este resultado es clave para el éxito en la utilización de técnicas más avanzadas, como \gls{rag}.
 
 
-\begin{figure}[H]
-    \caption[]{Comparación de resultados de ChatGPT con (\textbf{a}) \emph{Zero-shot} y (\textbf{b}) \emph{Few-shot}.}
+\begin{figure}%[H]
+    \caption{Comparación de resultados de ChatGPT con (\textbf{a}) \emph{Zero-shot} y (\textbf{b}) \emph{Few-shot}.}
     \centering
     \begin{subfigure}{.48\textwidth}
       \centering
@@ -435,7 +435,7 @@ s.sendMsg(\s_new, \fm_grain_test, a=s.nextNodeID, 0, 1, \amp, 0.1);
     )
 }.play;    
         \end{lstlisting}
-        \captionqr{\emph{Zero-shot} en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+        \captionqr{\emph{Zero-shot} en una petición de creación sonora en SuperCollider}{\emph{Zero-shot} en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
       \end{subfigure}\hfill
     \begin{subfigure}{.48\textwidth}
       \centering
@@ -471,7 +471,7 @@ SynthDef(\fm_grain_artistic, { arg gate = 1, amp = 1;
 }).add;
 s.sendMsg(\s_new, \fm_grain_artistic, a=s.nextNodeID, 0, 1, \amp, 0.1);              
         \end{lstlisting}
-        \captionqr{La misma petición con un ejemplo \emph{Few-shot}. El resultado sonoro es más interesante desde el punto de vista artístico.}{https://drive.google.com/file/d/1C7FDkH706e1OMlcOWrG4qsCoC7Au8GaU/view?usp=drive_link}{audio}
+        \captionqr{La misma petición con un ejemplo \emph{Few-shot}}{La misma petición con un ejemplo \emph{Few-shot}. El resultado sonoro es más interesante desde el punto de vista artístico.}{https://drive.google.com/file/d/1C7FDkH706e1OMlcOWrG4qsCoC7Au8GaU/view?usp=drive_link}{audio}
     \end{subfigure}
 
     \source{\propio}

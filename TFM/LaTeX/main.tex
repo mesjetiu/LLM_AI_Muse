@@ -290,13 +290,13 @@
 % #1: Texto del caption
 % #2: URL del recurso
 % #3: Tipo de ícono (audio o video)
-\newcommand{\captionqr}[3]{%
+\newcommand{\captionqr}[4]{%
     \begin{tabular}{@{}p{0.7\textwidth}@{\hspace{5pt}}p{0.2\textwidth}@{}}
-        \caption[#1]{#1} & 
+        \caption[#1]{#2} & 
         \raisebox{-0.7\height}{%
             \begin{tabular}[c]{@{}c@{\hspace{2pt}}c@{}}
-                \qrcode[height=1.4cm]{#2} & 
-                \href{#2}{\raisebox{-0.1\height}{\ifthenelse{\equal{#3}{audio}}{{\Huge \faVolumeUp}}{{\Huge \faVideoCamera}}}}
+                \qrcode[height=1.4cm]{#3} & 
+                \href{#3}{\raisebox{-0.1\height}{\ifthenelse{\equal{#4}{audio}}{{\Huge \faVolumeUp}}{{\Huge \faVideoCamera}}}}
             \end{tabular}
         }
     \end{tabular}
