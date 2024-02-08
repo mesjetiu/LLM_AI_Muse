@@ -1,43 +1,28 @@
-\chapter{\emph{AI Muse}, herramienta en \emph{Python} para la interacción en vivo LLM en entornos de \emph{live coding}}
+\chapter{\emph{AI Muse}, herramienta en {Python} para la interacción en vivo con \gls{llm} en entornos de \emph{live coding}}
 \label{chap:ai_muse}
 
 % \defaultFontEpigraph{One Model Is All You Need}{\cite{grahamOneModelAll2022}}
 \defaultFontEpigraph{One Model Is All You Need}{Graham y cols. (2022)}
 
-En este capítulo pasamos a describir la herramienta \emph{AI Muse}, a la cual nos referimos en el capítulo anterior (véase \ref{sec:generacion_automatica_codigo_tidal_cycles}), detallando su funcionamiento, diversas cuestiones de su implementación y los resultados de su utilización.
+En este capítulo pasamos a describir la herramienta \emph{AI Muse}, creada durante este trabajo, a la cual nos referimos en el capítulo anterior (véase sección \ref{sec:generacion_automatica_codigo_tidal_cycles}), detallando su funcionamiento, diversas cuestiones de su implementación y los resultados de su utilización.
 
 \section{Descripción general de la herramienta}
 
 \emph{AI Muse} es una herramienta de interacción con modelos de lenguaje en entornos de \emph{live coding}. Está escrita en Python y se comunica con la API de OpenAI. Permite ejecutar código de SuperCollider y de Tidal Cycles. Además, tiene un archivo de configuración en formato JSON, así como un conjunto de comandos para modificar en vivo los parámetros de la configuración. Aunque está pensada para la utilización de modelos de OpenAI, esta librería permite eventualmente comunicarse con otros modelos de lenguaje incluso en local, detalle que no ha sido explorado en este trabajo.
 
-% Escrito en Python
-% Se comunica con la API de OpenAI
-% Es un entorno de Liveconding
-% Al guardar el archivo se realiza un intercambio con la API
-% Permite ejecutar código de SuperCollider y código de Tidal Cycles
-% Tiene un archivo de configuración en json, además de un conjunto de comandos para cambiar los parámetros en vivo
+\section{¿Por qué un entorno de \emph{live coding}?}
 
-\section{¿Por qué en entorno de \emph{live coding}?}
+El \emph{live coding} es el arte de programar música en tiempo real, constituyéndose así como un espacio de experimentación y creación artística que fusiona el campo de la programación con el de la interpretación musical y la improvisación. Por su naturaleza, esta práctica brinda una plataforma ideal para explorar las posibilidades que la interacción con modelos de lenguaje de forma automatizada puede ofrecer.
 
-El \emph{live coding} es el arte de programar música en tiempo real. Es un entorno de experimentación y de creación artística que une el campo de la programación con el de la interpretación musical y la improvisación. Por su naturaleza, esta práctica ofrece un entorno ideal para la exploración de las posibilidades que puede ofrecer la interacción con modelos de lenguaje de forma automatizada. 
+Dado su carácter improvisatorio, no se limita a estructuras musicales preestablecidas. Esta flexibilidad en la forma implica menores restricciones temporales en comparación con la composición musical tradicional, lo cual se alinea perfectamente con los hallazgos de fases previas de nuestro trabajo. En dichas etapas, se evidenció que los modelos de lenguaje contemporáneos son más eficientes con fragmentos de código de tamaño reducido. Este enfoque creativo, sumado a las ventajas de Tidal Cycles en términos de fiabilidad del código y tolerancia a fallos, ha propiciado el desarrollo de \emph{AI Muse} como una herramienta de experimentación.
 
-El \emph{live coding}, por su naturaleza improvisatoria, no está ceñido a una forma musical predeterminada. Esta indeterminación formal tiene menos exigencias que la composición a nivel temporal, algo que se adecua muy bien a los resultados que se obtuvieron en etapas anteriores de nuestro trabajo, donde se observó que los modelos de lenguaje actuales producen mejores resultados con bloques de código relativamente pequeños. Este formato creativo, unido a las bondades ya señaladas de Tidal Cycles en cuanto a seguridad del código y resistencia a errores, llevó a la escritura \emph{AI Muse} como una herramienta de experimentación.
-
-% Es más dúctil e interactivo que el de la composición.
-% Explora la posibilidad de respuesta inmediata por API.
-% Explota el hecho de que los LLM actualmente trabajan mejor con bloques relativamente pequeños.
-% Los lenguajes de livecoding tienen mecanismos de seguridad que abstraen al usuario de largas comprobaciones de errores: o funciona o no funciona. Si no funciona, nada se cae. Este principio se aplica especialmente a Tidal Cycles, aunque SuperCollider también tiene estructuras adecuadas para livecoding (placeholders)
-% Inmediatez de la respuesta del modelo. Se iteran las respuestas buenas, las malas se pueden desechar sin más.
 
 \section{Integración de la API de OpenAI}
 
 \emph{AI Muse} integra dos posibles interacciones que OpenAI permite con su API: utilización modelos de chatbot y de sistemas de \gls{rag}\footnote{Los llamados \emph{Assistants} por OpenAI.}. La primera modalidad es la más sencilla, ya que se trata de realizar conversaciones con el modelo. En este caso, cada petición se limita a un prompt general de sistema unido al archivo actual con todo el código generado, de forma que el modelo pueda genera el siguiente bloque de código.
 
-La diferencia crucial con scripts previos en este trabajo es que es el propio usuario quien decide cuándo hacer una petición a la API, en lugar de estar automatizado. La acción elegida para hacer esta petición es la de guardar el archivo. De esta forma, el programa puede ser utilizado en cualquier editor de textos, y no está limitado a un entorno de desarrollo concreto ni al uso de \emph{plugins} o extensiones. En este caso, todo el programa ha sido escrito y testado en Visual Studio Code, pero eventualmente podría ser utilizado en cualquier otro editor de textos.
+La diferencia crucial con scripts previos en este trabajo (véase sección \ref{sec:generacion_automatica_codigo_tidal_cycles}) es que es el propio usuario quien decide cuándo hacer una petición a la API, en lugar de estar automatizado. La acción elegida para hacer esta petición es la de guardar el archivo. De esta forma, el programa puede ser utilizado en cualquier editor de textos, y no está limitado a un entorno de desarrollo concreto ni al uso de \emph{plugins} o extensiones. En este caso, todo el programa ha sido escrito y testado en Visual Studio Code, pero eventualmente podría ser utilizado en cualquier otro editor de textos.
 
-% Usar la API es conveniente para controlar todos los parámetros del modelo.
-% Actualmente tiene dos modalidades: Chat y Assistant.
-% Es lo suficientemente rápido como para interaccionar y escribir mucho más rápido que el usuario, por lo que se puede poner un tiempo mínimo entre respuestas.
 
 \section{Lenguajes de programación musical disponibles}
 
@@ -125,15 +110,15 @@ La Figura \ref{fig:json} muestra una configuración concreta para el archivo \te
         \textbf{Clave} & \textbf{Valores posibles} & \textbf{Efecto}& \textbf{Ejemplo de uso en comando} \\
         \midrule
     % Tus filas aquí
-    mode\_tidal\_supercollider & tidal/sclang & Modo de operación para TidalCycles o SuperCollider  & set mode\_tidal\_supercollider tidal \\
-    create\_log\_file & \textcolor{truecolor}{true}/\textcolor{falsecolor}{false} & Activa o desactiva la creación de archivos de registro  & set create\_log\_file \textcolor{truecolor}{true} \\
+    mode\_tidal\_supercollider & tidal/sclang & Modo de operación para TidalCycles o SuperCollider  & set mode tidal \\
+    create\_log\_file & \textcolor{truecolor}{true}/\textcolor{falsecolor}{false} & Activa o desactiva la creación de archivos de registro  & - \\
     ghci\_path & \textcolor{pathcolor}{./ruta/a/ghci} & Ruta al ejecutable ghci  & - \\
-    only\_system\_commands & \textcolor{truecolor}{true}/\textcolor{falsecolor}{false} & Restringe a comandos del sistema  & set only\_system\_commands \textcolor{falsecolor}{false} \\
-    supercollider\_on & \textcolor{truecolor}{true}/\textcolor{falsecolor}{false} & Enciende o apaga SuperCollider  & set supercollider\_on \textcolor{truecolor}{true} \\
+    only\_system\_commands & \textcolor{truecolor}{true}/\textcolor{falsecolor}{false} & Restringe a comandos del sistema  & - \\
+    supercollider\_on & \textcolor{truecolor}{true}/\textcolor{falsecolor}{false} & Enciende o apaga SuperCollider  & - \\
     sclang\_path & \textcolor{pathcolor}{./ruta/a/sclang} & Ruta al ejecutable sclang  & - \\
     boot\_tidal\_path & \textcolor{pathcolor}{/ruta/a/BootTidal.hs} & Ruta al archivo de arranque de Tidal  & - \\
     api\_enabled & \textcolor{truecolor}{true}/\textcolor{falsecolor}{false} & Activa o desactiva la API  & set api\_enabled \textcolor{truecolor}{true} \\
-    bot\_mode & assistant/otro & Establece el modo del bot  & set bot\_mode assistant \\
+    bot\_mode & assistant/chat & Establece el modo del bot  & - \\
     assistant\_id & ID & ID del asistente  & - \\
     assistant\_retrieval\_folder & \textcolor{pathcolor}{./ruta/a/carpetas} & Ruta a la carpeta de recuperación  & - \\
     api\_key\_file & \textcolor{pathcolor}{apikey.txt} & Archivo con la clave de la API  & - \\
@@ -199,17 +184,88 @@ La Figura \ref{fig:json} muestra una configuración concreta para el archivo \te
 
 Como era de esperar, la automatización de los diálogos con el sistema del \gls{llm} permitió una interacción más fluida que en etapas previas, así como la concentración de la atención del usuario únicamente en cuestiones musicales. La música se produce ahora de forma sincrónica a la interacción usuario-\gls{llm}, lo cual se llega a percibir como una auténtica colaboración humano-máquina. Máxime cuando es posible comunicarse con comentarios en lenguaje natural durante el acto performativo.
 
-Especial cuidado se puso en los prompts de sistema, ya que estos deben compendiar en el mínimo de tokens la finalidad de la conversación con el \gls{llm}, así como el formato esperado de sus respuestas para ser procesadas adecuadamente por el programa. En la Figura xxx se muestran sendos prompts de sistema para Tidal Cycles y para SuperCollider, los cuales fueron utilizados con éxito en la práctica.
+Especial cuidado se puso en los prompts de sistema, ya que estos deben compendiar en el mínimo de tokens la finalidad de la conversación con el \gls{llm}, así como el formato esperado de sus respuestas para ser procesadas adecuadamente por el programa. En la Figura \ref{fig:system_prompts_aimuse} se muestran sendos prompts de sistema para Tidal Cycles y para SuperCollider, los cuales fueron utilizados con éxito en la práctica.
 
-\missingfigure{Prompts de sistema de AI Muse}
+\begin{figure}[H]
+    \caption[Prompts de sistema de AI Muse]{Prompts de sistema de AI Muse para (\textbf{a}) SuperCollider y (\textbf{b}) Tidal Cycles. Estos prompts están diseñados para que el \gls{llm} responda únicamente con código musical breve a partir del contexto del archivo completo y sus comentarios.}
+    \centering
+    \begin{subfigure}{.9\textwidth}
+        \centering
+    \begin{mdframed}
+        \setstretch{1}
+        \fontsize{9.5pt}{11pt}\selectfont
+        Cada vez que se te escriba, debes devolver una sentencia de SuperCollider, o modificar una ya existente en el código.
+        \setlength{\parskip}{6pt}
 
-Se ha apreciado una tenencia del \gls{llm} a imitar los patrones ya existentes en la conversación, si bien, por medio de comentarios es posible provocar más originalidad en sucesivas respuestas. Por esta razón, es interesante aplicar la técnica de prompting de few-shot para dirigir el inicio de la improvisación colaborativa. 
+Responderás con una única sentencia que continúe el contexto proporcionado por la conversación, a modo de sesión de Live Coding.
 
-No se ha apreciado una diferencia importante entre usar el modelo en modo chatbot o en modo assistant. Sin embargo, esto debería estudiarse con mayor detenimiento en función de unas cuidadas configuraciones de asistentes y de sus archivos de base de datos.
+No incluyas texto o comentarios.
+
+Técnicamente, tus patrones no han de ser complejos, para asegurar que no contienen bugs.
+
+Artísticamente, se busca en tus patrones: imaginación, patrones atípicos, texturas sin explorar, etc. No se espera de ti: repetición de códigos típicos. Lo que se oye ha de ser poco percusivo, no ha de recordar a una batería. Es música experimental y ambiental. Juega con sonidos no reconocibles, transformados como solo tú sabes hacer...
+
+Busca que su resultado sonoro sea complejo.
+
+Ten en cuenta que el resultado sonoro sea audible psicoacústicamente, especialmente si modificas mucho el sonido.
+
+El usuario te pasa el archivo actual.
+
+Tus bloques o sentencias del código llevan un comentario con el nombre del modelo que lo ha creado para que los reconozcas (tú no tienes que ponerlo, los indica el usuario).
+
+Si modificas un patrón existente, cambialo sólo un poco, como haría un livecoder.
+
+Utiliza sólo estructuras de live coding: Pbindef, Ndef, y objetos modificables en caliente. Crea tus SynthDefs.
+
+Cuestiones técnicas: Si creas o modificas un SynthDef, no olvides añadir condición de terminación.
+
+Devuelve un único bloque o sentencia.
+    \end{mdframed}
+        \caption{Prompt de sistema para SuperCollider}
+      \end{subfigure}
+
+    \vspace{5mm} % Añade espacio vertical entre las filas
+
+      \begin{subfigure}{.9\textwidth}
+        \centering
+    \begin{mdframed}
+        \setstretch{1}
+        \fontsize{9.5pt}{11pt}\selectfont
+        Cada vez que se escriba, debes devolver una sentencia de patrones de Tidal Cycles o modificación de uno existente.
+        \setlength{\parskip}{6pt}
+
+Responderás con una única sentencia que continúe el contexto proporcionado por la conversación, a modo de sesión de Live Coding.
+
+No incluyas texto o comentarios.
+
+Técnicamente, tus patrones no han de ser complejos, para asegurar que no contienen bugs.
+
+Artísticamente, se busca en tus patrones: imaginación, patrones atípicos, texturas sin explorar, etc. No se espera de ti: repetición de códigos típicos. Lo que se oye ha de ser poco percusivo, no ha de recordar a una batería. Es música experimental y ambiental. Juega con sonidos estirados, llenos de eventos... transformados como solo tú sabes hacer...
+
+Busca que su resultado sonoro sea complejo.
+
+Ten en cuenta que el resultado sonoro sea audible psicoacústicamente, especialmente si modificas mucho el sonido.
+
+El usuario te pasa el archivo actual.
+
+Tú te ocuparás de algún patrón aún no creado (d1, d2, d3...), excepto si el usuario te pide que modifiques uno existente. Una vez existan 3 patrones tuyos, no crees más. Solo modifica los existentes.
+
+Si modificas un patrón existente, cámbialo solo un poco, como haría un livecoder.
+
+Cuestiones técnicas: no uses valores altos de room o sz, que pueden dar lugar a problemas de feedback.
+
+Devuelve un único patrón. No uses ``` para formatear código.
+    \end{mdframed}
+        \caption{Prompt de sistema para Tidal Cycles}
+      \end{subfigure}
+    
+    \source{\propio}
+    \label{fig:system_prompts_aimuse}
+\end{figure}
+
+Se ha detectado una tenencia del \gls{llm} a imitar los patrones ya existentes en la conversación, si bien, por medio de comentarios es posible provocar más originalidad en sucesivas respuestas. Por esta razón, es interesante aplicar la técnica de prompting de \emph{few-shot} para dirigir el inicio de la improvisación colaborativa. 
+
+No se ha hallado, sin embargo, una diferencia importante entre usar el modelo en modo \texttt{chat} o en modo \texttt{assistant}. Sin embargo, esto debería estudiarse con mayor detenimiento en función de unas cuidadas configuraciones de asistentes y de sus archivos de base de datos.
 
 Este tipo de interacción se ha mostrado, en todo caso, muy prometedora de cara a la generación musical interactiva. Las aportaciones atómicas que se piden al \gls{llm} por medio de la API lo hacen muy adecuado como banco de pruebas tanto con los servicios de OpenAI, como eventualmente otros modelos, incluso open source.
 
-
-% \section{Limitaciones de la herramienta}
-
-% \section{Ejemplos de uso}

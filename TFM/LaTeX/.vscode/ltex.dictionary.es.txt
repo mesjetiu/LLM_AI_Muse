@@ -28,3 +28,5 @@ deep
 prompt
 Csound
 inmersiva
+Cycles
+Muse
