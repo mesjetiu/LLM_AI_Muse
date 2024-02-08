@@ -189,7 +189,7 @@
 % ----------- Configuración de cabeceras y pies de página -----------
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[R]{\small \autor \\[0pt] \titulo}
+\fancyhead[R]{\small \autor \\[0pt] \titulocorto}
 \fancyfoot[R]{\normalsize\thepage}
 
 
@@ -198,7 +198,7 @@
 \fancypagestyle{plain}{
   \fancyhf{} 
   \fancyfoot[R]{\normalsize\thepage}
-  \fancyhead[R]{\small \autor \\[0pt] \titulo}
+  \fancyhead[R]{\small \autor \\[0pt] \titulocorto}
   \renewcommand{\headrulewidth}{0.4pt} 
   \renewcommand{\footrulewidth}{0pt}  
 }
@@ -255,6 +255,10 @@
 % \newcommand{\titulo}{Creación sonora asistida por grandes modelos de lenguaje}
 
 \newcommand{\titulo}{\textit{All You Need Is \emph{AI Muse}}: Hacia el desarrollo de interfaces interactivas con grandes modelos de lenguaje para la creación y \textit{performance} musical algorítmica}
+
+% Comando para el título corto, usado en el encabezado
+\newcommand{\titulocorto}{\textit{All You Need Is \emph{AI Muse}}: Hacia el desarrollo de interfaces interactivas con grandes modelos de lenguaje \\ para la creación y \textit{performance} musical algorítmica}
+
 
 % \newcommand{\titulo}{All You Need Is An \emph{AI Muse}: Modelos de lenguaje a gran escala en la creación sonora}
 
