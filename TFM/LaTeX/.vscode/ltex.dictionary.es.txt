@@ -32,3 +32,4 @@ Cycles
 Muse
 aliasing
 sonograma
+psicoacústica
