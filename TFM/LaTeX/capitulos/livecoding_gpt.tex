@@ -45,7 +45,7 @@ El flujo de trabajo típico de \emph{AI Muse} es el siguiente (cfr. Figura \ref{
 
 
 \begin{figure}[H]
-    \caption[Flujo de trabajo de AI Muse]{Flujo de trabajo de AI Muse.}
+    \caption[Flujo de trabajo de\emph{AI Muse}]{Flujo de trabajo de\emph{AI Muse}.}
     \centering
     \includegraphics[width=1\textwidth]{./figuras/flujo_aimuse.png}
     \source{\propio}
@@ -141,7 +141,7 @@ La Figura \ref{fig:json} muestra una configuración concreta para el archivo \te
 
 
 \begin{figure}[H]
-    \caption[Ejemplo de archivo de configuración \texttt{config.json} de AI Muse]{Ejemplo de archivo de configuración \texttt{\emph{config.json}} de AI Muse. Los valores de cada clave pueden ser modificados directamente en el archivo o por medio de comandos. En este caso, el programa creará música en Tidal Cycles y utiliza un Assistant (RAG) previamente creado con una ID determinada. El modelo es GPT-4. El número de tokens por petición-respuesta es de 256.}
+    \caption[Ejemplo de archivo de configuración \texttt{config.json} de\emph{AI Muse}]{Ejemplo de archivo de configuración \texttt{\emph{config.json}} de\emph{AI Muse}. Los valores de cada clave pueden ser modificados directamente en el archivo o por medio de comandos. En este caso, el programa creará música en Tidal Cycles y utiliza un Assistant (RAG) previamente creado con una ID determinada. El modelo es GPT-4. El número de tokens por petición-respuesta es de 256.}
     \centering
 % \begin{mdframed}
 \setstretch{1} % Esto establece el interlineado a sencillo
@@ -187,7 +187,7 @@ Como era de esperar, la automatización de los diálogos con el sistema del \gls
 Especial cuidado se puso en los prompts de sistema, ya que estos deben compendiar en el mínimo de tokens la finalidad de la conversación con el \gls{llm}, así como el formato esperado de sus respuestas para ser procesadas adecuadamente por el programa. En la Figura \ref{fig:system_prompts_aimuse} se muestran sendos prompts de sistema para Tidal Cycles y para SuperCollider, los cuales fueron utilizados con éxito en la práctica.
 
 \begin{figure}[H]
-    \caption[Prompts de sistema de AI Muse]{Prompts de sistema de AI Muse para (\textbf{a}) SuperCollider y (\textbf{b}) Tidal Cycles. Estos prompts están diseñados para que el \gls{llm} responda únicamente con código musical breve a partir del contexto del archivo completo y sus comentarios.}
+    \caption[Prompts de sistema de\emph{AI Muse}]{Prompts de sistema de\emph{AI Muse} para (\textbf{a}) SuperCollider y (\textbf{b}) Tidal Cycles. Estos prompts están diseñados para que el \gls{llm} responda únicamente con código musical breve a partir del contexto del archivo completo y sus comentarios.}
     \centering
     \begin{subfigure}{.9\textwidth}
         \centering
