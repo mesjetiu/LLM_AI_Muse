@@ -291,8 +291,8 @@
 % #2: URL del recurso
 % #3: Tipo de ícono (audio o video)
 \newcommand{\captionqr}[4]{%
-    \begin{tabular}{@{}p{0.7\textwidth}@{\hspace{5pt}}p{0.2\textwidth}@{}}
-        \caption[#1]{#2} & 
+    \caption[#1]{#2}
+    \begin{tabular}{@{}p{\textwidth}@{}}
         \raisebox{-0.7\height}{%
             \begin{tabular}[c]{@{}c@{\hspace{2pt}}c@{}}
                 \qrcode[height=1.4cm]{#3} & 

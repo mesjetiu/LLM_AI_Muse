@@ -32,20 +32,20 @@ OpenAI tiene a disposición del público tres importantes herramientas de intera
         \label{fig:playground}
     \end{figure}
 
-    \paragraph{API de OpenAI.} La herramienta \emph{Playground} no es sino la antesala de la API de OpenAI. \emph{API}, del inglés \emph{Application Programming Interface}, es un conjunto de funciones y procedimientos que ofrece una biblioteca para ser utilizado por otro software como una capa de abstracción. En el caso de OpenAI, la API permite la interacción con los \gls{llm} de forma programática, es decir, mediante código. Esto permite una interacción absolutamente flexible a la par que potente con los \gls{llm}, ya que se pueden automatizar procesos, y se puede interactuar con los \gls{llm} de forma más rápida y eficiente. La API de OpenAI permite la interacción con diversos modelos de lenguaje basados en GPT-3 y GPT-4, así como con el modelo de generación de imágenes DALL-E 3. En la figura \ref{fig:api} se puede observar un ejemplo de interacción con la API de OpenAI, en el que se introduce un \emph{prompt} de sistema, otro de usuario, se ajustan los hiperparámetros y se obtiene una respuesta del modelo.
+    \paragraph{\gls{api} de OpenAI.} La herramienta \emph{Playground} no es sino la antesala de la \gls{api} de OpenAI. \glsdisp{api}{\emph{Aplication programming interface}} es un conjunto de funciones y procedimientos que ofrece una biblioteca para ser utilizado por otro software como una capa de abstracción. En el caso de OpenAI, la \gls{api} permite la interacción con los \gls{llm} de forma programática, es decir, mediante código. Esto permite una interacción absolutamente flexible a la par que potente con los \gls{llm}, ya que se pueden automatizar procesos, y se puede interactuar con los \gls{llm} de forma más rápida y eficiente. La \gls{api} de OpenAI permite la interacción con diversos modelos de lenguaje basados en GPT-3 y GPT-4, así como con el modelo de generación de imágenes DALL-E 3. En la figura \ref{fig:api} se puede observar un ejemplo de interacción con la \gls{api} de OpenAI, en el que se introduce un \emph{prompt} de sistema, otro de usuario, se ajustan los hiperparámetros y se obtiene una respuesta del modelo.
 
     \begin{figure}[h]
-        \caption[Ejemplo con API de OpenAI]{Ejemplo con API de OpenAI}
+        \caption[Ejemplo con \gls{api} de OpenAI]{Ejemplo con \gls{api} de OpenAI}
         \centering
-        \includegraphics[width=0.7\textwidth]{./figuras/ejemplo_API.png}
+        \includegraphics[width=0.7\textwidth]{./figuras/ejemplo_\gls{api}.png}
         \source{\propio}
         \label{fig:api}
     \end{figure}
 
 \subsection{Python como lenguaje de programación}
-El uso de la API de OpenAI requiere el uso de un lenguaje de programación. En este caso, se ha utilizado Python, un lenguaje de programación de propósito general, interpretado, de alto nivel y de tipado dinámico. Python es un lenguaje de programación muy popular, y es utilizado por la mayoría de los investigadores en el campo de la inteligencia artificial. Además, es un lenguaje de programación muy flexible, que permite la interacción con la API de OpenAI de forma sencilla y eficiente. La propia OpenAI ofrece una biblioteca de Python para la interacción con su API, que facilita la interacción con los \gls{llm}, así como una gran documentación y ejemplos de uso. 
+El uso de la \gls{api} de OpenAI requiere el uso de un lenguaje de programación. En este caso, se ha utilizado Python, un lenguaje de programación de propósito general, interpretado, de alto nivel y de tipado dinámico. Python es un lenguaje de programación muy popular, y es utilizado por la mayoría de los investigadores en el campo de la inteligencia artificial. Además, es un lenguaje de programación muy flexible, que permite la interacción con la \gls{api} de OpenAI de forma sencilla y eficiente. La propia OpenAI ofrece una biblioteca de Python para la interacción con su \gls{api}, que facilita la interacción con los \gls{llm}, así como una gran documentación y ejemplos de uso. 
 
-Debido al amplio uso de Python como lenguaje de \emph{Deep Learning}, muchos de estos códigos se pueden compartir y ejecutar en servidores remotos, lo cual permite un trabajo con un flujo de trabajo distribuido entre varios investigadores. En el caso de el presente estudio,con el fin de realizar una sencilla interacción de la API con los motores de sonido (SuperCollider y Tidal Cycles), se han programado todos los scripts para ser ejecutados en local.
+Debido al amplio uso de Python como lenguaje de \emph{Deep Learning}, muchos de estos códigos se pueden compartir y ejecutar en servidores remotos, lo cual permite un trabajo con un flujo de trabajo distribuido entre varios investigadores. En el caso de el presente estudio,con el fin de realizar una sencilla interacción de la \gls{api} con los motores de sonido (SuperCollider y Tidal Cycles), se han programado todos los scripts para ser ejecutados en local.
 
 
 
@@ -56,4 +56,4 @@ Debido al amplio uso de Python como lenguaje de \emph{Deep Learning}, muchos de 
 
 
 
-Para llevar a cabo la experimentación en esta investigación, se utilizará el modelo GPT-4 proporcionado por OpenAI a través de su API. GPT-4 es, en el momento en que se escribe este texto, el modelo de lenguaje a gran escala más avanzado y potente disponible públicamente. Esta elección garantiza la interacción con una tecnología de vanguardia en el campo del procesamiento del lenguaje natural y el \emph{Deep Learning}. La API de OpenAI permite una interacción flexible y eficiente con el modelo, facilitando la introducción de \emph{prompts} y la recopilación de respuestas en tiempo real.
+Para llevar a cabo la experimentación en esta investigación, se utilizará el modelo GPT-4 proporcionado por OpenAI a través de su \gls{api}. GPT-4 es, en el momento en que se escribe este texto, el modelo de lenguaje a gran escala más avanzado y potente disponible públicamente. Esta elección garantiza la interacción con una tecnología de vanguardia en el campo del procesamiento del lenguaje natural y el \emph{Deep Learning}. La \gls{api} de OpenAI permite una interacción flexible y eficiente con el modelo, facilitando la introducción de \emph{prompts} y la recopilación de respuestas en tiempo real.

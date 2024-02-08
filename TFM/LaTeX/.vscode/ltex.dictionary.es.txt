@@ -30,3 +30,5 @@ Csound
 inmersiva
 Cycles
 Muse
+aliasing
+sonograma

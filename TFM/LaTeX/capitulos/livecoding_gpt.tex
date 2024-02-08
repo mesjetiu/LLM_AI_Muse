@@ -8,7 +8,7 @@ En este capítulo pasamos a describir la herramienta \emph{AI Muse}, creada dura
 
 \section{Descripción general de la herramienta}
 
-\emph{AI Muse} es una herramienta de interacción con modelos de lenguaje en entornos de \emph{live coding}. Está escrita en Python y se comunica con la API de OpenAI. Permite ejecutar código de SuperCollider y de Tidal Cycles. Además, tiene un archivo de configuración en formato JSON, así como un conjunto de comandos para modificar en vivo los parámetros de la configuración. Aunque está pensada para la utilización de modelos de OpenAI, esta librería permite eventualmente comunicarse con otros modelos de lenguaje incluso en local, detalle que no ha sido explorado en este trabajo.
+\emph{AI Muse} es una herramienta de interacción con modelos de lenguaje en entornos de \emph{live coding}. Está escrita en Python y se comunica con la \gls{api} de OpenAI. Permite ejecutar código de SuperCollider y de Tidal Cycles. Además, tiene un archivo de configuración en formato JSON, así como un conjunto de comandos para modificar en vivo los parámetros de la configuración. Aunque está pensada para la utilización de modelos de OpenAI, esta librería permite eventualmente comunicarse con otros modelos de lenguaje incluso en local, detalle que no ha sido explorado en este trabajo.
 
 \section{¿Por qué un entorno de \emph{live coding}?}
 
@@ -19,9 +19,9 @@ Dado su carácter improvisatorio, no se limita a estructuras musicales preestabl
 
 \section{Integración de la API de OpenAI}
 
-\emph{AI Muse} integra dos posibles interacciones que OpenAI permite con su API: utilización modelos de chatbot y de sistemas de \gls{rag}\footnote{Los llamados \emph{Assistants} por OpenAI.}. La primera modalidad es la más sencilla, ya que se trata de realizar conversaciones con el modelo. En este caso, cada petición se limita a un prompt general de sistema unido al archivo actual con todo el código generado, de forma que el modelo pueda genera el siguiente bloque de código.
+\emph{AI Muse} integra dos posibles interacciones que OpenAI permite con su \gls{api}: utilización modelos de chatbot y de sistemas de \gls{rag}\footnote{Los llamados \emph{Assistants} por OpenAI.}. La primera modalidad es la más sencilla, ya que se trata de realizar conversaciones con el modelo. En este caso, cada petición se limita a un prompt general de sistema unido al archivo actual con todo el código generado, de forma que el modelo pueda genera el siguiente bloque de código.
 
-La diferencia crucial con scripts previos en este trabajo (véase sección \ref{sec:generacion_automatica_codigo_tidal_cycles}) es que es el propio usuario quien decide cuándo hacer una petición a la API, en lugar de estar automatizado. La acción elegida para hacer esta petición es la de guardar el archivo. De esta forma, el programa puede ser utilizado en cualquier editor de textos, y no está limitado a un entorno de desarrollo concreto ni al uso de \emph{plugins} o extensiones. En este caso, todo el programa ha sido escrito y testado en Visual Studio Code, pero eventualmente podría ser utilizado en cualquier otro editor de textos.
+La diferencia crucial con scripts previos en este trabajo (véase sección \ref{sec:generacion_automatica_codigo_tidal_cycles}) es que es el propio usuario quien decide cuándo hacer una petición a la \gls{api}, en lugar de estar automatizado. La acción elegida para hacer esta petición es la de guardar el archivo. De esta forma, el programa puede ser utilizado en cualquier editor de textos, y no está limitado a un entorno de desarrollo concreto ni al uso de \emph{plugins} o extensiones. En este caso, todo el programa ha sido escrito y testado en Visual Studio Code, pero eventualmente podría ser utilizado en cualquier otro editor de textos.
 
 
 \section{Lenguajes de programación musical disponibles}
@@ -37,8 +37,8 @@ El flujo de trabajo típico de \emph{AI Muse} es el siguiente (cfr. Figura \ref{
     \item El usuario ejecuta el programa. Automáticamente se creará un archivo en texto plano con la extensión adecuada (actualmente, \texttt{.tidal} o \texttt{.sc}, para Tidal Cycles y SuperCollider, respectivamente) para interactuar.
     \item El usuario abre un archivo de código en un editor de texto.
     \item \label{item:paso_write_code} El usuario puede escribir código musical, un comando de sistema o un simple comentario-mensaje para el modelo.
-    \item Al guardar el archivo, \emph{AI Muse} lee el archivo y lo envía a la API de OpenAI. Adicionalmente, ejecuta los comandos nuevos escritos en el archivo de código.
-    \item La API de OpenAI devuelve una respuesta con el siguiente bloque de código que es añadido automáticamente al archivo actual en la siguiente acción de guardar archivo.
+    \item Al guardar el archivo, \emph{AI Muse} lee el archivo y lo envía a la \gls{api} de OpenAI. Adicionalmente, ejecuta los comandos nuevos escritos en el archivo de código.
+    \item La \gls{api} de OpenAI devuelve una respuesta con el siguiente bloque de código que es añadido automáticamente al archivo actual en la siguiente acción de guardar archivo.
     \item El usuario ejecuta el nuevo bloque de código a voluntad, pudiendo modificarlo si lo cree oportuno.
     \item El flujo continúa en el paso \ref{item:paso_write_code}.
 \end{enumerate}
@@ -59,12 +59,12 @@ El flujo de trabajo típico de \emph{AI Muse} es el siguiente (cfr. Figura \ref{
 % graph TD
 %     A(Inicio del AI Muse) -->|Automático| B[Creación de archivo .sc/.tidal]
 %     B --> C[Usuario abre archivo de código]
-%     C -->|Acción del Usuario| D[Escribir código: Musical, Comandos de Sistema, Comentarios para la API]
+%     C -->|Acción del Usuario| D[Escribir código: Musical, Comandos de Sistema, Comentarios para la \gls{api}]
 %     D -->|Acción del Usuario| E[Guardar Archivo]
 %     E -->|Acción Automática| F[Ejecuta comandos del archivo]
-%     E -->|Acción Automática| G[Envía archivo a API de OpenAI]
-%     G -->|Respuesta de la API| K[Respuesta almacenada en el programa]
-%     E -->|Acción Automática| H[Añade respuestas de la API al archivo]
+%     E -->|Acción Automática| G[Envía archivo a \gls{api} de OpenAI]
+%     G -->|Respuesta de la \gls{api}| K[Respuesta almacenada en el programa]
+%     E -->|Acción Automática| H[Añade respuestas de la \gls{api} al archivo]
 %     K -.->|Respuestas previamente almacenadas| H
 %     F --> I{Revisión por el usuario}
 %     G --> I
@@ -117,11 +117,11 @@ La Figura \ref{fig:json} muestra una configuración concreta para el archivo \te
     supercollider\_on & \textcolor{truecolor}{true}/\textcolor{falsecolor}{false} & Enciende o apaga SuperCollider  & - \\
     sclang\_path & \textcolor{pathcolor}{./ruta/a/sclang} & Ruta al ejecutable sclang  & - \\
     boot\_tidal\_path & \textcolor{pathcolor}{/ruta/a/BootTidal.hs} & Ruta al archivo de arranque de Tidal  & - \\
-    api\_enabled & \textcolor{truecolor}{true}/\textcolor{falsecolor}{false} & Activa o desactiva la API  & set api\_enabled \textcolor{truecolor}{true} \\
+    api\_enabled & \textcolor{truecolor}{true}/\textcolor{falsecolor}{false} & Activa o desactiva la \gls{api}  & set api\_enabled \textcolor{truecolor}{true} \\
     bot\_mode & assistant/chat & Establece el modo del bot  & set bot mode chat \\
     assistant\_id & ID & ID del asistente  & - \\
     assistant\_retrieval\_folder & \textcolor{pathcolor}{./ruta/a/carpetas} & Ruta a la carpeta de recuperación  & - \\
-    api\_key\_file & \textcolor{pathcolor}{apikey.txt} & Archivo con la clave de la API  & - \\
+    api\_key\_file & \textcolor{pathcolor}{apikey.txt} & Archivo con la clave de la \gls{api}  & - \\
     system\_prompt\_file & \textcolor{pathcolor}{./ruta/a/system\_prompts} & Archivo de prompt del sistema  & - \\
     model & gpt-4-1106-preview/otro & Modelo de lenguaje utilizado  & set model gpt-4 \\
     temperature & \textcolor{numbercolor}{0.0-2.0} & Temperatura para la generación de texto  & set temperature \textcolor{numbercolor}{0.7} \\
@@ -129,8 +129,8 @@ La Figura \ref{fig:json} muestra una configuración concreta para el archivo \te
     top\_p & \textcolor{numbercolor}{0.0-1.0} & Ajusta la probabilidad de tomar caminos menos probables  & set top\_p \textcolor{numbercolor}{0.9} \\
     frequency\_penalty & \textcolor{numbercolor}{Número} & Penalización por frecuencia de tokens  & set frequency penalty \textcolor{numbercolor}{0.5} \\
     presence\_penalty & \textcolor{numbercolor}{Número} & Penalización por presencia de tokens  & set presence penalty \textcolor{numbercolor}{0.5} \\
-    wait\_time\_before\_api & \textcolor{numbercolor}{Segundos} & Tiempo de espera antes de llamar a la API  & set wait time before api \textcolor{numbercolor}{10} \\
-    wait\_time\_after\_api & \textcolor{numbercolor}{Segundos} & Tiempo de espera después de llamar a la API  & set wait time after api \textcolor{numbercolor}{10} \\
+    wait\_time\_before\_api & \textcolor{numbercolor}{Segundos} & Tiempo de espera antes de llamar a la \gls{api}  & set wait time before api \textcolor{numbercolor}{10} \\
+    wait\_time\_after\_api & \textcolor{numbercolor}{Segundos} & Tiempo de espera después de llamar a la \gls{api}  & set wait time after api \textcolor{numbercolor}{10} \\
     \bottomrule
 \end{tabularx}
 \endgroup
@@ -267,5 +267,5 @@ Se ha detectado una tenencia del \gls{llm} a imitar los patrones ya existentes e
 
 No se ha hallado, sin embargo, una diferencia importante entre usar el modelo en modo \texttt{chat} o en modo \texttt{assistant}. Sin embargo, esto debería estudiarse con mayor detenimiento en función de unas cuidadas configuraciones de asistentes y de sus archivos de base de datos.
 
-Este tipo de interacción se ha mostrado, en todo caso, muy prometedora de cara a la generación musical interactiva. Las aportaciones atómicas que se piden al \gls{llm} por medio de la API lo hacen muy adecuado como banco de pruebas tanto con los servicios de OpenAI, como eventualmente otros modelos, incluso open source.
+Este tipo de interacción se ha mostrado, en todo caso, muy prometedora de cara a la generación musical interactiva. Las aportaciones atómicas que se piden al \gls{llm} por medio de la \gls{api} lo hacen muy adecuado como banco de pruebas tanto con los servicios de OpenAI, como eventualmente otros modelos, incluso open source.
 

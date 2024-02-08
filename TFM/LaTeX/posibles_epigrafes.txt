@@ -22,7 +22,7 @@
     Experimentos con la plataforma de OpenAI:
         "Hopfield Networks is All You Need" (Representa la idea de que una herramienta o enfoque puede ser suficiente para realizar experimentos significativos.)
 
-    AI Muse, herramienta de interacción en vivo con GPT-4 en entornos de livecoding:
+    AI Muse, herramienta de interacción en vivo con GPT-4 en entornos de live coding:
         "One Model is All You Need: Multi-Task Learning Enables Simultaneous Histology Image Segmentation and Classification" (La idea de que un modelo (o herramienta) puede manejar múltiples tareas a la vez.)
 
     Hacia un ejemplo de arte sonoro generado con ayuda de GPT-4:

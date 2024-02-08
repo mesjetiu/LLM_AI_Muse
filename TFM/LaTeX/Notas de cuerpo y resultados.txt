@@ -22,9 +22,9 @@ El orden utilizado va de lo fácil a lo difícil. Los resultados de cada etapa d
 			Potencial del RAG, problemas encontrados, dificultad para estar seguros de su efectividad en el caso del código. En modo playground se muestra útil como copiloto.
 
 
-3. Utilización de la API y programación en Python en entornos de Live-coding.
+3. Utilización de la \gls{api} y programación en Python en entornos de Live-coding.
 	
-	3.1 La programación con las API y el diseño de interfaces
+	3.1 La programación con las \gls{api} y el diseño de interfaces
 		Herramientas ya mu pulidas como GitHub Copilot y similares, para la creación de código estático. 
 	3.2 Elección de Tidal Cycles como lenguaje de sampling
 		Lenguaje creado expresamente para live-coding.
@@ -34,10 +34,10 @@ El orden utilizado va de lo fácil a lo difícil. Los resultados de cada etapa d
     3.4 Live-coding con intervención humana
     	El más productivo e interesante...
     	
-4. Diseño de herramienta de live-coding con la asistencia de una API.
+4. Diseño de herramienta de live-coding con la asistencia de una \gls{api}.
 	4.1 Flujo de trabajo con el script
 	4.2 Creación humana compartida con la IA
-		Se puede dar más o menos peso a la API durante la sesión, desde solo humano a solo máquina.
+		Se puede dar más o menos peso a la \gls{api} durante la sesión, desde solo humano a solo máquina.
 	4.3 Modo chat vs modo Assistant.
 	4.4 
 	
@@ -58,7 +58,7 @@ RESULTADOS Y DISCUSIÓN
 PERSPECTIVAS
 
 1. Prometedores trabajos en la multimodalidad
-2. Importancia de la creación de entornos de usuario con uso de API
+2. Importancia de la creación de entornos de usuario con uso de \gls{api}
 3. Necesidad de exploración de diversos lenguajes generadores de música
 4. Explorar el influjo de entreamientos personalizados en la creatividad, eficiencia y eficacia.
 5. Necesidad del abaratamiento de los servicios para llegar al gran público
