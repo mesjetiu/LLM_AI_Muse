@@ -8,7 +8,17 @@
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, language=ExtendedHaskell, basicstyle=\footnotesize\ttfamily, numbers=none]
 --grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_175652.wav'
-d1 $ slow 4 $ s "cpu2*8 snare hi*4" # speed "-4 2 -1 3" # cut 1 # delay 0.7 # delaytime 1 # delayfeedback 0.8 # lpf 500 # hpf 100 # room 0.2 # sz 0.2 -- varía ete de alguna forma más clara                                        
+d1  $ slow 4 
+    $ s "cpu2*8 snare hi*4" 
+        # speed "-4 2 -1 3" 
+        # cut 1 
+        # delay 0.7 
+        # delaytime 1 
+        # delayfeedback 0.8 
+        # lpf 500 
+        # hpf 100 
+        # room 0.2 
+        # sz 0.2 -- varía ete de alguna forma más clara                                        
     \end{lstlisting}
     \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
     \vspace{1cm}
@@ -24,7 +34,19 @@ d1 $ slow 4 $ s "cpu2*8 snare hi*4" # speed "-4 2 -1 3" # cut 1 # delay 0.7 # de
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, language=ExtendedHaskell, basicstyle=\footnotesize\ttfamily, numbers=none]
 -- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_174836.wav'
-d2 $ degradeBy 0.3 $ s "gab*12" # up (irand 8) # speed (slow 6 $ sine) # room 0.1 # sz 0.1 # delay 0.2 # delayt 0.5 # delayfb 0.8 # lpf 800 # hpf 200 # gain 0.8 # speed ( 2 + irand 4)-- gpt-4-1106-preview                                   
+d2  $ degradeBy 0.3 
+    $ s "gab*12" #
+     up (irand 8) 
+     # speed (slow 6 $ sine) 
+     # room 0.1 
+     # sz 0.1 
+     # delay 0.2 
+     # delayt 0.5 
+     # delayfb 0.8 
+     # lpf 800 
+     # hpf 200 
+     # gain 0.8 
+     # speed ( 2 + irand 4)-- gpt-4-1106-preview                                   
     \end{lstlisting}
     \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
     \vspace{1cm}
@@ -42,7 +64,15 @@ d2 $ degradeBy 0.3 $ s "gab*12" # up (irand 8) # speed (slow 6 $ sine) # room 0.
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, language=ExtendedHaskell, basicstyle=\footnotesize\ttfamily, numbers=none]
 -- grabar (bueno) path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_174935.wav'
-d3 $ sometimesBy 0.25 (striate 16) $ sound "arpy*24" # n (run 24) # speed (choose [0.6, 0.9, 1.1, 1.3, 1.6]) # sustain (slow 2 $ rand) # room 0.1 # sz 0.1 #gain 0.7 # pan (fast 2 "0 0.8 0.2 1")-- gpt-4-1106-preview                                
+d3  $ sometimesBy 0.25 (striate 16) 
+    $ sound "arpy*24" 
+    # n (run 24) 
+    # speed (choose [0.6, 0.9, 1.1, 1.3, 1.6]) 
+    # sustain (slow 2 $ rand) 
+    # room 0.1 
+    # sz 0.1 
+    # gain 0.7 
+    # pan (fast 2 "0 0.8 0.2 1")-- gpt-4-1106-preview                                
     \end{lstlisting}
     \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
     \vspace{1cm}
@@ -62,7 +92,15 @@ d3 $ sometimesBy 0.25 (striate 16) $ sound "arpy*24" # n (run 24) # speed (choos
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, language=ExtendedHaskell, basicstyle=\footnotesize\ttfamily, numbers=none]
 -- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_175024.wav'
-d3 $ sometimesBy 0.3 (striate 16) $ sound "cpu*24" # n (run 24) # speed (choose [0.6, 0.9, 1.1, 1.3, 1.6]) # sustain (slow 3 $ sine) # room 0.1 # sz 0.1 # gain 0.65 # pan (slow 3 $ saw) -- gpt-4-1106-preview                          
+d3  $ sometimesBy 0.3 (striate 16) 
+    $ sound "cpu*24" 
+    # n (run 24) 
+    # speed (choose [0.6, 0.9, 1.1, 1.3, 1.6]) 
+    # sustain (slow 3 $ sine) 
+    # room 0.1 
+    # sz 0.1 
+    # gain 0.65 
+    # pan (slow 3 $ saw) -- gpt-4-1106-preview                          
     \end{lstlisting}
     \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
     \vspace{1cm}
@@ -83,7 +121,13 @@ d3 $ sometimesBy 0.3 (striate 16) $ sound "cpu*24" # n (run 24) # speed (choose 
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, language=ExtendedHaskell, basicstyle=\footnotesize\ttfamily, numbers=none]
 -- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_175118.wav'
-d1 $ slow 2.5 $ degradeBy 0.25 $ sound "cpu:10 [hi*10 <lo cpu2> <sn*3 db*5>]" # pan (slow 2 $ sine) # speed (0.5) # lpf (slow 7 $ range 200 1200 $ rand) # hpf (slow 5 $ range 500 1000 $ rand) -- gpt-4-1106-preview                              
+d1  $ slow 2.5 
+    $ degradeBy 0.25 
+    $ sound "cpu:10 [hi*10 <lo cpu2> <sn*3 db*5>]" 
+        # pan (slow 2 $ sine) 
+        # speed (0.5) 
+        # lpf (slow 7 $ range 200 1200 $ rand) 
+        # hpf (slow 5 $ range 500 1000 $ rand) -- gpt-4-1106-preview                              
     \end{lstlisting}
     \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
     \vspace{1cm}
@@ -99,7 +143,20 @@ d1 $ slow 2.5 $ degradeBy 0.25 $ sound "cpu:10 [hi*10 <lo cpu2> <sn*3 db*5>]" # 
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, language=ExtendedHaskell, basicstyle=\footnotesize\ttfamily, numbers=none]
 -- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_175213.wav'
-d2 $ degradeBy 0.35 $ s "gab*30" # up (irand 9) # speed (slow 7 $ sine) # room 0.1 # sz 0.1 # delay 0.25 # delayt 0.55 # delayfb 0.75 # lpf 850 # hpf 220 # gain 0.6 # speed (5 + irand 10) -- # pan (slow 3 $ saw) -- gpt-4-1106-preview                  
+d2  $ degradeBy 0.35 
+    $ s "gab*30" 
+        # up (irand 9) 
+        # speed (slow 7 $ sine) 
+        # room 0.1 
+        # sz 0.1 
+        # delay 0.25 
+        # delayt 0.55 
+        # delayfb 0.75 
+        # lpf 850 
+        # hpf 220 
+        # gain 0.6 
+        # speed (5 + irand 10) -- 
+        # pan (slow 3 $ saw) -- gpt-4-1106-preview                  
     \end{lstlisting}
     \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
     \vspace{1cm}
@@ -120,7 +177,18 @@ d2 $ degradeBy 0.35 $ s "gab*30" # up (irand 9) # speed (slow 7 $ sine) # room 0
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, language=ExtendedHaskell, basicstyle=\footnotesize\ttfamily, numbers=none]
 -- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_175334.wav'
-d4 $ degradeBy 0.35 $ s "gab*14" # up (irand 10) # speed (slow 7 $ sine) # room 0.1 # sz 0.1 # delay 0.3 # delayt 0.6 # delayfb 0.7 # lpf 850 # hpf 220 # gain 0.6 # speed (3 + irand 2) -- gpt-4-1106-preview                         
+d4  $ degradeBy 0.35 
+    $ s "gab*14" 
+        # up (irand 10) 
+        # speed (slow 7 $ sine) 
+        # room 0.1 # sz 0.1 
+        # delay 0.3 
+        # delayt 0.6 
+        # delayfb 0.7 
+        # lpf 850
+        # hpf 220 
+        # gain 0.6
+        # speed (3 + irand 2) -- gpt-4-1106-preview                         
     \end{lstlisting}
     \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
     \vspace{1cm}
@@ -135,7 +203,13 @@ d4 $ degradeBy 0.35 $ s "gab*14" # up (irand 10) # speed (slow 7 $ sine) # room 
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, language=ExtendedHaskell, basicstyle=\footnotesize\ttfamily, numbers=none]
 -- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_174321.wav'
-d2 $ degradeBy 0.5 $ s "cpu2*30" # n (run 8 + irand 32) # up (slow 2 $ sine) # room 0.2 # sz 0.2 # orbit 1 -- gpt-4-1106-preview                      
+d2  $ degradeBy 0.5 
+    $ s "cpu2*30" 
+        # n (run 8 + irand 32) 
+        # up (slow 2 $ sine) 
+        # room 0.2 
+        # sz 0.2 
+        # orbit 1 -- gpt-4-1106-preview                      
     \end{lstlisting}
     \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
     \vspace{1cm}
@@ -152,7 +226,15 @@ d2 $ degradeBy 0.5 $ s "cpu2*30" # n (run 8 + irand 32) # up (slow 2 $ sine) # r
     \begin{lstlisting}[style=SuperCollider-IDE, language=ExtendedHaskell, basicstyle=\footnotesize\ttfamily, numbers=none]
 -- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_174358.wav'
 --añade elementos melódicos y armónicos
-d3 $ slow 8 $ n "[0 2 4 5 7]*16" # s "arpy" # speed (slow 16 $ sine * 0.6 * (slow 0.3 $ sine)) # room 0.1 # sz 0.1 # orbit 2 # lpf (slow 2 $ range 400 8000 $ rand) # resonance 0.3 -- gpt-4-1106-preview                    
+d3  $ slow 8 
+    $ n "[0 2 4 5 7]*16" 
+        # s "arpy" 
+        # speed (slow 16 $ sine * 0.6 * (slow 0.3 $ sine)) 
+        # room 0.1 
+        # sz 0.1 
+        # orbit 2 
+        # lpf (slow 2 $ range 400 8000 $ rand) 
+        # resonance 0.3 -- gpt-4-1106-preview                    
     \end{lstlisting}
     \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
     \vspace{1cm}
@@ -171,7 +253,14 @@ d3 $ slow 8 $ n "[0 2 4 5 7]*16" # s "arpy" # speed (slow 16 $ sine * 0.6 * (slo
     \begin{lstlisting}[style=SuperCollider-IDE, language=ExtendedHaskell, basicstyle=\footnotesize\ttfamily, numbers=none]
 -- grabar (bueno) path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_174604.wav'
 -- más elementos tímbricos contrastantes
-d2 $ degradeBy 0.4 $ s "cpu3:1*8 foley*4" # n (iter 4 $ slow 4 $ run 12 + (irand 4 - 2)) # pan (slow 1 $ sine) # room 0.3 # speed (slow 2 $ sine) # sz 0.2 # orbit 1 -- gpt-4-1106-preview                  
+d2  $ degradeBy 0.4 
+    $ s "cpu3:1*8 foley*4" 
+        # n (iter 4 $ slow 4 $ run 12 + (irand 4 - 2)) 
+        # pan (slow 1 $ sine) 
+        # room 0.3 
+        # speed (slow 2 $ sine) 
+        # sz 0.2 
+        # orbit 1 -- gpt-4-1106-preview                  
     \end{lstlisting}
     \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
     \vspace{1cm}
@@ -210,6 +299,186 @@ d1
             # pan (range 0 1 rand)
             # vowel (slow 2 "u o i e a")
             # gain 0.7               
+    \end{lstlisting}
+    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \vspace{1cm}
+\end{minipage}
+
+
+
+
+
+
+% session_2023.12.06_0110.tidal
+\begin{minipage}[t]{1\textwidth}
+    \centering
+    \setstretch{1}
+    \begin{lstlisting}[style=SuperCollider-IDE, language=ExtendedHaskell, basicstyle=\footnotesize\ttfamily, numbers=none]
+-- grabado path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_173651.wav'
+
+d2 $ stack [
+    s "cpu2*16",
+    n (run 8),
+    speed (range 0.7 1.3 $ slow 2 sine),
+    room 0.5,
+    size 0.2,
+    shape (slow 4 $ saw)
+] # pan (slow 3 $ sine) -- gpt-4-1106-preview             
+    \end{lstlisting}
+    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \vspace{1cm}
+\end{minipage}
+
+
+
+
+% session_2023.12.06_0110.tidal
+\begin{minipage}[t]{1\textwidth}
+    \centering
+    \setstretch{1}
+    \begin{lstlisting}[style=SuperCollider-IDE, language=ExtendedHaskell, basicstyle=\footnotesize\ttfamily, numbers=none]
+-- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_173735.wav'
+d4  $ s "gabba*16" 
+    # n (irand 32) 
+    # speed (0.5 - (slow 6 sine * 0.2)) 
+    # room 0.2 
+    # size 0.1 
+    # lpf (slow 3 $ sine * 500 + 800) 
+    # hpf (fast 7 $ sine * 300 + 400) 
+    # pan (slow 5 $ range (-1) 1 $ sine) 
+    # orbit 2 -- gpt-4-1106-preview         
+    \end{lstlisting}
+    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \vspace{1cm}
+\end{minipage}
+
+
+
+
+% session_2023.12.06_0110.tidal
+\begin{minipage}[t]{1\textwidth}
+    \centering
+    \setstretch{1}
+    \begin{lstlisting}[style=SuperCollider-IDE, language=ExtendedHaskell, basicstyle=\footnotesize\ttfamily, numbers=none]
+-- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_173849.wav'
+d2  $ degradeBy 0.3 
+    $ s "cpu*16" 
+        # speed (slow 8 $ range 0.9 1.1 $ sine) 
+        # room 0.3 
+        # size 0.1 
+        # shape (0.8) 
+        # pan (slow 4 $ range (-1) 1 $ sine) 
+        # delay 0.7 
+        # delaytime (slow 3 $ sine * 0.3 + 0.5) 
+        # delayfb 0.75 
+        # lpf (slow 5 $ range 300 1200 $ saw) 
+        # hpf (slow 2 $ range 400 600 $ sine) -- gpt-4-1106-preview      
+    \end{lstlisting}
+    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \vspace{1cm}
+\end{minipage}
+
+
+
+
+
+
+% session_2023.12.06_0110.tidal
+\begin{minipage}[t]{1\textwidth}
+    \centering
+    \setstretch{1}
+    \begin{lstlisting}[style=SuperCollider-IDE, language=ExtendedHaskell, basicstyle=\footnotesize\ttfamily, numbers=none]
+-- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_174018.wav'
+d6  $ linger 0.3 
+    $ s "gab*6" 
+        # n (slow 12 $ sine * 7) 
+        # speed (slow 7 $ range 0.2 1.8 $ rand) 
+        # room 0.2 
+        # size 0.1 
+        # shape 0.6 
+        # pan (slow 9 $ range (-1) 1 $ sine) 
+        # lpf (slow 15 $ range 250 750 $ sine) 
+        # hpf 600 # orbit 0 -- gpt-4-1106-preview
+    \end{lstlisting}
+    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \vspace{1cm}
+\end{minipage}
+
+
+
+
+
+% session_2023.12.06_0110.tidal
+\begin{minipage}[t]{1\textwidth}
+    \centering
+    \setstretch{1}
+    \begin{lstlisting}[style=SuperCollider-IDE, language=ExtendedHaskell, basicstyle=\footnotesize\ttfamily, numbers=none]
+-- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_174116.wav'
+
+d2 $ stack [
+    s "[cpu:1*8 ~ cpu:1*16]",
+    speed (slow 6 $ range 0.5 1.5 $ rand),
+    room 0.3,
+    size 0.1,
+    shape (slow 7 $ sine)
+] -- # pan (slow 3.5 $ sine) -- gpt-4-1106-preview -- gpt-4-1106-preview
+    \end{lstlisting}
+    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \vspace{1cm}
+\end{minipage}
+
+
+
+
+
+
+
+% session_2023.12.06_0110.tidal
+\begin{minipage}[t]{1\textwidth}
+    \centering
+    \setstretch{1}
+    \begin{lstlisting}[style=SuperCollider-IDE, language=ExtendedHaskell, basicstyle=\footnotesize\ttfamily, numbers=none]
+-- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_174206.wav'
+d2  $ degradeBy 0.2 
+    $ slow 2 $ s "cpu*24" 
+        # speed (slow 8 $ range 0.85 1.15 $ sine) 
+        # room 0.25 
+        # size 0.12 
+        # shape 0.85 
+        # pan (slow 4 $ range (-1) 1 $ sine) 
+        # delay 0.6 
+        # delaytime (slow 3 $ sine * 0.25 + 0.45) 
+        # delayfb 0.65 
+        # lpf (slow 5 $ range 280 1100 $ saw) 
+        # hpf (slow 2 $ range 380 580 $ sine) -- gpt-4-1106-preview -- gpt-4-1106-preview  
+    \end{lstlisting}
+    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \vspace{1cm}
+\end{minipage}
+
+
+
+
+
+
+% tidal_log_20231127_004627.tidal
+\begin{minipage}[t]{1\textwidth}
+    \centering
+    \setstretch{1}
+    \begin{lstlisting}[style=SuperCollider-IDE, language=ExtendedHaskell, basicstyle=\footnotesize\ttfamily, numbers=none]
+-- grabar: path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_173300.wav'
+
+d1  $ slow (sine*20+7) -- 21 segundos
+    $ degradeBy 0.2
+    $ note (run 30) 
+        # sound "[cpu2|cpu|snare|clap|hi]" 
+        # vowel "o e a u i a u o i e a" 
+        # room 0.2
+        # size (slow 6 $ sine*(0.2) + 0.8) 
+        # pan "[0|0.5|1]"
+        # squiz (slow 6 $ sine*2+1) 
+        # speed "<0.05 0.1 3 0.05 0.06> <0.5 0.2 0.1 1 2>" 
+        # gain 0.7
     \end{lstlisting}
     \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
     \vspace{1cm}
