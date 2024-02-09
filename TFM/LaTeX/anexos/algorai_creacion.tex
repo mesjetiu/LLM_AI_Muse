@@ -178,6 +178,426 @@ Pbind(
 
 
 
+\begin{minipage}[t]{1\textwidth}
+    \centering
+    \setstretch{1}
+    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+// Grabado en SC_240105_170144.wav
+
+
+// 1. Definimos el SynthDef con modulación de frecuencia.
+// Grabado en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_170445.wav'
+
+
+(
+{
+    var x, y, z, a, b, c, d, e, f, g, h, mix;
+
+    // Tomando la idea de osciladores sinusoidales y distorsión
+    x = SinOsc.ar((Decay.ar(Impulse.ar([4,4.005]), 1e3*MouseX.kr(0, 1).abs)*50), MouseY.kr(0, 1)).distort;
+
+    // Incorporando la idea de modulación de frecuencia y filtrado
+    y = BPF.ar(Saw.ar([40,40.001]), LFNoise0.kr(128)+1*4e3+146, LFNoise1.kr(1)+1*5e-2+0.01).tanh;
+
+    // Utilizando un delay con modulación
+    z = DelayC.ar(LPF.ar(LFNoise0.ar(8)**2 + x.tanh.round(0.05), 6e3), 1, LFNoise0.ar(8!2).range(1e-4, 0.02));
+
+    // Juega con la modulación de un filtro
+    a = BHiPass.ar(LFNoise1.ar(8)**3, y.midicps, y/2e3, 67-y);
+
+    // Incorporando elementos de pitch shifting
+    b = PitchShift.ar(Saw.ar(Demand.kr(Impulse.kr(4), 0, Drand(([-12, -7, 0, 7, 12]+33).midicps, inf)), Decay.kr(Impulse.kr(4), 3)), 7, 2);
+
+    // Creando una secuencia de ritmo
+    c = Impulse.ar(8)*LFNoise1.ar(2);
+
+    // Añadiendo un poco de reverb y limitador para controlar la dinámica
+    d = Limiter.ar(GVerb.ar(BPF.ar(c, [400, 800], 1/9, 50).tanh, 100, 10), 0.9);
+
+    // Mezclando las señales juntas
+    mix = Mix.new([x, y, z, a, b, c, d]);
+
+    // Aplicando un poco de panoramización y envío al output
+    Out.ar(0, Splay.ar(mix));
+}.play;
+)        
+    \end{lstlisting}
+    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \vspace{1cm}
+\end{minipage}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{minipage}[t]{1\textwidth}
+    \centering
+    \setstretch{1}
+    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+// Grabado en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_170642.wav'
+
+
+(
+{
+    var x, y, z, a, b, c, d, e, mix;
+
+    // Tomando la idea de osciladores sinusoidales y distorsión
+    x = SinOsc.ar((Decay.ar(Impulse.ar([4,4.005]), 1e3*MouseX.kr(0, 1).abs)*50), MouseY.kr(0, 1)).distort;
+
+    // Incorporando la idea de modulación de frecuencia y filtrado
+    y = BPF.ar(Saw.ar([40,40.001]), LFNoise0.kr(128)+1*4e3+146, LFNoise1.kr(1)+1*5e-2+0.01).tanh;
+
+    // Utilizando un delay con modulación
+    z = DelayC.ar(LPF.ar(LFNoise0.ar(8)**2 + x.tanh.round(0.05), 6e3), 1, LFNoise0.ar(8!2).range(1e-4, 0.02));
+
+    // Juega con la modulación de un filtro
+    a = BHiPass.ar(LFNoise1.ar(8)**3, y.midicps, y/2e3, 67-y);
+
+    // Incorporando elementos de pitch shifting
+    b = PitchShift.ar(Saw.ar(Demand.kr(Impulse.kr(4), 0, Drand(([-12, -7, 0, 7, 12]+33).midicps, inf)), Decay.kr(Impulse.kr(4), 3)), 7, 2);
+
+    // Creando una secuencia de ritmo
+    c = Impulse.ar(8)*LFNoise1.ar(2);
+
+    // Añadiendo un poco de reverb
+    d = GVerb.ar(BPF.ar(c, [400, 800], 1/9, 50).tanh, 100, 10);
+
+    // Mezclando las señales juntas
+    mix = Mix.new([x, y, z, a, b, c, d]);
+
+    // Aplicando un limitador para evitar el clipping
+    e = Limiter.ar(mix, 1.0);  // El segundo argumento es el nivel máximo permitido, puedes ajustarlo según sea necesario
+
+    // Aplicando un poco de panoramización y envío al output
+    Out.ar(0, Splay.ar(e));
+}.play;
+)              
+    \end{lstlisting}
+    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \vspace{1cm}
+\end{minipage}
+
+
+
+
+
+
+
+
+
+
+
+\begin{minipage}[t]{1\textwidth}
+    \centering
+    \setstretch{1}
+    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+// Grabada textura 3 en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_171941.wav'
+
+s.boot; // Arrancar el servidor
+
+// Textura 1: Espacialidad y Drones
+(
+{
+    var freq, amp, pan, drones;
+
+    // Base frecuencial
+    freq = MouseX.kr(50, 300, warp:'exponential');
+
+    // Creación de 5 drones con desafinaciones leves
+    drones = 5.collect {
+        SinOsc.ar(freq + Rand(-10, 10), 0, 0.1)
+    }.sum;
+
+    pan = MouseY.kr(-1, 1); // Panoramización con el ratón en eje Y
+    Pan2.ar(drones, pan);
+}.play;
+)
+
+// Textura 2: Granulación
+(
+{
+    var grainSize, grainPos, grains;
+
+    grainSize = MouseX.kr(0.01, 0.5); // Tamaño del grano con el ratón en eje X
+    grainPos = MouseY.kr(0, 1); // Posición de inicio del grano con el ratón en eje Y
+
+    // Granos basados en ruido blanco
+    grains = GrainSin.ar(2, WhiteNoise.ar(0.5), grainSize, grainPos, 0.1, 1);
+    grains;
+}.play;
+)
+
+// Textura 3: Ruido Modulado
+(
+{
+    var freq, q, mixedNoise, filteredNoise;
+
+    freq = MouseX.kr(50, 5000, warp:'exponential'); // Frecuencia de filtro con el ratón en eje X
+    q = MouseY.kr(0.1, 20, warp:'exponential'); // Resonancia (Q) del filtro con el ratón en eje Y
+
+    // Combinación de ruidos
+    mixedNoise = Mix([WhiteNoise.ar(0.3!2), PinkNoise.ar(0.3!2), BrownNoise.ar(0.3!2)]);
+
+    // Filtrado resonante
+    filteredNoise = RLPF.ar(mixedNoise, freq, q);
+    filteredNoise;
+}.play;
+)                       
+    \end{lstlisting}
+    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \vspace{1cm}
+\end{minipage}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{minipage}[t]{1\textwidth}
+    \centering
+    \setstretch{1}
+    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+// Grabado en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_172611.wav'
+
+s.boot;
+
+(
+SynthDef(\customNTubeSound, {
+    var source, filteredNoise, output, pannedOutput;
+
+    // Generamos un sonido que se asemeje a la respiración utilizando PinkNoise, SinOsc y la técnica NTube.ar
+    source = PinkNoise.ar * SinOsc.ar(0.1);
+    filteredNoise = NTube.ar(
+        source,
+        [0.97, 1.0, 1.0, 1.0, 1.0, 0.97], // Loss factors
+        [0.5, MouseY.kr(-1.0, 1.0), 0.2, -0.4], // Junction reflection coefficients
+        [0.01, 0.02, 0.01, 0.005, 0.05] * MouseX.kr(0.001, 1.0, 'exponential') // Delay lengths
+    ) * 0.1;
+
+    // Panoramización
+    pannedOutput = Pan2.ar(filteredNoise, 0);//SinOsc.kr(0.1).range(-1, 1));
+
+    // Aplicamos un limitador
+    output = Limiter.ar(pannedOutput, 0.99, 0.01);
+    output = output.min(1.0).max(-1.0);
+
+    Out.ar([0, 1], output);
+}).add;
+)
+
+// Reproducimos el sonido
+x = Synth(\customNTubeSound);
+
+
+s.boot;
+
+(
+SynthDef(\customAmbientSound, {
+    var source, nTubeProcessed, modulatedFilter, output, stereoOutput;
+
+    // Generamos un noise basado en PinkNoise pero modulado con una SinOsc de baja frecuencia para darle movimiento
+    source = PinkNoise.ar(0.5) * SinOsc.kr(0.1).range(0.5, 1.5);
+
+    // Utilizamos NTube para darle un carácter tubular y resonante al noise
+    nTubeProcessed = NTube.ar(
+        source,
+        [0.95, 0.98, 1.0, 1.0, 0.98, 0.95], // Loss factors
+        LFNoise1.kr(0.1).range(0.1, 0.9), // Junction reflection coefficients variando con el tiempo
+        LFNoise2.kr(0.05).range(0.01, 0.05) // Delay lengths variando aleatoriamente
+    ) * 0.3;
+
+    // Añadimos un filtro paso banda que se mueva con el tiempo
+    modulatedFilter = BPF.ar(
+        nTubeProcessed,
+        freq: LFNoise2.kr(0.2).range(300, 2000),
+        rq: 0.5
+    );
+
+    // Aplicamos un delay estéreo con modulación tipo ping-pong
+    stereoOutput = CombC.ar(modulatedFilter, 2.0, LFNoise2.kr(0.1).range(0.05, 0.5), 0.5);
+    stereoOutput = DelayN.ar(stereoOutput, 0.2, SinOsc.kr(0.3).range(0.01, 0.1));
+
+    Out.ar([0, 1], stereoOutput);
+}).add;
+)
+
+// Reproducimos el sonido
+y = Synth(\customAmbientSound);                           
+    \end{lstlisting}
+    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \vspace{1cm}
+\end{minipage}
+
+
+
+
+
+\begin{minipage}[t]{1\textwidth}
+    \centering
+    \setstretch{1}
+    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+// Grabado en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_173559.wav'
+
+(
+SynthDef(\fmSynthNoReverb, {
+    arg freq=440, mDepth=100, mFreq=5, dur=1, amp=0.5, pan=0;
+    var modulator, carrier, env, signal;
+
+    env = EnvGen.kr(Env.perc(0.01, dur, 1, -1), doneAction: 2);
+
+    modulator = SinOsc.ar(mFreq) * mDepth;
+    carrier = SinOsc.ar(freq + modulator);
+    signal = carrier + (SinOsc.ar(freq * 2 + modulator * 0.5) * 0.5);
+    signal = signal * env * amp;
+
+    // Aplicar panorámica
+    signal = Pan2.ar(signal, pan);
+
+    // Enviar a un bus de audio en lugar de la salida principal
+    Out.ar(\bus.kr(0), signal);
+}).add;
+)
+
+(
+SynthDef(\reverbSynth, {
+    arg bus, mix=0.2, room=0.8;
+    var inSignal;
+
+    inSignal = In.ar(bus, 2);
+    inSignal = FreeVerb.ar(inSignal, mix: mix, room: room);
+
+    // Devolver el sonido procesado al bus principal
+    Out.ar(0, inSignal);
+}).add;
+)
+
+// Configurar el bus
+~reverbBus = Bus.audio(s, 2);
+
+// Iniciar el Synth de reverberación
+~reverbSynth = Synth(\reverbSynth, ['bus': ~reverbBus]);
+
+// Pbind
+(
+Pbind(
+    \instrument, \fmSynthNoReverb,
+    \freq, Pwhite(300, 600, inf),
+    \mDepth, Pwhite(50, 500, inf),
+    \mFreq, Pseq([Pwhite(2, 10, 1), Pwhite(100, 1000, 1)], inf),
+    \dur, Pwhite(0.2, 1, inf),
+    \amp, Pwhite(0.3, 0.7, inf),
+    \pan, Pwhite(-1, 1, inf),  // Valores entre -1 (izquierda) y 1 (derecha)
+    \bus, ~reverbBus   // Enviar al bus de reverberación
+).play;
+)                                
+    \end{lstlisting}
+    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \vspace{1cm}
+\end{minipage}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{minipage}[t]{1\textwidth}
+    \centering
+    \setstretch{1}
+    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+// Grabadas dos versiones:
+//path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_174012.wav'
+//path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_174107.wav'
+
+(
+// Inicialización de la orquestación
+s.waitForBoot {
+    var introDur = 10, desarrolloDur = 20, interactivoDur = 15, climaxDur = 15, cierreDur = 5;
+    var totalDur = introDur + desarrolloDur + interactivoDur + climaxDur + cierreDur;
+    var timeline;
+
+    timeline = Routine {
+        // Introducción con gabor e imp
+        Synth(\gabor, [freq: 440, pan: 0, width: 0.3, sustain: introDur]);
+        Synth(\imp, [freq: 440, speed: 1, begin: 0, end: 1, pan: 0, accelerate: 0.5, offset: 0, sustain: introDur]);
+        (introDur).wait;
+
+        // Desarrollo con psin y pmsin
+        Synth(\psin, [freq: 440, speed: 1, begin: 0, end: 1, pan: 0, accelerate: 0.5, offset: 0, modfreq: 40, sustain: desarrolloDur]);
+        Synth(\pmsin, [freq: 440, speed: 1, begin: 0, end: 1, pan: 0, accelerate: 0.5, offset: 0, sustain: desarrolloDur]);
+        (desarrolloDur).wait;
+
+        // Interacción en vivo con in e in1
+        Synth(\in, [soundin: 0, pan: 0, inputFadeTime: 0.03, sustain: interactivoDur]);
+        Synth(\in1, [soundin: 0, pan: 0, inputFadeTime: 0.03, sustain: interactivoDur]);
+        (interactivoDur).wait;
+
+        // Climax con una mezcla de synths
+        // Aquí puedes añadir más Synths según tu preferencia
+        (climaxDur).wait;
+
+        // Cierre con gabor y dirac
+        Synth(\gabor, [freq: 440, pan: 0, width: 0.3, sustain: cierreDur]);
+        Synth(\dirac, [pan: 0, sustain: cierreDur]);
+        (cierreDur).wait;
+    };
+
+    timeline.play;
+};
+)                                     
+    \end{lstlisting}
+    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \vspace{1cm}
+\end{minipage}
+
+
+
+
+
+
+
+
 
 
 
