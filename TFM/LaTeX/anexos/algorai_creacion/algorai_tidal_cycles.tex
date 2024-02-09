@@ -2,69 +2,127 @@
 
 
 
-\begin{minipage}[t]{.48\textwidth}
+% --session_2023.12.04_2246.tidal
+\begin{minipage}[t]{1\textwidth}
+    \centering
+    \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-(
-    // Definir los componentes del paisaje sonoro
-    var arroyo, pajaros, viento, hojas;
-)          
+--grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_175652.wav'
+d1 $ slow 4 $ s "cpu2*8 snare hi*4" # speed "-4 2 -1 3" # cut 1 # delay 0.7 # delaytime 1 # delayfeedback 0.8 # lpf 500 # hpf 100 # room 0.2 # sz 0.2 -- varía ete de alguna forma más clara                                        
     \end{lstlisting}
     \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
-\end{minipage}\hfill
-\begin{minipage}[t]{.48\textwidth}
-    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-% Código de programación      
-    \end{lstlisting}
-    \captionqranexo{Few-shot en una petición de creación sonora en SuperCollider. El resultado sonoro es más interesante desde el punto de vista artístico.}{https://drive.google.com/file/d/1C7FDkH706e1OMlcOWrG4qsCoC7Au8GaU/view?usp=drive_link}{audio}
+    \vspace{1cm}
 \end{minipage}
 
-\vspace{20pt} % Espacio entre filas
 
-% Segunda fila
-\begin{minipage}[t]{.48\textwidth}
+
+
+
+% --session_2023.12.04_2319.tidal
+\begin{minipage}[t]{1\textwidth}
+    \centering
+    \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-(
-    // Definir los componentes del paisaje sonoro
-    var arroyo, pajaros, viento, hojas;
-    // Definir los componentes del paisaje sonoro
-    var arroyo, pajaros, viento, hojas;
-    // Definir los componentes del paisaje sonoro
-    var arroyo, pajaros, viento, hojas;
-)          
+-- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_174836.wav'
+d2 $ degradeBy 0.3 $ s "gab*12" # up (irand 8) # speed (slow 6 $ sine) # room 0.1 # sz 0.1 # delay 0.2 # delayt 0.5 # delayfb 0.8 # lpf 800 # hpf 200 # gain 0.8 # speed ( 2 + irand 4)-- gpt-4-1106-preview                                   
     \end{lstlisting}
     \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
-\end{minipage}\hfill
-\begin{minipage}[t]{.48\textwidth}
-    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-(
-    // Definir los componentes del paisaje sonoro
-    var arroyo, pajaros, viento, hojas;
-    // Definir los componentes del paisaje sonoro
-    var arroyo, pajaros, viento, hojas;
-)          
-    \end{lstlisting}
-    \captionqranexo{Few-shot en una petición de creación sonora en SuperCollider. El resultado sonoro es más interesante desde el punto de vista artístico.}{https://drive.google.com/file/d/1C7FDkH706e1OMlcOWrG4qsCoC7Au8GaU/view?usp=drive_link}{audio}
+    \vspace{1cm}
 \end{minipage}
 
-\vspace{20pt} % Espacio entre filas
 
-% Tercera fila
-\begin{minipage}[t]{.48\textwidth}
+
+
+
+
+
+
+\begin{minipage}[t]{1\textwidth}
+    \centering
+    \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-    (
-        // Definir los componentes del paisaje sonoro
-        var arroyo, pajaros, viento, hojas;
-    )          
+-- grabar (bueno) path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_174935.wav'
+d3 $ sometimesBy 0.25 (striate 16) $ sound "arpy*24" # n (run 24) # speed (choose [0.6, 0.9, 1.1, 1.3, 1.6]) # sustain (slow 2 $ rand) # room 0.1 # sz 0.1 #gain 0.7 # pan (fast 2 "0 0.8 0.2 1")-- gpt-4-1106-preview                                
     \end{lstlisting}
     \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
-\end{minipage}\hfill
-\begin{minipage}[t]{.48\textwidth}
-    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-    (
-        // Definir los componentes del paisaje sonoro
-        var arroyo, pajaros, viento, hojas;
-    )          
-    \end{lstlisting}
-    \captionqranexo{Few-shot en una petición de creación sonora en SuperCollider. El resultado sonoro es más interesante desde el punto de vista artístico.}{https://drive.google.com/file/d/1C7FDkH706e1OMlcOWrG4qsCoC7Au8GaU/view?usp=drive_link}{audio}
+    \vspace{1cm}
 \end{minipage}
-  
+
+
+
+
+
+
+
+
+
+
+\begin{minipage}[t]{1\textwidth}
+    \centering
+    \setstretch{1}
+    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+-- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_175024.wav'
+d3 $ sometimesBy 0.3 (striate 16) $ sound "cpu*24" # n (run 24) # speed (choose [0.6, 0.9, 1.1, 1.3, 1.6]) # sustain (slow 3 $ sine) # room 0.1 # sz 0.1 # gain 0.65 # pan (slow 3 $ saw) -- gpt-4-1106-preview                          
+    \end{lstlisting}
+    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \vspace{1cm}
+\end{minipage}
+
+
+
+
+
+
+
+
+
+
+
+\begin{minipage}[t]{1\textwidth}
+    \centering
+    \setstretch{1}
+    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+-- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_175118.wav'
+d1 $ slow 2.5 $ degradeBy 0.25 $ sound "cpu:10 [hi*10 <lo cpu2> <sn*3 db*5>]" # pan (slow 2 $ sine) # speed (0.5) # lpf (slow 7 $ range 200 1200 $ rand) # hpf (slow 5 $ range 500 1000 $ rand) -- gpt-4-1106-preview                              
+    \end{lstlisting}
+    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \vspace{1cm}
+\end{minipage}
+
+
+
+
+
+
+\begin{minipage}[t]{1\textwidth}
+    \centering
+    \setstretch{1}
+    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+-- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_175213.wav'
+d2 $ degradeBy 0.35 $ s "gab*30" # up (irand 9) # speed (slow 7 $ sine) # room 0.1 # sz 0.1 # delay 0.25 # delayt 0.55 # delayfb 0.75 # lpf 850 # hpf 220 # gain 0.6 # speed (5 + irand 10) -- # pan (slow 3 $ saw) -- gpt-4-1106-preview                  
+    \end{lstlisting}
+    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \vspace{1cm}
+\end{minipage}
+
+
+
+
+
+
+
+
+
+
+
+\begin{minipage}[t]{1\textwidth}
+    \centering
+    \setstretch{1}
+    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+-- grabar path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240107_175334.wav'
+d4 $ degradeBy 0.35 $ s "gab*14" # up (irand 10) # speed (slow 7 $ sine) # room 0.1 # sz 0.1 # delay 0.3 # delayt 0.6 # delayfb 0.7 # lpf 850 # hpf 220 # gain 0.6 # speed (3 + irand 2) -- gpt-4-1106-preview                         
+    \end{lstlisting}
+    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \vspace{1cm}
+\end{minipage}
+
