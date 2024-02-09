@@ -1,6 +1,201 @@
-\chapter{\emph{AlgorAI}: materiales generados por GPT-4}
+\chapter{Materiales sonoros generados por GPT-4 para la composición \emph{AlgorAI}}
 % \addcontentsline{toc}{chapter}{Anexo D: \emph{AlgorAI}: materiales generados por GPT-4}
 \label{anexo:algorai}
+
+\section{Códigos de materiales sonoros escritos en SuperCollider}
+
+\begin{minipage}[t]{1\textwidth}
+    \centering
+    \setstretch{1}
+    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+// Grabado en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_164828.wav'
+
+(
+SynthDef(\acidBold, {
+    arg out, freq = 1000, gate = 1, pan = 1, cut = 4000, rez = 0.8, amp = 1, lfoFreq = 0.25;
+    var lfo, source;
+    lfo = SinOsc.kr(lfoFreq).range(800, 2000);  // LFO para modulación de frecuencia
+    source = Pulse.ar(freq + lfo, 0.05);
+    Out.ar(out,
+        Pan2.ar(
+            RLPF.ar(
+                source,
+            cut * LFNoise1.kr(1).range(0.8,1.2),  // Modulación de cut
+            rez + LFNoise1.kr(0.5).range(-0.1, 0.1)),  // Modulación de resonancia
+        pan) * EnvGen.kr(Env.perc(0.01, 0.3), gate, amp, doneAction: Done.freeSelf);
+    )
+}).add;
+)
+
+(
+Pbind(\instrument, \acidBold, \dur, Pseq([0.25, 0.5, 0.75], inf), \root, -12,
+    \degree, Pseq([0, 3, 6, 9, 12, 15, 18, 21], inf),  // Grados modificados
+    \pan, Pfunc({1.0.rand2}),
+    \cut, Pxrand([1000, 500, 2000, 300], inf),
+    \rez, Pfunc({0.7.rand +0.3}), \amp, 0.3).play;
+)
+
+(
+Pdef(\buckyballBold, Pbind(\instrument, \acidBold, \dur, Pseq([0.06, 0.07, 0.02, 0.01], inf), \root, [-24, -17],
+    \degree, Pseq([2, 3, 20, 7, 1, 11, [5, 17], 30], inf)+22, \pan, Pfunc({[1.0.rand2, 1.0.rand2]}),
+    \cut, Pxrand([1000, 500, 2000, 300], inf), \rez, Pfunc({0.7.rand +0.3}), \amp, [0.15, 0.22])).play;
+)
+
+(
+Pdef(\buckyballBold, Pbind(\instrument, \acidBold, \dur, Pseq([0.25, 0.5, 0.75], inf), \root, [-24, -17],
+    \degree, Pseq([0b, 3b, 5b, 7b, 9b, 11b, 5b, 0b], inf), \pan, Pfunc({1.0.rand2}),
+    \cut, Pxrand([1000, 500, 2000, 300], inf), \rez, Pfunc({0.7.rand +0.3}), \amp, 0.3)).play;
+)
+
+(
+Pdef(\randomRhythm, Pbind(
+    \instrument, \acidBold,
+    \dur, Pwhite(0.03, 0.05, inf),  // Duraciones aleatorias entre 0.1 y 1.0 segundos
+    \degree, Pseq([0, 10, 4, 2, 7, 9, 11]-24, inf),
+    \pan, Pwhite(-1, 1, inf),  // Pan aleatorio
+    \cut, Prand([500, 1000, 1500, 2000], inf),
+    \rez, Pwhite(0.3, 0.8, inf),  // Resonancia aleatoria
+    \amp, Pwhite(0.1, 0.5, inf)  // Amplitud aleatoria
+)).play;
+)
+    \end{lstlisting}
+    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \vspace{1cm}
+\end{minipage}
+
+
+
+
+
+
+\begin{minipage}[t]{1\textwidth}
+    \centering
+    \setstretch{1}
+    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+// Grabado en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_165228.wav'
+
+
+(
+// Primera capa: Ritmo percusivo
+Ndef(\a,
+    \setsrc -> Pbind(\source,
+        Pseq([
+            { WhiteNoise.ar() * EnvGen.kr(Env.perc, doneAction:2) * 0.1 },
+            { Impulse.ar(4 + [0,1]) * 0.1 },
+        ], inf),
+        \dur, Prand([0.25, 0.5, 0.75], inf)
+    )
+).play;
+
+// Segunda capa: Melodía
+Ndef(\b,
+    \setsrc -> Pbind(\source,
+        Pseq([
+            { SinOsc.ar([440, 442]) * 0.2 },
+            { Saw.ar([330, 332]) * 0.1 },
+        ], inf),
+        \dur, Prand([1, 1.5, 2], inf)
+    )
+).play;
+
+// Tercera capa: Textura armónica
+Ndef(\c,
+    \setsrc -> Pbind(\source,
+        Pseq([
+            { Pulse.ar([110, 112]) * 0.1 },
+            { LFTri.ar(LFNoise1.kr(1).range(200,300) + 1 * 180 + [0,1], 0.04) * 0.2 },
+        ], inf),
+        \dur, Prand([2, 3, 4], inf)
+    )
+).play;
+)     
+    \end{lstlisting}
+    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \vspace{1cm}
+\end{minipage}
+
+
+
+
+
+
+
+
+\begin{minipage}[t]{1\textwidth}
+    \centering
+    \setstretch{1}
+    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+// Grabado en SC_240105_170144.wav
+
+
+// 1. Definimos el SynthDef con modulación de frecuencia.
+(
+SynthDef(\fmModulator, { |out = 0, freq = 440, modDepth = 100, modFreq = 5, pan = 0, dur = 1|
+    // Generador de modulación
+    var modulator = SinOsc.ar(modFreq) * modDepth;
+
+    // Oscilador principal con frecuencia modulada
+    var signal = SinOsc.ar(freq *1 + modulator) * 0.5;
+
+    // Envoltura para dar principio y fin al sonido
+    var env = EnvGen.kr(Env.perc(0.01, dur*3 - 0.01), doneAction: 2);
+
+    // Multiplicamos la señal por la envoltura
+    signal = signal * env;
+
+    // Aplicamos paneo
+    signal = Pan2.ar(signal, pan);
+
+    // Aplicamos reverb
+    signal = FreeVerb.ar(signal, 0.2, 0.6, 0.5); // Puedes ajustar estos parámetros para cambiar la reverb
+
+    // Enviamos la señal al canal de salida
+    Out.ar(out, signal);
+}).add;
+)
+
+// 2. Usamos Pbind para secuenciar eventos de nuestro SynthDef con paneo.
+(
+Pbind(
+    \instrument, \fmModulator,  // Usamos el SynthDef definido anteriormente
+    \freq, Pwhite(0.0, 1).linexp(0, 1, 100, 600),    // Frecuencias aleatorias entre 300 y 600 Hz
+    \modDepth, Pwhite(50, 150), // Profundidad de modulación variable
+    \modFreq, Pwhite(30, 200.0),    // Frecuencia de modulación variable
+    \pan, Pwhite(-1.0, 1),        // Paneo aleatorio
+    \dur, Pwhite(0.5, 9),                   // Duración de cada nota
+    \legato, 3
+).play;
+)           
+    \end{lstlisting}
+    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \vspace{1cm}
+\end{minipage}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \begin{minipage}[t]{.48\textwidth}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
@@ -13,16 +208,7 @@
 \end{minipage}\hfill
 \begin{minipage}[t]{.48\textwidth}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-(
-    // Definir los componentes del paisaje sonoro
-    var arroyo, pajaros, viento, hojas;
-    // Definir los componentes del paisaje sonoro
-    var arroyo, pajaros, viento, hojas;
-    // Definir los componentes del paisaje sonoro
-    var arroyo, pajaros, viento, hojas;
-    // Definir los componentes del paisaje sonoro
-    var arroyo, pajaros, viento, hojas;
-)          
+% Código de programación      
     \end{lstlisting}
     \captionqranexo{Few-shot en una petición de creación sonora en SuperCollider. El resultado sonoro es más interesante desde el punto de vista artístico.}{https://drive.google.com/file/d/1C7FDkH706e1OMlcOWrG4qsCoC7Au8GaU/view?usp=drive_link}{audio}
 \end{minipage}
