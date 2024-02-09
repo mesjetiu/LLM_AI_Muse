@@ -355,7 +355,43 @@
 % \renewcommand{\appendixpagename}{Anexos}
 
 
+
+% Definición de colores personalizados
+\definecolor{keywordsColor}{rgb}{0.13,0.13,1} % Azul para palabras clave
+\definecolor{commentsColor}{rgb}{0.25,0.5,0.35} % Verde para comentarios
+\definecolor{stringColor}{rgb}{0.9,0,0} % Rojo para cadenas
+\definecolor{functionsColor}{rgb}{0.5,0,0.35} % Púrpura para funciones
+
+\lstdefinelanguage{ExtendedHaskell}{
+  keywords={let, in, if, then, else, case, of, do, class, instance, where, data, type, newtype, deriving, import, infixl, infixr, module},
+  morekeywords=[2]{d1, d2, s, n, slow, fast, every, degrade, degradeBy, sometimes, sound, hush, gain, speed, room, orbit, pan, shape, cut, stack, group, seqP},
+%   morekeywords=[3]{#, $},
+  keywordstyle=\color{keywordsColor}\bfseries,
+  keywordstyle=[2]\color{functionsColor}, % Estilo para funciones específicas de Tidal
+  keywordstyle=[3]\color{keywordsColor}, % Estilo para operadores especiales
+  comment=[l]{--},
+  morecomment=[s]{\{-}{-\}},
+  commentstyle=\color{commentsColor}\ttfamily,
+  stringstyle=\color{stringColor}\ttfamily,
+  morestring=[b]",
+  morestring=[b]',
+  sensitive=true,
+}
+
+\lstset{
+  language=ExtendedHaskell,
+  basicstyle=\footnotesize\ttfamily,
+  showstringspaces=false,
+  breaklines=true,
+  frame=single,
+%   literate={\$}{{\textdollar}}1 {\#}{{\texttt{\#}}}1, % Manejo correcto de $ y #.
+}
+
+
+
+
 \makeindex
+
 
 % ----------- Contenido del documento -----------
 
