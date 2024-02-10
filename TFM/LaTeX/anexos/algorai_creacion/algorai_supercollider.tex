@@ -1,4 +1,47 @@
-\section{Códigos de materiales sonoros escritos generado por GPT-4 en interacción iterativa en modo chatbot}
+\section{Códigos de materiales sonoros escritos en SuperCollider}
+\label{sec:materiales_supercollider}
+
+
+
+
+
+\begin{minipage}[t]{1\textwidth}
+    \centering
+    \setstretch{1}
+    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+(
+{
+    var n=6, freqs = LFNoise1.kr(n.linrand).range(500, 12000);
+    Splay.ar(
+    RLPF.ar(
+        Dust.ar(freqs * 0.004) * 50,
+        freqs,
+        LFNoise1.kr(0.1, 0.5).range(0.05, 0.15)
+    )
+    )
+}.play;
+)                                          
+    \end{lstlisting}
+    \captionqranexo{Código generado por GPT-4 en interacción iterativa en modo chatbot.}{https://drive.google.com/file/d/1HiO2IxfSWXGoKilgamJVrFxUIuv8JDau/view?usp=drive_link}{audio}
+    \vspace{1cm}
+\end{minipage}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \begin{minipage}[t]{1\textwidth}
     \centering
@@ -598,39 +641,6 @@ s.waitForBoot({
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-\begin{minipage}[t]{1\textwidth}
-    \centering
-    \setstretch{1}
-    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-(
-{
-    var n=6, freqs = LFNoise1.kr(n.linrand).range(500, 12000);
-    Splay.ar(
-    RLPF.ar(
-        Dust.ar(freqs * 0.004) * 50,
-        freqs,
-        LFNoise1.kr(0.1, 0.5).range(0.05, 0.15)
-    )
-    )
-}.play;
-)                                          
-    \end{lstlisting}
-    \captionqranexo{Código generado por GPT-4 en interacción iterativa en modo chatbot.}{https://drive.google.com/file/d/1HiO2IxfSWXGoKilgamJVrFxUIuv8JDau/view?usp=drive_link}{audio}
-    \vspace{1cm}
-\end{minipage}
 
 
 
