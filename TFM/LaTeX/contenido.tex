@@ -19,8 +19,8 @@
   \import{./capitulos/}{dedicatoria.tex}
   \clearpage
   \thispagestyle{empty} 
-  \import{./capitulos/}{agradecimientos.tex}
-  \thispagestyle{empty} 
+  % \import{./capitulos/}{agradecimientos.tex}
+  % \thispagestyle{empty} 
   \clearpage
   \thispagestyle{empty} % Asegurar que la siguiente página también esté vacía si la dedicatoria es de una sola página
   
@@ -102,6 +102,9 @@
   % \printindex % Índice de términos. Compilar con makeindex main
   % \clearpage
 
+
+  \begin{comment}
+
   \chapter*{Resumen de Páginas}
   \todo{eliminar este contador de páginas}
   % Calcular el número de páginas del contenido principal
@@ -117,5 +120,7 @@
   Páginas utilizadas: {\Huge\arabic{numPaginasContenido}\ de 90}
 
   Número de páginas restantes: {\Huge\arabic{numPaginasRestantes}}
+
+\end{comment}
 
 \end{document}
