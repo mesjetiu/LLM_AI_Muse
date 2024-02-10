@@ -1,11 +1,58 @@
-\section*{Códigos de materiales sonoros escritos en SuperCollider}
+\section*{Códigos de materiales sonoros escritos generado por GPT-4 en interacción iterativa en modo chatbot}
 
 \begin{minipage}[t]{1\textwidth}
     \centering
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-// Grabado en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_164828.wav'
+(
+// Primera capa: Ritmo percusivo
+Ndef(\a,
+    \setsrc -> Pbind(\source,
+        Pseq([
+            { WhiteNoise.ar() * EnvGen.kr(Env.perc, doneAction:2) * 0.1 },
+            { Impulse.ar(4 + [0,1]) * 0.1 },
+        ], inf),
+        \dur, Prand([0.25, 0.5, 0.75], inf)
+    )
+).play;
 
+// Segunda capa: Melodía
+Ndef(\b,
+    \setsrc -> Pbind(\source,
+        Pseq([
+            { SinOsc.ar([440, 442]) * 0.2 },
+            { Saw.ar([330, 332]) * 0.1 },
+        ], inf),
+        \dur, Prand([1, 1.5, 2], inf)
+    )
+).play;
+
+// Tercera capa: Textura armónica
+Ndef(\c,
+    \setsrc -> Pbind(\source,
+        Pseq([
+            { Pulse.ar([110, 112]) * 0.1 },
+            { LFTri.ar(LFNoise1.kr(1).range(200,300) + 1 * 180 + [0,1], 0.04) * 0.2 },
+        ], inf),
+        \dur, Prand([2, 3, 4], inf)
+    )
+).play;
+)     
+    \end{lstlisting}
+    \captionqranexo{Código generado por GPT-4 en interacción iterativa en modo chatbot.}{https://drive.google.com/file/d/1SupaIpEUR43V-FRca22N-qzyFh7cUNE_/view?usp=drive_link}{audio}
+    \vspace{1cm}
+\end{minipage}
+
+
+
+
+
+
+
+\begin{minipage}[t]{1\textwidth}
+    \centering
+    \setstretch{1}
+    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
 (
 SynthDef(\acidBold, {
     arg out, freq = 1000, gate = 1, pan = 1, cut = 4000, rez = 0.8, amp = 1, lfoFreq = 0.25;
@@ -55,58 +102,7 @@ Pdef(\randomRhythm, Pbind(
 )).play;
 )
     \end{lstlisting}
-    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
-    \vspace{1cm}
-\end{minipage}
-
-
-
-
-
-
-\begin{minipage}[t]{1\textwidth}
-    \centering
-    \setstretch{1}
-    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-// Grabado en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_165228.wav'
-
-
-(
-// Primera capa: Ritmo percusivo
-Ndef(\a,
-    \setsrc -> Pbind(\source,
-        Pseq([
-            { WhiteNoise.ar() * EnvGen.kr(Env.perc, doneAction:2) * 0.1 },
-            { Impulse.ar(4 + [0,1]) * 0.1 },
-        ], inf),
-        \dur, Prand([0.25, 0.5, 0.75], inf)
-    )
-).play;
-
-// Segunda capa: Melodía
-Ndef(\b,
-    \setsrc -> Pbind(\source,
-        Pseq([
-            { SinOsc.ar([440, 442]) * 0.2 },
-            { Saw.ar([330, 332]) * 0.1 },
-        ], inf),
-        \dur, Prand([1, 1.5, 2], inf)
-    )
-).play;
-
-// Tercera capa: Textura armónica
-Ndef(\c,
-    \setsrc -> Pbind(\source,
-        Pseq([
-            { Pulse.ar([110, 112]) * 0.1 },
-            { LFTri.ar(LFNoise1.kr(1).range(200,300) + 1 * 180 + [0,1], 0.04) * 0.2 },
-        ], inf),
-        \dur, Prand([2, 3, 4], inf)
-    )
-).play;
-)     
-    \end{lstlisting}
-    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \captionqranexo{Código generado por GPT-4 en interacción iterativa en modo chatbot.}{https://drive.google.com/file/d/1X4WcBr9YL1dWsEmjk7b7FP2YuMqHQdAS/view?usp=drive_link}{audio}
     \vspace{1cm}
 \end{minipage}
 
@@ -121,9 +117,6 @@ Ndef(\c,
     \centering
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-// Grabado en SC_240105_170144.wav
-
-
 // 1. Definimos el SynthDef con modulación de frecuencia.
 (
 SynthDef(\fmModulator, { |out = 0, freq = 440, modDepth = 100, modFreq = 5, pan = 0, dur = 1|
@@ -163,7 +156,7 @@ Pbind(
 ).play;
 )           
     \end{lstlisting}
-    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \captionqranexo{Código generado por GPT-4 en interacción iterativa en modo chatbot.}{https://drive.google.com/file/d/132HzMURSflmYGemI5vU0H-imPtLatYhZ/view?usp=drive_link}{audio}
     \vspace{1cm}
 \end{minipage}
 
@@ -178,13 +171,6 @@ Pbind(
     \centering
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-// Grabado en SC_240105_170144.wav
-
-
-// 1. Definimos el SynthDef con modulación de frecuencia.
-// Grabado en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_170445.wav'
-
-
 (
 {
     var x, y, z, a, b, c, d, e, f, g, h, mix;
@@ -218,7 +204,7 @@ Pbind(
 }.play;
 )        
     \end{lstlisting}
-    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \captionqranexo{Código generado por GPT-4 en interacción iterativa en modo chatbot.}{https://drive.google.com/file/d/1ldkyeQG6HQc2tpbfl_KYAR8wH_DPX7An/view?usp=drive_link}{audio}
     \vspace{1cm}
 \end{minipage}
 
@@ -245,94 +231,90 @@ Pbind(
 
 
 
+% \begin{minipage}[t]{1\textwidth}
+%     \centering
+%     \setstretch{1}
+%     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+% // Grabada textura 3 en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_171941.wav'
+
+% s.boot; // Arrancar el servidor
+
+% // Textura 1: Espacialidad y Drones
+% (
+% {
+%     var freq, amp, pan, drones;
+
+%     // Base frecuencial
+%     freq = MouseX.kr(50, 300, warp:'exponential');
+
+%     // Creación de 5 drones con desafinaciones leves
+%     drones = 5.collect {
+%         SinOsc.ar(freq + Rand(-10, 10), 0, 0.1)
+%     }.sum;
+
+%     pan = MouseY.kr(-1, 1); // Panoramización con el ratón en eje Y
+%     Pan2.ar(drones, pan);
+% }.play;
+% )
+
+% // Textura 2: Granulación
+% (
+% {
+%     var grainSize, grainPos, grains;
+
+%     grainSize = MouseX.kr(0.01, 0.5); // Tamaño del grano con el ratón en eje X
+%     grainPos = MouseY.kr(0, 1); // Posición de inicio del grano con el ratón en eje Y
+
+%     // Granos basados en ruido blanco
+%     grains = GrainSin.ar(2, WhiteNoise.ar(0.5), grainSize, grainPos, 0.1, 1);
+%     grains;
+% }.play;
+% )
+
+% // Textura 3: Ruido Modulado
+% (
+% {
+%     var freq, q, mixedNoise, filteredNoise;
+
+%     freq = MouseX.kr(50, 5000, warp:'exponential'); // Frecuencia de filtro con el ratón en eje X
+%     q = MouseY.kr(0.1, 20, warp:'exponential'); // Resonancia (Q) del filtro con el ratón en eje Y
+
+%     // Combinación de ruidos
+%     mixedNoise = Mix([WhiteNoise.ar(0.3!2), PinkNoise.ar(0.3!2), BrownNoise.ar(0.3!2)]);
+
+%     // Filtrado resonante
+%     filteredNoise = RLPF.ar(mixedNoise, freq, q);
+%     filteredNoise;
+% }.play;
+% )                       
+%     \end{lstlisting}
+%     \captionqranexo{Zero-shot en una petición de creación sonora generado por GPT-4 en interacción iterativa en modo chatbot.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+%     \vspace{1cm}
+% \end{minipage}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{minipage}[t]{1\textwidth}
     \centering
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-// Grabada textura 3 en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_171941.wav'
-
-s.boot; // Arrancar el servidor
-
-// Textura 1: Espacialidad y Drones
-(
-{
-    var freq, amp, pan, drones;
-
-    // Base frecuencial
-    freq = MouseX.kr(50, 300, warp:'exponential');
-
-    // Creación de 5 drones con desafinaciones leves
-    drones = 5.collect {
-        SinOsc.ar(freq + Rand(-10, 10), 0, 0.1)
-    }.sum;
-
-    pan = MouseY.kr(-1, 1); // Panoramización con el ratón en eje Y
-    Pan2.ar(drones, pan);
-}.play;
-)
-
-// Textura 2: Granulación
-(
-{
-    var grainSize, grainPos, grains;
-
-    grainSize = MouseX.kr(0.01, 0.5); // Tamaño del grano con el ratón en eje X
-    grainPos = MouseY.kr(0, 1); // Posición de inicio del grano con el ratón en eje Y
-
-    // Granos basados en ruido blanco
-    grains = GrainSin.ar(2, WhiteNoise.ar(0.5), grainSize, grainPos, 0.1, 1);
-    grains;
-}.play;
-)
-
-// Textura 3: Ruido Modulado
-(
-{
-    var freq, q, mixedNoise, filteredNoise;
-
-    freq = MouseX.kr(50, 5000, warp:'exponential'); // Frecuencia de filtro con el ratón en eje X
-    q = MouseY.kr(0.1, 20, warp:'exponential'); // Resonancia (Q) del filtro con el ratón en eje Y
-
-    // Combinación de ruidos
-    mixedNoise = Mix([WhiteNoise.ar(0.3!2), PinkNoise.ar(0.3!2), BrownNoise.ar(0.3!2)]);
-
-    // Filtrado resonante
-    filteredNoise = RLPF.ar(mixedNoise, freq, q);
-    filteredNoise;
-}.play;
-)                       
-    \end{lstlisting}
-    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
-    \vspace{1cm}
-\end{minipage}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\begin{minipage}[t]{1\textwidth}
-    \centering
-    \setstretch{1}
-    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-// Grabado en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_172611.wav'
-
-s.boot;
-
 (
 SynthDef(\customNTubeSound, {
     var source, filteredNoise, output, pannedOutput;
@@ -359,9 +341,6 @@ SynthDef(\customNTubeSound, {
 
 // Reproducimos el sonido
 x = Synth(\customNTubeSound);
-
-
-s.boot;
 
 (
 SynthDef(\customAmbientSound, {
@@ -394,9 +373,9 @@ SynthDef(\customAmbientSound, {
 )
 
 // Reproducimos el sonido
-y = Synth(\customAmbientSound);                           
+y = Synth(\customAmbientSound);                
     \end{lstlisting}
-    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \captionqranexo{Código generado por GPT-4 en interacción iterativa en modo chatbot.}{https://drive.google.com/file/d/1Sa3tfPBDp4kpmI3ZFB3Tyg-9_ZELdJN5/view?usp=drive_link}{audio}
     \vspace{1cm}
 \end{minipage}
 
@@ -408,8 +387,6 @@ y = Synth(\customAmbientSound);
     \centering
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-// Grabado en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_173559.wav'
-
 (
 SynthDef(\fmSynthNoReverb, {
     arg freq=440, mDepth=100, mFreq=5, dur=1, amp=0.5, pan=0;
@@ -463,7 +440,7 @@ Pbind(
 ).play;
 )                                
     \end{lstlisting}
-    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \captionqranexo{Código generado por GPT-4 en interacción iterativa en modo chatbot.}{https://drive.google.com/file/d/1q9GnGktEwciSSn-IKLPLegHU6lmSdD3Z/view?usp=drive_link}{audio}
     \vspace{1cm}
 \end{minipage}
 
@@ -491,10 +468,6 @@ Pbind(
     \centering
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-// Grabadas dos versiones:
-//path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_174012.wav'
-//path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_174107.wav'
-
 (
 // Inicialización de la orquestación
 s.waitForBoot {
@@ -532,7 +505,7 @@ s.waitForBoot {
 };
 )                                     
     \end{lstlisting}
-    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \captionqranexo{Código generado por GPT-4 en interacción iterativa en modo chatbot.}{https://drive.google.com/file/d/1UiNHmMKCaxsTX2qasP3xH8HRpCmminf4/view?usp=drive_link}{audio}
     \vspace{1cm}
 \end{minipage}
 
@@ -558,10 +531,6 @@ s.waitForBoot {
     \centering
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-// grabado en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_174641.wav'
-// path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_174755.wav'
-
-// path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_174839.wav'
 (
 SynthDef(\paulstretchPoly, { |out = 0, bufnum, envBufnum, pan = 0, stretch = 8, window = 0.25, amp = 1, rate = 1|
     // Los detalles internos de la SynthDef se mantienen iguales que en la versión monofónica
@@ -620,7 +589,7 @@ s.waitForBoot({
 });
 )                                 
     \end{lstlisting}
-    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \captionqranexo{Código generado por GPT-4 en interacción iterativa en modo chatbot.}{https://drive.google.com/file/d/1GkSF9Gu_NZ56M_Ue9GQptnhDMOwTAsXt/view?usp=drive_link}{audio}
     \vspace{1cm}
 \end{minipage}
 
@@ -646,9 +615,6 @@ s.waitForBoot({
     \centering
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-// Grabado en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240105_175153.wav'
-
-
 (
 {
     var n=6, freqs = LFNoise1.kr(n.linrand).range(500, 12000);
@@ -662,7 +628,7 @@ s.waitForBoot({
 }.play;
 )                                          
     \end{lstlisting}
-    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \captionqranexo{Código generado por GPT-4 en interacción iterativa en modo chatbot.}{https://drive.google.com/file/d/1HiO2IxfSWXGoKilgamJVrFxUIuv8JDau/view?usp=drive_link}{audio}
     \vspace{1cm}
 \end{minipage}
 
@@ -680,102 +646,84 @@ s.waitForBoot({
 
 
 
+%  https://platform.openai.com/playground?assistant=asst_jRoEFqfb7RegBABBvS7qEi1i&thread=thread_sNm8fDfcwZu3GU4APA6g3SXp
 
 \begin{minipage}[t]{1\textwidth}
     \centering
     \setstretch{1}
 \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-    // https://platform.openai.com/playground?assistant=asst_jRoEFqfb7RegBABBvS7qEi1i&thread=thread_sNm8fDfcwZu3GU4APA6g3SXp
-    // 09/11/2023
-    // Interesantísimo!!
-    
-    // grabado en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240106_174148.wav'
-    
-    
-    
-    // Definimos un bus de audio para la reverberación
-    ~reverbBus = Bus.audio(s, 2);
-    
-    // SynthDef de reverberación
-    (
-    SynthDef(\reverbEffect, { |outBus = 0|
-        var sig = In.ar(~reverbBus, 2);
-        sig = JPverb.ar(sig[0] + sig[1], t60: 3, size: 0.9, damp: 0.2, earlyDiff: 0.7);
-        ReplaceOut.ar(outBus, sig);
-    }).add;
-    
-    
-    // SynthDefs para gránulos con correcciones de FM y adiciones para variación
-    
-    SynthDef(\grainSynth, { |outBus, freq = 440, dur = 0.1, pan = 0, amp = 0.1, type = 0|
-        var sig, env, mod;
-        env = EnvGen.ar(Env.perc(0.01, dur, amp), doneAction: 2);
-        // Tipo de grano: varía desde FM a pulse a noise
-        mod = Select.ar(type,
-            [
-                SinOsc.ar(freq + SinOsc.ar(Rand(1.0, 100.0)).range(-200, 200)) * env, // FM
-                Pulse.ar(freq, 0.5) * env,                                            // Pulse
-                WhiteNoise.ar() * env * LFNoise1.kr(5).range(0,1)                    // Noise
-            ]
-        );
-        Out.ar(outBus, Pan2.ar(mod, pan));
-    }).add;
-    )
-    
-    // Creamos la instancia del efecto de reverberación
-    ~reverb = Synth(\reverbEffect, [\outBus, 0]);
-    
-    // Función para variar la densidad temporal de los granos y tipo de grano
-    (
-    ~density = { |minTime = 0.05, maxTime = 0.2, typeMin = 0, typeMax = 2|
-        Pbind(
-            \instrument, \grainSynth,
-            \freq, Pexprand(200.0, 2000.0, inf),
-            \dur, Pwhite(minTime, maxTime, inf),
-            \pan, Pwhite(-1, 1, inf),
-            \amp, Pwhite(0.01, 0.1, inf),
-            \type, Pwhite(typeMin, typeMax, inf),
-            \outBus, ~reverbBus
-        ).play;
-    };
-    )
-    
-    // Iniciar con densidad inicial y tipos de grano
-    ~grainPattern = ~density.value(0.05, 0.1, 0, 0);
-    
-    // Modificar la densidad y el tipo de grano cada 10 segundos
-    (
-    ~changeDensity = {
-        inf.do {
-            ~grainPattern.stop;
-            ~grainPattern = ~density.value(
-                0.05.rand2(0.2), // minTime
-                (0.2.rand2(0.5)).abs, // maxTime
-                0, // typeMin
-                2 // typeMax
-            );
-            10.wait;
-        };
-    }.fork;
-    )
-    
-    // Parar el cambio de densidad y el patrón de grano
-    (
-    ~stopPatterns = {
-        ~changeDensity.stop;
+// Definimos un bus de audio para la reverberación
+~reverbBus = Bus.audio(s, 2);
+// SynthDef de reverberación
+(
+SynthDef(\reverbEffect, { |outBus = 0|
+    var sig = In.ar(~reverbBus, 2);
+    sig = JPverb.ar(sig[0] + sig[1], t60: 3, size: 0.9, damp: 0.2, earlyDiff: 0.7);
+    ReplaceOut.ar(outBus, sig);
+}).add;
+// SynthDefs para gránulos con correcciones de FM y adiciones para variación
+SynthDef(\grainSynth, { |outBus, freq = 440, dur = 0.1, pan = 0, amp = 0.1, type = 0|
+    var sig, env, mod;
+    env = EnvGen.ar(Env.perc(0.01, dur, amp), doneAction: 2);
+    // Tipo de grano: varía desde FM a pulse a noise
+    mod = Select.ar(type,
+        [
+            SinOsc.ar(freq + SinOsc.ar(Rand(1.0, 100.0)).range(-200, 200)) * env, // FM
+            Pulse.ar(freq, 0.5) * env,                                            // Pulse
+            WhiteNoise.ar() * env * LFNoise1.kr(5).range(0,1)                    // Noise
+        ]
+    );
+    Out.ar(outBus, Pan2.ar(mod, pan));
+}).add;
+)
+// Creamos la instancia del efecto de reverberación
+~reverb = Synth(\reverbEffect, [\outBus, 0]);
+// Función para variar la densidad temporal de los granos y tipo de grano
+(
+~density = { |minTime = 0.05, maxTime = 0.2, typeMin = 0, typeMax = 2|
+    Pbind(
+        \instrument, \grainSynth,
+        \freq, Pexprand(200.0, 2000.0, inf),
+        \dur, Pwhite(minTime, maxTime, inf),
+        \pan, Pwhite(-1, 1, inf),
+        \amp, Pwhite(0.01, 0.1, inf),
+        \type, Pwhite(typeMin, typeMax, inf),
+        \outBus, ~reverbBus
+    ).play;
+};
+)
+// Iniciar con densidad inicial y tipos de grano
+~grainPattern = ~density.value(0.05, 0.1, 0, 0);
+// Modificar la densidad y el tipo de grano cada 10 segundos
+(
+~changeDensity = {
+    inf.do {
         ~grainPattern.stop;
+        ~grainPattern = ~density.value(
+            0.05.rand2(0.2), // minTime
+            (0.2.rand2(0.5)).abs, // maxTime
+            0, // typeMin
+            2 // typeMax
+        );
+        10.wait;
     };
-    )
+}.fork;
+)
+// Parar el cambio de densidad y el patrón de grano
+(
+~stopPatterns = {
     ~changeDensity.stop;
     ~grainPattern.stop;
-    ~reverb.free;
-    
-    // Ejecutar ~changeDensity para iniciar el cambio automático en la densidad y tipo de grano
-    ~changeDensity;
-    
-    ~stopPatterns;
+};
+)
+~changeDensity.stop;
+~grainPattern.stop;
+~reverb.free;
+// Ejecutar ~changeDensity para iniciar el cambio automático en la densidad y tipo de grano
+~changeDensity;
+~stopPatterns;
     \end{lstlisting}
-    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \captionqranexo{Código generado por GPT-4 en interacción iterativa utilizando la técnica de \gls{rag} en un \emph{Assistant} de OpenAI.}{https://drive.google.com/file/d/1jjeCwswr61iFNpDIwKCPNkDIWAQWuPUe/view?usp=drive_link}{audio}
     \vspace{1cm}
 \end{minipage}
 
@@ -795,17 +743,13 @@ s.waitForBoot({
 
 
 
-
+% // Patch obtenido con SuperCollider Assistant
+% // 09/11/2023
+% // https://platform.openai.com/playground?thread=thread_5Sqry82fvt0tclH4mX0yDIln
 \begin{minipage}[t]{1\textwidth}
     \centering
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-// Patch obtenido con SuperCollider Assistant
-// 09/11/2023
-// https://platform.openai.com/playground?thread=thread_5Sqry82fvt0tclH4mX0yDIln
-
-// grabado en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240106_184815.wav'
-
 (
 s.boot;
 
@@ -854,7 +798,7 @@ Pbind(
 ).play;
 )                                    
     \end{lstlisting}
-    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \captionqranexo{Código generado por GPT-4 en interacción iterativa utilizando la técnica de \gls{rag} en un \emph{Assistant} de OpenAI.}{https://drive.google.com/file/d/1Fum93BKo5o37dtEk5lR1NACCJjd63fd_/view?usp=drive_link}{audio}
     \vspace{1cm}
 \end{minipage}
 
@@ -873,19 +817,13 @@ Pbind(
 
 
 
-
+% // Interesante!
+% // https://platform.openai.com/playground?assistant=asst_jRoEFqfb7RegBABBvS7qEi1i&mode=assistant&thread=thread_W0hsopVAd3SiA1yT4zzNbB97
+% // SC Assitant
 \begin{minipage}[t]{1\textwidth}
     \centering
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-// Interesante!
-// https://platform.openai.com/playground?assistant=asst_jRoEFqfb7RegBABBvS7qEi1i&mode=assistant&thread=thread_W0hsopVAd3SiA1yT4zzNbB97
-// SC Assitant
-// 09/11/2023
-
-// Grabado en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240106_184248.wav'
-
-
 (
 s.waitForBoot {
     var numChannels = 2; // Estéreo
@@ -928,7 +866,7 @@ s.waitForBoot {
 };
 )                                      
     \end{lstlisting}
-    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \captionqranexo{Código generado por GPT-4 en interacción iterativa utilizando la técnica de \gls{rag} en un \emph{Assistant} de OpenAI.}{https://drive.google.com/file/d/142-tpf4Ib15tNYVuA9wl1iaKgpHimr14/view?usp=drive_link}{audio}
     \vspace{1cm}
 \end{minipage}
 
@@ -944,19 +882,13 @@ s.waitForBoot {
 
 
 
-
+% // https://platform.openai.com/playground?assistant=asst_vC9nmZAe8RcBA2s0kFM4roFj&mode=assistant&thread=thread_i1XHLNH57r1duSZU5x7nWn5h
+% // 11/11/2023
+% // Assistant v2
 \begin{minipage}[t]{1\textwidth}
     \centering
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-// https://platform.openai.com/playground?assistant=asst_vC9nmZAe8RcBA2s0kFM4roFj&mode=assistant&thread=thread_i1XHLNH57r1duSZU5x7nWn5h
-// 11/11/2023
-// Assistant v2
-// Creo que mejor que los más avanzados. Al menos no peor.
-
-// grabado en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240106_185032.wav'
-
-
 (
 SynthDef.new(\birds, {
     var env, freq, sig, modFreq, pan;
@@ -1019,72 +951,72 @@ Pbind(
 ).play;
 )                                       
     \end{lstlisting}
-    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+    \captionqranexo{Código generado por GPT-4 en interacción iterativa utilizando la técnica de \gls{rag} en un \emph{Assistant} de OpenAI.}{https://drive.google.com/file/d/1y0Sx5pSpi8qQtWNtgCgHDnuHxiALruuU/view?usp=drive_link}{audio}
     \vspace{1cm}
 \end{minipage}
 
 
-\begin{minipage}[t]{1\textwidth}
-    \centering
-    \setstretch{1}
-    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-// https://chat.openai.com/share/340c2959-bea8-49b9-bf09-4a9a8c3b68f6
-// Acaba con un par de códigos interesantes. Hay que interactuar bastante.
+% \begin{minipage}[t]{1\textwidth}
+%     \centering
+%     \setstretch{1}
+%     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+% // https://chat.openai.com/share/340c2959-bea8-49b9-bf09-4a9a8c3b68f6
+% // Acaba con un par de códigos interesantes. Hay que interactuar bastante.
 
-// grabado (codigo del final) en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240106_184528.wav'
-
-
-
-// Ejemplo 1: Secuencia melódica con eco
-{CombN.ar(SinOsc.ar([100, 101].midiratio * 60).sum * 0.2, 0.4, 0.4, 3)}.play;
-
-// Ejemplo 2: Percusión sintética con filtrado y resonancia
-{RLPF.ar(Dust.ar(15) * 50, MouseX.kr(200, 12000), 0.1)}.play;
-
-// Ejemplo 3: Sintetizador de bajos con modulación de frecuencia
-{SinOsc.ar([SinOsc.kr(2, 0, 10, 55), SinOsc.kr(2, 0, 10, 110)], 0, 0.4)}.play;
-
-// Ejemplo 4: Paisaje sonoro con ruido modulado y espacialización
-{FreeVerb.ar(HPF.ar(WhiteNoise.ar([0.05, 0.05]), MouseX.kr(100, 5000)), 0.5, 0.7)}.play;
-
-// Ejemplo 5: Secuencias de acordes con un patrón arpegiado
-(
-{
-    var freqs = [60, 64, 67].midicps;
-    var trigs = Dust.kr([2, 3, 4]);
-    Splay.ar(
-        LPF.ar(
-            SinOscFB.ar(freqs * [1, 1.01], 0, Decay.kr(trigs, 0.2)),
-            5000
-        )
-    )
-}.play;
-)
+% // grabado (codigo del final) en path: '/home/carlos/.local/share/SuperCollider/Recordings/SC_240106_184528.wav'
 
 
-{Splay.ar(RLPF.ar(Dust.ar(3!6) * 50, LFNoise1.kr(2!6).range(200, 12000), 0.1),1)}.play;
 
-{n=6;Splay.ar(RLPF.ar(Dust.ar({|i| i.rand2}!n) * 50, LFNoise1.kr({|i| i.linexp(0,5,0.5,5)}!n).range(200, 12000), 0.1),1)}.play;
+% // Ejemplo 1: Secuencia melódica con eco
+% {CombN.ar(SinOsc.ar([100, 101].midiratio * 60).sum * 0.2, 0.4, 0.4, 3)}.play;
+
+% // Ejemplo 2: Percusión sintética con filtrado y resonancia
+% {RLPF.ar(Dust.ar(15) * 50, MouseX.kr(200, 12000), 0.1)}.play;
+
+% // Ejemplo 3: Sintetizador de bajos con modulación de frecuencia
+% {SinOsc.ar([SinOsc.kr(2, 0, 10, 55), SinOsc.kr(2, 0, 10, 110)], 0, 0.4)}.play;
+
+% // Ejemplo 4: Paisaje sonoro con ruido modulado y espacialización
+% {FreeVerb.ar(HPF.ar(WhiteNoise.ar([0.05, 0.05]), MouseX.kr(100, 5000)), 0.5, 0.7)}.play;
+
+% // Ejemplo 5: Secuencias de acordes con un patrón arpegiado
+% (
+% {
+%     var freqs = [60, 64, 67].midicps;
+%     var trigs = Dust.kr([2, 3, 4]);
+%     Splay.ar(
+%         LPF.ar(
+%             SinOscFB.ar(freqs * [1, 1.01], 0, Decay.kr(trigs, 0.2)),
+%             5000
+%         )
+%     )
+% }.play;
+% )
 
 
-//******* Código interesante
-(
-{
-    var n=6, freqs = LFNoise1.kr(n.linrand).range(200, 12000);
-    Splay.ar(
-    RLPF.ar(
-        Dust.ar(freqs * 0.004) * 50,
-        freqs,
-        LFNoise1.kr(0.1, 0.5).range(0.05, 0.15)
-    )
-    )
-}.play;
-)
+% {Splay.ar(RLPF.ar(Dust.ar(3!6) * 50, LFNoise1.kr(2!6).range(200, 12000), 0.1),1)}.play;
+
+% {n=6;Splay.ar(RLPF.ar(Dust.ar({|i| i.rand2}!n) * 50, LFNoise1.kr({|i| i.linexp(0,5,0.5,5)}!n).range(200, 12000), 0.1),1)}.play;
 
 
-//******* Código interesante
-{n=6;Splay.ar(RLPF.ar(Dust.ar(Array.fill(n,{2.0.rand})+0.01)*50,LFNoise1.kr(Array.fill(n,{2.0.rand})  ).exprange(200,12000),0.1))}.play;                                      
-    \end{lstlisting}
-    \captionqranexo{Zero-shot en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
-    \vspace{1cm}
-\end{minipage}
+% //******* Código interesante
+% (
+% {
+%     var n=6, freqs = LFNoise1.kr(n.linrand).range(200, 12000);
+%     Splay.ar(
+%     RLPF.ar(
+%         Dust.ar(freqs * 0.004) * 50,
+%         freqs,
+%         LFNoise1.kr(0.1, 0.5).range(0.05, 0.15)
+%     )
+%     )
+% }.play;
+% )
+
+
+% //******* Código interesante
+% {n=6;Splay.ar(RLPF.ar(Dust.ar(Array.fill(n,{2.0.rand})+0.01)*50,LFNoise1.kr(Array.fill(n,{2.0.rand})  ).exprange(200,12000),0.1))}.play;                                      
+%     \end{lstlisting}
+%     \captionqranexo{Zero-shot en una petición de creación sonora generado por GPT-4 en interacción iterativa en modo chatbot.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
+%     \vspace{1cm}
+% \end{minipage}
