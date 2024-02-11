@@ -15,12 +15,14 @@
 %----------------------------------------------------------------------------------------
 
 \fontsize{24pt}{20pt}\selectfont\textlight{Universidad Internacional de La Rioja}
+\setstretch{1}
 
 \fontsize{20pt}{20.8pt}\selectfont\textlight{Facultad de Ciencias Sociales y Humanidades}
 \\[4cm] 
 
 
 \fontsize{18pt}{28.8pt}\selectfont\textlight{Máster Universitario en Investigación Musical}
+\setstretch{1.5}
 
 \fontsize{26pt}{20.8pt}\selectfont\textcolor{azul_unir}{\titulo}\todo{Título modificado para hacer referencia a la "interacción" humano-IA, música "en vivo"...}
 % \\[3cm] 
@@ -33,16 +35,21 @@
 
 \normalsize
 
+    % Ajustar el espacio entre filas solo para esta tabla
+    \begingroup
+    \renewcommand{\arraystretch}{0.8} % Ajusta este valor para cambiar el espaciado
     \begin{center}
-        \arrayrulecolor{lightgray} % Cambia el color de las líneas de la tabla a gris claro
+        \arrayrulecolor{verylightgray} % Usa el color gris muy claro definido
         \begin{tabular}{| l | l |}
             \hline
-            \textlight{Trabajo de fin de estudio presentado por:}  & \textlight{\autor} \\ \hline
-            \textlight{Tipo de trabajo:} & \textlight{Investigación} \\ \hline
-            \textlight{Director:} &  \textlight{Luis Miguel Morales Nieto} \\ \hline
-            \textlight{Fecha:}  & \textlight{\today} \\ \hline
+            Trabajo de fin de estudio presentado por: & Autor \\ \hline
+            Tipo de trabajo: & Investigación \\ \hline
+            Director: & Luis Miguel Morales Nieto \\ \hline
+            Fecha: & \today \\ \hline
         \end{tabular}
-    \end{center} 
+    \end{center}
+    \endgroup
 
 
+\vfill
 \end{titlepage}
