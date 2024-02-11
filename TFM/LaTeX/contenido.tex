@@ -78,8 +78,13 @@
 
   % Apéndices
   \appendix
-  % Modificar el formato de los títulos de los capítulos en los anexos para incluir "Anexo"
-  \titleformat{\chapter}[block]{\chapterstyle}{Anexo \thechapter:}{1em}{}
+  \titleformat{\chapter}[block]{\chapterstyle}{Anexo \thechapter.}{1em}{}
+
+  % Ajustar el formato de los números de anexo específicamente para el TOC
+  \addtocontents{toc}{\protect\renewcommand{\protect\cftchappresnum}{Anexo }}
+  \addtocontents{toc}{\protect\setlength{\protect\cftchapnumwidth}{4em}}
+  \renewcommand{\thechapter}{\Alph{chapter}}
+
 
 
   % \begin{titlepage}
