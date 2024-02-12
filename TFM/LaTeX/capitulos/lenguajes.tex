@@ -276,28 +276,37 @@ Se ha decidido utilizar {SuperCollider} y {Tidal Cycles} como lenguajes de progr
 
 % Véase la Tabla \ref{tab:lenguajes_comparativa} para una comparativa de los lenguajes de programación musicales en función de los criterios expuestos. Dicha tabla no es exhaustiva. Una lista más completa de lenguajes de programación musicales puede encontrarse en \cite{ListAudioProgramming2023}
 
-% \todo{No me queda clara la utilidad de esta tabla, donde muchos datos son subjetivos a partir de la experiencia del autor, pero no justificados con datos.}
-% \begin{table}[h] % t de top
-%   \begin{center}
-%   \caption[Lenguajes de programación musicales más relevantes]{Lenguajes de programación musicales más relevantes. El número de desarrolladores se ha obtenido de la página de GitHub de cada lenguaje. La documentación y el nivel de \emph{Live} se han valorado de 1 a 3 asteriscos, siendo 3 asteriscos la máxima puntuación.}
-%   \begin{tabular}{| c | c | c | c | c | c | c |}
-%   \hline
-%   Lenguaje & Lanzamiento & Actualización & Desarrolladores & Documentación & \emph{Live} & Independiente de IDE\\
-%   \hline
-%   \emph{Csound} & 1985 & 2022 & 56 & *** & * & Sí\\
-%   \emph{SuperCollider} & 1996 & 2023 & 212 & *** & ** & Sí\\
-%   \emph{ChucK} & 2003 & 2023 & 44 & *** & ** & Sí\\
-%   \emph{Tidal Cycles} & 2009 & 2023 & 76 & *** & *** & Sí\\
-%   \emph{Overtone} & 2010 & 2023 & 68 & ** & ** & Sí\\
-%   \emph{Sonic Pi} & 2012 & 2023 & 532 & *** & *** & No\\
-%   \emph{FoxDot} & 2019 & 2021 & 35 & * & *** & Sí\\
-%   \emph{Strudel} & 2022 & 2023 & 29 & *** & *** & No\\
 
-%   \emph{GLICOL} & 2022 & 2023 & 29 & *** & *** & No\\ % poner datos reales y comentar
-%   \emph{FAUST} & 2022 & 2023 & 29 & *** & *** & No\\ % poner datos reales y comentar
-%   \hline
-%   \end{tabular}
-%   \source{\propio en \emph{Sonic Pi}}.
-%   \label{tab:lenguajes_comparativa}
-%   \end{center}
-% \end{table} 
+
+
+
+
+\begin{table}[htbp]
+  \centering
+  \caption[Algunos de los lenguajes de programación musicales más relevantes]{Algunos de los lenguajes de programación musicales más relevantes. Datos como el número de desarrolladores o la fecha de la última actualización se han obtenido de la página de GitHub de cada lenguaje. La documentación y el nivel de \emph{Live} se han valorado de 1 a 3 asteriscos, siendo 3 asteriscos la máxima puntuación. Dichas valoraciones son del autor y no corresponden a ninguna métrica. Los datos mostrados corresponden a diciembre de 2023.}
+  \label{tab:lenguajes_comparativa}
+  % \setstretch{1}
+  \fontsize{9.5pt}{11pt}\selectfont
+  \begingroup
+  \rowcolors{2}{azul_unir_soft}{white}
+  \begin{tabularx}{\linewidth}{|l|c|c|l|c|c|l|}
+      \toprule
+      \rowcolor{azul_unir} % Aplica el color azul_unir al encabezado de la tabla
+      \textcolor{white}{\textbf{Lenguaje}} & \textcolor{white}{\textbf{Lanzamiento}} & \textcolor{white}{\textbf{Actualización}} & \textcolor{white}{\textbf{Desarrolladores}} & \textcolor{white}{\textbf{Documentación}} & \textcolor{white}{\textbf{\emph{Live}}} & \textcolor{white}{\textbf{Independiente de IDE}} \\
+      \midrule
+      \emph{Csound} & 1985 & 2022 & 56 & *** & * & Sí \\
+      \emph{SuperCollider} & 1996 & 2023 & 212 & *** & ** & Sí \\
+      \emph{ChucK} & 2003 & 2023 & 44 & *** & ** & Sí \\
+      \emph{Tidal Cycles} & 2009 & 2023 & 76 & *** & *** & Sí \\
+      \emph{Overtone} & 2010 & 2023 & 68 & ** & ** & Sí \\
+      \emph{Sonic Pi} & 2012 & 2023 & 532 & *** & *** & No \\
+      \emph{FoxDot} & 2019 & 2021 & 35 & * & *** & Sí \\
+      \emph{Strudel} & 2022 & 2023 & 29 & *** & *** & No \\
+      \emph{GLICOL} & 2020 & 2023 & 3 & * & *** & No\\ % poner datos reales y comentar
+      \emph{FAUST} & 2002 & 2023 & 106 & ** & ** & No\\ % poner datos reales y comentar
+      % Agrega más filas según sea necesario
+      \bottomrule
+  \end{tabularx}
+  \endgroup
+  \source{\propio}
+\end{table}
