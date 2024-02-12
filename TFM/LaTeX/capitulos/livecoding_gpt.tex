@@ -4,11 +4,11 @@
 % \defaultFontEpigraph{One Model Is All You Need}{\cite{grahamOneModelAll2022}}
 \defaultFontEpigraph{One Model Is All You Need}{Graham y cols. (2022)}
 
-En este capítulo pasamos a describir la herramienta \emph{AI Muse}, creada durante este trabajo, a la cual nos referimos en el capítulo anterior (véase sección \ref{sec:generacion_automatica_codigo_tidal_cycles}), detallando su funcionamiento, diversas cuestiones de su implementación y los resultados de su utilización.
+En este capítulo pasamos a describir el programa \emph{AI Muse}, creado durante esta investigación, al cual nos referimos en el capítulo anterior (véase sección \ref{sec:generacion_automatica_codigo_tidal_cycles}), detallando su funcionamiento, diversas cuestiones de su implementación y los resultados de su utilización.
 
 \section{Descripción general de la herramienta}
 
-\emph{AI Muse} es una herramienta de interacción con modelos de lenguaje en entornos de \emph{live coding}. Está escrita en Python y se comunica con la \gls{api} de OpenAI. Permite ejecutar código de SuperCollider y de Tidal Cycles. Además, tiene un archivo de configuración en formato JSON, así como un conjunto de comandos para modificar en vivo los parámetros de la configuración. Aunque está pensada para la utilización de modelos de OpenAI, esta librería permite eventualmente comunicarse con otros modelos de lenguaje incluso en local, detalle que no ha sido explorado en este trabajo.
+\emph{AI Muse} es una herramienta de interacción con modelos de lenguaje en entornos de \emph{live coding}. Está escrita en Python y se comunica con \gls{llm} de OpenAI a través de su \gls{api}. Permite ejecutar código de SuperCollider y de Tidal Cycles. Además, tiene un archivo de configuración en formato JSON, así como un conjunto de comandos para modificar en vivo los parámetros de la configuración. Aunque está pensada para la utilización de modelos de OpenAI, esta librería permite eventualmente comunicarse con otros modelos de lenguaje incluso en local, detalle que no ha sido explorado en este trabajo. El paradigma de interacción es el del \emph{live coding}.
 
 \section{¿Por qué un entorno de \emph{live coding}?}
 
@@ -265,7 +265,7 @@ Devuelve un único patrón. No uses ``` para formatear código.
 
 Se ha detectado una tenencia del \gls{llm} a imitar los patrones ya existentes en la conversación, si bien, por medio de comentarios es posible provocar más originalidad en sucesivas respuestas. Por esta razón, es interesante aplicar la técnica de prompting de \emph{few-shot} para dirigir el inicio de la improvisación colaborativa. 
 
-No se ha hallado, sin embargo, una diferencia importante entre usar el modelo en modo \texttt{chat} o en modo \texttt{assistant}. Sin embargo, esto debería estudiarse con mayor detenimiento en función de unas cuidadas configuraciones de asistentes y de sus archivos de base de datos.
+No se ha hallado, sin embargo, una diferencia importante entre usar el modelo en modo \texttt{chat} o en modo \texttt{assistant}. No obstante, esto debería estudiarse con mayor detenimiento en función de unas cuidadas configuraciones de asistentes y de sus archivos de base de datos.
 
 Este tipo de interacción se ha mostrado, en todo caso, muy prometedora de cara a la generación musical interactiva. Las aportaciones atómicas que se piden al \gls{llm} por medio de la \gls{api} lo hacen muy adecuado como banco de pruebas tanto con los servicios de OpenAI, como eventualmente otros modelos, incluso open source.
 

@@ -7,7 +7,7 @@
 
 \section{Limitaciones}
 
-Este trabajo se ha desarrollado bajo ciertas restricciones que son importantes considerar al momento de interpretar los resultados y conclusiones presentadas. A continuación, se detallan las principales limitaciones encontradas durante la investigación y que son inherentes a esta:
+Este trabajo se ha desarrollado bajo ciertas restricciones que son importantes considerar al momento de interpretar los resultados y conclusiones presentadas. A continuación, se detallan las principales limitaciones encontradas durante la investigación, bien sea por la naturaleza del enfoque metodológico, por las herramientas utilizadas o por las condiciones de desarrollo del proyecto:
 
 \begin{enumerate}
     
@@ -19,36 +19,33 @@ Este trabajo se ha desarrollado bajo ciertas restricciones que son importantes c
 
 \item \textit{Uso de modelos de código cerrado:} La investigación se apoyó en modelos de lenguaje de código cerrado, en concreto, con los de OpenAI, que limita la transparencia y comprensión completa de los procesos internos que guían las generaciones musicales.
 
-\item \textit{Limitaciones computacionales y económicas del proyecto:} La potencia computacional a la que se ha tenido acceso es la personal, así como los recursos económicos para el uso de los servicios utilizados, lo cual ha influido en decisiones clave como los modelos elegidos o en la imposibilidad de explorar técnicas como la aplicación de \emph{fine-tuning} en los modelos utilizados.
+\item \textit{Limitaciones computacionales y de recursos del proyecto:} La potencia computacional a la que se ha tenido acceso es la personal del investigador, así como los recursos económicos para el uso de los servicios utilizados, lo cual ha influido en decisiones clave como los modelos elegidos o en la imposibilidad de explorar técnicas como la aplicación de \emph{fine-tuning} en los modelos utilizados.
 \end{enumerate}
-
 
 \section{Prospectiva}
 
 
-Mirando hacia el futuro, este estudio abre varias vías para investigaciones y desarrollos posteriores en el campo de la inteligencia artificial y la generación de música. Las posibilidades son vastas y prometen enriquecer tanto el ámbito académico como práctico:
+Este estudio abre varias vías para investigaciones y desarrollos posteriores en el campo de la \gls{ia} y la generación de música. Entre ellas:
 
 \begin{enumerate}
 \item \textit{Aplicaciones educativas y de asistencia:} El potencial de estas herramientas para facilitar la educación en lenguajes musicales es considerable. El estudio y desarrollo de aplicaciones dirigidas al ámbito educativo musical en general, y del aprendizaje de lenguajes musicales de la complejidad de los aquí estudiados, en particular, se presenta como una dirección prometedora y necesaria.
 
 \item \textit{Metodología cuantitativa en futuros trabajos:} Sin perjuicio de eventuales estudios como el presente, aplicados a diversos ámbitos de la creación musical con \gls{ia}, se sugiere la adopción de enfoques cuantitativos que utilicen métricas específicas para evaluar la calidad del código, la música, la originalidad, entre otros. Esto permitirá una evaluación más objetiva y comparativa de los resultados.
 
-\item \textit{fine-tuning de modelos de lenguaje:} La posibilidad de ajuste fino de modelos como GPT-3 y GPT-4 en los contextos específicos de uso puede ofrecer mejoras significativas en la relevancia y calidad de las generaciones.
-
 \item \textit{Creación de datasets mejorados para \emph{fine-tuning} y \gls{rag}:} Es preciso el desarrollo de una extensa colección de documentación y códigos de programación musical para potenciar el valor cualitativo de las respuestas de los \gls{llm} en el campo de la creación musical y sonora. Este corpus, debidamente comentado y etiquetado con descripciones de alto nivel, es esencial para abordar el notable desnivel semántico entre las intenciones del código y el resultado sonoro real. La implementación de técnicas de \gls{rag} utilizando esta documentación mejorada puede ser comparable al del \emph{fine-tuning}.
 
-\item \textit{Diversidad de lenguajes de programación:} Ampliar la investigación para incluir más lenguajes de programación fortalecerá la versatilidad y aplicabilidad de los modelos de IA en la creación musical.
+\item \textit{Diversidad de lenguajes de programación:} Ampliar la investigación para incluir más lenguajes de programación fortalecerá la versatilidad y aplicabilidad de los modelos de \gls{ia} en la creación musical.
 
 \item \textit{Agentes autónomos:} Investigar sistemas que implementen agentes autónomos capaces de corregir errores de código de manera iterativa presenta un campo prometedor para mejorar la eficiencia y autonomía de los sistemas de generación de música.
 
-\item \textit{Manejo de piezas extensas por próximas arquitecturas y modelos de \gls{ia}:} Con el constante y rápido avance de la \gls{iag}, invita a explorar su potencial para gestionar composiciones musicales de gran envergadura y complejidad.
+\item \textit{Manejo de piezas extensas por próximas arquitecturas y modelos de \gls{ia}:} El constante y rápido avance de la \gls{iag} invita a explorar su potencial para gestionar composiciones musicales de gran envergadura y complejidad.
 
-\item \textit{Agentes en la planificación y manejo de código:} La utilización de agentes de \gls{ia} para combinar la gestión de códigos pequeños con la planificación general sugiere un área de investigación con gran potencial.
+\item \textit{Agentes en la planificación y manejo de código:} La utilización de agentes autónomos de \gls{ia} para combinar la gestión de códigos pequeños con la planificación general aparece como un área de investigación con gran potencial.
 
-\item \textit{\gls{llm} locales y open source:} Una dirección futura de gran interés es la exploración de la viabilidad de reentrenar \gls{llm} de código abierto con una finalidad sonora en entornos locales. Para ello es imprescindible contar con gran capacidad computacional, aunque cada vez se presenta más accesible.
+\item \textit{\gls{llm} locales y open source:} Una dirección futura de gran interés es la exploración de la viabilidad de reentrenar \gls{llm} de código abierto con una finalidad sonora en entornos locales. Para ello es imprescindible contar con gran capacidad computacional, que cada vez se presenta más accesible.
 
 \item \textit{Multimodalidad en el campo audiovisual:} La exploración de la multimodalidad abre nuevas posibilidades de interacción e interfaces posibles que han quedado fuera de este estudio tanto por limitaciones de tiempo como de recursos. La creación sonora puede estar condicionada por imágenes o vídeos, lo cual amplía las posibilidades creativas. Por otra parte, la integración de modelos de reconocimiento de audio con modelos de lenguaje eventualmente permitiría la generación de sonido y música condicionada por el resultado sonoro de iteraciones previas.
 
-\item \textit{Ulteriores y diversos trabajos sobre interacción con \gls{llm} en tiempo real para \emph{live coding}:} Investigar diferentes aplicaciones de \gls{llm} en entornos de \emph{live coding}, tal como se apunta con el programa creado en este estudio, \emph{AI Muse}, se presenta como muy prometedor y adecuado a la naturaleza de los \gls{llm} y a las posibilidades inherentes a la utilización de \gls{api}.
+\item \textit{Ulteriores y diversos trabajos sobre interacción con \gls{llm} en tiempo real para \emph{live coding}:} Investigar diferentes aplicaciones de \gls{llm} en entornos de \emph{live coding}, tal como se apunta con el programa informático creado en este estudio, \emph{AI Muse}, se presenta como muy prometedor y adecuado a la naturaleza de los \gls{llm} y a las posibilidades inherentes a la utilización de \gls{api}.
 
 \end{enumerate}
