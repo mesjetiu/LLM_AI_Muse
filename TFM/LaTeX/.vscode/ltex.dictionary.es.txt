@@ -33,3 +33,4 @@ Muse
 aliasing
 sonograma
 psicoacústica
+Bard
