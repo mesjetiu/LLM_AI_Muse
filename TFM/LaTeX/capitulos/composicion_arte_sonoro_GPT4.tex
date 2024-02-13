@@ -4,8 +4,18 @@
 % \defaultFontEpigraph{Imagination Is All You Need!\dots}{\cite{erkerImaginationAllYou2023}}
 \defaultFontEpigraph{Imagination Is All You Need!}{Erker, Schaffer, y Spanakis (2023)}
 
-\captionqranexo{}{https://vimeo.com/906122849?share=copy}{video}
-\vspace{1cm}
+% \captionqranexo{}{https://vimeo.com/906122849?share=copy}{video}
+% \vspace{1cm}
+
+Una de las actividades planificadas en el marco de esta investigación ha sido la creación de una pieza de arte sonoro usando de la interacción con \gls{llm}. La pieza resultante, titulada \emph{AlgorAI}, puede ser escuchada en el enlace del código QR de la Figura \ref{fig:sonograma_algorai}. En este capítulo se describirá el proceso de creación de la pieza, los materiales sonoros generados por GPT-4 que han sido utilizados en la misma, y los resultados de la interacción humano-\gls{llm} en el proceso de composición.
+
+\begin{figure}[H]
+    \captionqr{Sonograma de una parte de la pieza electroacústica \emph{AlgorAI}}{Sonograma de una parte de la pieza electroacústica \emph{AlgorAI}. Se puede apreciar parte de la trama polifónica creada por los diversos materiales sonoros que la componen. El código QR enlaza con un vídeo que ofrece la escucha de la pieza.}{https://vimeo.com/906122849?share=copy}{video}
+    \centering
+    \includegraphics[width=0.8\textwidth]{./figuras/sonograma_02.png}
+    \source{\propio}
+    \label{fig:sonograma_algorai}
+\end{figure}
 
 Como consecuencia de las pruebas y prácticas llevadas a cabo con la \gls{api} y el Playground de OpenAI para este trabajo, se generaron decenas de archivos con código cuyo resultado sonoro fue juzgado de cierto interés, independientemente de su adecuación a los requerimientos pasados por el prompt. Estos bloques de código están escritos tanto en SuperCollider como en Tidal Cycles. En el primer caso responden a peticiones muy concretas de texturas, timbres o sucesiones sonoras, en el Playground; en el segundo, a sesiones de \emph{live coding} compartidas, asistidas por la \gls{api} en \emph{AlgorAI}.
 
@@ -32,13 +42,6 @@ En el momento de la selección, se intentó diseñar una estructura base esquem�
 
 \emph{AlgorAI}\footnote{La pieza puede ser escuchada en los enlaces del código QR de la Figura \ref{fig:sonograma_algorai}} es una obra de música electroacústica cuyos materiales provienen de código de programación. Su duración es de 5 minutos y está compuesta de un único movimiento, sin secciones claramente delimitadas. Su trama está compuesta por una sucesión polifónica de texturas sonoras de diversa índole, que se van superponiendo y combinando entre sí (véase una sección del sonograma de la Figura \ref{fig:sonograma_algorai}). Las decisiones de posición, duración y altura de cada sonido han sido tomadas en conjunto por el propio compositor, atendiendo a criterios subjetivos de equilibrio, coherencia e inteligibilidad desde el punto de vista psicoacústico. Su título, \emph{AlgorAI}, es un acrónimo de \emph{Algoritmo} e \emph{Inteligencia Artificial}, y hace referencia a la naturaleza de la obra, cuya materia prima sonora ha sido compuesta a partir de algoritmos de IA, en concreto, por grandes modelos de lenguaje. Al mismo tiempo, hace un guiño al término \emph{Algorave}, asociado a la práctica del \emph{live coding}\footnote{Según Wikipedia, <<Una \emph{algorave} (de \emph{algoritmo} y \emph{rave}) es un evento en el que la gente baila con música generada a partir de algoritmos, a menudo utilizando técnicas de codificación en vivo>> \citep{Algorave2023}.}.  Los materiales sonoros son en su mayoría de origen íntegramente electrónico (aquellos producidos a través de SuperCollider), y en menor medida, de origen electroacústico (los producidos por Tidal Cycles), cuando la base de los mismos es un conjunto de {samples} de sonidos reales.
 
-\begin{figure}[H]
-    \captionqr{Sonograma de una parte de la pieza electroacústica \emph{AlgorAI}}{Sonograma de una parte de la pieza electroacústica \emph{AlgorAI}. Se puede apreciar parte de la trama polifónica creada por los diversos materiales sonoros que la componen.}{https://vimeo.com/906122849?share=copy}{video}
-    \centering
-    \includegraphics[width=0.8\textwidth]{./figuras/sonograma_02.png}
-    \source{\propio}
-    \label{fig:sonograma_algorai}
-\end{figure}
 
 \section{Técnicas de síntesis sonora utilizadas en los materiales sonoros}
 
@@ -57,11 +60,12 @@ Una parte significativa de los materiales sonoros, a pesar de estar generados ap
 Es notoria la naturaleza distinta en los materiales generados en el lenguaje de Tidal Cycles respecto a SuperCollider, ya que este lenguaje se basa en la manipulación de samples y en su secuenciación en el tiempo en bucles. Los bucles más complejos que se aprecian en \emph{AlgorAI} han sido producidos por GPT-4 en Tidal Cycles. En este caso, se han escogido siempre los bucles sonoros más impredecibles, aquellos que no se ajustan a una estructura rítmica regular. La Figura \ref{fig:ejemplo_tidal_irregular} muestra uno de los ejemplos escritos en Tidal Cycles escogidos para la composición por su carácter irregular.
 
 
+
 \begin{figure}[H]
     \captionqr{Ejemplo de código en Tidal Cycles escogido para la composición por su carácter irregular e impredecible}{Ejemplo de código en Tidal Cycles escogido para la composición por su carácter irregular e impredecible.}{https://drive.google.com/file/d/11KYkFOkBN42MlXUgHlmI8Rk2RWT7gQ8f/view?usp=drive_link}{audio}
     \centering
     \setstretch{1}
-    \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+    \begin{lstlisting}[style=SuperCollider-IDE, language=ExtendedHaskell, basicstyle=\footnotesize\ttfamily, numbers=none]
 d1 
     $ degradeBy 0.1
     $ slow 10 

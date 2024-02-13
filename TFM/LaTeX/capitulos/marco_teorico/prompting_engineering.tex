@@ -27,6 +27,8 @@ Una primera técnica aplicable a un modelo de lenguaje es la de \emph{few-shot},
     \centering
     \begin{subfigure}{.48\textwidth}
       \centering
+      \setstretch{1}
+      \fontsize{9.5pt}{11pt}\selectfont
       \begin{mdframed}
         Usuario: Casa
         \vspace{0.1cm}
@@ -50,6 +52,8 @@ Una primera técnica aplicable a un modelo de lenguaje es la de \emph{few-shot},
 
     \begin{subfigure}{.48\textwidth}
         \centering
+        \setstretch{1}
+        \fontsize{9.5pt}{11pt}\selectfont
         \begin{mdframed}
         Asistente: Apor
         \end{mdframed}
@@ -72,6 +76,7 @@ La Figura \ref{fig:chain_of_thoughts} muestra un ejemplo de \gls{cot} aplicado a
       \centering
       \begin{mdframed}
         \setstretch{1}
+        \fontsize{9.5pt}{11pt}\selectfont
         P: Roger tiene 5 pelotas de tenis. Compra 2 latas más de pelotas de tenis. Cada lata tiene 3 pelotas de tenis. ¿Cuántas pelotas de tenis tiene ahora?
         \vspace{0.2cm}
 
@@ -87,6 +92,7 @@ La Figura \ref{fig:chain_of_thoughts} muestra un ejemplo de \gls{cot} aplicado a
       \centering
       \begin{mdframed}
         \setstretch{1}
+        \fontsize{9.5pt}{11pt}\selectfont
         P: Roger tiene 5 pelotas de tenis. Compra 2 latas más de pelotas de tenis. Cada lata tiene 3 pelotas de tenis. ¿Cuántas pelotas de tenis tiene ahora?
         \vspace{0.2cm}
 
@@ -104,6 +110,8 @@ La Figura \ref{fig:chain_of_thoughts} muestra un ejemplo de \gls{cot} aplicado a
     \begin{subfigure}{.48\textwidth}
         \centering
         \begin{mdframed}
+          \setstretch{1}
+          \fontsize{9.5pt}{11pt}\selectfont
         R: La respuesta es 29.
         \end{mdframed}
         \caption{\emph{Few-shot} para forzar una resolución directa de un problema aritmético. La respuesta es incorrecta.}
@@ -112,6 +120,7 @@ La Figura \ref{fig:chain_of_thoughts} muestra un ejemplo de \gls{cot} aplicado a
       \centering
       \begin{mdframed}
         \setstretch{1}
+        \fontsize{9.5pt}{11pt}\selectfont
         R: \highlight{Comenzaron con 23 manzanas. Usaron 20, por lo que quedaron 23-20 = 3 manzanas. Compraron 6 más, por lo que ahora tienen 3+6 = 9 manzanas.} La respuesta es 9.
       \end{mdframed}
       \caption{\emph{Few-shot} con \emph{chain of thoughts} para provocar un razonamiento previo a la respuesta. La respuesta es correcta.}

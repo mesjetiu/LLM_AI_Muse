@@ -286,17 +286,9 @@ Otro defecto observado con relación a los parámetros de los métodos y clases 
     SynthDef(\fmSound, {
         arg freq=440, amp=0.5, modIndex=5, attackTime=0.01, releaseTime=1;
         var carrier, modulator, env;
-    
-        // Envolvente
         env = EnvGen.kr(Env.perc(attackTime, releaseTime), doneAction:2);
-    
-        // Modulador
         modulator = SinOsc.ar(freq, 0, modIndex);
-    
-        // Portadora
         carrier = SinOsc.ar(freq + modulator) * amp;
-    
-        // Salida
         Out.ar(0, carrier * env);
     }).add;
     
@@ -500,7 +492,7 @@ En la práctica, se ha visto que no conviene modificar la temperatura más allá
 Una ventaja práctica que se ha encontrado en la interfaz de Playground es la posibilidad de escribir un prompt de sistema. Es decir, un prompt general que siempre antecede a los mensajes del usuario. Estos prompts de sistema tienen como finalidad contextualizar la conversación y el papel que el \gls{llm} tendrá dentro de ella. Estos prompts, redactados en lenguaje natural, son una suerte de instrucciones que el usuario puede escribir una sola vez, pero que se espera que el \gls{llm} respete en la conversación. Se ha notado, no obstante, que no siempre son respetadas estas instrucciones, y que prompts de sistema demasiado largos pueden caer en los defectos asociados a la ventana de contexto ya señalados en la sección \ref{sec:hiperparametros_ventana}. La Figura \ref{fig:system_prompt_example} muestra un ejemplo de prompt de sistema utilizado en los experimentos, en el que se le pide GPT-4 que genere código en SuperCollider. Más ejemplos de prompts de sistema utilizados en este trabajo se pueden encontrar en la Figura \ref{fig:system_prompts_aimuse}.
 
 \begin{figure}[H]
-    \caption[Ejemplo de prompt de sistema para generar código en SuperCollider]{Ejemplo de prompt de sistema para generar código en SuperCollider. Este prompt ha sido construido iterativamente según las necesidades de la conversación. Muchas instrucciones corresponden a defectos que el LLM ha ido mostrando previamente.}
+    \caption[Ejemplo de prompt de sistema para generar código en SuperCollider]{Ejemplo de prompt de sistema para generar código en SuperCollider. Este prompt ha sido construido iterativamente según las necesidades de la conversación. Principalmente está dirigido a diseñar el modo de respuesta del LLM. La primera frase, <<Eres un experto en...>>, centra al modelo en el tipo de respuestas que de él se espera. Muchas instrucciones que sugieren utilizar o no utilizar ciertos comandos corresponden a defectos que el LLM ha ido mostrando previamente.}
     \centering
     \begin{mdframed}
         \setstretch{1}
