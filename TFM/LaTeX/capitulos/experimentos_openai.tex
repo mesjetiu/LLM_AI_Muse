@@ -384,7 +384,28 @@ La Figura \ref{fig:chatgpt_zero_shot_vs_few_shot} muestra el resultado de una mi
         \fontsize{9.5pt}{11pt}\selectfont
         Usuario: Crea una textura sonora de interés artístico usando el UGen \texttt{FMGrain} en SuperCollider.
       \end{mdframed}
-    %   \caption{Csound}
+      \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
+{
+    var dur, dens, fund, form, indx, pan;
+    dur = MouseX.kr(0.01, 0.2, 1, 0.01); 
+    dens = MouseY.kr(20, 50, 1, 0.1);
+    fund = 200;                     
+    form = 800;
+    indx = 2;
+    pan = LFNoise2.kr(0.5).range(-1, 1); 
+
+    FMGrain.ar(
+        numChannels: 2,
+        trigger: Impulse.kr(dens),
+        dur: dur,
+        carfreq: fund,
+        modfreq: form,
+        index: indx,
+        pan: pan
+    )
+}.play;    
+                \end{lstlisting}
+                \captionqr{\emph{Zero-shot} en una petición de creación sonora en SuperCollider}{\emph{Zero-shot} en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
     \end{subfigure}\hfill
     \begin{subfigure}{.48\textwidth}
       \centering
@@ -409,39 +430,7 @@ s.sendMsg(\s_new, \fm_grain_test, a=s.nextNodeID, 0, 1, \amp, 0.1);
         \end{lstlisting}
       \end{mdframed}
     %   \caption{SuperCollider}
-    \end{subfigure}
 
-    \vspace{0.2cm}
-
-    \begin{subfigure}{.48\textwidth}
-        \centering
-        \setstretch{1}
-        \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
-{
-    var dur, dens, fund, form, indx, pan;
-    dur = MouseX.kr(0.01, 0.2, 1, 0.01); 
-    dens = MouseY.kr(20, 50, 1, 0.1);
-    fund = 200;                     
-    form = 800;
-    indx = 2;
-    pan = LFNoise2.kr(0.5).range(-1, 1); 
-
-    FMGrain.ar(
-        numChannels: 2,
-        trigger: Impulse.kr(dens),
-        dur: dur,
-        carfreq: fund,
-        modfreq: form,
-        index: indx,
-        pan: pan
-    )
-}.play;    
-        \end{lstlisting}
-        \captionqr{\emph{Zero-shot} en una petición de creación sonora en SuperCollider}{\emph{Zero-shot} en una petición de creación sonora en SuperCollider.}{https://drive.google.com/file/d/13AMMKehJHzlI8CQUqCqoWMHZ9AI2YgcS/view?usp=drive_link}{audio}
-      \end{subfigure}\hfill
-    \begin{subfigure}{.48\textwidth}
-      \centering
-        \setstretch{1}
         \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
 SynthDef(\fm_grain_artistic, { arg gate = 1, amp = 1;
     var sound, freq, dur, pan, rate, index;
