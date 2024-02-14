@@ -46,18 +46,17 @@ Una primera técnica aplicable a un modelo de lenguaje es la de \emph{few-shot},
         \vspace{0.2cm}
       \end{mdframed}
     %   \caption{Csound}
-    \end{subfigure}\hfill
+    \end{subfigure}
 
     \vspace{0.2cm}
-
+    \centering
     \begin{subfigure}{.48\textwidth}
-        \centering
         \setstretch{1}
         \fontsize{9.5pt}{11pt}\selectfont
         \begin{mdframed}
         Asistente: Apor
         \end{mdframed}
-      \end{subfigure}\hfill
+      \end{subfigure}
       \note{El LLM recibe como input una serie de pares \emph{petición-respuesta} más una petición a la cual ha de responder de forma análoga al contexto. En este caso, el LLM, con papel de \emph{asistente}, ha de devolver el input del \emph{usuario} con las letras invertidas. Sin embargo, nunca se le pide explícitamente que invierta las letras, sino que lo ha de inferir a partir de los ejemplos.}
       \source{\propio}
       \label{fig:few_shot_prompting}
@@ -135,7 +134,7 @@ La Figura \ref{fig:chain_of_thoughts} muestra un ejemplo de \gls{cot} aplicado a
 Esta técnica es una variante de \gls{cot} que consiste en presentar al \gls{llm} un problema y pedirle que explique su razonamiento antes de dar la respuesta, pero en este caso se le pide realizar esta cadena de pensamientos en dos o más ocasiones, Tras ello se verifica qué respuesta es la más consistente. De este modo, no solo se provoca el razonamiento, sino y la posibilidad de llegar a un resultado desde diferentes puntos de vista. \citep{wangSelfConsistencyImprovesChain2023} muestra cómo esta técnica mejora a la de \gls{cot} tanto en el terreno aritmético como en el del razonamiento por sentido común. La Figura \ref{fig:cot_sc} muestra un ejemplo de esta técnica aplicada a un problema aritmético.
 
 \begin{figure}[H]
-    \caption{Esquema de los pasos en los que se divide la técnica {Self Consistency of Chain of Thoughts}.}
+    \caption[Esquema de los pasos en los que se divide la técnica {Self Consistency of Chain of Thoughts}]{Esquema de los pasos en los que se divide la técnica {Self Consistency of Chain of Thoughts}.}
     \centering
     \includegraphics[width=0.9\textwidth]{./figuras/cot_sc.png}
     \source{\cite{wangSelfConsistencyImprovesChain2023}}
@@ -163,7 +162,7 @@ El buen desempeño de los \gls{llm} en tareas de código de programación lleva 
 Los \gls{lm} están prentrenados con grandes cantidades de texto de propósito general, lo que los hace capaces y hábiles en múltiples campos sin necesidad de un entrenamiento específico (véase Figura \ref{fig:fundation_models_habilities}). Es posible, sin embargo, rentrenarlos con datos más concretos y precisos para una tarea específica (por ejemplo, con datos médicos, ingenieriles, con datos privados de una empresa, etc.). A este proceso se le conoce como \emph{fine-tuning} o ajuste fino. Sin embargo, el proceso de \emph{fine-tuning} de un \gls{llm} requiere de grandes cantidades de datos y tiempo de entrenamiento, algo que en este momento no está al alcance del usuario medio. Por ello, se están desarrollando técnicas que permitan a los usuarios aprovechar los modelos prentrenados para tareas específicas sin necesidad de \emph{fine-tuning}. Una de estas técnicas es \gls{rag} \citep{WhatRetrievalaugmentedGeneration2021}, que podemos traducir por \emph{Generación Mejorada por Recuperación}, que combina la recuperación de información con la generación de texto. Esta es una técnica que ofrece resultados muy notables en términos de eficacia y eficiencia frente al \emph{fine-tuning}. \gls{rag} consiste en pasar como contexto al \gls{llm} junto a la petición del usuario, una serie de fragmentos de texto que se corresponden semánticamente con la petición, y que se obtienen de una base de datos de documentos relacionados con la tarea a realizar. Esta base de datos puede ser de cualquier tipo, desde una base de datos de texto en lenguaje natural, hasta una base de datos de código de programación, pasando por una base de datos de partituras musicales, o una base de datos de audio, y representan la base de conocimiento extra (\emph{knowledge}) que el \gls{llm} manejará en sus interacciones con el usuario. Este sistema de \emph{prompting} está en la base actual de muchos productos relacionados con \gls{llm}, como Assistant o GPTs de OpenAI. La Figura \ref{fig:rag} muestra el esquema de funcionamiento de \gls{rag}. La base de datos del conocimiento del \gls{llm} es dividido en una primera fase en fragmentos más pequeños y analizados por el \gls{llm} para obtener una representación vectorial de cada uno de ellos. En una segunda fase, el \gls{llm} recibe el {prompt} del usuario y lo analiza para obtener una representación vectorial. En una tercera fase, el \gls{llm} busca en la base de datos de fragmentos aquellos que tienen similitud vectorial (y, por ende, semántica) con el {prompt} del usuario. En una cuarta fase, el \gls{llm} genera el texto de salida a partir del {prompt} del usuario y de los fragmentos de texto recuperados de la base de datos. 
 
 \begin{figure}[H]
-  \caption{Habilidades de los \emph{Foundation Models} de OpenAI.}
+  \caption[Habilidades de los \emph{Foundation Models} de OpenAI]{Habilidades de los \emph{Foundation Models} de OpenAI.}
   \centering
   \includegraphics[width=0.8\textwidth]{./figuras/fundation_models_habilities.png}
   \source{\cite{GPT3RiseFoundation}}

@@ -28,8 +28,8 @@
   \thispagestyle{empty} 
   % \import{./capitulos/}{agradecimientos.tex}
   % \thispagestyle{empty} 
-  \clearpage
-  \thispagestyle{empty} % Asegurar que la siguiente página también esté vacía si la dedicatoria es de una sola página
+  % \clearpage
+  % \thispagestyle{empty} % Asegurar que la siguiente página también esté vacía si la dedicatoria es de una sola página
   
   % Restablecer el estilo de página
   \pagestyle{fancy} 
@@ -118,6 +118,13 @@
   % \printindex % Índice de términos. Compilar con makeindex main
   % \clearpage
 
+  % Página en blanco al final
+  \newpage
+  \thispagestyle{empty}
+  \null  % Esto asegura que la página se considere como que tiene contenido.
+  \newpage
+  \thispagestyle{empty}
+  \clearpage
 
   \begin{comment}
 
