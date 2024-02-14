@@ -157,22 +157,12 @@
   file = {/home/carlos/Zotero/storage/JPHKF3VK/prompt-engineering-for-arithmetic-reasoning-problems-28c8bcd5bf0e.html}
 }
 
-@misc{borsosAudioLMLanguageModeling2023,
-  title = {{{AudioLM}}: A {{Language Modeling Approach}} to {{Audio Generation}}},
-  shorttitle = {{{AudioLM}}},
-  author = {Borsos, Zal{\'a}n and Marinier, Rapha{\"e}l and Vincent, Damien and Kharitonov, Eugene and Pietquin, Olivier and Sharifi, Matt and Roblek, Dominik and Teboul, Olivier and Grangier, David and Tagliasacchi, Marco and Zeghidour, Neil},
+@article{borsosAudioLMLanguageModeling2023,
+  title = {Audiolm: A Language Modeling Approach to Audio Generation},
+  author = {Borsos, Zal{\'a}n and Marinier, Rapha{\"e}l and Vincent, Damien and Kharitonov, Eugene and Pietquin, Olivier and Sharifi, Matt and Roblek, Dominik and Teboul, Olivier and Grangier, David and Tagliasacchi, Marco and others},
   year = {2023},
-  month = jul,
-  number = {arXiv:2209.03143},
-  eprint = {2209.03143},
-  primaryclass = {cs, eess},
-  publisher = {{arXiv}},
-  url = {http://arxiv.org/abs/2209.03143},
-  urldate = {2024-01-04},
-  abstract = {We introduce AudioLM, a framework for highquality audio generation with long-term consistency. AudioLM maps the input audio to a sequence of discrete tokens and casts audio generation as a language modeling task in this representation space. We show how existing audio tokenizers provide different trade-offs between reconstruction quality and long-term structure, and we propose a hybrid tokenization scheme to achieve both objectives. Namely, we leverage the discretized activations of a masked language model pre-trained on audio to capture long-term structure and the discrete codes produced by a neural audio codec to achieve high-quality synthesis. By training on large corpora of raw audio waveforms, AudioLM learns to generate natural and coherent continuations given short prompts. When trained on speech, and without any transcript or annotation, AudioLM generates syntactically and semantically plausible speech continuations while also maintaining speaker identity and prosody for unseen speakers. Furthermore, we demonstrate how our approach extends beyond speech by generating coherent piano music continuations, despite being trained without any symbolic representation of music.},
-  archiveprefix = {arxiv},
-  language = {en},
-  keywords = {Computer Science - Machine Learning,Computer Science - Sound,Electrical Engineering and Systems Science - Audio and Speech Processing},
+  journal = {IEEE/ACM Transactions on Audio, Speech, and Language Processing},
+  publisher = {{IEEE}},
   file = {/home/carlos/Zotero/storage/QXGW8ZAJ/Borsos et al. - 2023 - AudioLM a Language Modeling Approach to Audio Generation.pdf}
 }
 
@@ -184,79 +174,43 @@
   address = {{Massachusetts}}
 }
 
-@misc{bowmanEightThingsKnow2023,
-  title = {Eight {{Things}} to {{Know}} about {{Large Language Models}}},
-  author = {Bowman, Samuel R.},
+@article{bowmanEightThingsKnow2023,
+  title = {Eight Things to Know about Large Language Models},
+  author = {Bowman, Samuel R},
   year = {2023},
-  month = apr,
-  number = {arXiv:2304.00612},
+  journal = {arXiv preprint arXiv:2304.00612},
   eprint = {2304.00612},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.2304.00612},
-  url = {http://arxiv.org/abs/2304.00612},
-  urldate = {2023-10-23},
-  abstract = {The widespread public deployment of large language models (LLMs) in recent months has prompted a wave of new attention and engagement from advocates, policymakers, and scholars from many fields. This attention is a timely response to the many urgent questions that this technology raises, but it can sometimes miss important considerations. This paper surveys the evidence for eight potentially surprising such points: 1. LLMs predictably get more capable with increasing investment, even without targeted innovation. 2. Many important LLM behaviors emerge unpredictably as a byproduct of increasing investment. 3. LLMs often appear to learn and use representations of the outside world. 4. There are no reliable techniques for steering the behavior of LLMs. 5. Experts are not yet able to interpret the inner workings of LLMs. 6. Human performance on a task isn't an upper bound on LLM performance. 7. LLMs need not express the values of their creators nor the values encoded in web text. 8. Brief interactions with LLMs are often misleading.},
   archiveprefix = {arxiv},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language},
-  file = {/home/carlos/Zotero/storage/RDHLL7B3/Bowman - 2023 - Eight Things to Know about Large Language Models.pdf;/home/carlos/Zotero/storage/HETIVTEB/2304.html}
+  file = {/home/carlos/Zotero/storage/RDHLL7B3/Bowman - 2023 - Eight Things to Know about Large Language Models.pdf}
 }
 
-@misc{bretanUnitSelectionMethodology2016,
-  title = {A {{Unit Selection Methodology}} for {{Music Generation Using Deep Neural Networks}}},
+@article{bretanUnitSelectionMethodology2016,
+  title = {A Unit Selection Methodology for Music Generation Using Deep Neural Networks},
   author = {Bretan, Mason and Weinberg, Gil and Heck, Larry},
   year = {2016},
-  month = dec,
-  number = {arXiv:1612.03789},
+  journal = {arXiv preprint arXiv:1612.03789},
   eprint = {1612.03789},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.1612.03789},
-  url = {http://arxiv.org/abs/1612.03789},
-  urldate = {2023-05-24},
-  abstract = {Several methods exist for a computer to generate music based on data including Markov chains, recurrent neural networks, recombinancy, and grammars. We explore the use of unit selection and concatenation as a means of generating music using a procedure based on ranking, where, we consider a unit to be a variable length number of measures of music. We first examine whether a unit selection method, that is restricted to a finite size unit library, can be sufficient for encompassing a wide spectrum of music. We do this by developing a deep autoencoder that encodes a musical input and reconstructs the input by selecting from the library. We then describe a generative model that combines a deep structured semantic model (DSSM) with an LSTM to predict the next unit, where units consist of four, two, and one measures of music. We evaluate the generative model using objective metrics including mean rank and accuracy and with a subjective listening test in which expert musicians are asked to complete a forced-choiced ranking task. We compare our model to a note-level generative baseline that consists of a stacked LSTM trained to predict forward by one note.},
   archiveprefix = {arxiv},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning,Computer Science - Sound},
-  file = {/home/carlos/Zotero/storage/EHW5C3CU/Bretan et al. - 2016 - A Unit Selection Methodology for Music Generation .pdf;/home/carlos/Zotero/storage/E2D7NJMW/1612.html}
+  file = {/home/carlos/Zotero/storage/EHW5C3CU/Bretan et al. - 2016 - A Unit Selection Methodology for Music Generation .pdf}
 }
 
-@misc{brownLanguageModelsAre2020,
-  title = {Language {{Models}} Are {{Few-Shot Learners}}},
-  author = {Brown, Tom B. and Mann, Benjamin and Ryder, Nick and Subbiah, Melanie and Kaplan, Jared and Dhariwal, Prafulla and Neelakantan, Arvind and Shyam, Pranav and Sastry, Girish and Askell, Amanda and Agarwal, Sandhini and {Herbert-Voss}, Ariel and Krueger, Gretchen and Henighan, Tom and Child, Rewon and Ramesh, Aditya and Ziegler, Daniel M. and Wu, Jeffrey and Winter, Clemens and Hesse, Christopher and Chen, Mark and Sigler, Eric and Litwin, Mateusz and Gray, Scott and Chess, Benjamin and Clark, Jack and Berner, Christopher and McCandlish, Sam and Radford, Alec and Sutskever, Ilya and Amodei, Dario},
+@article{brownLanguageModelsAre2020,
+  title = {Language Models Are Few-Shot Learners},
+  author = {Mann, Ben and Ryder, N and Subbiah, M and Kaplan, J and Dhariwal, P and Neelakantan, A and Shyam, P and Sastry, G and Askell, A and Agarwal, S and others},
   year = {2020},
-  month = jul,
-  number = {arXiv:2005.14165},
+  journal = {arXiv preprint arXiv:2005.14165},
   eprint = {2005.14165},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.2005.14165},
-  url = {http://arxiv.org/abs/2005.14165},
-  urldate = {2023-06-29},
-  abstract = {Recent work has demonstrated substantial gains on many NLP tasks and benchmarks by pre-training on a large corpus of text followed by fine-tuning on a specific task. While typically task-agnostic in architecture, this method still requires task-specific fine-tuning datasets of thousands or tens of thousands of examples. By contrast, humans can generally perform a new language task from only a few examples or from simple instructions - something which current NLP systems still largely struggle to do. Here we show that scaling up language models greatly improves task-agnostic, few-shot performance, sometimes even reaching competitiveness with prior state-of-the-art fine-tuning approaches. Specifically, we train GPT-3, an autoregressive language model with 175 billion parameters, 10x more than any previous non-sparse language model, and test its performance in the few-shot setting. For all tasks, GPT-3 is applied without any gradient updates or fine-tuning, with tasks and few-shot demonstrations specified purely via text interaction with the model. GPT-3 achieves strong performance on many NLP datasets, including translation, question-answering, and cloze tasks, as well as several tasks that require on-the-fly reasoning or domain adaptation, such as unscrambling words, using a novel word in a sentence, or performing 3-digit arithmetic. At the same time, we also identify some datasets where GPT-3's few-shot learning still struggles, as well as some datasets where GPT-3 faces methodological issues related to training on large web corpora. Finally, we find that GPT-3 can generate samples of news articles which human evaluators have difficulty distinguishing from articles written by humans. We discuss broader societal impacts of this finding and of GPT-3 in general.},
   archiveprefix = {arxiv},
-  keywords = {Computer Science - Computation and Language},
-  note = {Comment: 40+32 pages
-\par
-Comment: 40+32 pages},
-  file = {/home/carlos/Zotero/storage/4ZY5M7ZW/Brown et al. - 2020 - Language Models are Few-Shot Learners.pdf;/home/carlos/Zotero/storage/PSWS6S3E/2005.html}
+  file = {/home/carlos/Zotero/storage/4ZY5M7ZW/Brown et al. - 2020 - Language Models are Few-Shot Learners.pdf}
 }
 
-@misc{butlinConsciousnessArtificialIntelligence2023,
-  title = {Consciousness in {{Artificial Intelligence}}: {{Insights}} from the {{Science}} of {{Consciousness}}},
-  shorttitle = {Consciousness in {{Artificial Intelligence}}},
-  author = {Butlin, Patrick and Long, Robert and Elmoznino, Eric and Bengio, Yoshua and Birch, Jonathan and Constant, Axel and Deane, George and Fleming, Stephen M. and Frith, Chris and Ji, Xu and Kanai, Ryota and Klein, Colin and Lindsay, Grace and Michel, Matthias and Mudrik, Liad and Peters, Megan A. K. and Schwitzgebel, Eric and Simon, Jonathan and VanRullen, Rufin},
+@article{butlinConsciousnessArtificialIntelligence2023,
+  title = {Consciousness in Artificial Intelligence: Insights from the Science of Consciousness},
+  author = {Butlin, Patrick and Long, Robert and Elmoznino, Eric and Bengio, Yoshua and Birch, Jonathan and Constant, Axel and Deane, George and Fleming, Stephen M and Frith, Chris and Ji, Xu and others},
   year = {2023},
-  month = aug,
-  number = {arXiv:2308.08708},
+  journal = {arXiv preprint arXiv:2308.08708},
   eprint = {2308.08708},
-  primaryclass = {cs, q-bio},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.2308.08708},
-  url = {http://arxiv.org/abs/2308.08708},
-  urldate = {2023-09-27},
-  abstract = {Whether current or near-term AI systems could be conscious is a topic of scientific interest and increasing public concern. This report argues for, and exemplifies, a rigorous and empirically grounded approach to AI consciousness: assessing existing AI systems in detail, in light of our best-supported neuroscientific theories of consciousness. We survey several prominent scientific theories of consciousness, including recurrent processing theory, global workspace theory, higher-order theories, predictive processing, and attention schema theory. From these theories we derive "indicator properties" of consciousness, elucidated in computational terms that allow us to assess AI systems for these properties. We use these indicator properties to assess several recent AI systems, and we discuss how future systems might implement them. Our analysis suggests that no current AI systems are conscious, but also suggests that there are no obvious technical barriers to building AI systems which satisfy these indicators.},
   archiveprefix = {arxiv},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computers and Society,Computer Science - Machine Learning,Quantitative Biology - Neurons and Cognition},
   file = {/home/carlos/Zotero/storage/3YM2L8NV/Butlin et al. - 2023 - Consciousness in Artificial Intelligence Insights.pdf}
 }
 
@@ -309,24 +263,14 @@ Comment: 40+32 pages},
   file = {/home/carlos/Zotero/storage/IAV98XWL/Campbell et al. - 2002 - Deep Blue.pdf;/home/carlos/Zotero/storage/ARPI4JK5/S0004370201001291.html}
 }
 
-@misc{caoAllYouNeed2020,
-  title = {All You Need Is a Second Look: {{Towards Tighter Arbitrary}} Shape Text Detection},
-  shorttitle = {All You Need Is a Second Look},
+@inproceedings{caoAllYouNeed2020,
+  title = {All You Need Is a Second Look: {{Towards}} Tighter Arbitrary Shape Text Detection},
+  booktitle = {{{ICASSP}} 2020-2020 {{IEEE}} International Conference on Acoustics, Speech and Signal Processing ({{ICASSP}})},
   author = {Cao, Meng and Zou, Yuexian},
   year = {2020},
-  month = apr,
-  number = {arXiv:2004.12436},
-  eprint = {2004.12436},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.2004.12436},
-  url = {http://arxiv.org/abs/2004.12436},
-  urldate = {2024-01-22},
-  abstract = {Deep learning-based scene text detection methods have progressed substantially over the past years. However, there remain several problems to be solved. Generally, long curve text instances tend to be fragmented because of the limited receptive field size of CNN. Besides, simple representations using rectangle or quadrangle bounding boxes fall short when dealing with more challenging arbitrary-shaped texts. In addition, the scale of text instances varies greatly which leads to the difficulty of accurate prediction through a single segmentation network. To address these problems, we innovatively propose a two-stage segmentation based arbitrary text detector named {\textbackslash}textit\{NASK\} ({\textbackslash}textbf\{N\}eed {\textbackslash}textbf\{A\} {\textbackslash}textbf\{S\}econd loo{\textbackslash}textbf\{K\}). Specifically, {\textbackslash}textit\{NASK\} consists of a Text Instance Segmentation network namely {\textbackslash}textit\{TIS\} ({\textbackslash}(1\^\{st\}{\textbackslash}) stage), a Text RoI Pooling module and a Fiducial pOint eXpression module termed as {\textbackslash}textit\{FOX\} ({\textbackslash}(2\^\{nd\}{\textbackslash}) stage). Firstly, {\textbackslash}textit\{TIS\} conducts instance segmentation to obtain rectangle text proposals with a proposed Group Spatial and Channel Attention module ({\textbackslash}textit\{GSCA\}) to augment the feature expression. Then, Text RoI Pooling transforms these rectangles to the fixed size. Finally, {\textbackslash}textit\{FOX\} is introduced to reconstruct text instances with a more tighter representation using the predicted geometrical attributes including text center line, text line orientation, character scale and character orientation. Experimental results on two public benchmarks including {\textbackslash}textit\{Total-Text\} and {\textbackslash}textit\{SCUT-CTW1500\} have demonstrated that the proposed {\textbackslash}textit\{NASK\} achieves state-of-the-art results.},
-  archiveprefix = {arxiv},
-  keywords = {Computer Science - Computer Vision and Pattern Recognition},
-  note = {Comment: 5 pages, 6 figures},
-  file = {/home/carlos/Zotero/storage/7FSIZ6HW/Cao y Zou - 2020 - All you need is a second look Towards Tighter Arbitrary shape text detection.pdf;/home/carlos/Zotero/storage/ALQ7N894/2004.html}
+  pages = {2228--2232},
+  publisher = {{IEEE}},
+  file = {/home/carlos/Zotero/storage/7FSIZ6HW/Cao y Zou - 2020 - All you need is a second look Towards Tighter Arbitrary shape text detection.pdf}
 }
 
 @misc{ChallengesAssociatedBuilding,
@@ -338,23 +282,14 @@ Comment: 40+32 pages},
   file = {/home/carlos/Zotero/storage/A78XI6JS/challenges-associated-building-products-using-large-language-das.html}
 }
 
-@misc{chamandFinetuneYourClassifier2022,
-  title = {Fine-Tune Your {{Classifier}}: {{Finding Correlations With Temperature}}},
-  shorttitle = {Fine-Tune Your {{Classifier}}},
+@inproceedings{chamandFinetuneYourClassifier2022,
+  title = {Fine-Tune Your Classifier: {{Finding}} Correlations with Temperature},
+  booktitle = {2022 {{IEEE}} International Conference on Image Processing ({{ICIP}})},
   author = {Chamand, Benjamin and {Risser-Maroix}, Olivier and Kurtz, Camille and Joly, Philippe and Lom{\'e}nie, Nicolas},
   year = {2022},
-  month = oct,
-  number = {arXiv:2210.09715},
-  eprint = {2210.09715},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.2210.09715},
-  url = {http://arxiv.org/abs/2210.09715},
-  urldate = {2023-11-07},
-  abstract = {Temperature is a widely used hyperparameter in various tasks involving neural networks, such as classification or metric learning, whose choice can have a direct impact on the model performance. Most of existing works select its value using hyperparameter optimization methods requiring several runs to find the optimal value. We propose to analyze the impact of temperature on classification tasks by describing a dataset as a set of statistics computed on representations on which we can build a heuristic giving us a default value of temperature. We study the correlation between these extracted statistics and the observed optimal temperatures. This preliminary study on more than a hundred combinations of different datasets and features extractors highlights promising results towards the construction of a general heuristic for temperature.},
-  archiveprefix = {arxiv},
-  keywords = {Computer Science - Computer Vision and Pattern Recognition,Computer Science - Machine Learning},
-  file = {/home/carlos/Zotero/storage/EVJ4JQ22/Chamand et al. - 2022 - Fine-tune your Classifier Finding Correlations Wi.pdf;/home/carlos/Zotero/storage/7ZL2LZHW/2210.html}
+  pages = {2766--2770},
+  publisher = {{IEEE}},
+  file = {/home/carlos/Zotero/storage/EVJ4JQ22/Chamand et al. - 2022 - Fine-tune your Classifier Finding Correlations Wi.pdf}
 }
 
 @misc{chenTeachingLargeLanguage2023,
@@ -432,60 +367,34 @@ Comment: 40+32 pages},
   file = {/home/carlos/Zotero/storage/MUPRNIQZ/Department of Computer Science, SRM Institute of Science and Technology, Chennai, India. et al. - 2020 - Musenet  Music Generation using Abstractive and G.pdf}
 }
 
-@misc{dhariwalJukeboxGenerativeModel2020,
-  title = {Jukebox: {{A Generative Model}} for {{Music}}},
-  shorttitle = {Jukebox},
+@article{dhariwalJukeboxGenerativeModel2020,
+  title = {Jukebox: {{A}} Generative Model for Music},
   author = {Dhariwal, Prafulla and Jun, Heewoo and Payne, Christine and Kim, Jong Wook and Radford, Alec and Sutskever, Ilya},
   year = {2020},
-  month = apr,
-  number = {arXiv:2005.00341},
+  journal = {arXiv preprint arXiv:2005.00341},
   eprint = {2005.00341},
-  primaryclass = {cs, eess, stat},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.2005.00341},
-  url = {http://arxiv.org/abs/2005.00341},
-  urldate = {2023-12-26},
-  abstract = {We introduce Jukebox, a model that generates music with singing in the raw audio domain. We tackle the long context of raw audio using a multi-scale VQ-VAE to compress it to discrete codes, and modeling those using autoregressive Transformers. We show that the combined model at scale can generate high-fidelity and diverse songs with coherence up to multiple minutes. We can condition on artist and genre to steer the musical and vocal style, and on unaligned lyrics to make the singing more controllable. We are releasing thousands of non cherry-picked samples at https://jukebox.openai.com, along with model weights and code at https://github.com/openai/jukebox},
   archiveprefix = {arxiv},
-  keywords = {Computer Science - Machine Learning,Computer Science - Sound,Electrical Engineering and Systems Science - Audio and Speech Processing,Statistics - Machine Learning},
-  file = {/home/carlos/Zotero/storage/B294RLLC/Dhariwal et al. - 2020 - Jukebox A Generative Model for Music.pdf;/home/carlos/Zotero/storage/UKDJBJNM/2005.html}
+  file = {/home/carlos/Zotero/storage/B294RLLC/Dhariwal et al. - 2020 - Jukebox A Generative Model for Music.pdf}
 }
 
-@misc{dhuliawalaChainofVerificationReducesHallucination2023,
-  title = {Chain-of-{{Verification Reduces Hallucination}} in {{Large Language Models}}},
+@article{dhuliawalaChainofVerificationReducesHallucination2023,
+  title = {Chain-of-Verification Reduces Hallucination in Large Language Models},
   author = {Dhuliawala, Shehzaad and Komeili, Mojtaba and Xu, Jing and Raileanu, Roberta and Li, Xian and Celikyilmaz, Asli and Weston, Jason},
   year = {2023},
-  month = sep,
-  number = {arXiv:2309.11495},
+  journal = {arXiv preprint arXiv:2309.11495},
   eprint = {2309.11495},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.2309.11495},
-  url = {http://arxiv.org/abs/2309.11495},
-  urldate = {2023-10-30},
-  abstract = {Generation of plausible yet incorrect factual information, termed hallucination, is an unsolved issue in large language models. We study the ability of language models to deliberate on the responses they give in order to correct their mistakes. We develop the Chain-of-Verification (CoVe) method whereby the model first (i) drafts an initial response; then (ii) plans verification questions to fact-check its draft; (iii) answers those questions independently so the answers are not biased by other responses; and (iv) generates its final verified response. In experiments, we show CoVe decreases hallucinations across a variety of tasks, from list-based questions from Wikidata, closed book MultiSpanQA and longform text generation.},
   archiveprefix = {arxiv},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language},
-  file = {/home/carlos/Zotero/storage/JLP8R4IU/Dhuliawala et al. - 2023 - Chain-of-Verification Reduces Hallucination in Lar.pdf;/home/carlos/Zotero/storage/5L75C6YB/2309.html}
+  file = {/home/carlos/Zotero/storage/JLP8R4IU/Dhuliawala et al. - 2023 - Chain-of-Verification Reduces Hallucination in Lar.pdf}
 }
 
-@misc{douglasLargeLanguageModels2023,
-  title = {Large {{Language Models}}},
-  author = {Douglas, Michael R.},
+@article{douglasLargeLanguageModels2023,
+  title = {Large Language Models},
+  author = {Douglas, Michael R},
   year = {2023},
-  month = jul,
-  number = {arXiv:2307.05782},
+  journal = {arXiv preprint arXiv:2307.05782},
   eprint = {2307.05782},
-  primaryclass = {hep-th, physics:physics},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.2307.05782},
-  url = {http://arxiv.org/abs/2307.05782},
-  urldate = {2023-09-27},
-  abstract = {Artificial intelligence is making spectacular progress, and one of the best examples is the development of large language models (LLMs) such as OpenAI's GPT series. In these lectures, written for readers with a background in mathematics or physics, we give a brief history and survey of the state of the art, and describe the underlying transformer architecture in detail. We then explore some current ideas on how LLMs work and how models trained to predict the next word in a text are able to perform other tasks displaying intelligence.},
   archiveprefix = {arxiv},
-  keywords = {68T01,Computer Science - Computation and Language,High Energy Physics - Theory,I.2.7,Mathematics - History and Overview,Physics - Computational Physics},
-  note = {Comment: 46 pages},
-  file = {/home/carlos/Zotero/storage/MTB9SGS5/Douglas - 2023 - Large Language Models.pdf;/home/carlos/Zotero/storage/Y46IYSSF/2307.html}
+  file = {/home/carlos/Zotero/storage/MTB9SGS5/Douglas - 2023 - Large Language Models.pdf}
 }
 
 @article{duAddressingSyntaxBasedSemantic2022,
@@ -510,43 +419,24 @@ Comment: 40+32 pages},
   file = {/home/carlos/Zotero/storage/AP3AK6JY/Du y Wang - 2022 - Addressing Syntax-Based Semantic Complementation .pdf}
 }
 
-@misc{erkerImaginationAllYou2023,
-  title = {Imagination Is {{All You Need}}! {{Curved Contrastive Learning}} for {{Abstract Sequence Modeling Utilized}} on {{Long Short-Term Dialogue Planning}}},
+@article{erkerImaginationAllYou2023,
+  title = {Imagination Is All You Need! {{Curved}} Contrastive Learning for Abstract Sequence Modeling Utilized on Long Short-Term Dialogue Planning},
   author = {Erker, Justus-Jonas and Schaffer, Stefan and Spanakis, Gerasimos},
-  year = {2023},
-  month = jun,
-  number = {arXiv:2211.07591},
+  year = {2022},
+  journal = {arXiv preprint arXiv:2211.07591},
   eprint = {2211.07591},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.2211.07591},
-  url = {http://arxiv.org/abs/2211.07591},
-  urldate = {2024-01-22},
-  abstract = {Inspired by the curvature of space-time (Einstein, 1921), we introduce Curved Contrastive Learning (CCL), a novel representation learning technique for learning the relative turn distance between utterance pairs in multi-turn dialogues. The resulting bi-encoder models can guide transformers as a response ranking model towards a goal in a zero-shot fashion by projecting the goal utterance and the corresponding reply candidates into a latent space. Here the cosine similarity indicates the distance/reachability of a candidate utterance toward the corresponding goal. Furthermore, we explore how these forward-entailing language representations can be utilized for assessing the likelihood of sequences by the entailment strength i.e. through the cosine similarity of its individual members (encoded separately) as an emergent property in the curved space. These non-local properties allow us to imagine the likelihood of future patterns in dialogues, specifically by ordering/identifying future goal utterances that are multiple turns away, given a dialogue context. As part of our analysis, we investigate characteristics that make conversations (un)plannable and find strong evidence of planning capability over multiple turns (in 61.56\% over 3 turns) in conversations from the DailyDialog (Li et al., 2017) dataset. Finally, we show how we achieve higher efficiency in sequence modeling tasks compared to previous work thanks to our relativistic approach, where only the last utterance needs to be encoded and computed during inference.},
   archiveprefix = {arxiv},
-  keywords = {Computer Science - Computation and Language},
-  note = {Comment: Accepted in ACL 2023 Findings},
-  file = {/home/carlos/Zotero/storage/8M275USC/Erker et al. - 2023 - Imagination is All You Need! Curved Contrastive Learning for Abstract Sequence Modeling Utilized on .pdf;/home/carlos/Zotero/storage/TA4U6C5F/2211.html}
+  file = {/home/carlos/Zotero/storage/8M275USC/Erker et al. - 2023 - Imagination is All You Need! Curved Contrastive Learning for Abstract Sequence Modeling Utilized on .pdf}
 }
 
-@misc{eysenbachDiversityAllYou2018,
-  title = {Diversity Is {{All You Need}}: {{Learning Skills}} without a {{Reward Function}}},
-  shorttitle = {Diversity Is {{All You Need}}},
+@article{eysenbachDiversityAllYou2018,
+  title = {Diversity Is All You Need: {{Learning}} Skills without a Reward Function},
   author = {Eysenbach, Benjamin and Gupta, Abhishek and Ibarz, Julian and Levine, Sergey},
   year = {2018},
-  month = oct,
-  number = {arXiv:1802.06070},
+  journal = {arXiv preprint arXiv:1802.06070},
   eprint = {1802.06070},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.1802.06070},
-  url = {http://arxiv.org/abs/1802.06070},
-  urldate = {2024-01-22},
-  abstract = {Intelligent creatures can explore their environments and learn useful skills without supervision. In this paper, we propose DIAYN ('Diversity is All You Need'), a method for learning useful skills without a reward function. Our proposed method learns skills by maximizing an information theoretic objective using a maximum entropy policy. On a variety of simulated robotic tasks, we show that this simple objective results in the unsupervised emergence of diverse skills, such as walking and jumping. In a number of reinforcement learning benchmark environments, our method is able to learn a skill that solves the benchmark task despite never receiving the true task reward. We show how pretrained skills can provide a good parameter initialization for downstream tasks, and can be composed hierarchically to solve complex, sparse reward tasks. Our results suggest that unsupervised discovery of skills can serve as an effective pretraining mechanism for overcoming challenges of exploration and data efficiency in reinforcement learning.},
   archiveprefix = {arxiv},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Robotics},
-  note = {Comment: Videos and code for our experiments are available at: https://sites.google.com/view/diayn},
-  file = {/home/carlos/Zotero/storage/FSHXYMD5/Eysenbach et al. - 2018 - Diversity is All You Need Learning Skills without a Reward Function.pdf;/home/carlos/Zotero/storage/HUTK4SCB/1802.html}
+  file = {/home/carlos/Zotero/storage/FSHXYMD5/Eysenbach et al. - 2018 - Diversity is All You Need Learning Skills without a Reward Function.pdf}
 }
 
 @misc{FindWaysDeal,
@@ -723,24 +613,14 @@ Comment: 26 pages},
   file = {/home/carlos/Zotero/storage/79LBRCTL/Han et al. - 2021 - Pre-Trained Models Past, Present and Future.pdf;/home/carlos/Zotero/storage/CEQNUL7H/2106.html}
 }
 
-@misc{hernandez-olivanSurveyArtificialIntelligence2022,
-  title = {A {{Survey}} on {{Artificial Intelligence}} for {{Music Generation}}: {{Agents}}, {{Domains}} and {{Perspectives}}},
-  shorttitle = {A {{Survey}} on {{Artificial Intelligence}} for {{Music Generation}}},
-  author = {{Hernandez-Olivan}, Carlos and {Hernandez-Olivan}, Javier and Beltran, Jose R.},
+@article{hernandez-olivanSurveyArtificialIntelligence2022,
+  title = {A Survey on Artificial Intelligence for Music Generation: {{Agents}}, Domains and Perspectives},
+  author = {{Hernandez-Olivan}, Carlos and {Hernandez-Olivan}, Javier and Beltran, Jose R},
   year = {2022},
-  month = nov,
-  number = {arXiv:2210.13944},
+  journal = {arXiv preprint arXiv:2210.13944},
   eprint = {2210.13944},
-  primaryclass = {cs, eess},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.2210.13944},
-  url = {http://arxiv.org/abs/2210.13944},
-  urldate = {2023-09-27},
-  abstract = {Music is one of the Gardner's intelligences in his theory of multiple intelligences. How humans perceive and understand music is still being studied and is crucial to develop artificial intelligence models that imitate such processes. Music generation with Artificial Intelligence is an emerging field that is gaining much attention in the recent years. In this paper, we describe how humans compose music and how new AI systems could imitate such process by comparing past and recent advances in the field with music composition techniques. To understand how AI models and algorithms generate music and the potential applications that might appear in the future, we explore, analyze and describe the agents that take part of the music generation process: the datasets, models, interfaces, the users and the generated music. We mention possible applications that might benefit from this field and we also propose new trends and future research directions that could be explored in the future.},
   archiveprefix = {arxiv},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Sound,Electrical Engineering and Systems Science - Audio and Speech Processing},
-  note = {Comment: Under review},
-  file = {/home/carlos/Zotero/storage/498MZNDW/Hernandez-Olivan et al. - 2022 - A Survey on Artificial Intelligence for Music Gene.pdf;/home/carlos/Zotero/storage/AMJVURKG/2210.html}
+  file = {/home/carlos/Zotero/storage/498MZNDW/Hernandez-Olivan et al. - 2022 - A Survey on Artificial Intelligence for Music Gene.pdf}
 }
 
 @misc{HistoriaInteligenciaArtificial,
@@ -812,24 +692,13 @@ Comment: 26 pages},
   file = {/home/carlos/Zotero/storage/ZWDH2CVI/how-to-get-better-outputs-from-your-large-language-model.html}
 }
 
-@misc{huangAgentCoderMultiAgentbasedCode2023,
-  title = {{{AgentCoder}}: {{Multi-Agent-based Code Generation}} with {{Iterative Testing}} and {{Optimisation}}},
-  shorttitle = {{{AgentCoder}}},
-  author = {Huang, Dong and Bu, Qingwen and Zhang, Jie M. and Luck, Michael and Cui, Heming},
+@article{huangAgentCoderMultiAgentbasedCode2023,
+  title = {{{AgentCoder}}: {{Multi-agent-based}} Code Generation with Iterative Testing and Optimisation},
+  author = {Huang, Dong and Bu, Qingwen and Zhang, Jie M and Luck, Michael and Cui, Heming},
   year = {2023},
-  month = dec,
-  number = {arXiv:2312.13010},
+  journal = {arXiv preprint arXiv:2312.13010},
   eprint = {2312.13010},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.2312.13010},
-  url = {http://arxiv.org/abs/2312.13010},
-  urldate = {2024-01-02},
-  abstract = {The advancement of natural language processing (NLP) has been significantly boosted by the development of transformer-based large language models (LLMs). These models have revolutionized NLP tasks, particularly in code generation, aiding developers in creating software with enhanced efficiency. Despite their advancements, challenges in balancing code snippet generation with effective test case generation and execution persist. To address these issues, this paper introduces Multi-Agent Assistant Code Generation (AgentCoder), a novel solution comprising a multi-agent framework with specialized agents: the programmer agent, the test designer agent, and the test executor agent. During the coding procedure, the programmer agent will focus on the code generation and refinement based on the test executor agent's feedback. The test designer agent will generate test cases for the generated code, and the test executor agent will run the code with the test cases and write the feedback to the programmer. This collaborative system ensures robust code generation, surpassing the limitations of single-agent models and traditional methodologies. Our extensive experiments on 9 code generation models and 12 enhancement approaches showcase AgentCoder's superior performance over existing code generation models and prompt engineering techniques across various benchmarks. For example, AgentCoder achieves 77.4\% and 89.1\% pass@1 in HumanEval-ET and MBPP-ET with GPT-3.5, while SOTA baselines obtain only 69.5\% and 63.0\%.},
-  archiveprefix = {arxiv},
-  keywords = {Computer Science - Computation and Language},
-  note = {Comment: 21 pages, 12 figures},
-  file = {/home/carlos/Zotero/storage/495L4V9P/Huang et al. - 2023 - AgentCoder Multi-Agent-based Code Generation with Iterative Testing and Optimisation.pdf;/home/carlos/Zotero/storage/GBNPDX77/2312.html}
+  archiveprefix = {arxiv}
 }
 
 @misc{hungTranscriptionAllYou2020,
@@ -883,42 +752,24 @@ Comment: 26 pages},
   file = {/home/carlos/Zotero/storage/Z4HAAIN6/Invierno_IA.html}
 }
 
-@misc{jiangMistral7B2023,
+@article{jiangMistral7B2023,
   title = {Mistral {{7B}}},
-  author = {Jiang, Albert Q. and Sablayrolles, Alexandre and Mensch, Arthur and Bamford, Chris and Chaplot, Devendra Singh and de las Casas, Diego and Bressand, Florian and Lengyel, Gianna and Lample, Guillaume and Saulnier, Lucile and Lavaud, L{\'e}lio Renard and Lachaux, Marie-Anne and Stock, Pierre and Scao, Teven Le and Lavril, Thibaut and Wang, Thomas and Lacroix, Timoth{\'e}e and Sayed, William El},
+  author = {Jiang, Albert Q and Sablayrolles, Alexandre and Mensch, Arthur and Bamford, Chris and Chaplot, Devendra Singh and de las Casas, Diego and Bressand, Florian and Lengyel, Gianna and Lample, Guillaume and Saulnier, Lucile and others},
   year = {2023},
-  month = oct,
-  number = {arXiv:2310.06825},
+  journal = {arXiv preprint arXiv:2310.06825},
   eprint = {2310.06825},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.2310.06825},
-  url = {http://arxiv.org/abs/2310.06825},
-  urldate = {2024-01-28},
-  abstract = {We introduce Mistral 7B v0.1, a 7-billion-parameter language model engineered for superior performance and efficiency. Mistral 7B outperforms Llama 2 13B across all evaluated benchmarks, and Llama 1 34B in reasoning, mathematics, and code generation. Our model leverages grouped-query attention (GQA) for faster inference, coupled with sliding window attention (SWA) to effectively handle sequences of arbitrary length with a reduced inference cost. We also provide a model fine-tuned to follow instructions, Mistral 7B -- Instruct, that surpasses the Llama 2 13B -- Chat model both on human and automated benchmarks. Our models are released under the Apache 2.0 license.},
   archiveprefix = {arxiv},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language,Computer Science - Machine Learning},
-  note = {Comment: Models and code are available at https://mistral.ai/news/announcing-mistral-7b/},
-  file = {/home/carlos/Zotero/storage/HZWHGN5Z/Jiang et al. - 2023 - Mistral 7B.pdf;/home/carlos/Zotero/storage/WIY6DKZE/2310.html}
+  file = {/home/carlos/Zotero/storage/HZWHGN5Z/Jiang et al. - 2023 - Mistral 7B.pdf}
 }
 
-@misc{jonesDoesGPT4Pass2023,
-  title = {Does {{GPT-4 Pass}} the {{Turing Test}}?},
+@article{jonesDoesGPT4Pass2023,
+  title = {Does {{GPT-4}} Pass the Turing Test?},
   author = {Jones, Cameron and Bergen, Benjamin},
   year = {2023},
-  month = oct,
-  number = {arXiv:2310.20216},
+  journal = {arXiv preprint arXiv:2310.20216},
   eprint = {2310.20216},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.2310.20216},
-  url = {http://arxiv.org/abs/2310.20216},
-  urldate = {2024-01-27},
-  abstract = {We evaluated GPT-4 in a public online Turing Test. The best-performing GPT-4 prompt passed in 41\% of games, outperforming baselines set by ELIZA (27\%) and GPT-3.5 (14\%), but falling short of chance and the baseline set by human participants (63\%). Participants' decisions were based mainly on linguistic style (35\%) and socio-emotional traits (27\%), supporting the idea that intelligence is not sufficient to pass the Turing Test. Participants' demographics, including education and familiarity with LLMs, did not predict detection rate, suggesting that even those who understand systems deeply and interact with them frequently may be susceptible to deception. Despite known limitations as a test of intelligence, we argue that the Turing Test continues to be relevant as an assessment of naturalistic communication and deception. AI models with the ability to masquerade as humans could have widespread societal consequences, and we analyse the effectiveness of different strategies and criteria for judging humanlikeness.},
   archiveprefix = {arxiv},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language},
-  note = {Comment: 25 pages, 21 figures},
-  file = {/home/carlos/Zotero/storage/BQ9SQ2XE/Jones y Bergen - 2023 - Does GPT-4 Pass the Turing Test.pdf;/home/carlos/Zotero/storage/6CFU2PUC/2310.html}
+  file = {/home/carlos/Zotero/storage/BQ9SQ2XE/Jones y Bergen - 2023 - Does GPT-4 Pass the Turing Test.pdf}
 }
 
 @misc{jzh2074,
@@ -928,23 +779,14 @@ Comment: 26 pages},
   url = {https://commons.wikimedia.org/wiki/File:AI_Types._Tipos_Inteligencia_Artificial.svg}
 }
 
-@misc{kaddourChallengesApplicationsLarge2023,
-  title = {Challenges and {{Applications}} of {{Large Language Models}}},
+@article{kaddourChallengesApplicationsLarge2023,
+  title = {Challenges and Applications of Large Language Models},
   author = {Kaddour, Jean and Harris, Joshua and Mozes, Maximilian and Bradley, Herbie and Raileanu, Roberta and McHardy, Robert},
   year = {2023},
-  month = jul,
-  number = {arXiv:2307.10169},
+  journal = {arXiv preprint arXiv:2307.10169},
   eprint = {2307.10169},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.2307.10169},
-  url = {http://arxiv.org/abs/2307.10169},
-  urldate = {2023-09-27},
-  abstract = {Large Language Models (LLMs) went from non-existent to ubiquitous in the machine learning discourse within a few years. Due to the fast pace of the field, it is difficult to identify the remaining challenges and already fruitful application areas. In this paper, we aim to establish a systematic set of open problems and application successes so that ML researchers can comprehend the field's current state more quickly and become productive.},
   archiveprefix = {arxiv},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language,Computer Science - Machine Learning},
-  note = {Comment: 72 pages. v01. Work in progress. Feedback and comments are highly appreciated!},
-  file = {/home/carlos/Zotero/storage/N4TI6Q5V/Kaddour et al. - 2023 - Challenges and Applications of Large Language Mode.pdf;/home/carlos/Zotero/storage/EWGBTNGU/2307.html}
+  file = {/home/carlos/Zotero/storage/N4TI6Q5V/Kaddour et al. - 2023 - Challenges and Applications of Large Language Mode.pdf}
 }
 
 @misc{kainatIntroductionGenerativeAI2023,
@@ -1060,23 +902,13 @@ Comment: 26 pages},
   file = {/home/carlos/Zotero/storage/PRD9A6NF/Li et al. - 2023 - Synthetic Data Generation with Large Language Models for Text Classification Potential and Limitati.pdf}
 }
 
-@misc{liuLostMiddleHow2023,
-  title = {Lost in the {{Middle}}: {{How Language Models Use Long Contexts}}},
-  shorttitle = {Lost in the {{Middle}}},
-  author = {Liu, Nelson F. and Lin, Kevin and Hewitt, John and Paranjape, Ashwin and Bevilacqua, Michele and Petroni, Fabio and Liang, Percy},
+@article{liuLostMiddleHow2023,
+  title = {Lost in the Middle: {{How}} Language Models Use Long Contexts},
+  author = {Liu, Nelson F and Lin, Kevin and Hewitt, John and Paranjape, Ashwin and Bevilacqua, Michele and Petroni, Fabio and Liang, Percy},
   year = {2023},
-  month = nov,
-  number = {arXiv:2307.03172},
+  journal = {arXiv preprint arXiv:2307.03172},
   eprint = {2307.03172},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  url = {http://arxiv.org/abs/2307.03172},
-  urldate = {2023-12-12},
-  abstract = {While recent language models have the ability to take long contexts as input, relatively little is known about how well they use longer context. We analyze the performance of language models on two tasks that require identifying relevant information in their input contexts: multi-document question answering and key-value retrieval. We find that performance can degrade significantly when changing the position of relevant information, indicating that current language models do not robustly make use of information in long input contexts. In particular, we observe that performance is often highest when relevant information occurs at the beginning or end of the input context, and significantly degrades when models must access relevant information in the middle of long contexts, even for explicitly long-context models. Our analysis provides a better understanding of how language models use their input context and provides new evaluation protocols for future long-context language models.},
   archiveprefix = {arxiv},
-  language = {en},
-  keywords = {Computer Science - Computation and Language},
-  note = {Comment: 18 pages, 16 figures. Accepted for publication in Transactions of the Association for Computational Linguistics (TACL), 2023},
   file = {/home/carlos/Zotero/storage/45RW8HRL/Liu et al. - 2023 - Lost in the Middle How Language Models Use Long C.pdf}
 }
 
@@ -1109,40 +941,23 @@ Comment: 26 pages},
   file = {/home/carlos/Zotero/storage/MLZ8EYCS/prompting.html}
 }
 
-@misc{luMuseCocoGeneratingSymbolic2023,
-  title = {{{MuseCoco}}: {{Generating Symbolic Music}} from {{Text}}},
-  shorttitle = {{{MuseCoco}}},
+@article{luMuseCocoGeneratingSymbolic2023,
+  title = {{{MuseCoco}}: {{Generating}} Symbolic Music from Text},
   author = {Lu, Peiling and Xu, Xin and Kang, Chenfei and Yu, Botao and Xing, Chengyi and Tan, Xu and Bian, Jiang},
   year = {2023},
-  month = may,
-  number = {arXiv:2306.00110},
+  journal = {arXiv preprint arXiv:2306.00110},
   eprint = {2306.00110},
-  primaryclass = {cs, eess},
-  publisher = {{arXiv}},
-  url = {http://arxiv.org/abs/2306.00110},
-  urldate = {2024-01-04},
-  abstract = {Generating music from text descriptions is a user-friendly mode since the text is a relatively easy interface for user engagement. While some approaches utilize texts to control music audio generation, editing musical elements in generated audio is challenging for users. In contrast, symbolic music offers ease of editing, making it more accessible for users to manipulate specific musical elements. In this paper, we propose MuseCoco, which generates symbolic music from text descriptions with musical attributes as the bridge to break down the task into text-to-attribute understanding and attribute-to-music generation stages. MuseCoCo stands for Music Composition Copilot that empowers musicians to generate music directly from given text descriptions, offering a significant improvement in efficiency compared to creating music entirely from scratch. The system has two main advantages: Firstly, it is data efficient. In the attribute-to-music generation stage, the attributes can be directly extracted from music sequences, making the model training self-supervised. In the text-to-attribute understanding stage, the text is synthesized and refined by ChatGPT based on the defined attribute templates. Secondly, the system can achieve precise control with specific attributes in text descriptions and offers multiple control options through attribute-conditioned or text-conditioned approaches. MuseCoco outperforms baseline systems in terms of musicality, controllability, and overall score by at least 1.27, 1.08, and 1.32 respectively. Besides, there is a notable enhancement of about 20\% in objective control accuracy. In addition, we have developed a robust large-scale model with 1.2 billion parameters, showcasing exceptional controllability and musicality. Music samples generated by MuseCoco are available via this link 1, and the code is available at this link 2.},
   archiveprefix = {arxiv},
-  language = {en},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language,Computer Science - Machine Learning,Computer Science - Multimedia,Computer Science - Sound,Electrical Engineering and Systems Science - Audio and Speech Processing},
   file = {/home/carlos/Zotero/storage/PW28ZPDB/Lu et al. - 2023 - MuseCoco Generating Symbolic Music from Text.pdf}
 }
 
-@misc{malachAutoRegressiveNextTokenPredictors2023,
-  title = {Auto-{{Regressive Next-Token Predictors}} Are {{Universal Learners}}},
+@article{malachAutoRegressiveNextTokenPredictors2023,
+  title = {Auto-Regressive next-Token Predictors Are Universal Learners},
   author = {Malach, Eran},
   year = {2023},
-  month = sep,
-  number = {arXiv:2309.06979},
+  journal = {arXiv preprint arXiv:2309.06979},
   eprint = {2309.06979},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  url = {http://arxiv.org/abs/2309.06979},
-  urldate = {2023-09-27},
-  abstract = {Large language models display remarkable capabilities in logical and mathematical reasoning, allowing them to solve complex tasks. Interestingly, these abilities emerge in networks trained on the simple task of next-token prediction. In this work, we present a theoretical framework for studying auto-regressive next-token predictors. We demonstrate that even simple models such as linear next-token predictors, trained on Chain-ofThought (CoT) data, can approximate any function efficiently computed by a Turing machine. We introduce a new complexity measure{\textemdash}length complexity{\textemdash}which measures the number of intermediate tokens in a CoT sequence required to approximate some target function, and analyze the interplay between length complexity and other notions of complexity. Finally, we show experimentally that simple next-token predictors, such as linear networks and shallow Multi-Layer Perceptrons (MLPs), display non-trivial performance on text generation and arithmetic tasks. Our results demonstrate that the power of language models can be attributed, to a great extent, to the auto-regressive next-token training scheme, and not necessarily to a particular choice of architecture.},
   archiveprefix = {arxiv},
-  language = {en},
-  keywords = {Computer Science - Computation and Language,Computer Science - Machine Learning},
   file = {/home/carlos/Zotero/storage/3B7X3RYX/Malach - 2023 - Auto-Regressive Next-Token Predictors are Universa.pdf}
 }
 
@@ -1190,22 +1005,14 @@ Comment: 26 pages},
   file = {/home/carlos/Zotero/storage/ED7X9C4H/announcing-microsoft-copilot-your-everyday-ai-companion.html}
 }
 
-@misc{michaelisBroadDatasetAll2022,
-  title = {A {{Broad Dataset}} Is {{All You Need}} for {{One-Shot Object Detection}}},
-  author = {Michaelis, Claudio and Bethge, Matthias and Ecker, Alexander S.},
-  year = {2022},
-  month = oct,
-  number = {arXiv:2011.04267},
+@article{michaelisBroadDatasetAll2022,
+  title = {A Broad Dataset Is All You Need for One-Shot Object Detection},
+  author = {Michaelis, Claudio and Bethge, Matthias and Ecker, Alexander S},
+  year = {2020},
+  journal = {arXiv preprint arXiv:2011.04267},
   eprint = {2011.04267},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.2011.04267},
-  url = {http://arxiv.org/abs/2011.04267},
-  urldate = {2024-01-22},
-  abstract = {Is it possible to detect arbitrary objects from a single example? A central problem of all existing attempts at one-shot object detection is the generalization gap: Object categories used during training are detected much more reliably than novel ones. We here show that this generalization gap can be nearly closed by increasing the number of object categories used during training. Doing so allows us to improve generalization from seen to unseen classes from 45\% to 89\% and improve the state-of-the-art on COCO by 5.4 \%AP50 (from 22.0 to 27.5). We verify that the effect is caused by the number of categories and not the number of training samples, and that it holds for different models, backbones and datasets. This result suggests that the key to strong few-shot detection models may not lie in sophisticated metric learning approaches, but instead simply in scaling the number of categories. We hope that our findings will help to better understand the challenges of few-shot learning and encourage future data annotation efforts to focus on wider datasets with a broader set of categories rather than gathering more samples per category.},
   archiveprefix = {arxiv},
-  keywords = {Computer Science - Computer Vision and Pattern Recognition,Computer Science - Machine Learning},
-  file = {/home/carlos/Zotero/storage/TTGXP52I/Michaelis et al. - 2022 - A Broad Dataset is All You Need for One-Shot Object Detection.pdf;/home/carlos/Zotero/storage/ZSWF3IMF/2011.html}
+  file = {/home/carlos/Zotero/storage/TTGXP52I/Michaelis et al. - 2022 - A Broad Dataset is All You Need for One-Shot Object Detection.pdf}
 }
 
 @book{minsky1969perceptrons,
@@ -1234,23 +1041,14 @@ Comment: 26 pages},
   file = {/home/carlos/Zotero/storage/VUWTY5QW/PerceptronsAn-Introduction-to-Computational.html}
 }
 
-@misc{mishkinAllYouNeed2016,
+@article{mishkinAllYouNeed2016,
   title = {All You Need Is a Good Init},
   author = {Mishkin, Dmytro and Matas, Jiri},
-  year = {2016},
-  month = feb,
-  number = {arXiv:1511.06422},
+  year = {2015},
+  journal = {arXiv preprint arXiv:1511.06422},
   eprint = {1511.06422},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.1511.06422},
-  url = {http://arxiv.org/abs/1511.06422},
-  urldate = {2024-01-22},
-  abstract = {Layer-sequential unit-variance (LSUV) initialization - a simple method for weight initialization for deep net learning - is proposed. The method consists of the two steps. First, pre-initialize weights of each convolution or inner-product layer with orthonormal matrices. Second, proceed from the first to the final layer, normalizing the variance of the output of each layer to be equal to one. Experiment with different activation functions (maxout, ReLU-family, tanh) show that the proposed initialization leads to learning of very deep nets that (i) produces networks with test accuracy better or equal to standard methods and (ii) is at least as fast as the complex schemes proposed specifically for very deep nets such as FitNets (Romero et al. (2015)) and Highway (Srivastava et al. (2015)). Performance is evaluated on GoogLeNet, CaffeNet, FitNets and Residual nets and the state-of-the-art, or very close to it, is achieved on the MNIST, CIFAR-10/100 and ImageNet datasets.},
   archiveprefix = {arxiv},
-  keywords = {Computer Science - Machine Learning},
-  note = {Comment: Published as a conference paper at ICLR 2016},
-  file = {/home/carlos/Zotero/storage/Z8PT92DE/Mishkin y Matas - 2016 - All you need is a good init.pdf;/home/carlos/Zotero/storage/FE846CPB/1511.html}
+  file = {/home/carlos/Zotero/storage/Z8PT92DE/Mishkin y Matas - 2016 - All you need is a good init.pdf}
 }
 
 @article{ModelacionLenguaje2024,
@@ -1382,23 +1180,14 @@ Comment: 26 pages},
   doi = {10.11591/telkomnika.v12i9.6264}
 }
 
-@misc{osheaIntroductionConvolutionalNeural2015,
-  title = {An {{Introduction}} to {{Convolutional Neural Networks}}},
+@article{osheaIntroductionConvolutionalNeural2015,
+  title = {An Introduction to Convolutional Neural Networks},
   author = {O'Shea, Keiron and Nash, Ryan},
   year = {2015},
-  month = dec,
-  number = {arXiv:1511.08458},
+  journal = {arXiv preprint arXiv:1511.08458},
   eprint = {1511.08458},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.1511.08458},
-  url = {http://arxiv.org/abs/1511.08458},
-  urldate = {2024-01-28},
-  abstract = {The field of machine learning has taken a dramatic twist in recent times, with the rise of the Artificial Neural Network (ANN). These biologically inspired computational models are able to far exceed the performance of previous forms of artificial intelligence in common machine learning tasks. One of the most impressive forms of ANN architecture is that of the Convolutional Neural Network (CNN). CNNs are primarily used to solve difficult image-driven pattern recognition tasks and with their precise yet simple architecture, offers a simplified method of getting started with ANNs. This document provides a brief introduction to CNNs, discussing recently published papers and newly formed techniques in developing these brilliantly fantastic image recognition models. This introduction assumes you are familiar with the fundamentals of ANNs and machine learning.},
   archiveprefix = {arxiv},
-  keywords = {Computer Science - Computer Vision and Pattern Recognition,Computer Science - Machine Learning,Computer Science - Neural and Evolutionary Computing},
-  note = {Comment: 10 pages, 5 figures},
-  file = {/home/carlos/Zotero/storage/DVHFDFAY/O'Shea y Nash - 2015 - An Introduction to Convolutional Neural Networks.pdf;/home/carlos/Zotero/storage/6A74TP2C/1511.html}
+  file = {/home/carlos/Zotero/storage/DVHFDFAY/O'Shea y Nash - 2015 - An Introduction to Convolutional Neural Networks.pdf}
 }
 
 @misc{OvertoneCollaborativeProgrammable,
@@ -1448,22 +1237,13 @@ Comment: 26 pages},
   file = {/home/carlos/Zotero/storage/WIJE3S3G/wavjourney-compositional-audio-creation-with.html}
 }
 
-@misc{pascanuDifficultyTrainingRecurrent2013,
-  title = {On the Difficulty of Training {{Recurrent Neural Networks}}},
+@inproceedings{pascanuDifficultyTrainingRecurrent2013,
+  title = {On the Difficulty of Training Recurrent Neural Networks},
+  booktitle = {International Conference on Machine Learning},
   author = {Pascanu, Razvan and Mikolov, Tomas and Bengio, Yoshua},
   year = {2013},
-  month = feb,
-  number = {arXiv:1211.5063},
-  eprint = {1211.5063},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  url = {http://arxiv.org/abs/1211.5063},
-  urldate = {2024-01-28},
-  abstract = {There are two widely known issues with properly training Recurrent Neural Networks, the vanishing and the exploding gradient problems detailed in Bengio et al. (1994). In this paper we attempt to improve the understanding of the underlying issues by exploring these problems from an analytical, a geometric and a dynamical systems perspective. Our analysis is used to justify a simple yet effective solution. We propose a gradient norm clipping strategy to deal with exploding gradients and a soft constraint for the vanishing gradients problem. We validate empirically our hypothesis and proposed solutions in the experimental section.},
-  archiveprefix = {arxiv},
-  language = {en},
-  keywords = {Computer Science - Machine Learning},
-  note = {Comment: Improved description of the exploding gradient problem and description and analysis of the vanishing gradient problem},
+  pages = {1310--1318},
+  publisher = {{Pmlr}},
   file = {/home/carlos/Zotero/storage/QGYUZ4WR/Pascanu et al. - 2013 - On the difficulty of training Recurrent Neural Networks.pdf}
 }
 
@@ -1602,23 +1382,14 @@ Comment: 26 pages},
   file = {/home/carlos/Zotero/storage/PAWYWIEW/emerging-architectures-for-llm-applications.html}
 }
 
-@misc{ramsauerHopfieldNetworksAll2021,
-  title = {Hopfield {{Networks}} Is {{All You Need}}},
-  author = {Ramsauer, Hubert and Sch{\"a}fl, Bernhard and Lehner, Johannes and Seidl, Philipp and Widrich, Michael and Adler, Thomas and Gruber, Lukas and Holzleitner, Markus and Pavlovi{\'c}, Milena and Sandve, Geir Kjetil and Greiff, Victor and Kreil, David and Kopp, Michael and Klambauer, G{\"u}nter and Brandstetter, Johannes and Hochreiter, Sepp},
-  year = {2021},
-  month = apr,
-  number = {arXiv:2008.02217},
+@article{ramsauerHopfieldNetworksAll2021,
+  title = {Hopfield Networks Is All You Need},
+  author = {Ramsauer, Hubert and Sch{\"a}fl, Bernhard and Lehner, Johannes and Seidl, Philipp and Widrich, Michael and Adler, Thomas and Gruber, Lukas and Holzleitner, Markus and Pavlovi{\'c}, Milena and Sandve, Geir Kjetil and others},
+  year = {2020},
+  journal = {arXiv preprint arXiv:2008.02217},
   eprint = {2008.02217},
-  primaryclass = {cs, stat},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.2008.02217},
-  url = {http://arxiv.org/abs/2008.02217},
-  urldate = {2024-01-22},
-  abstract = {We introduce a modern Hopfield network with continuous states and a corresponding update rule. The new Hopfield network can store exponentially (with the dimension of the associative space) many patterns, retrieves the pattern with one update, and has exponentially small retrieval errors. It has three types of energy minima (fixed points of the update): (1) global fixed point averaging over all patterns, (2) metastable states averaging over a subset of patterns, and (3) fixed points which store a single pattern. The new update rule is equivalent to the attention mechanism used in transformers. This equivalence enables a characterization of the heads of transformer models. These heads perform in the first layers preferably global averaging and in higher layers partial averaging via metastable states. The new modern Hopfield network can be integrated into deep learning architectures as layers to allow the storage of and access to raw input data, intermediate results, or learned prototypes. These Hopfield layers enable new ways of deep learning, beyond fully-connected, convolutional, or recurrent networks, and provide pooling, memory, association, and attention mechanisms. We demonstrate the broad applicability of the Hopfield layers across various domains. Hopfield layers improved state-of-the-art on three out of four considered multiple instance learning problems as well as on immune repertoire classification with several hundreds of thousands of instances. On the UCI benchmark collections of small classification tasks, where deep learning methods typically struggle, Hopfield layers yielded a new state-of-the-art when compared to different machine learning methods. Finally, Hopfield layers achieved state-of-the-art on two drug design datasets. The implementation is available at: https://github.com/ml-jku/hopfield-layers},
   archiveprefix = {arxiv},
-  keywords = {Computer Science - Computation and Language,Computer Science - Machine Learning,Computer Science - Neural and Evolutionary Computing,Statistics - Machine Learning},
-  note = {Comment: 10 pages (+ appendix); 12 figures; Blog: https://ml-jku.github.io/hopfield-layers/; GitHub: https://github.com/ml-jku/hopfield-layers},
-  file = {/home/carlos/Zotero/storage/36MASUK3/Ramsauer et al. - 2021 - Hopfield Networks is All You Need.pdf;/home/carlos/Zotero/storage/BGMBA4V5/2008.html}
+  file = {/home/carlos/Zotero/storage/36MASUK3/Ramsauer et al. - 2021 - Hopfield Networks is All You Need.pdf}
 }
 
 @misc{RegressionVsClassification2021,
@@ -1736,21 +1507,13 @@ Comment: 26 pages},
   file = {/home/carlos/Zotero/storage/CN3KBP2D/A_Gentle_Introduction_To_SuperCollider_BOOK_9x7_Landscape.html}
 }
 
-@misc{schaefferAreEmergentAbilities2023,
-  title = {Are {{Emergent Abilities}} of {{Large Language Models}} a {{Mirage}}?},
+@article{schaefferAreEmergentAbilities2023,
+  title = {Are Emergent Abilities of Large Language Models a Mirage? {{arXiv}}},
   author = {Schaeffer, Rylan and Miranda, Brando and Koyejo, Sanmi},
   year = {2023},
-  month = may,
-  number = {arXiv:2304.15004},
+  journal = {arXiv preprint arXiv:2304.15004},
   eprint = {2304.15004},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  url = {http://arxiv.org/abs/2304.15004},
-  urldate = {2023-10-23},
-  abstract = {Recent work claims that large language models display emergent abilities, abilities not present in smaller-scale models that are present in larger-scale models. What makes emergent abilities intriguing is two-fold: their sharpness, transitioning seemingly instantaneously from not present to present, and their unpredictability, appearing at seemingly unforeseeable model scales. Here, we present an alternative explanation for emergent abilities: that for a particular task and model family, when analyzing fixed model outputs, emergent abilities appear due the researcher's choice of metric rather than due to fundamental changes in model behavior with scale. Specifically, nonlinear or discontinuous metrics produce apparent emergent abilities, whereas linear or continuous metrics produce smooth, continuous, predictable changes in model performance. We present our alternative explanation in a simple mathematical model, then test it in three complementary ways: we (1) make, test and confirm three predictions on the effect of metric choice using the InstructGPT/GPT-3 family on tasks with claimed emergent abilities, (2) make, test and confirm two predictions about metric choices in a metaanalysis of emergent abilities on BIG-Bench; and (3) show how to choose metrics to produce never-before-seen seemingly emergent abilities in multiple vision tasks across diverse deep networks. Via all three analyses, we provide evidence that alleged emergent abilities evaporate with different metrics or with better statistics, and may not be a fundamental property of scaling AI models.},
   archiveprefix = {arxiv},
-  language = {en},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning},
   file = {/home/carlos/Zotero/storage/IKAF8WT5/Schaeffer et al. - 2023 - Are Emergent Abilities of Large Language Models a .pdf}
 }
 
@@ -1785,42 +1548,24 @@ Comment: 26 pages},
   language = {es}
 }
 
-@misc{selAlgorithmThoughtsEnhancing2023,
-  title = {Algorithm of {{Thoughts}}: {{Enhancing Exploration}} of {{Ideas}} in {{Large Language Models}}},
-  shorttitle = {Algorithm of {{Thoughts}}},
+@article{selAlgorithmThoughtsEnhancing2023,
+  title = {Algorithm of Thoughts: {{Enhancing}} Exploration of Ideas in Large Language Models},
   author = {Sel, Bilgehan and {Al-Tawaha}, Ahmad and Khattar, Vanshaj and Wang, Lu and Jia, Ruoxi and Jin, Ming},
   year = {2023},
-  month = aug,
-  number = {arXiv:2308.10379},
+  journal = {arXiv preprint arXiv:2308.10379},
   eprint = {2308.10379},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.2308.10379},
-  url = {http://arxiv.org/abs/2308.10379},
-  urldate = {2023-09-27},
-  abstract = {Current literature, aiming to surpass the "Chain-of-Thought" approach, often resorts to an external modus operandi involving halting, modifying, and then resuming the generation process to boost Large Language Models' (LLMs) reasoning capacities. This mode escalates the number of query requests, leading to increased costs, memory, and computational overheads. Addressing this, we propose the Algorithm of Thoughts -- a novel strategy that propels LLMs through algorithmic reasoning pathways, pioneering a new mode of in-context learning. By employing algorithmic examples, we exploit the innate recurrence dynamics of LLMs, expanding their idea exploration with merely one or a few queries. Our technique outperforms earlier single-query methods and stands on par with a recent multi-query strategy that employs an extensive tree search algorithm. Intriguingly, our results suggest that instructing an LLM using an algorithm can lead to performance surpassing that of the algorithm itself, hinting at LLM's inherent ability to weave its intuition into optimized searches. We probe into the underpinnings of our method's efficacy and its nuances in application.},
   archiveprefix = {arxiv},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language},
-  file = {/home/carlos/Zotero/storage/RUC6VMXG/Sel et al. - 2023 - Algorithm of Thoughts Enhancing Exploration of Id.pdf;/home/carlos/Zotero/storage/DMUQY952/2308.html}
+  file = {/home/carlos/Zotero/storage/RUC6VMXG/Sel et al. - 2023 - Algorithm of Thoughts Enhancing Exploration of Id.pdf}
 }
 
-@misc{seydeBangBangControlAll2021,
-  title = {Is {{Bang-Bang Control All You Need}}? {{Solving Continuous Control}} with {{Bernoulli Policies}}},
-  shorttitle = {Is {{Bang-Bang Control All You Need}}?},
+@article{seydeBangBangControlAll2021,
+  title = {Is Bang-Bang Control All You Need? Solving Continuous Control with Bernoulli Policies},
   author = {Seyde, Tim and Gilitschenski, Igor and Schwarting, Wilko and Stellato, Bartolomeo and Riedmiller, Martin and Wulfmeier, Markus and Rus, Daniela},
   year = {2021},
-  month = nov,
-  number = {arXiv:2111.02552},
-  eprint = {2111.02552},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.2111.02552},
-  url = {http://arxiv.org/abs/2111.02552},
-  urldate = {2024-01-22},
-  abstract = {Reinforcement learning (RL) for continuous control typically employs distributions whose support covers the entire action space. In this work, we investigate the colloquially known phenomenon that trained agents often prefer actions at the boundaries of that space. We draw theoretical connections to the emergence of bang-bang behavior in optimal control, and provide extensive empirical evaluation across a variety of recent RL algorithms. We replace the normal Gaussian by a Bernoulli distribution that solely considers the extremes along each action dimension - a bang-bang controller. Surprisingly, this achieves state-of-the-art performance on several continuous control benchmarks - in contrast to robotic hardware, where energy and maintenance cost affect controller choices. Since exploration, learning,and the final solution are entangled in RL, we provide additional imitation learning experiments to reduce the impact of exploration on our analysis. Finally, we show that our observations generalize to environments that aim to model real-world challenges and evaluate factors to mitigate the emergence of bang-bang solutions. Our findings emphasize challenges for benchmarking continuous control algorithms, particularly in light of potential real-world applications.},
-  archiveprefix = {arxiv},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning,Computer Science - Robotics},
-  file = {/home/carlos/Zotero/storage/CKZ7I9RM/Seyde et al. - 2021 - Is Bang-Bang Control All You Need Solving Continuous Control with Bernoulli Policies.pdf;/home/carlos/Zotero/storage/UQUDFT7H/2111.html}
+  journal = {Advances in Neural Information Processing Systems},
+  volume = {34},
+  pages = {27209--27221},
+  file = {/home/carlos/Zotero/storage/CKZ7I9RM/Seyde et al. - 2021 - Is Bang-Bang Control All You Need Solving Continuous Control with Bernoulli Policies.pdf}
 }
 
 @article{shannon1951prediction,
@@ -1839,21 +1584,13 @@ Comment: 26 pages},
   timestamp = {2014-07-28T15:57:31.000+0200}
 }
 
-@misc{shevlaneModelEvaluationExtreme2023,
+@article{shevlaneModelEvaluationExtreme2023,
   title = {Model Evaluation for Extreme Risks},
-  author = {Shevlane, Toby and Farquhar, Sebastian and Garfinkel, Ben and Phuong, Mary and Whittlestone, Jess and Leung, Jade and Kokotajlo, Daniel and Marchal, Nahema and Anderljung, Markus and Kolt, Noam and Ho, Lewis and Siddarth, Divya and Avin, Shahar and Hawkins, Will and Kim, Been and Gabriel, Iason and Bolina, Vijay and Clark, Jack and Bengio, Yoshua and Christiano, Paul and Dafoe, Allan},
+  author = {Shevlane, Toby and Farquhar, Sebastian and Garfinkel, Ben and Phuong, Mary and Whittlestone, Jess and Leung, Jade and Kokotajlo, Daniel and Marchal, Nahema and Anderljung, Markus and Kolt, Noam and others},
   year = {2023},
-  month = may,
-  number = {arXiv:2305.15324},
+  journal = {arXiv preprint arXiv:2305.15324},
   eprint = {2305.15324},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  url = {http://arxiv.org/abs/2305.15324},
-  urldate = {2023-06-27},
-  abstract = {Current approaches to building general-purpose AI systems tend to produce systems with both beneficial and harmful capabilities. Further progress in AI development could lead to capabilities that pose extreme risks, such as offensive cyber capabilities or strong manipulation skills. We explain why model evaluation is critical for addressing extreme risks. Developers must be able to identify dangerous capabilities (through "dangerous capability evaluations") and the propensity of models to apply their capabilities for harm (through "alignment evaluations"). These evaluations will become critical for keeping policymakers and other stakeholders informed, and for making responsible decisions about model training, deployment, and security.},
   archiveprefix = {arxiv},
-  language = {en},
-  keywords = {Computer Science - Artificial Intelligence,K.4.1},
   file = {/home/carlos/Zotero/storage/BDHEV472/Shevlane et al. - 2023 - Model evaluation for extreme risks.pdf}
 }
 
@@ -1967,22 +1704,14 @@ Comment: 26 pages},
   file = {/home/carlos/Zotero/storage/4ENA6UIN/generation_strategies.html}
 }
 
-@misc{tianFinetuningLanguageModels2023,
-  title = {Fine-Tuning {{Language Models}} for {{Factuality}}},
-  author = {Tian, Katherine and Mitchell, Eric and Yao, Huaxiu and Manning, Christopher D. and Finn, Chelsea},
+@article{tianFinetuningLanguageModels2023,
+  title = {Fine-Tuning Language Models for Factuality},
+  author = {Tian, Katherine and Mitchell, Eric and Yao, Huaxiu and Manning, Christopher D and Finn, Chelsea},
   year = {2023},
-  month = nov,
-  number = {arXiv:2311.08401},
+  journal = {arXiv preprint arXiv:2311.08401},
   eprint = {2311.08401},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.2311.08401},
-  url = {http://arxiv.org/abs/2311.08401},
-  urldate = {2024-01-25},
-  abstract = {The fluency and creativity of large pre-trained language models (LLMs) have led to their widespread use, sometimes even as a replacement for traditional search engines. Yet language models are prone to making convincing but factually inaccurate claims, often referred to as 'hallucinations.' These errors can inadvertently spread misinformation or harmfully perpetuate misconceptions. Further, manual fact-checking of model responses is a time-consuming process, making human factuality labels expensive to acquire. In this work, we fine-tune language models to be more factual, without human labeling and targeting more open-ended generation settings than past work. We leverage two key recent innovations in NLP to do so. First, several recent works have proposed methods for judging the factuality of open-ended text by measuring consistency with an external knowledge base or simply a large model's confidence scores. Second, the direct preference optimization algorithm enables straightforward fine-tuning of language models on objectives other than supervised imitation, using a preference ranking over possible model responses. We show that learning from automatically generated factuality preference rankings, generated either through existing retrieval systems or our novel retrieval-free approach, significantly improves the factuality (percent of generated claims that are correct) of Llama-2 on held-out topics compared with RLHF or decoding strategies targeted at factuality. At 7B scale, compared to Llama-2-chat, we observe 58\% and 40\% reduction in factual error rate when generating biographies and answering medical questions, respectively.},
   archiveprefix = {arxiv},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language,Computer Science - Machine Learning},
-  file = {/home/carlos/Zotero/storage/G7PVTXL8/Tian et al. - 2023 - Fine-tuning Language Models for Factuality.pdf;/home/carlos/Zotero/storage/CJWHU2CJ/2311.html}
+  file = {/home/carlos/Zotero/storage/G7PVTXL8/Tian et al. - 2023 - Fine-tuning Language Models for Factuality.pdf}
 }
 
 @misc{TidalCycles,
@@ -2013,23 +1742,14 @@ Comment: 26 pages},
   isbn = {978-84-267-2921-7}
 }
 
-@misc{touvronLLaMAOpenEfficient2023,
-  title = {{{LLaMA}}: {{Open}} and {{Efficient Foundation Language Models}}},
-  shorttitle = {{{LLaMA}}},
-  author = {Touvron, Hugo and Lavril, Thibaut and Izacard, Gautier and Martinet, Xavier and Lachaux, Marie-Anne and Lacroix, Timoth{\'e}e and Rozi{\`e}re, Baptiste and Goyal, Naman and Hambro, Eric and Azhar, Faisal and Rodriguez, Aurelien and Joulin, Armand and Grave, Edouard and Lample, Guillaume},
+@article{touvronLLaMAOpenEfficient2023,
+  title = {Llama: {{Open}} and Efficient Foundation Language Models},
+  author = {Touvron, Hugo and Lavril, Thibaut and Izacard, Gautier and Martinet, Xavier and Lachaux, Marie-Anne and Lacroix, Timoth{\'e}e and Rozi{\`e}re, Baptiste and Goyal, Naman and Hambro, Eric and Azhar, Faisal and others},
   year = {2023},
-  month = feb,
-  number = {arXiv:2302.13971},
+  journal = {arXiv preprint arXiv:2302.13971},
   eprint = {2302.13971},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.2302.13971},
-  url = {http://arxiv.org/abs/2302.13971},
-  urldate = {2024-01-28},
-  abstract = {We introduce LLaMA, a collection of foundation language models ranging from 7B to 65B parameters. We train our models on trillions of tokens, and show that it is possible to train state-of-the-art models using publicly available datasets exclusively, without resorting to proprietary and inaccessible datasets. In particular, LLaMA-13B outperforms GPT-3 (175B) on most benchmarks, and LLaMA-65B is competitive with the best models, Chinchilla-70B and PaLM-540B. We release all our models to the research community.},
   archiveprefix = {arxiv},
-  keywords = {Computer Science - Computation and Language},
-  file = {/home/carlos/Zotero/storage/TSWEP6YH/Touvron et al. - 2023 - LLaMA Open and Efficient Foundation Language Models.pdf;/home/carlos/Zotero/storage/4249Y8EG/2302.html}
+  file = {/home/carlos/Zotero/storage/TSWEP6YH/Touvron et al. - 2023 - LLaMA Open and Efficient Foundation Language Models.pdf}
 }
 
 @misc{UnderstandingLearningDemonstrations,
@@ -2062,41 +1782,23 @@ Comment: 26 pages},
   publisher = {{Multidisciplinary Digital Publishing Institute}}
 }
 
-@misc{wangAllYouNeed2019,
-  title = {All {{You Need Is Boundary}}: {{Toward Arbitrary-Shaped Text Spotting}}},
-  shorttitle = {All {{You Need Is Boundary}}},
+@inproceedings{wangAllYouNeed2019,
+  title = {All You Need Is Boundary: {{Toward}} Arbitrary-Shaped Text Spotting},
+  booktitle = {Proceedings of the {{AAAI}} Conference on Artificial Intelligence},
   author = {Wang, Hao and Lu, Pu and Zhang, Hui and Yang, Mingkun and Bai, Xiang and Xu, Yongchao and He, Mengchao and Wang, Yongpan and Liu, Wenyu},
-  year = {2019},
-  month = nov,
-  number = {arXiv:1911.09550},
-  eprint = {1911.09550},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.1911.09550},
-  url = {http://arxiv.org/abs/1911.09550},
-  urldate = {2024-01-22},
-  abstract = {Recently, end-to-end text spotting that aims to detect and recognize text from cluttered images simultaneously has received particularly growing interest in computer vision. Different from the existing approaches that formulate text detection as bounding box extraction or instance segmentation, we localize a set of points on the boundary of each text instance. With the representation of such boundary points, we establish a simple yet effective scheme for end-to-end text spotting, which can read the text of arbitrary shapes. Experiments on three challenging datasets, including ICDAR2015, TotalText and COCO-Text demonstrate that the proposed method consistently surpasses the state-of-the-art in both scene text detection and end-to-end text recognition tasks.},
-  archiveprefix = {arxiv},
-  keywords = {Computer Science - Computer Vision and Pattern Recognition},
-  note = {Comment: Accepted to AAAI2020},
-  file = {/home/carlos/Zotero/storage/7KT9R5CE/Wang et al. - 2019 - All You Need Is Boundary Toward Arbitrary-Shaped Text Spotting.pdf;/home/carlos/Zotero/storage/5SXPIZ7P/1911.html}
+  year = {2020},
+  volume = {34},
+  pages = {12160--12167},
+  file = {/home/carlos/Zotero/storage/7KT9R5CE/Wang et al. - 2019 - All You Need Is Boundary Toward Arbitrary-Shaped Text Spotting.pdf}
 }
 
-@misc{wangCostEffectiveHyperparameterOptimization2023,
-  title = {Cost-{{Effective Hyperparameter Optimization}} for {{Large Language Model Generation Inference}}},
-  author = {Wang, Chi and Liu, Susan Xueqing and Awadallah, Ahmed H.},
+@inproceedings{wangCostEffectiveHyperparameterOptimization2023,
+  title = {Cost-Effective Hyperparameter Optimization for Large Language Model Generation Inference},
+  booktitle = {International Conference on Automated Machine Learning},
+  author = {Wang, Chi and Liu, Xueqing and Awadallah, Ahmed Hassan},
   year = {2023},
-  month = aug,
-  number = {arXiv:2303.04673},
-  eprint = {2303.04673},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  url = {http://arxiv.org/abs/2303.04673},
-  urldate = {2023-11-07},
-  abstract = {Large Language Models (LLMs) have sparked significant interest in their generative capabilities, leading to the development of various commercial applications. The high cost of using the models drives application builders to maximize the value of generation under a limited inference budget. This paper presents a study of optimizing inference hyperparameters such as the number of responses, temperature and max tokens, which significantly affects the utility/cost of text generation. We design a framework named EcoOptiGen which leverages economical hyperparameter optimization and cost-based pruning. Experiments with the GPT-3.5/GPT-4 models on a variety of tasks verify its effectiveness. EcoOptiGen is implemented in the `autogen' package of the FLAML library: https: //aka.ms/autogen.},
-  archiveprefix = {arxiv},
-  language = {en},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language,Computer Science - Machine Learning},
+  pages = {21--1},
+  publisher = {{PMLR}},
   file = {/home/carlos/Zotero/storage/25YJQ69L/Wang et al. - 2023 - Cost-Effective Hyperparameter Optimization for Lar.pdf}
 }
 
@@ -2137,43 +1839,24 @@ Comment: 26 pages},
   file = {/home/carlos/Zotero/storage/937N86FR/Wang et al. - 2023 - Self-Consistency Improves Chain of Thought Reasoning in Language Models.pdf;/home/carlos/Zotero/storage/DV8TJ9QK/2203.html}
 }
 
-@misc{weiChainofThoughtPromptingElicits2023,
-  title = {Chain-of-{{Thought Prompting Elicits Reasoning}} in {{Large Language Models}}},
-  author = {Wei, Jason and Wang, Xuezhi and Schuurmans, Dale and Bosma, Maarten and Ichter, Brian and Xia, Fei and Chi, Ed and Le, Quoc and Zhou, Denny},
-  year = {2023},
-  month = jan,
-  number = {arXiv:2201.11903},
-  eprint = {2201.11903},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  url = {http://arxiv.org/abs/2201.11903},
-  urldate = {2023-10-23},
-  abstract = {We explore how generating a chain of thought{\textemdash}a series of intermediate reasoning steps{\textemdash}significantly improves the ability of large language models to perform complex reasoning. In particular, we show how such reasoning abilities emerge naturally in sufficiently large language models via a simple method called chain-ofthought prompting, where a few chain of thought demonstrations are provided as exemplars in prompting. Experiments on three large language models show that chain-of-thought prompting improves performance on a range of arithmetic, commonsense, and symbolic reasoning tasks. The empirical gains can be striking. For instance, prompting a PaLM 540B with just eight chain-of-thought exemplars achieves state-of-the-art accuracy on the GSM8K benchmark of math word problems, surpassing even finetuned GPT-3 with a verifier.},
-  archiveprefix = {arxiv},
-  language = {en},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language},
+@article{weiChainofThoughtPromptingElicits2023,
+  title = {Chain-of-Thought Prompting Elicits Reasoning in Large Language Models},
+  author = {Wei, Jason and Wang, Xuezhi and Schuurmans, Dale and Bosma, Maarten and Xia, Fei and Chi, Ed and Le, Quoc V and Zhou, Denny and others},
+  year = {2022},
+  journal = {Advances in Neural Information Processing Systems},
+  volume = {35},
+  pages = {24824--24837},
   file = {/home/carlos/Zotero/storage/AZPLR9LR/Wei et al. - 2023 - Chain-of-Thought Prompting Elicits Reasoning in La.pdf}
 }
 
-@misc{weiEmergentAbilitiesLarge2022,
-  title = {Emergent {{Abilities}} of {{Large Language Models}}},
-  author = {Wei, Jason and Tay, Yi and Bommasani, Rishi and Raffel, Colin and Zoph, Barret and Borgeaud, Sebastian and Yogatama, Dani and Bosma, Maarten and Zhou, Denny and Metzler, Donald and Chi, Ed H. and Hashimoto, Tatsunori and Vinyals, Oriol and Liang, Percy and Dean, Jeff and Fedus, William},
+@article{weiEmergentAbilitiesLarge2022,
+  title = {Emergent Abilities of Large Language Models},
+  author = {Wei, Jason and Tay, Yi and Bommasani, Rishi and Raffel, Colin and Zoph, Barret and Borgeaud, Sebastian and Yogatama, Dani and Bosma, Maarten and Zhou, Denny and Metzler, Donald and others},
   year = {2022},
-  month = oct,
-  number = {arXiv:2206.07682},
+  journal = {arXiv preprint arXiv:2206.07682},
   eprint = {2206.07682},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.2206.07682},
-  url = {http://arxiv.org/abs/2206.07682},
-  urldate = {2023-06-27},
-  abstract = {Scaling up language models has been shown to predictably improve performance and sample efficiency on a wide range of downstream tasks. This paper instead discusses an unpredictable phenomenon that we refer to as emergent abilities of large language models. We consider an ability to be emergent if it is not present in smaller models but is present in larger models. Thus, emergent abilities cannot be predicted simply by extrapolating the performance of smaller models. The existence of such emergence implies that additional scaling could further expand the range of capabilities of language models.},
   archiveprefix = {arxiv},
-  keywords = {Computer Science - Computation and Language},
-  note = {Comment: Transactions on Machine Learning Research (TMLR), 2022
-\par
-Comment: Transactions on Machine Learning Research (TMLR), 2022},
-  file = {/home/carlos/Zotero/storage/C3F58HUQ/Wei et al. - 2022 - Emergent Abilities of Large Language Models.pdf;/home/carlos/Zotero/storage/SK77QAMT/2206.html}
+  file = {/home/carlos/Zotero/storage/C3F58HUQ/Wei et al. - 2022 - Emergent Abilities of Large Language Models.pdf}
 }
 
 @misc{WhatRetrievalAugmented,
@@ -2208,62 +1891,33 @@ Comment: Transactions on Machine Learning Research (TMLR), 2022},
   isbn = {978-0-262-23269-2}
 }
 
-@misc{xieAllYouNeed2017,
-  title = {All {{You Need}} Is {{Beyond}} a {{Good Init}}: {{Exploring Better Solution}} for {{Training Extremely Deep Convolutional Neural Networks}} with {{Orthonormality}} and {{Modulation}}},
-  shorttitle = {All {{You Need}} Is {{Beyond}} a {{Good Init}}},
+@inproceedings{xieAllYouNeed2017,
+  title = {All You Need Is beyond a Good Init: {{Exploring}} Better Solution for Training Extremely Deep Convolutional Neural Networks with Orthonormality and Modulation},
+  booktitle = {Proceedings of the {{IEEE}} Conference on Computer Vision and Pattern Recognition},
   author = {Xie, Di and Xiong, Jiang and Pu, Shiliang},
   year = {2017},
-  month = apr,
-  number = {arXiv:1703.01827},
-  eprint = {1703.01827},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.1703.01827},
-  url = {http://arxiv.org/abs/1703.01827},
-  urldate = {2024-01-22},
-  abstract = {Deep neural network is difficult to train and this predicament becomes worse as the depth increases. The essence of this problem exists in the magnitude of backpropagated errors that will result in gradient vanishing or exploding phenomenon. We show that a variant of regularizer which utilizes orthonormality among different filter banks can alleviate this problem. Moreover, we design a backward error modulation mechanism based on the quasi-isometry assumption between two consecutive parametric layers. Equipped with these two ingredients, we propose several novel optimization solutions that can be utilized for training a specific-structured (repetitively triple modules of Conv-BNReLU) extremely deep convolutional neural network (CNN) WITHOUT any shortcuts/ identity mappings from scratch. Experiments show that our proposed solutions can achieve distinct improvements for a 44-layer and a 110-layer plain networks on both the CIFAR-10 and ImageNet datasets. Moreover, we can successfully train plain CNNs to match the performance of the residual counterparts. Besides, we propose new principles for designing network structure from the insights evoked by orthonormality. Combined with residual structure, we achieve comparative performance on the ImageNet dataset.},
-  archiveprefix = {arxiv},
-  keywords = {Computer Science - Computer Vision and Pattern Recognition,Computer Science - Machine Learning,Computer Science - Neural and Evolutionary Computing},
-  note = {Comment: Updating experiments; CVPR2017},
-  file = {/home/carlos/Zotero/storage/AXI3SGH8/Xie et al. - 2017 - All You Need is Beyond a Good Init Exploring Better Solution for Training Extremely Deep Convolutio.pdf;/home/carlos/Zotero/storage/CZIYPAEK/1703.html}
+  pages = {6176--6185},
+  file = {/home/carlos/Zotero/storage/AXI3SGH8/Xie et al. - 2017 - All You Need is Beyond a Good Init Exploring Better Solution for Training Extremely Deep Convolutio.pdf}
 }
 
-@misc{yangLargeLanguageModels2023,
-  title = {Large {{Language Models}} as {{Optimizers}}},
-  author = {Yang, Chengrun and Wang, Xuezhi and Lu, Yifeng and Liu, Hanxiao and Le, Quoc V. and Zhou, Denny and Chen, Xinyun},
+@article{yangLargeLanguageModels2023,
+  title = {Large Language Models as Optimizers},
+  author = {Yang, Chengrun and Wang, Xuezhi and Lu, Yifeng and Liu, Hanxiao and Le, Quoc V and Zhou, Denny and Chen, Xinyun},
   year = {2023},
-  month = sep,
-  number = {arXiv:2309.03409},
+  journal = {arXiv preprint arXiv:2309.03409},
   eprint = {2309.03409},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.2309.03409},
-  url = {http://arxiv.org/abs/2309.03409},
-  urldate = {2023-10-30},
-  abstract = {Optimization is ubiquitous. While derivative-based algorithms have been powerful tools for various problems, the absence of gradient imposes challenges on many real-world applications. In this work, we propose Optimization by PROmpting (OPRO), a simple and effective approach to leverage large language models (LLMs) as optimizers, where the optimization task is described in natural language. In each optimization step, the LLM generates new solutions from the prompt that contains previously generated solutions with their values, then the new solutions are evaluated and added to the prompt for the next optimization step. We first showcase OPRO on linear regression and traveling salesman problems, then move on to prompt optimization where the goal is to find instructions that maximize the task accuracy. With a variety of LLMs, we demonstrate that the best prompts optimized by OPRO outperform human-designed prompts by up to 8\% on GSM8K, and by up to 50\% on Big-Bench Hard tasks.},
   archiveprefix = {arxiv},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language,Computer Science - Machine Learning},
-  file = {/home/carlos/Zotero/storage/SLLUN5RF/Yang et al. - 2023 - Large Language Models as Optimizers.pdf;/home/carlos/Zotero/storage/HAGLRUNJ/2309.html}
+  file = {/home/carlos/Zotero/storage/SLLUN5RF/Yang et al. - 2023 - Large Language Models as Optimizers.pdf}
 }
 
-@misc{zengMusicBERTSymbolicMusic2021,
-  title = {{{MusicBERT}}: {{Symbolic Music Understanding}} with {{Large-Scale Pre-Training}}},
-  shorttitle = {{{MusicBERT}}},
+@article{zengMusicBERTSymbolicMusic2021,
+  title = {Musicbert: {{Symbolic}} Music Understanding with Large-Scale Pre-Training},
   author = {Zeng, Mingliang and Tan, Xu and Wang, Rui and Ju, Zeqian and Qin, Tao and Liu, Tie-Yan},
   year = {2021},
-  month = jun,
-  number = {arXiv:2106.05630},
+  journal = {arXiv preprint arXiv:2106.05630},
   eprint = {2106.05630},
-  primaryclass = {cs, eess},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.2106.05630},
-  url = {http://arxiv.org/abs/2106.05630},
-  urldate = {2023-05-27},
-  abstract = {Symbolic music understanding, which refers to the understanding of music from the symbolic data (e.g., MIDI format, but not audio), covers many music applications such as genre classification, emotion classification, and music pieces matching. While good music representations are beneficial for these applications, the lack of training data hinders representation learning. Inspired by the success of pre-training models in natural language processing, in this paper, we develop MusicBERT, a large-scale pre-trained model for music understanding. To this end, we construct a large-scale symbolic music corpus that contains more than 1 million music songs. Since symbolic music contains more structural (e.g., bar, position) and diverse information (e.g., tempo, instrument, and pitch), simply adopting the pre-training techniques from NLP to symbolic music only brings marginal gains. Therefore, we design several mechanisms, including OctupleMIDI encoding and bar-level masking strategy, to enhance pre-training with symbolic music data. Experiments demonstrate the advantages of MusicBERT on four music understanding tasks, including melody completion, accompaniment suggestion, genre classification, and style classification. Ablation studies also verify the effectiveness of our designs of OctupleMIDI encoding and bar-level masking strategy in MusicBERT.},
   archiveprefix = {arxiv},
-  keywords = {Computer Science - Computation and Language,Computer Science - Information Retrieval,Computer Science - Multimedia,Computer Science - Sound,Electrical Engineering and Systems Science - Audio and Speech Processing},
-  note = {Comment: Accepted by ACL 2021 Findings},
-  file = {/home/carlos/Zotero/storage/JL4NSPDK/Zeng et al. - 2021 - MusicBERT Symbolic Music Understanding with Large.pdf;/home/carlos/Zotero/storage/VIRCCY7D/2106.html}
+  file = {/home/carlos/Zotero/storage/JL4NSPDK/Zeng et al. - 2021 - MusicBERT Symbolic Music Understanding with Large.pdf}
 }
 
 @book{zhang2023dive,
@@ -2274,42 +1928,26 @@ Comment: Transactions on Machine Learning Research (TMLR), 2022},
   note = {\href{https://D2L.ai}{https://D2L.ai}}
 }
 
-@misc{zhouLeasttoMostPromptingEnables2023,
-  title = {Least-to-{{Most Prompting Enables Complex Reasoning}} in {{Large Language Models}}},
-  author = {Zhou, Denny and Sch{\"a}rli, Nathanael and Hou, Le and Wei, Jason and Scales, Nathan and Wang, Xuezhi and Schuurmans, Dale and Cui, Claire and Bousquet, Olivier and Le, Quoc and Chi, Ed},
-  year = {2023},
-  month = apr,
-  number = {arXiv:2205.10625},
+@article{zhouLeasttoMostPromptingEnables2023,
+  title = {Least-to-Most Prompting Enables Complex Reasoning in Large Language Models},
+  author = {Zhou, Denny and Sch{\"a}rli, Nathanael and Hou, Le and Wei, Jason and Scales, Nathan and Wang, Xuezhi and Schuurmans, Dale and Cui, Claire and Bousquet, Olivier and Le, Quoc and others},
+  year = {2022},
+  journal = {arXiv preprint arXiv:2205.10625},
   eprint = {2205.10625},
-  primaryclass = {cs},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.2205.10625},
-  url = {http://arxiv.org/abs/2205.10625},
-  urldate = {2023-06-25},
-  abstract = {Chain-of-thought prompting has demonstrated remarkable performance on various natural language reasoning tasks. However, it tends to perform poorly on tasks which requires solving problems harder than the exemplars shown in the prompts. To overcome this challenge of easy-to-hard generalization, we propose a novel prompting strategy, least-to-most prompting. The key idea in this strategy is to break down a complex problem into a series of simpler subproblems and then solve them in sequence. Solving each subproblem is facilitated by the answers to previously solved subproblems. Our experimental results on tasks related to symbolic manipulation, compositional generalization, and math reasoning reveal that least-to-most prompting is capable of generalizing to more difficult problems than those seen in the prompts. A notable finding is that when the GPT-3 code-davinci-002 model is used with least-to-most prompting, it can solve the compositional generalization benchmark SCAN in any split (including length split) with an accuracy of at least 99\% using just 14 exemplars, compared to only 16\% accuracy with chain-of-thought prompting. This is particularly noteworthy because neural-symbolic models in the literature that specialize in solving SCAN are trained on the entire training set containing over 15,000 examples. We have included prompts for all the tasks in the Appendix.},
   archiveprefix = {arxiv},
-  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language},
-  note = {Comment: ICLR 2023},
-  file = {/home/carlos/Zotero/storage/7MQPZXWI/Zhou et al. - 2023 - Least-to-Most Prompting Enables Complex Reasoning .pdf;/home/carlos/Zotero/storage/S48WGUZE/2205.html}
+  file = {/home/carlos/Zotero/storage/7MQPZXWI/Zhou et al. - 2023 - Least-to-Most Prompting Enables Complex Reasoning .pdf}
 }
 
-@misc{zhuangComprehensiveSurveyTransfer2020,
-  title = {A {{Comprehensive Survey}} on {{Transfer Learning}}},
+@article{zhuangComprehensiveSurveyTransfer2020,
+  title = {A Comprehensive Survey on Transfer Learning},
   author = {Zhuang, Fuzhen and Qi, Zhiyuan and Duan, Keyu and Xi, Dongbo and Zhu, Yongchun and Zhu, Hengshu and Xiong, Hui and He, Qing},
   year = {2020},
-  month = jun,
-  number = {arXiv:1911.02685},
-  eprint = {1911.02685},
-  primaryclass = {cs, stat},
-  publisher = {{arXiv}},
-  doi = {10.48550/arXiv.1911.02685},
-  url = {http://arxiv.org/abs/1911.02685},
-  urldate = {2024-01-25},
-  abstract = {Transfer learning aims at improving the performance of target learners on target domains by transferring the knowledge contained in different but related source domains. In this way, the dependence on a large number of target domain data can be reduced for constructing target learners. Due to the wide application prospects, transfer learning has become a popular and promising area in machine learning. Although there are already some valuable and impressive surveys on transfer learning, these surveys introduce approaches in a relatively isolated way and lack the recent advances in transfer learning. Due to the rapid expansion of the transfer learning area, it is both necessary and challenging to comprehensively review the relevant studies. This survey attempts to connect and systematize the existing transfer learning researches, as well as to summarize and interpret the mechanisms and the strategies of transfer learning in a comprehensive way, which may help readers have a better understanding of the current research status and ideas. Unlike previous surveys, this survey paper reviews more than forty representative transfer learning approaches, especially homogeneous transfer learning approaches, from the perspectives of data and model. The applications of transfer learning are also briefly introduced. In order to show the performance of different transfer learning models, over twenty representative transfer learning models are used for experiments. The models are performed on three different datasets, i.e., Amazon Reviews, Reuters-21578, and Office-31. And the experimental results demonstrate the importance of selecting appropriate transfer learning models for different applications in practice.},
-  archiveprefix = {arxiv},
-  keywords = {Computer Science - Machine Learning,Statistics - Machine Learning},
-  note = {Comment: 31 pages, 7 figures},
-  file = {/home/carlos/Zotero/storage/N58MIQLS/Zhuang et al. - 2020 - A Comprehensive Survey on Transfer Learning.pdf;/home/carlos/Zotero/storage/23KDLTRQ/1911.html}
+  journal = {Proceedings of the IEEE},
+  volume = {109},
+  number = {1},
+  pages = {43--76},
+  publisher = {{IEEE}},
+  file = {/home/carlos/Zotero/storage/N58MIQLS/Zhuang et al. - 2020 - A Comprehensive Survey on Transfer Learning.pdf}
 }
 
 @misc{zraraPORTFOLIOOPTIMIZATIONUSING2020,
