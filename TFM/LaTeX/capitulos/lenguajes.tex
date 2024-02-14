@@ -11,7 +11,7 @@ Existen en la actualidad numerosos lenguajes de programación musicales, cada un
 Una característica común a los lenguajes de programación musicales es el hecho de que su representación simbólica se realiza por medio de código de programación, en texto plano, y por tanto, son lenguajes formales, con una sintaxis y una semántica definidas. Esto significa que son lenguajes que pueden ser generados por un modelo de lenguaje natural, como los \gls{llm}, incluso si no han sido entrenados específicamente en estos lenguajes. Esto es importante, ya que permite que los \gls{llm} puedan generar código de estos lenguajes, y por tanto, que puedan generar sonidos y música de un modo indirecto. Los \gls{llm}, en su prentrenamiento, han sido entrenados con todo tipo de código, incluyendo lenguajes con propósitos musicales o sonoros. Aunque no podemos esperar que los \gls{llm} tengan tanta destreza en Csound como en Python, sí podemos esperar que sean capaces de generar código de Csound, y que este código sea correcto, y que por tanto, pueda ser ejecutado para generar sonidos. Otra cosa es que el código generado sea interesante, o que el sonido generado sea interesante, ni siquiera que el código generado tenga sentido musical. No obstante, explorar esta capacidad de creación musical por medio de la generación de código es uno de los objetivos de esta investigación. La figura \ref{fig:hola_mundo} muestra un \emph{¡Hola, mundo!}\footnote{Un \emph{¡Hola, mundo!}, o, más conocido como \emph{Hello, World!}, es un programa informático mínimo de un lenguaje de programación, el cual lo único que hace es imprimir en pantalla el texto <<¡Hola, Mundo!>>, con una finalidad pedagógica. Por extensión, un \emph{¡Hola, Mundo!} de un lenguaje musical sería aquel que produce un sonido simple, como una onda sinusoidal.} en diversos lenguajes de programación sonora, creados todos ellos por medio de GPT-4.
 
 \begin{figure}[H]
-    \caption[<<¡Hola Mundo!>> en diferentes lenguajes de programación sonora]{Códigos de <<¡Hola Mundo!>> en diferentes lenguajes de programación sonora. (\textbf{a}) Csound, (\textbf{b}) SuperCollider, (\textbf{c}) Sonic Pi, (\textbf{d}) Overtone (Clojure), (\textbf{e}) FoxDot y (\textbf{f}) ChucK.}
+    \caption[<<¡Hola Mundo!>> en diferentes lenguajes de programación sonora]{Códigos de <<¡Hola Mundo!>> en diferentes lenguajes de programación sonora.}
     \centering
     \begin{subfigure}{.48\textwidth}
       \centering
@@ -105,7 +105,7 @@ SinOsc s => dac;
       \end{mdframed}
       \caption{ChucK}
     \end{subfigure}
-
+    \note{(\textbf{a}) Csound, (\textbf{b}) SuperCollider, (\textbf{c}) Sonic Pi, (\textbf{d}) Overtone (Clojure), (\textbf{e}) FoxDot y (\textbf{f}) ChucK.}
     \source{Creado por el autor con GPT-4.}
     \label{fig:hola_mundo}
 \end{figure}
@@ -158,7 +158,7 @@ Excluimos lenguajes de programación de audio como Pure Data u Open Music, ya qu
 Podemos incluir en nuestra lista sistemas de notación musical que se reducen a código, como Lilypond, la librería de {Python} \emph{Music21}, \emph{ABC notation} o el mismo formato \emph{MusicXML}. Sin embargo, se ha podido comprobar desde un primer acercamiento a \gls{llm} como GPT-4, que aún no son capaces de generar un código mínimamente interesante desde el punto de vista artístico cuando hablamos de utilización de notas musicales, acordes, etc., a pesar de comprender perfectamente la sintaxis. La figura \ref{fig:melodia_bach} muestra una partitura generada por GPT-4, cuando se le pidió crear una melodía de 4 compases al estilo de Bach. Como se puede apreciar, la melodía es correcta desde el punto de vista de la sintaxis, pero no tiene ningún interés musical ni atisbo de aproximación estilística al la petición del usuario. Por tanto, se ha decidido excluir de esta investigación los lenguajes de notación musical.
 
 \begin{figure}[H]
-    \caption[Melodía de 4 compases generada por GPT-4, <<al estilo de Bach>>]{Melodía, en Lilypond de 4 compases generada por GPT-4, <<al estilo de Bach>>. Se aprecia la correcta sintaxis pero la falta de interés musical y la lejanía conceptual a la petición del usuario.}
+    \caption[Melodía de 4 compases generada por GPT-4, <<al estilo de Bach>>]{Melodía, en Lilypond de 4 compases generada por GPT-4, <<al estilo de Bach>>.}
     \centering
     \begin{subfigure}{.48\textwidth}
         \centering
@@ -199,6 +199,7 @@ Podemos incluir en nuestra lista sistemas de notación musical que se reducen a 
         \includegraphics[width=1\textwidth]{./figuras/melodia_bach_estilo.png}
         \caption{Renderizado a notación musical por {Lilypond}}
       \end{subfigure}
+    \note{El resultado tiene una sintaxis correcta al tiempo que carece de interés musical, además de la lejanía conceptual a la petición del usuario en el prompt.}
     \source{\propio}
     \label{fig:melodia_bach}
 \end{figure}
@@ -232,7 +233,7 @@ Explicado de una forma rápida y sencilla, la codificación en tiempo real consi
 
 
 \begin{figure}[H]
-  \caption[Bucle infinito en {Sonic Pi}]{Bucle infinito en {Sonic Pi}. En este código se ejecutan cuatro notas (con la sentencia \texttt{play}), una por segundo (tiempo indicado a \texttt{sleep}) en un bucle infinito. El usuario puede modificar las notas, y el cambio se ejecuta en el siguiente ciclo del bucle.}
+  \caption[Bucle infinito en {Sonic Pi}]{Bucle infinito en {Sonic Pi}.}
   \centering
   \begin{subfigure}{.5\textwidth}
   \begin{mdframed}
@@ -252,6 +253,7 @@ Explicado de una forma rápida y sencilla, la codificación en tiempo real consi
   \end{verbatim}
   \end{mdframed}
   \end{subfigure}
+  \note{En este código se ejecutan cuatro notas (con la sentencia \texttt{play}), una por segundo (tiempo indicado a \texttt{sleep}) en un bucle infinito. El usuario puede modificar las notas, y el cambio se ejecuta en el siguiente ciclo del bucle.}
   \source{\propio\ en \emph{Sonic Pi}}.
   \label{fig:sonic_pi_loop}
 \end{figure}
@@ -284,7 +286,7 @@ Se ha decidido utilizar {SuperCollider} y {Tidal Cycles} como lenguajes de progr
 
 \begin{table}[htbp]
   \centering
-  \caption[Algunos de los lenguajes de programación musicales más relevantes]{Algunos de los lenguajes de programación musicales más relevantes. Datos como el número de desarrolladores o la fecha de la última actualización se han obtenido de la página de GitHub de cada lenguaje. La documentación y el nivel de \emph{Live} se han valorado de 1 a 3 asteriscos, siendo 3 asteriscos la máxima puntuación. Dichas valoraciones son del autor y no corresponden a ninguna métrica. Los datos mostrados corresponden a diciembre de 2023.}
+  \caption[Algunos de los lenguajes de programación musicales más relevantes]{Algunos de los lenguajes de programación musicales más relevantes.}
   \label{tab:lenguajes_comparativa}
   % \setstretch{1}
   \fontsize{9.5pt}{11pt}\selectfont
@@ -309,5 +311,6 @@ Se ha decidido utilizar {SuperCollider} y {Tidal Cycles} como lenguajes de progr
       \bottomrule
   \end{tabularx}
   \endgroup
+  \note{Datos como el número de desarrolladores o la fecha de la última actualización se han obtenido de la página de GitHub de cada lenguaje. La documentación y el nivel de \emph{Live} se han valorado de 1 a 3 asteriscos, siendo 3 asteriscos la máxima puntuación. Dichas valoraciones son del autor y no corresponden a ninguna métrica. Los datos mostrados corresponden a diciembre de 2023.}
   \source{\propio}
 \end{table}
