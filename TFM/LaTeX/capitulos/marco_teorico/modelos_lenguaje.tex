@@ -5,7 +5,7 @@ Un \gls{lm} es un modelo probabilístico que asigna una probabilidad a una secue
 Desde una perspectiva técnica, un \gls{lm} devuelve como salida la distribución de probabilidad del siguiente token, dada una secuencia de tokens como entrada \citep{GenerationLLMs}. Un token es la unidad mínima de información que el modelo procesa y, generalmente, equivale a una palabra\footnote{Aunque un token suele ser una palabra, también puede ser un signo de puntuación, número, una desinencia, etc.}.  La Figura \ref{fig:llm_generation} ilustra un modelo de lenguaje que recibe una secuencia de palabras y devuelve la distribución de probabilidad del siguiente token después de haber sido entrenado con textos en inglés. Para generar cadenas de tokens, para formar, por ejemplo, oraciones completas, se vuelve a pasar al modelo el contexto inicial más el último token generado para producir el siguiente, y así sucesivamente hasta llegar al final del texto. Este modo de generación de texto se denomina \emph{autorregresivo} \citep{malachAutoRegressiveNextTokenPredictors2023}. Un ejemplo de generación de una oración completa por un \gls{lm} de forma autorregresiva se muestra en la Figura \ref{fig:llm_generation_example}.
 
 \begin{figure}[H]
-    \caption[Inferencia de token de un LLM]{Inferencia de token de un LLM}
+    \caption[Inferencia de token de un LLM]{Inferencia de token de un LLM.}
     \centering
     \includegraphics[width=0.9\textwidth]{./figuras/LLM_predice_token.png}
     \source{\cite{HowGetBetter2023}}
@@ -13,9 +13,10 @@ Desde una perspectiva técnica, un \gls{lm} devuelve como salida la distribució
 \end{figure}
 
 \begin{figure}[H]
-    \caption[Generación de un texto completo por medio de la autorregresión por un LLM]{Generación de un texto completo por medio de la autorregresión por un LLM. Cada fila del diagrama representa una iteración en el tiempo con el modelo. Este recibe en cada paso el \emph{prompt} inicial más la cadena de tokens actual y predice el siguiente token. Este proceso se repite hasta alcanzar el token <<END>>.}
+    \caption[Generación de un texto completo por medio de la autorregresión por un LLM]{Generación de un texto completo por medio de la autorregresión por un LLM.}
     \centering
     \includegraphics[width=0.7\textwidth]{./figuras/text-gen-diagram-autoregressive.png}
+    \note{Cada fila del diagrama representa una iteración en el tiempo con el modelo. Este recibe en cada paso el \emph{prompt} inicial más la cadena de tokens actual y predice el siguiente token. Este proceso se repite hasta alcanzar el token <<END>>.}
     \source{\cite{UnderstandingLearningDemonstrations}}
     \label{fig:llm_generation_example}
 \end{figure}
@@ -27,7 +28,7 @@ Los \gls{lm} no se asocian exclusivamente a una arquitectura de \gls{ml}. Pueden
 Un \gls{llm} posee un número de parámetros del orden del billón, lo cual es considerado <<grande>> o \emph{large} desde el punto de vista computacional. El primer \gls{llm} fue \emph{GPT-2}, creado y entrenado por OpenAI en 2019 \citep{radfordLanguageModelsAre2019}. \emph{GPT-2} se entrenó con texto de Internet y alcanzó 1.5 billones de parámetros. Su capacidad para predecir la siguiente palabra en una secuencia sorprendió a la comunidad científica debido a la calidad de los textos generados. La Figura \ref{fig:gpt2_text_generation} muestra ejemplos de textos generados por este modelo.
 
 \begin{figure}[H]
-    \caption{Generación de textos por \emph{GPT-2}}
+    \caption{Generación de textos por \emph{GPT-2}.}
     \centering
     \includegraphics[width=0.9\textwidth]{./figuras/GPT2_text_generation.png}
     \source{\cite{RunTextGeneration2022}}
@@ -37,7 +38,7 @@ Un \gls{llm} posee un número de parámetros del orden del billón, lo cual es c
 Los \gls{llm} emplean la arquitectura \emph{transformer} o derivados. Se entrenan con grandes cantidades de texto sin etiquetar, como libros, artículos de periódicos, páginas web, etc., realizándose este proceso en paralelo, lo que requiere una gran capacidad computacional. Sin embargo, una vez entrenados, estos modelos pueden ser utilizados para tareas de generación de texto, traducción automática, resumen de textos, etc. con una capacidad predictiva sorprendente. La Figura \ref{fig:llm_sizes} muestra una comparativa de los tamaños de los \gls{llm} más conocidos.
 
 \begin{figure}[H]
-    \caption{Gráfico comparativo de tamaños de LLM}
+    \caption{Gráfico comparativo de tamaños de LLM.}
     \centering
     \includegraphics[width=0.9\textwidth]{./figuras/LLMs_sizes.png}
     \source{\cite{ChallengesAssociatedBuilding}}
@@ -50,9 +51,10 @@ Un \gls{llm} es entrenado desde cero con un gran corpus de textos de toda índol
 El \emph{fine-tuning} produce buenos resultados gracias a la capacidad de generalización de los \emph{llm} y de transformar el conocimiento adquirido (en el prentrenamiento) de un dominio a otro. Por ejemplo, un modelo entrenado con textos de biología puede ser {ajustado} para que genere textos de medicina, o viceversa. El mecanismo por el que un aprendizaje se transforma en otro se denomina \emph{transfer learning} \citep{zhuangComprehensiveSurveyTransfer2020} y es una de las características más interesantes de los \gls{llm} (véase Figura \ref{fig:transfer_learning}).
 
 \begin{figure}[H]
-    \caption[Ejemplos intuitivos de {transfer learning} en LLM]{Ejemplos intuitivos de {transfer learning} en LLM. La capacidad de generalización de los LLM permite trasladar conocimientos y destrezas de un dominio a otro, especialmente si existe una relación o analogía entre ellos.}
+    \caption[Ejemplos intuitivos de {transfer learning} en LLM]{Ejemplos intuitivos de {transfer learning} en LLM.}
     \centering
     \includegraphics[width=0.6\textwidth]{./figuras/transfer_learning.png}
+    \note{La capacidad de generalización de los LLM permite trasladar conocimientos y destrezas de un dominio a otro, especialmente si existe una relación o analogía entre ellos.}
     \source{\cite{zhuangComprehensiveSurveyTransfer2020}}
     \label{fig:transfer_learning}
 \end{figure}
@@ -74,17 +76,19 @@ Por otra parte, independientemente del tamaño ventana de contexto, y especialme
 
 
 \begin{figure}[H]
-    \caption[Precisión de GPT-3 en función del tamaño de la ventana de contexto]{Precisión de GPT-3 en función del tamaño de la ventana de contexto. En la gráfica se aprecia cómo la precisión del modelo disminuye hacia el centro de la ventana de contexto. Ello puede se runa limitación en la creación de un proyecto, ya que la parte central de la conversación recordada por el modelo puede resultar minimizada en su importancia.}
+    \caption[Precisión de GPT-3 en función del tamaño de la ventana de contexto]{Precisión de GPT-3 en función del tamaño de la ventana de contexto.}
     \centering
     \includegraphics[width=0.5\textwidth]{./figuras/Precision_LLM_gran_contexto.png}
+    \note{En la gráfica se aprecia cómo la precisión del modelo disminuye hacia el centro de la ventana de contexto. Ello puede se runa limitación en la creación de un proyecto, ya que la parte central de la conversación recordada por el modelo puede resultar minimizada en su importancia.}
     \source{\cite{liuLostMiddleHow2023}}
     \label{fig:Precision_LLM_gran_contexto}
 \end{figure}
 
 \begin{figure}[H]
-    \caption[Ventana de contexto y pérdida de precisión en su interior]{Ventana de contexto y pérdida de precisión en su interior. En un proyecto de medianas y grandes dimensiones, chatGPT puede perder la memoria de las directrices iniciales (limitación de la ventana de contexto) y perder precisión o alucinar en el centro de la ventana de contexto (limitación de la precisión en el centro de la ventana de contexto). Las partes sombreadas indican una pérdida total (fuera de la ventana de contexto) o parcial (hacia la mitad de la ventana de contexto) de la atención por parte del LLM.}
+    \caption[Ventana de contexto y pérdida de precisión en su interior]{Ventana de contexto y pérdida de precisión en su interior.}
     \centering
     \includegraphics[width=0.7\textwidth]{./figuras/chat_ventana_lost_in_the_middle.png}
+    \note{En un proyecto de medianas y grandes dimensiones, chatGPT puede perder la memoria de las directrices iniciales (limitación de la ventana de contexto) y perder precisión o alucinar en el centro de la ventana de contexto (limitación de la precisión en el centro de la ventana de contexto). Las partes sombreadas indican una pérdida total (fuera de la ventana de contexto) o parcial (hacia la mitad de la ventana de contexto) de la atención por parte del LLM.}
     \source{\propio}
     \label{fig:chat_ventana_lost_in_the_middle}
 \end{figure}
@@ -97,9 +101,10 @@ Por otra parte, independientemente del tamaño ventana de contexto, y especialme
 Consideremos la Figura \ref{fig:llm_generation}. Un \gls{llm} predice su siguiente token devolviendo una distribución de probabilidad. Si el sistema tomara por salida siempre el token más probable, las respuestas del \gls{llm} serían absolutamente predecibles y repetitivas. Para evitarlo, el parámetro de \emph{temperatura} permite controlar el peso que se dará a cada elemento de la distribución de probabilidad. Si la temperatura es baja, se dará más peso a los elementos más probables, y si es alta, se igualará la probabilidad de todos los elementos. En el primer caso, las respuestas serán más predecibles, y en el segundo, más variadas y creativas. Si la temperatura es demasiado alta, el modelo puede generar respuestas incoherentes. La Figura \ref{fig:temperatura} ilustra este procedimiento.
 
 \begin{figure}[H]
-    \caption[Control de la temperatura en la generación de texto por un LLM]{Control de la temperatura en la generación de texto por un LLM. La temperatura controla el peso que se da a cada elemento de la distribución de probabilidad. Si la temperatura es baja, se dará más peso a los elementos más probables, y si es alta, se igualará la probabilidad de todos los elementos. En el primer caso, las respuestas serán más predecibles, y en el segundo, más variadas y creativas. Si la temperatura es demasiado alta, el modelo puede generar respuestas incoherentes.}
+    \caption[Control de la temperatura en la generación de texto por un LLM]{Control de la temperatura en la generación de texto por un LLM.}
     \centering
     \includegraphics[width=0.6\textwidth]{./figuras/temperatura.png}
+    \note{La temperatura controla el peso que se da a cada elemento de la distribución de probabilidad. Si la temperatura es baja, se dará más peso a los elementos más probables, y si es alta, se igualará la probabilidad de todos los elementos. En el primer caso, las respuestas serán más predecibles, y en el segundo, más variadas y creativas. Si la temperatura es demasiado alta, el modelo puede generar respuestas incoherentes.}
     \source{\cite{TopkToppTemperature}}
     \label{fig:temperatura}
 \end{figure}
@@ -108,7 +113,7 @@ Por otra parte, los parámetros top-\texttt{k} y top-\texttt{p} permiten control
 
 
 \begin{figure}[h]
-    \caption[Control de los parámetros top-\texttt{k} y top-\texttt{p} en la generación de texto por un LLM]{Control de los parámetros top-\texttt{k} y top-\texttt{p} en la generación de texto por un LLM. (\textbf{a}) El parámetro top-\texttt{k} indica el número de elementos más probables, mientras que (\textbf{b}) top-\texttt{p} indica el porcentaje de probabilidad que se tendrá en cuenta. En ambos casos, la distribución queda truncada a los elementos más probables.}
+    \caption[Control de los parámetros top-\texttt{k} y top-\texttt{p} en la generación de texto por un LLM]{Control de los parámetros top-\texttt{k} y top-\texttt{p} en la generación de texto por un LLM.}
     \centering
     \begin{subfigure}{.48\textwidth}
     \centering
@@ -121,7 +126,7 @@ Por otra parte, los parámetros top-\texttt{k} y top-\texttt{p} permiten control
 
     \caption{Truncamiento de la distribución de probabilidad por top~-~\texttt{p}.}
     \end{subfigure}
-
+    \note{(\textbf{a}) El parámetro top-\texttt{k} indica el número de elementos más probables, mientras que (\textbf{b}) top-\texttt{p} indica el porcentaje de probabilidad que se tendrá en cuenta. En ambos casos, la distribución queda truncada a los elementos más probables.}
     \source{\cite{stokesGuideLanguageModel2023}}
     \label{fig:top_k_top_p}
 \end{figure}

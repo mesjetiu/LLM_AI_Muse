@@ -47,7 +47,7 @@ Aunque el \gls{ml} ha sido una área de interés desde los inicios de la computa
 Se utiliza el término \emph{modelo} para referirse al sistema una vez que ha sido entrenado y posee capacidad predictiva. Dependiendo de su aplicación, un modelo puede ser empleado para predecir datos desconocidos o clasificarlos. Si produce un valor numérico, se habla de \emph{regresión}; si el modelo categoriza datos, de \emph{clasificación} \citep{zhang2023dive}. La clasificación es binaria cuando el modelo solo devuelve dos posibles respuestas, o multiclase cuando clasifica en más de dos categorías. La Figura \ref{fig:ml_classification_regression} muestra de forma intuitiva la diferencia entre clasificación y regresión.
 
 \begin{figure}[H]
-    \caption[Problema de clasificación versus regresión]{Problema de clasificación versus regresión. Los modelos de machine learning aprenden de forma automática a categorizar datos nuevos (clasificación) o a predecir nuevos datos de una serie (regresión).}
+    \caption[Problema de clasificación versus regresión]{Problema de clasificación versus regresión.}
     \centering
   
     \begin{subfigure}{.49\textwidth}
@@ -60,7 +60,7 @@ Se utiliza el término \emph{modelo} para referirse al sistema una vez que ha si
       \includegraphics[width=.8\textwidth]{./figuras/regression-vs-classification-easy-example.png}
       \caption{Diagrama intuitivo para comprender la regresión y la clasificación.}
     \end{subfigure}
-
+    \note{Los modelos de machine learning aprenden de forma automática a categorizar datos nuevos (clasificación) o a predecir nuevos datos de una serie (regresión).}
     \source{\textit{Regression vs. Classification} (\citeyear{RegressionVsClassification2021})}
     \label{fig:ml_classification_regression}
 \end{figure}
@@ -77,9 +77,10 @@ El aprendizaje de sistemas de \gls{ml} se produce a través de un proceso de \em
 \end{enumerate}
 
 \begin{figure}[H]
-    \caption[Esquema de aprendizaje supervisado]{Esquema de aprendizaje supervisado, usando datos de entrenamiento etiquetados. En la inferencia se espera que el modelo pueda clasificar datos no etiquetados en las categorías en las que fue entrenado.}
+    \caption[Esquema de aprendizaje supervisado]{Esquema de aprendizaje supervisado.}
     \centering
     \includegraphics[width=0.6\textwidth]{./figuras/labeled_data_training.png}
+    \note{El aprendizaje supervisado utiliza datos de entrenamiento etiquetados. En la inferencia se espera que el modelo pueda clasificar datos no etiquetados en las categorías en las que fue entrenado.}
     \source{\cite{FindWaysDeal}}
     \label{fig:labeled_data_training}
 \end{figure}
@@ -94,10 +95,11 @@ Esta sección pretende ser una somera introducción a los conceptos de \glsdisp{
 Para entender en qué consiste una \gls{rna} y, por extensión, un modelo de \gls{dl}, antes es necesario comprender el concepto de neurona artificial. Una neurona artificial no es sino un modelo matemático simplificado de una neurona natural que encontramos en el sistema nervioso de los animales. Análogamente a su homóloga biológica, una neurona artificial recibe una serie de valores de entrada, los procesa y devuelve una salida. La entrada de una neurona artificial es la suma ponderada de las salidas de las neuronas de la capa anterior. Esta suma ponderada se pasa a una función de activación, que determina la salida de la neurona. Sin necesidad de entrar en detalles matemáticos, la función de activación proporciona a la neurona y los sistemas de \gls{rna} una no linealidad, imprescindible para el comportamiento complejo de estos sistemas \citep{torresivinalsPythonDeepLearning2020,zhang2023dive}. La Figura \ref{fig:neurona_artificial_natural} muestra un esquema de una neurona artificial.
 
 \begin{figure}[H]
-    \caption[Neurona biológica y neurona artificial]{Neurona biológica y neurona artificial}
+    \caption[Neurona biológica y neurona artificial]{Neurona biológica y neurona artificial.}
     \centering
     \includegraphics[width=0.9\textwidth]{./figuras/perceptron_with_neuron.png}
     \source{\cite{DeepLearningDL}}
+    \note{La neurona biológica (izquierda) y la neurona artificial (derecha) tienen un funcionamiento análogo. La neurona artificial recibe una serie de valores de entrada, los procesa y devuelve una salida. La entrada de una neurona artificial es la suma ponderada de las salidas de las neuronas de la capa anterior. Esta suma ponderada se pasa a una función de activación, que determina la salida de la neurona.}
     \label{fig:neurona_artificial_natural}
 \end{figure}
 
@@ -112,9 +114,10 @@ Una \gls{rna} es un modelo matemático que se compone de varias capas de neurona
 % La salida de la neurona se pasa a las neuronas de la capa siguiente, y así sucesivamente hasta llegar a la capa de salida. La salida de esta última capa es la predicción del modelo. 
 
 \begin{figure}[H]
-    \caption[Estructura de capas de una posible red neuronal artificial]{Estructura de capas de una posible red neuronal artificial, con una capa de entrada, tres capas ocultas y una capa de salida.}
+    \caption[Estructura de capas de una posible red neuronal artificial]{Estructura de capas de una posible red neuronal artificial.}
     \centering
     \includegraphics[width=0.6\textwidth]{./figuras/Deep_neural_network.png}
+    \note{La red neuronal de la imagen consta de una capa de entrada, tres capas ocultas y una capa de salida.}
     \source{\cite{zraraPORTFOLIOOPTIMIZATIONUSING2020}}
     \label{fig:deep_neural_network}
 \end{figure}
@@ -157,9 +160,10 @@ En junio de 2017, \citeauthor{vaswaniAttentionAllYou2017} publicaron su artícul
 % \end{figure}
 
 \begin{figure}[H]
-    \caption[Matriz de \emph{atención} de un \emph{transformer} entrenado con textos en inglés]{Matriz de \emph{atención} de un \emph{transformer} entrenado con textos en inglés. En ella queda representada la \emph{atención}, o nivel de relación semántica de cada token dentro de la secuencia de entrada <<\emph{He later went to report Malaysia for one year}>> con respecto a los demás.}
+    \caption[Matriz de \emph{atención} de un \emph{transformer} entrenado con textos en inglés]{Matriz de \emph{atención} de un \emph{transformer} entrenado con textos en inglés.}
     \centering
     \includegraphics[width=0.4\textwidth]{./figuras/Transformer_attention_matrix.png}
+    \note{En la matriz queda representada la \emph{atención}, o nivel de relación semántica de cada token dentro de la secuencia de entrada <<\emph{He later went to report Malaysia for one year}>> con respecto a los demás.}
     \source{\cite{duAddressingSyntaxBasedSemantic2022}}
     \label{fig:transformer_attention}
 \end{figure}
