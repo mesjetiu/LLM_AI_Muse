@@ -28,7 +28,7 @@ A priori se han descartado los modelos open source, ya que demandan, en el momen
 
 
 \begin{figure}[h]
-    \caption[Respuesta de {Bard} y {ChatGPT} a un mismo prompt]{(\textbf{a}) Respuesta de {Bard} y (\textbf{b}) {ChatGPT} a un mismo prompt: <<Haz un código sencillo en SuperCollider, listo para ejecutarse, que ejemplifique una frecuencia modulada>>. El código de {Bard} cuenta con varios errores graves de sintaxis, mientras el de {ChatGPT} es correcto.}
+    \caption[Respuesta de {Bard} y {ChatGPT} a un mismo prompt]{(\textbf{a}) Respuesta de {Bard} y (\textbf{b}) {ChatGPT} a un mismo prompt.}
     \centering
     \begin{subfigure}{.48\textwidth}
     \centering
@@ -76,7 +76,7 @@ Synth(\fmSimple, [
     \end{lstlisting}
     \caption{ChatGPT (con GPT-4)}
     \end{subfigure}
-
+    \note{Ante el prompt <<Haz un código sencillo en SuperCollider, listo para ejecutarse, que ejemplifique una frecuencia modulada>>, el código de {Bard} cuenta con varios errores graves de sintaxis, mientras el de {ChatGPT} es correcto.}
     \source{\propio}
     \label{fig:GPT4_correction_comparation}
 \end{figure}
@@ -103,7 +103,7 @@ Ya desde el inicio de los experimentos se ha visto que el \emph{feedback} del us
 
 
 \begin{figure}[H]
-    \caption[Conversación con ChatGPT para crear una estructura general de una obra]{Conversación con ChatGPT para crear una estructura general de una obra. El prompt (\textbf{a}) pide al modelo que cree una estructura general de una obra de unos 5 minutos de duración. La respuesta ignora la dimensión temporal pedida, por lo que se le da una pista de lo que se busca. La respuesta al siguiente prompt (\textbf{b}) se adecua perfectamente a lo pedido originalmente.}
+    \caption[Conversación con ChatGPT para crear una estructura general de una obra]{Conversación con ChatGPT para crear una estructura general de una obra.}
     \centering
     \setstretch{1}
     \begin{subfigure}{.48\textwidth}
@@ -161,6 +161,7 @@ Routine({
     \end{lstlisting}
     \caption{Respuesta a \emph{Prompt} 2: <<Utiliza algún tipo de rutina para organizar el aspecto temporal.>>}
     \end{subfigure}
+    \note{El prompt (\textbf{a}) pide al modelo que cree una estructura general de una obra de unos 5 minutos de duración. La respuesta ignora la dimensión temporal pedida, por lo que se le da una pista de lo que se busca. La respuesta al siguiente prompt (\textbf{b}) se adecua perfectamente a lo pedido originalmente.}
     \source{\propio}
     \label{fig:ChatGPT_esbozo_estructura}
 \end{figure}
@@ -193,7 +194,7 @@ El lenguaje utilizado para comunicarse con GPT-4 siempre ha sido, deliberadament
 Las {alucinaciones} en los \gls{llm} (véase la sección \ref{sec:alucinaciones}) son una de las características más conocidas de estos modelos, al tiempo que una de las más difíciles de detectar sin una supervisión humana, y, por ende, uno de los mayores handicaps a la hora de delegar tareas de cualquier índole a sistemas de IA. En el mejor de los casos estas alucinaciones se producen en el uso de clases o métodos inexistentes en el lenguaje de programación en uso. Normalmente estos defectos son fáciles de detectar por el compilador o por el intérprete del lenguaje, que suele dar cuenta de dicho problema inmediatamente. Por ejemplo, en el caso de SuperCollider, un código como el de la Figura \ref{fig:alucinacion_chatgpt} es correcto desde el punto de vista sintáctico, pero no lo es desde el punto de vista de la semántica del lenguaje, ya que utiliza la clase \texttt{KarplusStrong}, que no existe en SuperCollider. En este caso, el intérprete de SuperCollider dio buena cuenta de este error. 
 
 \begin{figure}[H]
-    \caption[Alucinación de ChatGPT utilizando una clase que no existe]{Alucinación de ChatGPT utilizando una clase que no existe ante el prompt <<Crea una textura sonora en supercollider inspirándote en el modelado físico de sonido.>> ChatGPT utiliza como base el UGen \emph{\texttt{KarplusStrong}}, el cual no existe en SuperCollider.}
+    \caption[Alucinación de ChatGPT utilizando una clase que no existe]{Alucinación de ChatGPT utilizando una clase que no existe.}
     \centering
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
@@ -211,6 +212,7 @@ SynthDef(\ksTexture, {
 )
     \end{lstlisting}
     \source{\propio}
+    \note{Al prompt <<Crea una textura sonora en supercollider inspirándote en el modelado físico de sonido.>> ChatGPT responde utilizando como base el UGen \emph{\texttt{KarplusStrong}}, el cual no existe en SuperCollider.}
     \label{fig:alucinacion_chatgpt}
 \end{figure}
 
@@ -218,7 +220,7 @@ SynthDef(\ksTexture, {
 Encontramos errores aún más sutiles y difíciles de detectar, ya que requieren de un conocimiento profundo del lenguaje de programación en uso y el intérprete no da cuenta de ellos, pudiendo pasar desapercibidos. Esto puede constituir un problema de seguridad. Un ejemplo claro es cuando la amplitud de la salida de audio satura el sistema. Los lenguajes de programación sonora no cuentan a priori con limitaciones de volumen o frecuencia, por lo que un error de este tipo puede provocar daños en el equipo de sonido o en el oído del usuario (véase Figura \ref{fig:amplitud_saturada_chatgpt}). Similar a este error es, en SuperCollider, la acumulación de instancias de un \texttt{Synth} en el servidor de audio, lo cual puede provocar un bloqueo del sistema. En la Figura \ref{fig:error_dificil_detectar_supercollider} se puede ver un ejemplo de este tipo de error. En este caso, el usuario ha tenido que intervenir para corregir el código generado por el modelo. Junto al fenómeno de la alucinación, este tipo de problemas pueden pasar desapercibidos especialmente si no existe un entendimiento profundo del lenguaje por parte del usuario.
 
 \begin{figure}[H]
-    \caption[Código saturado en amplitud, generado por ChatGPT]{Código saturado en amplitud, generado por ChatGPT. El código es correcto desde el punto de vista sintáctico, pero la amplitud de la señal de audio satura el sistema. Este tipo de errores no son detectados hasta que se ejecuta el código, y son potencialmente peligrosos para el equipo de sonido o el oído del usuario.}
+    \caption[Código saturado en amplitud, generado por ChatGPT]{Código saturado en amplitud, generado por ChatGPT.}
     \centering
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
@@ -239,13 +241,14 @@ Encontramos errores aún más sutiles y difíciles de detectar, ya que requieren
 )
             
     \end{lstlisting}
+    \note{El código es correcto desde el punto de vista sintáctico, pero la amplitud de la señal de audio satura el sistema. Este tipo de errores no son detectados hasta que se ejecuta el código, y son potencialmente peligrosos para el equipo de sonido o el oído del usuario.}
     \source{\propio}
     \label{fig:amplitud_saturada_chatgpt}
 \end{figure}
 
 
 \begin{figure}[H]
-    \caption[Error difícil de detectar en SuperCollider]{Error difícil de detectar en SuperCollider: El \emph{\texttt{Synth}} \emph{\texttt{\textbackslash dual\_osc}} no cuenta con mecanismo de autoliberación, por lo que se acumulan ilimitadas instancias en el servidor de audio llamadas desde el bucle \emph{\texttt{loop}} hasta saturar el sistema. Este código fue creado por ChatGPT y posteriormente autocorregido tras pasarle la información del error.}
+    \caption[Error difícil de detectar en SuperCollider]{Error difícil de detectar en SuperCollider.}
     \centering
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
@@ -271,6 +274,7 @@ Encontramos errores aún más sutiles y difíciles de detectar, ya que requieren
     }.fork;
 )
     \end{lstlisting}
+    \note{El \texttt{Synth} \texttt{\textbackslash dual\_osc} no cuenta con mecanismo de autoliberación, por lo que se acumulan ilimitadas instancias en el servidor de audio llamadas desde el bucle \texttt{loop} hasta saturar el sistema. Este código fue creado por ChatGPT y posteriormente autocorregido tras pasarle la información del error.}
     \source{\propio}
     \label{fig:error_dificil_detectar_supercollider}
 \end{figure}
@@ -279,7 +283,7 @@ Encontramos errores aún más sutiles y difíciles de detectar, ya que requieren
 Otro defecto observado con relación a los parámetros de los métodos y clases del código generado es la propensión a utilizar valores por defecto. Esto, aunque no compromete la seguridad, resta interés al código generado desde el punto de vista artístico. Los valores por defecto son aquellos que un elemento del código utiliza cuando el usuario no provee de un valor explícito. Por ejemplo, en el caso de SuperCollider, el método \texttt{SinOsc.ar} cuenta con un parámetro \texttt{mul} que, si no se provee de un valor explícito, toma el valor por defecto de $1$; o \texttt{freq}, con el valor por defecto de \SI{440}{\hertz}. Por ejemplo, en la Figura \ref{fig:ChatGPT_valores_por_defecto} se puede ver cómo el modelo utiliza valores por defecto en el código generado, lo cual no es deseable desde el punto de vista artístico.
 
 \begin{figure}[H]
-    \caption[Código generado por ChatGPT con utilización de valor de frecuencia de \SI{440}{\hertz}]{Código generado por ChatGPT con utilización de valor de frecuencia de \SI{440}{\hertz}. Este valor por defecto no es una excepción, sino que sistemáticamente se encuentran en los parámetros de los métodos y clases del código generados por ChatGPT. Esto, sin duda, resta interés al código generado desde el punto de vista artístico.}
+    \caption[Código generado por ChatGPT con utilización de valor de frecuencia de \SI{440}{\hertz}]{Código generado por ChatGPT con utilización de valor de frecuencia de \SI{440}{\hertz}.}
     \centering
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
@@ -303,6 +307,7 @@ Otro defecto observado con relación a los parámetros de los métodos y clases 
     ]);
 ) 
     \end{lstlisting}
+    \note{Este valor por defecto no es una excepción, sino que sistemáticamente se encuentran en los parámetros de los métodos y clases del código generados por ChatGPT. Esto, sin duda, resta interés al código generado desde el punto de vista artístico.}
     \source{\propio}
     \label{fig:ChatGPT_valores_por_defecto}
 \end{figure}
@@ -321,7 +326,7 @@ Una característica interesante de los \gls{llm} es la de la autocorrección. Es
 El poder de los \gls{llm} es del procesar el lenguaje natural y traducir descripciones en código funcional. Si el código requerido es el de una función, digamos, en {Python}, que ha de <<devolver el sumatorio de las entradas>>, el nivel de comprensión requerido al \gls{llm} en dicha transcripción es trivial, en tanto en cuanto la propia descripción es prácticamente un pseudocódigo de dicha función. El desnivel semántico no es comparable cuando lo que pedimos al \gls{llm} es complejo artísticamente, como, por ejemplo, <<crear un sonido rugoso que evolucione temporalmente de una textura granular a un sonido armónico con leves y agradables fluctuaciones de sus componentes parciales>>. En este caso, el \gls{llm} ha de comprender la descripción, traducirla a código y, además, generar un sonido que se adecue a la descripción.  En este caso, el desnivel semántico es mucho mayor, ya que la descripción responde a criterios estéticos y psicoacústicos, por lo que el resultado puede ser muy distinto al esperado. En la Figura \ref{fig:ChatGPT_desnivel_semantico} se puede ver un ejemplo de este fenómeno. Este problema puede ser mitigado en parte con el uso de técnicas de prompting y una continua iteración en la conversación, pero en muchos casos el resultado final el resultado aceptado por el usuario puede estar lejos el esperado, lo cual constituye un problema del que hay que ser conscientes a la hora de usar esta herramienta para la creación musical.
 
 \begin{figure}[H]
-    \caption[Desnivel semántico de ChatGPT entre el prompt y el código generado en SuperCollider]{Desnivel semántico de ChatGPT entre el prompt y el código generado en SuperCollider. El código aparentemente representa un conjunto de sonidos naturales de un bosque, pero el resultado es ruido blanco de alto nivel de amplitud, totalmente alejado del significado semántico de la descripción.}
+    \caption[Desnivel semántico de ChatGPT entre el prompt y el código generado en SuperCollider]{Desnivel semántico de ChatGPT entre el prompt y el código generado en SuperCollider.}
     \centering
     \setstretch{1}
     \begin{lstlisting}[style=SuperCollider-IDE, basicstyle=\footnotesize\ttfamily, numbers=none]
@@ -346,6 +351,7 @@ El poder de los \gls{llm} es del procesar el lenguaje natural y traducir descrip
 )
             
     \end{lstlisting}
+    \note{El código aparentemente representa un conjunto de sonidos naturales de un bosque, pero el resultado es ruido blanco de alto nivel de amplitud, totalmente alejado del significado semántico de la descripción.}
     \source{\propio}
     \label{fig:ChatGPT_desnivel_semantico}
 \end{figure}
@@ -455,9 +461,9 @@ SynthDef(\fm_grain_artistic, { arg gate = 1, amp = 1;
 }).add;
 s.sendMsg(\s_new, \fm_grain_artistic, a=s.nextNodeID, 0, 1, \amp, 0.1);              
         \end{lstlisting}
-        \captionqr{La misma petición con un ejemplo \emph{Few-shot}}{La misma petición con un ejemplo \emph{Few-shot}. El resultado sonoro es más interesante desde el punto de vista artístico.}{https://drive.google.com/file/d/1C7FDkH706e1OMlcOWrG4qsCoC7Au8GaU/view?usp=drive_link}{audio}
+        \captionqr{La misma petición con un ejemplo \emph{Few-shot}}{La misma petición con un ejemplo \emph{Few-shot}.}{https://drive.google.com/file/d/1C7FDkH706e1OMlcOWrG4qsCoC7Au8GaU/view?usp=drive_link}{audio}
     \end{subfigure}
-
+    \note{El resultado sonoro es más interesante desde el punto de vista artístico.}
     \source{\propio}
     \label{fig:chatgpt_zero_shot_vs_few_shot}
 \end{figure}
@@ -477,9 +483,10 @@ Una aproximación para intentar minimizar los errores sintácticos del código g
 De hecho, este es un flujo habitual en el que se desenvuelve las conversaciones de creación sonora con ChatGPT. La inmensa mayoría de los bloques de código generados con éxito en este trabajo, han sido realizados de forma iterativa, limpiando el código a partir de los mensajes de error devueltos por el intérprete de SuperCollider. En este punto, el papel del usuario compositor y su nivel de conocimientos es fundamental para el éxito de la tarea. La Figura \ref{fig:iteracion_depuracion} muestra este proceso en bucle en el que el usuario devuelve al \gls{llm} los mensajes de error iterativamente.
 
 \begin{figure}[H]
-    \caption[Iteración de depuración de código con ChatGPT]{Iteración de depuración de código con ChatGPT. El usuario devuelve al LLM los mensajes de error iterativamente.}
+    \caption[Iteración de depuración de código con ChatGPT]{Iteración de depuración de código con ChatGPT.}
     \centering
     \includegraphics[width=0.9\textwidth]{./figuras/iteracion_depuracion_codigo.png}
+    \note{El usuario devuelve al LLM los mensajes de error iterativamente, para que este los devuelva corregidos.}
     \source{\propio}
     \label{fig:iteracion_depuracion}
 \end{figure}
@@ -493,7 +500,7 @@ En la práctica, se ha visto que no conviene modificar la temperatura más allá
 Una ventaja práctica que se ha encontrado en la interfaz de Playground es la posibilidad de escribir un prompt de sistema. Es decir, un prompt general que siempre antecede a los mensajes del usuario. Estos prompts de sistema tienen como finalidad contextualizar la conversación y el papel que el \gls{llm} tendrá dentro de ella. Estos prompts, redactados en lenguaje natural, son una suerte de instrucciones que el usuario puede escribir una sola vez, pero que se espera que el \gls{llm} respete en la conversación. Se ha notado, no obstante, que no siempre son respetadas estas instrucciones, y que prompts de sistema demasiado largos pueden caer en los defectos asociados a la ventana de contexto ya señalados en la sección \ref{sec:hiperparametros_ventana}. La Figura \ref{fig:system_prompt_example} muestra un ejemplo de prompt de sistema utilizado en los experimentos, en el que se le pide GPT-4 que genere código en SuperCollider. Más ejemplos de prompts de sistema utilizados en este trabajo se pueden encontrar en la Figura \ref{fig:system_prompts_aimuse}.
 
 \begin{figure}[H]
-    \caption[Ejemplo de prompt de sistema para generar código en SuperCollider]{Ejemplo de prompt de sistema para generar código en SuperCollider. Este prompt ha sido construido iterativamente según las necesidades de la conversación. Principalmente está dirigido a diseñar el modo de respuesta del LLM. La primera frase, <<Eres un experto en...>>, centra al modelo en el tipo de respuestas que de él se espera. Muchas instrucciones que sugieren utilizar o no utilizar ciertos comandos corresponden a defectos que el LLM ha ido mostrando previamente.}
+    \caption[Ejemplo de prompt de sistema para generar código en SuperCollider]{Ejemplo de prompt de sistema para generar código en SuperCollider.}
     \centering
     \begin{mdframed}
         \setstretch{1}
@@ -509,7 +516,7 @@ Una ventaja práctica que se ha encontrado en la interfaz de Playground es la po
         
         Organiza tus respuestas de la siguiente manera: primero s.boot; luego, define SynthDefs; después, trabaja con Pbinds; y finalmente, termina con s.freeAll y s.quit. Evita bloques de código largos.
     \end{mdframed}
-    
+    \note{Este prompt ha sido construido iterativamente según las necesidades de la conversación. Principalmente está dirigido a diseñar el modo de respuesta del LLM. La primera frase, <<Eres un experto en...>>, centra al modelo en el tipo de respuestas que de él se espera. Muchas instrucciones que sugieren utilizar o no utilizar ciertos comandos corresponden a defectos que el LLM ha ido mostrando previamente.}
     \source{\propio}
     \label{fig:system_prompt_example}
 \end{figure}
