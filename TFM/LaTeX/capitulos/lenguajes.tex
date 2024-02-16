@@ -105,8 +105,8 @@ SinOsc s => dac;
       \end{mdframed}
       \caption{ChucK}
     \end{subfigure}
-    \note{(\textbf{a}) Csound, (\textbf{b}) SuperCollider, (\textbf{c}) Sonic Pi, (\textbf{d}) Overtone (Clojure), (\textbf{e}) FoxDot y (\textbf{f}) ChucK.}
-    \source{Creado por el autor con GPT-4.}
+    % \note{(\textbf{a}) Csound, (\textbf{b}) SuperCollider, (\textbf{c}) Sonic Pi, (\textbf{d}) Overtone (Clojure), (\textbf{e}) FoxDot y (\textbf{f}) ChucK.}
+    \source{\propio}
     \label{fig:hola_mundo}
 \end{figure}
 
@@ -199,7 +199,7 @@ Podemos incluir en nuestra lista sistemas de notación musical que se reducen a 
         \includegraphics[width=1\textwidth]{./figuras/melodia_bach_estilo.png}
         \caption{Renderizado a notación musical por {Lilypond}}
       \end{subfigure}
-    \note{El resultado tiene una sintaxis correcta al tiempo que carece de interés musical, además de la lejanía conceptual a la petición del usuario en el prompt.}
+    \note{El resultado presenta una estructura sintáctica adecuada, pero carece de valor musical y muestra una desconexión conceptual significativa con respecto a la solicitud inicial del usuario en el prompt.}
     \source{\propio}
     \label{fig:melodia_bach}
 \end{figure}
@@ -213,7 +213,7 @@ La música experimental, la música electrónica, la música electroacústica, l
 
 El lenguaje sonoro en torno a estos géneros musicales es mucho más flexible, por lo general, que el lenguaje de la música notada. Especialmente las músicas autodenominadas experimentales, que no tienen un lenguaje musical definido y que se caracterizan por la búsqueda de nuevos sonidos y nuevas formas de expresión, son idóneas para una experimentación con elementos no humanos, como los \gls{llm}. Esta interacción eventualmente puede traducirse en la exploración de nuevos timbres y texturas sonoras.
 
-Dentro de los lenguajes de programación orientados a la síntesis de sonido, podemos distinguir entre los diseñados para ser codificados en interpretaciones en vivo, y los diseñados para ser codificados en archivos de audio, a una composición más estática. {Csound} \citep{boulangerCsoundBookPerspectives2000} fue contruido para crear composiciones renderizadas en archivos de audio, si bien actualmente tiene características que le permiten ser ejecutado en tiempo real. {SuperCollider} \citep{wilsonSuperColliderBook2011a} tiene características de ambos mundos, lo que lo hace óptimo tanto para la composición de obras sonoras como para la codificación en vivo, en lo que se denomina \emph{live coding}. Precisamente su ductilidad y potencia lo ha convertido en plataforma de audio sobre la que se han creado otros lenguajes orientados únicamente al tiempo real y \emph{live coding}, como {FoxDot} \citep{kirkbrideQirkyFoxDot2023}, {Sonic Pi}, {Overtone} \citep{OvertoneCollaborativeProgrammable} o {Tidal Cycles} \citep{TidalCycles}. Actualmente proliferan lenguajes diseñados para esta interacción en tiempo real con el usuario. Además de los expuestos, podemos destacar {ChucK} \citep{teamChucKStronglyTimedMusic} o {Strudel} \citep{StrudelREPL}, entre otros. Esto se debe, entre otros factores culturales, al aumento de la potencia de los ordenadores, que permite ejecutar en tiempo real programas de síntesis de sonido cada vez más complejos.
+Dentro de los lenguajes de programación orientados a la síntesis de sonido, podemos distinguir entre los diseñados para ser codificados en interpretaciones en vivo, y los diseñados para ser codificados en archivos de audio, a una composición más estática. {Csound} \citep{boulangerCsoundBookPerspectives2000} fue contruido para crear composiciones renderizadas en archivos de audio, si bien actualmente tiene características que le permiten ser ejecutado en tiempo real. {SuperCollider} \citep{wilsonSuperColliderBook2011a} tiene características de ambos mundos, lo que lo hace óptimo tanto para la composición de obras sonoras como para la codificación en vivo, en lo que se denomina \emph{live coding}. Precisamente su ductilidad y potencia lo ha convertido en plataforma de audio sobre la que se han creado otros lenguajes orientados únicamente al tiempo real y \emph{live coding}, como {FoxDot} \citep{kirkbrideQirkyFoxDot2023}, {Sonic Pi}, {Overtone} \citep{OvertoneCollaborativeProgrammable} o {Tidal Cycles} \citeyear{TidalCycles}. Actualmente proliferan lenguajes diseñados para esta interacción en tiempo real con el usuario. Además de los expuestos, podemos destacar {ChucK} \citep{teamChucKStronglyTimedMusic} o {Strudel} \citep{StrudelREPL}, entre otros. Esto se debe, entre otros factores culturales, al aumento de la potencia de los ordenadores, que permite ejecutar en tiempo real programas de síntesis de sonido cada vez más complejos.
 
 \section{Criterios de selección de lenguajes de programación musical para esta investigación}
 
@@ -265,7 +265,7 @@ Esta característica está muy unida a la anterior, ya que un buen lenguaje con 
 
 \emph{SuperCollider} es un ejemplo que une ambos mundos. La librería {JITLib} ofrece una gran colección de clases para su uso en interpretaciones en vivo, donde el usuario ha de concentrarse en la creación musical, y no tanto en la depuración del código. Si lo que se desea es crear una composición separada del momento interpretativo, su consola de errores es muy precisa y permite una depuración rápida y eficiente.
 
-\emph{Tidal Cycles}, que está enfocado principalmente a la codificación en tiempo real (o \emph{live coding}), permite una ejecución sonora continua por defecto, abstraído completamente de los errores. El artista ha de estar atento a la consola para detectar los errores, pero será muy raro que el software termine su ejecución por un error. Esta es una característica muy interesante para la interacción con \gls{llm}, asegurando que no existirán interrupciones indeseadas ante código erróneo o respuestas inesperadas del modelo.
+\emph{Tidal Cycles}, que está enfocado principalmente a la codificación en tiempo real (o \emph{live coding}), permite una ejecución sonora continua por defecto, abstraído completamente de los errores. El artista ha de estar atento a la consola para detectar los errores, pero será muy raro que el software termine su ejecución por uno de ellos. Esta es una característica muy apropiada para la interacción en tiempo real con \gls{llm}, asegurando que no existirán interrupciones indeseadas del modelo, como código erróneo o respuestas inesperadas y potencialmente peligrosas.
 
 \subsection{Independencia del IDE}
 Esta característica es importante si se quiere utilizar un \gls{llm} por medio de la \gls{api}. Si un lenguaje tiene un apropia interfaz gráfica o IDE \footnote{\emph{Integrated Development Environment}}, no hay un modo sencillo de ejecutar dicho código por medio de scripts creados ad hoc u otros programas de terceros. Una investigación profunda en la interacción entre \gls{llm} y usuario humano requiere de un control total sobre el código que se le pasa al \gls{llm}, así como la posibilidad de automatizar la ejecución del código y convertirlo en sonido a través de scripts o software creado ad hoc. Por ello, se ha considerado importante que los lenguajes de programación musicales seleccionados no tengan un IDE propio, o que este IDE no sea imprescindible para la ejecución del código. Un ejemplo de utilización de IDE propio es {Sonic Pi}, que no permite por defecto la ejecución de código por medio de scripts externos. {SuperCollider}, aunque tiene un IDE propio, su intérprete de comandos, \emph{sclang}, puede ser ejecutado por medio de scripts externos, y por tanto, es independiente de IDE. Esta característica de independencia del IDE utilizado es heredado por lenguajes que usan {SuperCollider} como motor de sonido, como {FoxDot} o {Tidal Cycles}.
@@ -311,6 +311,6 @@ Se ha decidido utilizar {SuperCollider} y {Tidal Cycles} como lenguajes de progr
       \bottomrule
   \end{tabularx}
   \endgroup
-  \note{Datos como el número de desarrolladores o la fecha de la última actualización se han obtenido de la página de GitHub de cada lenguaje. La documentación y el nivel de \emph{Live} se han valorado de 1 a 3 asteriscos, siendo 3 asteriscos la máxima puntuación. Dichas valoraciones son del autor y no corresponden a ninguna métrica. Los datos mostrados corresponden a diciembre de 2023.}
+  \note{Datos como el número de desarrolladores o la fecha de la última actualización se han obtenido de la página de GitHub de cada lenguaje. La documentación y el nivel de \emph{Live} se han valorado de 1 a 3 asteriscos, siendo 3 asteriscos la máxima puntuación. Dichas valoraciones son del autor y no corresponden a ninguna métrica. La documentación valora la cantidad y calidad de las referencias y tutoriales existentes en la red, y \emph{Live} mide la capacidad de ser utilizado en entornos de \emph{live coding}. Los datos mostrados corresponden a diciembre de 2023.}
   \source{\propio}
 \end{table}
