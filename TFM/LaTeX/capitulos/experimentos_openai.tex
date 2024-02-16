@@ -211,7 +211,7 @@ SynthDef(\ksTexture, {
 )
     \end{lstlisting}
     \source{\propio}
-    \note{Al prompt <<Crea una textura sonora en supercollider inspirándote en el modelado físico de sonido.>> ChatGPT responde utilizando como base el UGen \emph{\texttt{KarplusStrong}}, el cual no existe en SuperCollider.}
+    \note{Al prompt <<Crea una textura sonora en supercollider inspirándote en el modelado físico de sonido.>> ChatGPT responde utilizando como base el UGen {\texttt{KarplusStrong}}, el cual no existe en SuperCollider.}
     \label{fig:alucinacion_chatgpt}
 \end{figure}
 
@@ -462,7 +462,7 @@ s.sendMsg(\s_new, \fm_grain_artistic, a=s.nextNodeID, 0, 1, \amp, 0.1);
         \end{lstlisting}
         \captionqr{La misma petición con un ejemplo \emph{Few-shot}}{La misma petición con un ejemplo \emph{Few-shot}.}{https://drive.google.com/file/d/1C7FDkH706e1OMlcOWrG4qsCoC7Au8GaU/view?usp=drive_link}{audio}
     \end{subfigure}
-    \note{El resultado sonoro es más interesante desde el punto de vista artístico.}
+    \note{El resultado sonoro es más interesante desde el punto de vista artístico cuando al modelo se le muestra uno o más ejemplos en la solicitud (Few-shot).}
     \source{\propio}
     \label{fig:chatgpt_zero_shot_vs_few_shot}
 \end{figure}
@@ -479,7 +479,7 @@ No se ha mostrado como relevante el uso de una técnica tipo \gls{scot}, en la q
 
 Una aproximación para intentar minimizar los errores sintácticos del código generado podría ser el ya expuesto \emph{self-debugging}, en el que el \gls{llm} ha de dar un paso posterior a la implementación en código para revisar los posibles errores del código. En ninguno de los casos que se ha utilizado se han corregido errores algunos. La única forma de que el \gls{llm} corrija sus errores es que el usuario le devuelva el mensaje de error del compilador o del intérprete del lenguaje, en cuyo caso el \gls{llm} comprenderá el problema y tratará de resolverlo en la siguiente respuesta. 
 
-De hecho, este es un flujo habitual en el que se desenvuelve las conversaciones de creación sonora con ChatGPT. La inmensa mayoría de los bloques de código generados con éxito en este trabajo, han sido realizados de forma iterativa, limpiando el código a partir de los mensajes de error devueltos por el intérprete de SuperCollider. En este punto, el papel del usuario compositor y su nivel de conocimientos es fundamental para el éxito de la tarea. La Figura \ref{fig:iteracion_depuracion} muestra este proceso en bucle en el que el usuario devuelve al \gls{llm} los mensajes de error iterativamente.
+De hecho, este es un flujo habitual en el que se desenvuelve las conversaciones de creación sonora con ChatGPT. La inmensa mayoría de los bloques de código generados con éxito en este trabajo, han sido realizados de forma iterativa, limpiando el código a partir de los mensajes de error devueltos por el intérprete de SuperCollider. En este punto, el papel del usuario compositor y su nivel de conocimientos es fundamental para el éxito de la tarea. La Figura \ref{fig:iteracion_depuracion} muestra este proceso en bucle en el que el usuario devuelve al \gls{llm} los mensajes de error \mbox{iterativamente}.
 
 \begin{figure}[H]
     \caption[Iteración de depuración de código con ChatGPT]{Iteración de depuración de código con ChatGPT.}
