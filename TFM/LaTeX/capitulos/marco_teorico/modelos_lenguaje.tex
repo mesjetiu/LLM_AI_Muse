@@ -25,7 +25,7 @@ Los \gls{lm} no se asocian exclusivamente a una arquitectura de \gls{ml}. Pueden
 
 \subsection{Grandes modelos de lenguaje (LLM)}
 
-Un \gls{llm} posee un número de parámetros del orden del billón, lo cual es considerado <<grande>> o \emph{large} desde el punto de vista computacional. El primer \gls{llm} fue \emph{GPT-2}, creado y entrenado por OpenAI en 2019 \citep{radfordLanguageModelsAre2019}. \emph{GPT-2} se entrenó con texto de Internet y alcanzó 1.5 billones de parámetros. Su capacidad para predecir la siguiente palabra en una secuencia sorprendió a la comunidad científica debido a la calidad de los textos generados. La Figura \ref{fig:gpt2_text_generation} muestra ejemplos de textos generados por este modelo.
+Un \gls{llm} posee un número de parámetros del orden del billón, lo cual es considerado \emph{grande} o \emph{large} desde el punto de vista computacional. El primer \gls{llm} fue \emph{GPT-2}, creado y entrenado por OpenAI en 2019 \citep{radfordLanguageModelsAre2019}. \emph{GPT-2} se entrenó con texto de Internet y alcanzó 1.5 billones de parámetros. Su capacidad para predecir la siguiente palabra en una secuencia sorprendió a la comunidad científica debido a la calidad de los textos generados. La Figura \ref{fig:gpt2_text_generation} muestra ejemplos de textos generados por este modelo.
 
 \begin{figure}[H]
     \caption[Generación de textos por \emph{GPT-2}]{Generación de textos por \emph{GPT-2}.}
@@ -80,7 +80,7 @@ Por otra parte, independientemente del tamaño ventana de contexto, y especialme
     \caption[Precisión de GPT-3 en función del tamaño de la ventana de contexto]{Precisión de GPT-3 en función del tamaño de la ventana de contexto.}
     \centering
     \includegraphics[width=0.5\textwidth]{./figuras/Precision_LLM_gran_contexto.png}
-    \note{En la gráfica se aprecia cómo la precisión del modelo disminuye hacia el centro de la ventana de contexto. Ello puede se runa limitación en la creación de un proyecto, ya que la parte central de la conversación recordada por el modelo puede resultar minimizada en su importancia.}
+    \note{En la gráfica se aprecia cómo la precisión del modelo disminuye hacia el centro de la ventana de contexto. Ello puede constituir una limitación en la creación de un proyecto, ya que la parte central de la conversación recordada por el modelo puede resultar minimizada en su importancia.}
     \source{\cite{liuLostMiddleHow2023}}
     \label{fig:Precision_LLM_gran_contexto}
 \end{figure}
@@ -89,14 +89,14 @@ Por otra parte, independientemente del tamaño ventana de contexto, y especialme
     \caption[Ventana de contexto y pérdida de precisión en su interior]{Ventana de contexto y pérdida de precisión en su interior.}
     \centering
     \includegraphics[width=0.7\textwidth]{./figuras/chat_ventana_lost_in_the_middle.png}
-    \note{En un proyecto de medianas y grandes dimensiones, chatGPT puede perder la memoria de las directrices iniciales (limitación de la ventana de contexto) y perder precisión o alucinar en el centro de la ventana de contexto (limitación de la precisión en el centro de la ventana de contexto). Las partes sombreadas indican una pérdida total (fuera de la ventana de contexto) o parcial (hacia la mitad de la ventana de contexto) de la atención por parte del LLM.}
+    \note{En un proyecto de medianas y grandes dimensiones, ChatGPT puede perder la memoria de las directrices iniciales (limitación de la ventana de contexto) y perder precisión o alucinar en el centro de la ventana de contexto (limitación de la precisión en el centro de la ventana de contexto). Las partes sombreadas indican una pérdida total (fuera de la ventana de contexto) o parcial (hacia la mitad de la ventana de contexto) de la atención por parte del LLM.}
     \source{\propio}
     \label{fig:chat_ventana_lost_in_the_middle}
 \end{figure}
 
 
 
-\subsection{Temperatura, top-p y top-k}
+\subsection{Temperatura, top-\texttt{p} y top-\texttt{k}}
 \label{sec:hiperparametros_controlables}
 
 Consideremos la Figura \ref{fig:llm_generation}. Un \gls{llm} predice su siguiente token devolviendo una distribución de probabilidad. Si el sistema tomara por salida siempre el token más probable, las respuestas del \gls{llm} serían absolutamente predecibles y repetitivas. Para evitarlo, el parámetro de \emph{temperatura} permite controlar el peso que se dará a cada elemento de la distribución de probabilidad. Si la temperatura es baja, se dará más peso a los elementos más probables, y si es alta, se igualará la probabilidad de todos los elementos. En el primer caso, las respuestas serán más predecibles, y en el segundo, más variadas y creativas. Si la temperatura es demasiado alta, el modelo puede generar respuestas incoherentes. La Figura \ref{fig:temperatura} ilustra este procedimiento.

@@ -34,3 +34,4 @@ aliasing
 sonograma
 psicoacústica
 Bard
+prentrenado
