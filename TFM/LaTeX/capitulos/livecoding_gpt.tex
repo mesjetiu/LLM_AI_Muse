@@ -8,25 +8,25 @@
 
 \section{Descripción general de la herramienta}
 
-\emph{AI Muse} es una herramienta de interacción con modelos de lenguaje en entornos de \emph{live coding} creada durante esta investigación, y al cual nos referimos en el capítulo anterior (véase sección \ref{sec:generacion_automatica_codigo_tidal_cycles}). Está escrita en Python y se comunica con \gls{llm} de OpenAI a través de su \gls{api}. Permite ejecutar código de SuperCollider y de Tidal Cycles. Además, tiene un archivo de configuración en formato JSON, así como un conjunto de comandos para modificar en vivo los parámetros de la configuración. Aunque está pensada para la utilización de modelos de OpenAI, esta librería permite eventualmente comunicarse con otros modelos de lenguaje incluso en local, característica que no ha sido explorada en este trabajo. El paradigma de interacción es el del \emph{live coding}.
+\emph{AI Muse} es una herramienta de interacción con \gls{lm} en entornos de \emph{live coding} creada en esta investigación. Está escrita en Python y se comunica con \gls{llm} de OpenAI a través de su \gls{api}. Permite ejecutar código de SuperCollider y de Tidal Cycles. Además, tiene un archivo de configuración en formato JSON, así como un conjunto de comandos para modificar en vivo los parámetros de la configuración. Aunque está pensada para la utilización de modelos de OpenAI, esta librería permite eventualmente comunicarse con otros \gls{lm} incluso en local, característica que no ha sido explorada en este trabajo. El paradigma de interacción es el del \emph{live coding}.
 
 \section{¿Por qué un entorno de \emph{live coding}?}
 
-El \emph{live coding} es el arte de programar música en tiempo real, constituyéndose así como un espacio de experimentación y creación artística que fusiona el campo de la programación con el de la interpretación musical y la improvisación. Por su naturaleza, esta práctica brinda una plataforma ideal para explorar las posibilidades que la interacción con modelos de lenguaje de forma automatizada puede ofrecer.
+El \emph{live coding} es el arte de programar música en tiempo real, constituyéndose así como un espacio de experimentación y creación artística que fusiona el campo de la programación con el de la interpretación musical y la improvisación. Por su naturaleza, esta práctica brinda una plataforma ideal para explorar las posibilidades que la interacción con \gls{lm} de forma automatizada puede ofrecer.
 
-Dado su carácter improvisatorio, no se limita a estructuras musicales preestablecidas. Esta flexibilidad en la forma implica menores restricciones temporales en comparación con la composición musical tradicional, lo cual se alinea perfectamente con los hallazgos de fases previas de nuestro trabajo. En dichas etapas, se evidenció que los modelos de lenguaje contemporáneos son más eficientes con fragmentos de código de tamaño reducido. Este enfoque creativo, sumado a las ventajas de Tidal Cycles en términos de fiabilidad del código y tolerancia a fallos, ha propiciado el desarrollo de \emph{AI Muse} como una herramienta de experimentación.
+Dado su carácter improvisatorio, no se limita a estructuras musicales preestablecidas. Esta flexibilidad en la forma implica menores restricciones temporales en comparación con la composición musical tradicional, lo cual se alinea perfectamente con los hallazgos de fases previas de nuestro trabajo. En dichas etapas, se evidenció que los \gls{lm} recientes son más eficientes con fragmentos de código de tamaño reducido. Este enfoque creativo, sumado a las ventajas de Tidal Cycles en términos de fiabilidad del código y tolerancia a fallos, ha propiciado el desarrollo de \emph{AI Muse} como una excelente herramienta de experimentación.
 
 
 \section{Integración de la API de OpenAI}
 
-\emph{AI Muse} integra dos posibles interacciones que OpenAI permite con su \gls{api}: utilización modelos de chatbot y de sistemas de \gls{rag}\footnote{Los llamados \emph{Assistants} por OpenAI.}. La primera modalidad es la más sencilla, ya que se trata de realizar conversaciones con el modelo. En este caso, cada petición se limita a un prompt general de sistema unido al archivo actual con todo el código generado, de forma que el modelo pueda genera el siguiente bloque de código.
+\emph{AI Muse} integra dos posibles interacciones que OpenAI permite con su \gls{api}: utilización modelos de chatbot y de sistemas de \gls{rag}\footnote{Los llamados \emph{Assistants} por OpenAI.}. La primera modalidad es la más sencilla, ya que se trata de realizar conversaciones con el modelo. En este caso, cada petición se limita a un prompt general de sistema unido al archivo actual con todo el código generado, de forma que el modelo pueda generar el siguiente bloque de código.
 
-La diferencia de este programa respecto a scripts previos en este trabajo (véase sección \ref{sec:generacion_automatica_codigo_tidal_cycles}) es que es el propio usuario quien decide cuándo hacer una petición a la \gls{api}, en lugar de estar automatizado. La acción elegida para hacer esta petición es la de guardar el archivo. De esta forma, el programa puede ser utilizado en cualquier editor de textos, y no está limitado a un entorno de desarrollo concreto ni al uso de \emph{plugins} o extensiones. En este caso, todo el programa ha sido escrito y testado en Visual Studio Code, pero eventualmente podría ser utilizado en cualquier otro editor de textos.
+La diferencia de este programa respecto a scripts previos en este trabajo (véase sección \ref{sec:generacion_automatica_codigo_tidal_cycles}) es que es el propio usuario quien decide cuándo hacer una petición a la \gls{api}, en lugar de estar automatizado. La acción elegida para hacer esta petición es la de guardar el archivo\footnote{Esta acción se puede ejecutar con Ctrl+s o cualquier otro atajo de teclado configurado para guardar los cambios del archivo.}. De esta forma, el programa puede ser utilizado en cualquier editor de textos, y no está limitado a un entorno de desarrollo concreto ni al uso de \emph{plugins} o extensiones concretas. En este caso, todo el programa ha sido escrito y testado en Visual Studio Code, pero eventualmente podría ser utilizado en cualquier otro editor de textos.
 
 
 \section{Lenguajes de programación musical disponibles}
 
-En un primer momento se implementó únicamente la posibilidad de ejecutar código de Tidal Cycles. Posteriormente, se añadió el soporte para SuperCollider, aprovechando las clases que este lenguaje ofrece para el \emph{live coding}. En ambos casos se ofrece la posibilidad de que sea el propio programa el que se ocupe de llamar a los binarios de los propios lenguajes, o que este código sea ejecutado por el usuario por otros medios (uso de plugins o de entornos de desarrollo específicos).
+En un primer momento se implementó únicamente la posibilidad de ejecutar código de Tidal Cycles. Posteriormente, se añadió el soporte para SuperCollider, aprovechando las clases que este lenguaje ofrece para el \emph{live coding}. En ambos casos se ofrece la posibilidad de que sea el propio programa el que se ocupe de llamar a los binarios de dichos lenguajes, o que este código sea ejecutado por el usuario por otros medios (uso de plugins o de entornos de desarrollo específicos).
 
 
 \section{Flujo de trabajo}
@@ -35,9 +35,9 @@ El flujo de trabajo típico de \emph{AI Muse} es el siguiente (cfr. Figura \ref{
 
 \begin{enumerate}
     \item El usuario ejecuta el programa. Automáticamente se creará un archivo en texto plano con la extensión adecuada (actualmente, \texttt{.tidal} o \texttt{.sc}, para Tidal Cycles y SuperCollider, respectivamente) para interactuar.
-    \item El usuario abre un archivo de código en un editor de texto.
+    \item El usuario abre el archivo de código creado por el programa en un editor de texto.
     \item \label{item:paso_write_code} El usuario puede escribir código musical, un comando de sistema o un simple comentario-mensaje para el modelo.
-    \item Al guardar el archivo, \emph{AI Muse} lee el archivo y lo envía a la \gls{api} de OpenAI. Adicionalmente, ejecuta los comandos nuevos escritos en el archivo de código.
+    \item Al guardar el archivo, \emph{AI Muse} lee el archivo y lo envía a la \gls{api} de OpenAI. 
     \item La \gls{api} de OpenAI devuelve una respuesta con el siguiente bloque de código que es añadido automáticamente al archivo actual en la siguiente acción de guardar archivo.
     \item El usuario ejecuta el nuevo bloque de código a voluntad, pudiendo modificarlo si lo cree oportuno.
     \item El flujo continúa en el paso \ref{item:paso_write_code}.
@@ -91,7 +91,7 @@ El flujo de trabajo típico de \emph{AI Muse} es el siguiente (cfr. Figura \ref{
 
 \section{Archivo de configuración y comandos}
 
-La Figura \ref{fig:json} muestra una configuración concreta para el archivo \texttt{config.json} de \emph{AI Muse}. Este archivo, en formato JSON, se carga al ejecutar el programa y contiene toda la información relevante en cuanto al lenguaje musical, modelo, hiperparámetros y otras opciones referentes a la propia aplicación, como el tiempo que ha de pasar entre dos peticiones. La Tabla \ref{table:json_comandos} muestra una breve descripción de estos parámetros, así como su traducción a comandos dentro de la propia aplicación.
+La Figura \ref{fig:json} muestra una configuración concreta para el archivo \texttt{config.json} de \emph{AI Muse}. Este archivo, en formato JSON, se carga al ejecutar el programa y contiene toda la información relevante en cuanto al lenguaje musical, modelo, hiperparámetros y otras opciones referentes a la propia aplicación, como, por ejemplo, el tiempo que ha de pasar entre dos peticiones. La Tabla \ref{table:json_comandos} muestra una breve descripción de estos parámetros, así como su traducción a comandos dentro de la propia aplicación.
 
 
 
@@ -183,7 +183,7 @@ La Figura \ref{fig:json} muestra una configuración concreta para el archivo \te
 
 \section{Resultados del uso de \emph{AI Muse}}
 
-Como era de esperar, la automatización de los diálogos con el sistema del \gls{llm} permitió una interacción más fluida que en etapas previas, así como la concentración de la atención del usuario únicamente en cuestiones musicales. La música se produce ahora de forma sincrónica a la interacción usuario-\gls{llm}, lo cual se llega a percibir como una auténtica colaboración humano-máquina. Máxime cuando es posible comunicarse con comentarios en lenguaje natural durante el acto performativo.
+Como era de esperar, la automatización de los diálogos con el sistema del \gls{llm} permitió una interacción más fluida que en etapas previas, así como la concentración de la atención del usuario únicamente en cuestiones musicales. La música se produce ahora de forma sincrónica a la interacción usuario-\gls{llm}, lo cual se llega a percibir como una auténtica colaboración humano-máquina, máxime cuando es posible comunicarse con comentarios en lenguaje natural durante el acto performativo.
 
 Especial cuidado se puso en los prompts de sistema, ya que estos deben compendiar en el mínimo de tokens la finalidad de la conversación con el \gls{llm}, así como el formato esperado de sus respuestas para ser procesadas adecuadamente por el programa. En la Figura \ref{fig:system_prompts_aimuse} se muestran sendos prompts de sistema para Tidal Cycles y para SuperCollider, los cuales fueron utilizados con éxito en la práctica.
 
@@ -264,9 +264,9 @@ Devuelve un único patrón. No uses ``` para formatear código.
     \label{fig:system_prompts_aimuse}
 \end{figure}
 
-Se ha detectado una tenencia del \gls{llm} a imitar los patrones ya existentes en la conversación, si bien, por medio de comentarios es posible provocar más originalidad en sucesivas respuestas. Por esta razón, es interesante aplicar la técnica de prompting de \emph{few-shot} para dirigir el inicio de la improvisación colaborativa. 
+Se ha detectado una tenencia del \gls{llm} a imitar los patrones ya existentes en la conversación, si bien, por medio de comentarios es posible provocar más originalidad en sucesivas respuestas. Por esta razón, es interesante aplicar la técnica de prompting de \emph{few-shot} o \gls{rag} para dirigir el inicio de la improvisación colaborativa. 
 
-No se ha hallado, sin embargo, una diferencia importante entre usar el modelo en modo \texttt{chat} o en modo \texttt{assistant}. No obstante, esto debería estudiarse con mayor detenimiento en función de unas cuidadas configuraciones de asistentes y de sus archivos de base de datos.
+% No se ha hallado una diferencia importante entre usar el modelo en modo \texttt{chat} o en modo \texttt{assistant} en el trascurso de las sesiones de \emph{live coding}. No obstante, esto debería estudiarse con mayor detenimiento en función de unas cuidadas configuraciones de asistentes y de sus archivos de base de datos.
 
 Este tipo de interacción se ha mostrado, en todo caso, muy prometedora de cara a la generación musical interactiva. Las aportaciones atómicas que se piden al \gls{llm} por medio de la \gls{api} lo hacen muy adecuado como banco de pruebas tanto con los servicios de OpenAI, como eventualmente otros modelos, incluso open source.
 
